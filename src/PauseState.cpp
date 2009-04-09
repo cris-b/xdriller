@@ -9,38 +9,60 @@ void PauseState::enter( void ) {
     mOverlayMgr      = OverlayManager::getSingletonPtr();
     mViewport        = mRoot->getAutoCreatedWindow()->getViewport( 0 );
 
-    mInfoOverlay     = mOverlayMgr->getByName( "Overlay/Info" );
-    mPauseOverlay    = mOverlayMgr->getByName( "Overlay/PauseState" );
-    mMouseOverlay    = mOverlayMgr->getByName( "Overlay/MousePointer" );
 
-    mInfoInstruction = mOverlayMgr->getOverlayElement( "Info/Instruction" );
-    mMousePointer    = mOverlayMgr->getOverlayElement( "MousePointer/Pointer" );
 
-    mInfoOverlay->show();
-    mPauseOverlay->show();
-    mMouseOverlay->show();
 
-    mInfoInstruction->setCaption( "Press space to return" );
+
+    mPanel = static_cast<OverlayContainer*>(
+        mOverlayMgr->createOverlayElement("Panel", "PauseStateOverlayPanel"));
+    mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
+    mPanel->setPosition(0, 0);
+    mPanel->setDimensions(1, 1);
+    mPanel->setMaterialName("ScreenShot");
+
+    mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
+        mOverlayMgr->createOverlayElement("TextArea", "PauseText"));
+    mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
+    mTextAreaDepth->setPosition(0.01, 0);
+    mTextAreaDepth->setDimensions(0.2, 0.2);
+    mTextAreaDepth->setCaption("PAUSE");
+    mTextAreaDepth->setCharHeight(0.07);
+    mTextAreaDepth->setFontName("MenuFont");
+    //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
+    //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
+    mTextAreaDepth->setColour(ColourValue(1,0,0));
+
+    mOverlay = mOverlayMgr->create("PauseStateOverlay");
+    mOverlay->add2D(mPanel);
+
+
+    mPanel->addChild(mTextAreaDepth);
+
+    // Show the overlay
+    mOverlay->show();
+
 }
 
-void PauseState::exit( void ) {
-    mInfoOverlay->hide();
-    mPauseOverlay->hide();
-    mMouseOverlay->hide();
+void PauseState::exit( void )
+{
+
+    mPanel->removeChild("PauseText");
+    mOverlayMgr->destroyOverlayElement(mTextAreaDepth);
+
+    mOverlay->remove2D(mPanel);
+    mOverlayMgr->destroyOverlayElement(mPanel);
+
+
+    mOverlayMgr->destroy(mOverlay);
+
 }
 
 void PauseState::pause( void ) {
-    mInfoOverlay->hide();
-    mPauseOverlay->hide();
-    mMouseOverlay->hide();
+
 }
 
 void PauseState::resume( void ) {
-    mInfoOverlay->show();
-    mPauseOverlay->show();
-    mMouseOverlay->show();
 
-    mInfoInstruction->setCaption( "Press space to return" );
 }
 
 void PauseState::update( unsigned long lTimeElapsed ) {
@@ -51,7 +73,7 @@ void PauseState::keyPressed( const OIS::KeyEvent &e ) {
 }
 
 void PauseState::keyReleased( const OIS::KeyEvent &e ) {
-    if( e.key == OIS::KC_SPACE ) {
+    if( e.key == OIS::KC_P ) {
         this->popState();
     }
     else if( e.key == OIS::KC_ESCAPE ) {
@@ -60,9 +82,7 @@ void PauseState::keyReleased( const OIS::KeyEvent &e ) {
 }
 
 void PauseState::mouseMoved( const OIS::MouseEvent &e ) {
-    const OIS::MouseState &mouseState = e.state;
-    mMousePointer->setTop( mouseState.Y.abs );//yys  mouseState.abY
-    mMousePointer->setLeft( mouseState.X.abs );//yys mouseState.abX
+
 }
 
 void PauseState::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {

@@ -25,7 +25,7 @@ void PlayState::enter( void ) {
     mInputDevice      = InputManager::getSingletonPtr()->getKeyboard();
     mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
     //mSceneMgr = mRoot->createSceneManager("DotSceneOctreeManager");
-
+    tiempoBala = false;
 
     /*CDotScene *dotScene;
     dotScene = new CDotScene();
@@ -105,7 +105,7 @@ void PlayState::enter( void ) {
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,1,1));
 
-    mOverlay = mOverlayMgr->create("OverlayName");
+    mOverlay = mOverlayMgr->create("PlayStateOverlay");
     mOverlay->add2D(mPanel);
 
 
@@ -121,6 +121,8 @@ void PlayState::exit( void ) {
     delete mBoard;
     delete mPlayer;
 
+
+
     mOverlayMgr->destroyAllOverlayElements();
 
     mOverlayMgr->destroy(mOverlay);
@@ -133,13 +135,13 @@ void PlayState::exit( void ) {
 
 void PlayState::pause( void ) {
 
-
+    mOverlay->hide();
 }
 
 void PlayState::resume( void ) {
 
 
-
+    mOverlay->show();
 }
 
 void PlayState::update( unsigned long lTimeElapsed )
@@ -148,13 +150,20 @@ void PlayState::update( unsigned long lTimeElapsed )
     if(lTimeElapsed <= 0) return;
     if(lTimeElapsed > 100) lTimeElapsed = 100;
 
+    if(tiempoBala) lTimeElapsed = 1;
+
 
 
     mInputDevice->capture();
 
     mBoard->update(lTimeElapsed);
 
+	if (mInputDevice->isKeyDown(OIS::KC_F1))
+	{
 
+	    if(tiempoBala) tiempoBala = false;
+	    else tiempoBala = true;
+	}
 
 	if (mInputDevice->isKeyDown(OIS::KC_LEFT))
 	{
@@ -178,6 +187,28 @@ void PlayState::update( unsigned long lTimeElapsed )
 	}
 
     mPlayer->update(lTimeElapsed);
+
+    {
+        static int timeDead = 0;
+
+        if(!mPlayer->isAlive())
+        {
+            timeDead += lTimeElapsed;
+        }
+        else
+        {
+            timeDead=0;
+        }
+
+        if(timeDead > 3000)
+        {
+
+            mBoard->killUpwards(mPlayer->getPosition());
+            mPlayer->resurrect();
+
+
+        }
+    }
 
     mCam->setParentPos(mPlayer->getPosition());
     mCam->update(lTimeElapsed);
@@ -211,6 +242,11 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
 
         mPlayer->breakBlock();
     }
+    if ( e.key == OIS::KC_U)
+    {
+
+        mBoard->killUpwards(mPlayer->getPosition());
+    }
     if ( e.key == OIS::KC_0)
     {
         mBoard->printLog();
@@ -241,7 +277,20 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
 }
 
 void PlayState::keyReleased( const OIS::KeyEvent &e ) {
-    if( e.key == OIS::KC_P) {
+    if( e.key == OIS::KC_P)
+    {
+
+        //actualiza la textura de escrinchot
+
+        GameManager::getSingletonPtr()->screenshotRenderTexture->removeAllViewports();
+        GameManager::getSingletonPtr()->screenshotRenderTexture->addViewport(mCamera);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setClearEveryFrame(true);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setBackgroundColour(mViewport->getBackgroundColour());
+        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(true);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->update();
+
+
+
         this->pushState( PauseState::getSingletonPtr() );
     }
     else if( e.key == OIS::KC_ESCAPE ) {

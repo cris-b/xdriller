@@ -40,11 +40,12 @@ class Player
     void breakBlock();
 
     Real getAir() {return air;};
-    void setAir(float air);
+    void setAir(Real air);
     Real getLives() {return lives;};
     void setLives(int lives);
     Real getDepth() {return depth;}
     Real getLastDepth() {return lastDepth;}
+    void resurrect();
 
     int orientation;
 
@@ -57,6 +58,7 @@ class Player
     int lives;
     Real depth;
     Real lastDepth;
+    Real scale;
 
     bool _moveLeft;
     bool _moveRight;
@@ -71,6 +73,7 @@ class Player
 
 	Entity *mEnt;
 	SceneNode *mNode;
+	SceneNode *mScaleNode;
 
     AnimationState *mAnimationState;
 

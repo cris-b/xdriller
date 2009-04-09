@@ -625,3 +625,24 @@ void Board::rKillUp(Vector3 pos)
         else rKill(column,row);
     }
 }
+
+void Board::killUpwards(Vector3 pos)
+{
+
+    int row;
+    int column;
+
+    row = (int)(-pos.y+0.5);
+    column = (int)(pos.x+4+0.5);
+
+
+    if(row >= 0 && row < height && column >=0 && column < width)
+    {
+        for(int i = row; i >= 0; i--)
+        {
+            if(mBricksPtr[column+i*width] != NULL)
+                mBricksPtr[column+i*width]->kill();
+        }
+    }
+
+}

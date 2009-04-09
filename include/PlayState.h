@@ -58,6 +58,8 @@ private:
     OverlayContainer        *mPanel;
     TextAreaOverlayElement  *mTextAreaDepth;
 
+    bool tiempoBala;
+
 
 
     OIS::Keyboard        *mInputDevice;

@@ -73,7 +73,7 @@ GameManager::~GameManager( void ) {
 }
 
 void GameManager::startGame( GameState *gameState ) {
-    mRoot = new Root("plugins.cfg", "ogre.cfg", "Ogre.log");
+    mRoot = new Root("plugins.cfg", "ogre.cfg", "xdriller.log");
 
     // Setup states
     mIntroState = IntroState::getSingletonPtr();
@@ -91,16 +91,6 @@ void GameManager::startGame( GameState *gameState ) {
         return;
     }
 
-    new ConfigManager("config.cfg");
-
-    ConfigManager::getSingleton().setValue("audio_rate","44100");
-    ConfigManager::getSingleton().setValue("audio_channels","2");
-    ConfigManager::getSingleton().setValue("audio_buffers","4096");
-    ConfigManager::getSingleton().setValue("music_volume","64");
-    ConfigManager::getSingleton().setValue("sound_volume","100");
-    ConfigManager::getSingleton().setValue("resource_path","media/");
-    ConfigManager::getSingleton().save();
-
     // Setup input //yys
     mInputMgr = InputManager::getSingletonPtr();//mInputMgr = new InputManager();//
 	//mRenderWindow = mRoot->getAutoCreatedWindow();
@@ -114,6 +104,18 @@ void GameManager::startGame( GameState *gameState ) {
     new SoundManager();
 
     SoundManager::getSingleton().loadSounds();
+
+    //Textura donde renderizar la pantalla para modo pausa
+    TexturePtr screenshotTexturePtr = Ogre::TextureManager::getSingleton().createManual("ScreenShot_texture", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, mRenderWindow->getWidth(), mRenderWindow->getHeight(), 0, PF_R8G8B8, TU_RENDERTARGET);
+    screenshotRenderTexture = screenshotTexturePtr->getBuffer()->getRenderTarget();
+
+
+    MaterialPtr material = MaterialManager::getSingleton().create("ScreenShot", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    Ogre::Technique *technique = material->createTechnique();
+    technique->createPass();
+    material->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+    material->getTechnique(0)->getPass(0)->createTextureUnitState("ScreenShot_texture");
+
 
     // Change to first state
     this->changeState( gameState );
@@ -157,8 +159,20 @@ bool GameManager::configureGame( void ) {
         }
     }
 
+    new ConfigManager("config.cfg");
+
+    ConfigManager::getSingleton().load();
+
+    /*ConfigManager::getSingleton().setValue("audio_rate","44100");
+    ConfigManager::getSingleton().setValue("audio_channels","2");
+    ConfigManager::getSingleton().setValue("audio_buffers","4096");
+    ConfigManager::getSingleton().setValue("music_volume","64");
+    ConfigManager::getSingleton().setValue("sound_volume","100");
+    ConfigManager::getSingleton().setValue("resource_path","media/");
+    ConfigManager::getSingleton().save();*/
+
     // Initialise and create a default rendering window
-    mRenderWindow = mRoot->initialise( true, "Example" );
+    mRenderWindow = mRoot->initialise( true, "XDriller" );
 
     // Initialise resources
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();

@@ -31,6 +31,8 @@ public:
     void requestShutdown( void );
 
     static GameManager* getSingletonPtr( void );
+
+    Ogre::RenderTexture *screenshotRenderTexture;
 private:
     GameManager( void );
     GameManager( const GameManager& ) { }
@@ -49,6 +51,9 @@ private:
     Ogre::Root         *mRoot;
     Ogre::RenderWindow *mRenderWindow;
     InputManager       *mInputMgr;
+
+
+
 
     GameState          *mIntroState;
     GameState          *mPlayState;

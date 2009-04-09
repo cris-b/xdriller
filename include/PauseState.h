@@ -36,12 +36,12 @@ private:
     Ogre::Camera         *mCamera;
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
-    Ogre::OverlayManager *mOverlayMgr;
-    Ogre::Overlay        *mInfoOverlay;
-    Ogre::Overlay        *mPauseOverlay;
-    Ogre::Overlay        *mMouseOverlay;
-    Ogre::OverlayElement *mMousePointer;
-    Ogre::OverlayElement *mInfoInstruction;
+
+    Ogre::OverlayManager    *mOverlayMgr;
+    Overlay                 *mOverlay;
+    OverlayContainer        *mPanel;
+    TextAreaOverlayElement  *mTextAreaDepth;
+
 
     static PauseState    *mPauseState;
 };

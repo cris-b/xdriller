@@ -15,7 +15,7 @@ Player::Player(Board *mBoard)
     this->mBoard = mBoard;
 
     alive = true;
-    air = 100;
+    air = 1;
     idleTime = 0;
     fallTime = 1000;
     lives = 3;
@@ -28,8 +28,10 @@ Player::Player(Board *mBoard)
     mEnt = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->createEntity("player", "tux.mesh");
     mEnt->setMaterialName("tux");
 
+
     mNode = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->getRootSceneNode()->createChildSceneNode( "player" , startPos);
-    mNode->attachObject(mEnt);
+    mScaleNode = mNode->createChildSceneNode( "player_scale_node");
+    mScaleNode->attachObject(mEnt);
 
     Vector3 pos = mNode->getPosition();
 
@@ -51,7 +53,8 @@ Player::Player(Board *mBoard)
 Player::~Player()
 {
 
-	mNode->detachAllObjects();
+    mScaleNode->detachAllObjects();
+	mNode->removeAndDestroyChild(mScaleNode->getName());
 	mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
 
 	if (mEnt)
@@ -62,28 +65,44 @@ Player::~Player()
 void Player::update(unsigned long lTimeElapsed)
 {
 
+    //cubo para colisionar arriba
     AxisAlignedBox tmpBox = AxisAlignedBox(getPosition().x-0.01,getPosition().y-0.0,getPosition().z-0.5,
-                                           getPosition().x+0.01,getPosition().y+0.2,getPosition().z+0.5);
+                                           getPosition().x+0.01,getPosition().y+0.3,getPosition().z+0.5);
 
     Brick *colBrick = mBoard->detectCollision(tmpBox);
     if(colBrick != NULL && colBrick->getType() == 6)
     {
         colBrick->kill();
-        setAir(getAir()+20);
+        setAir(getAir()+0.2);
     }
     else if(colBrick != NULL && _falling == false)
     {
         speed.y = 0;
         _falling = false;
-        alive = false;
+
+        scale = fabs(colBrick->getPosition().y-mNode->getPosition().y);
+
+
+    }
+    else if(scale < 1)
+    {
+    //    scale = 1;
     }
 
+    if(scale < 1)
+    {
 
+        alive = false;
+        lives --;
+        speed.x=0;
+
+
+    }
 
     if(alive)
     {
 
-
+        //Orienta al amigo
 
         mNode->resetOrientation();
 
@@ -98,7 +117,7 @@ void Player::update(unsigned long lTimeElapsed)
             mNode->rotate(Quaternion(Degree(90),Vector3::UNIT_Z));
         }
 
-
+        //Friccion horizontal
 
         if(speed.x > 0)
         {
@@ -112,11 +131,12 @@ void Player::update(unsigned long lTimeElapsed)
             if(speed.x > 0) speed.x = 0;
         }
 
+        //caida
 
         speed.y += FALL_ACC*lTimeElapsed;
         if(speed.y < FALL_SPEED) speed.y=FALL_SPEED;
 
-
+        //cubo para colisionar abajo
         tmpBox.setExtents(getPosition().x-0.4,getPosition().y-0.5+speed.y*lTimeElapsed,getPosition().z-0.5,
                           getPosition().x+0.4,getPosition().y+0.0+speed.y*lTimeElapsed,getPosition().z+0.5);
 
@@ -125,7 +145,7 @@ void Player::update(unsigned long lTimeElapsed)
         if(colBrick != NULL && colBrick->getType() == 6)
         {
             colBrick->kill();
-            setAir(getAir()+20);
+            setAir(getAir()+0.2);
             _falling = true;
         }
         else if(colBrick != NULL)
@@ -151,7 +171,7 @@ void Player::update(unsigned long lTimeElapsed)
             if(speed.x < -H_SPEED &&  _falling) speed.x=-H_SPEED_FALL;
 
         }
-
+        //cubo para colisionar izquierda
         tmpBox.setExtents(getPosition().x-0.4+speed.x*lTimeElapsed,getPosition().y-0.5,getPosition().z-0.5,
                           getPosition().x+0.0+speed.x*lTimeElapsed,getPosition().y+0.1,getPosition().z+0.5);
 
@@ -160,13 +180,14 @@ void Player::update(unsigned long lTimeElapsed)
         if(colBrick != NULL && colBrick->getType() == 6)
         {
             colBrick->kill();
-            setAir(getAir()+20);
+            setAir(getAir()+0.2);
         }
         else if(colBrick != NULL)
         {
             speed.x = 0;
             mNode->setPosition(Vector3(colBrick->getPosition().x+0.9001,getPosition().y,0));
         }
+
         if(getPosition().x+speed.x<-4)
         {
             speed.x=0;
@@ -183,6 +204,7 @@ void Player::update(unsigned long lTimeElapsed)
 
         }
 
+        //cubo para colisionar derecha
         tmpBox.setExtents(getPosition().x-0.0+speed.x*lTimeElapsed,getPosition().y-0.5,getPosition().z-0.5,
                           getPosition().x+0.4+speed.x*lTimeElapsed,getPosition().y+0.1,getPosition().z+0.5);
 
@@ -192,7 +214,7 @@ void Player::update(unsigned long lTimeElapsed)
         if(colBrick != NULL && colBrick->getType() == 6)
         {
             colBrick->kill();
-            setAir(getAir()+20);
+            setAir(getAir()+0.2);
         }
         else if(colBrick != NULL)
         {
@@ -209,91 +231,130 @@ void Player::update(unsigned long lTimeElapsed)
         {
             fallTime+=lTimeElapsed;
         }
+    }
+    else //alive == false
+    {
+        //gravedad
 
+        speed.y += FALL_ACC*lTimeElapsed;
+        if(speed.y < FALL_SPEED) speed.y=FALL_SPEED;
 
-        if(mAnimationState->getAnimationName() == "Walk")
+        //cubo para colisionar abajo
+        tmpBox.setExtents(getPosition().x-0.4,getPosition().y-0.5+speed.y*lTimeElapsed,getPosition().z-0.5,
+                          getPosition().x+0.4,getPosition().y+0.0+speed.y*lTimeElapsed,getPosition().z+0.5);
+
+        colBrick = mBoard->detectCollision(tmpBox);
+
+        if(colBrick != NULL)
         {
-            if(fabs(speed.x) < 0.001)
-            {
-
-                mAnimationState->setEnabled(false);
-                mAnimationState = mEnt->getAnimationState("Idle");
-                mAnimationState->setLoop(true);
-                mAnimationState->setEnabled(true);
-                mAnimationState->setTimePosition(0);
-
-            }
-
+            speed.y = 0;
+            _falling = false;
+            fallTime = 0;
+            //desactiva el posicionamiento del monigote porque con un
+            //bloque encima lo mandaria pa'arriba
+            //mNode->setPosition(Vector3(getPosition().x,colBrick->getPosition().y+1.0001,0));
         }
-        else if(mAnimationState->getAnimationName() == "Break_up" ||
-                mAnimationState->getAnimationName() == "Break_down" ||
-                mAnimationState->getAnimationName() == "Front_break" ||
-                mAnimationState->getAnimationName() == "Bored_1" ||
-                mAnimationState->getAnimationName() == "Bored_2" ||
-                mAnimationState->getAnimationName() == "Bored_3")
+        else if(-getPosition().y > mBoard->getHeight()-1 && mBoard->mSuperBrick->isAlive())
         {
-            if(mAnimationState->hasEnded())
-            {
-                mAnimationState->setEnabled(false);
-                mAnimationState = mEnt->getAnimationState("Idle");
-                mAnimationState->setLoop(true);
-                mAnimationState->setEnabled(true);
-                mAnimationState->setTimePosition(0);
-
-            }
+            speed.y = 0;
+            _falling = false;
+            fallTime = 0;
         }
-        else if(mAnimationState->getAnimationName() == "Idle" && fallTime > 700)
+        else _falling = true;
+
+
+    }
+
+    if(scale < 1)
+    {
+        mScaleNode->setScale(1,1,scale);
+        mScaleNode->setPosition(0,0,-(1-scale)/2.0);
+    }
+
+    if(!alive && mAnimationState->getEnabled())
+    {
+        mAnimationState->setEnabled(false);
+    }
+    else if(mAnimationState->getAnimationName() == "Walk")
+    {
+        if(fabs(speed.x) < 0.001)
         {
+
             mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Falling");
+            mAnimationState = mEnt->getAnimationState("Idle");
             mAnimationState->setLoop(true);
             mAnimationState->setEnabled(true);
             mAnimationState->setTimePosition(0);
+
         }
-        else if(mAnimationState->getAnimationName() == "Idle")
-        {
-            idleTime += lTimeElapsed;
 
-            if(idleTime > BORED_TIME)
-            {
-                int oneOfThree = rand() % 3;
-
-                mAnimationState->setEnabled(false);
-                if(oneOfThree == 0) mAnimationState = mEnt->getAnimationState("Bored_1");
-                if(oneOfThree == 1) mAnimationState = mEnt->getAnimationState("Bored_2");
-                if(oneOfThree == 2) mAnimationState = mEnt->getAnimationState("Bored_3");
-                mAnimationState->setLoop(false);
-                mAnimationState->setEnabled(true);
-                mAnimationState->setTimePosition(0);
-
-                idleTime = 0;
-            }
-            if(fabs(speed.x) > 0)
-            {
-
-                mAnimationState->setEnabled(false);
-                mAnimationState = mEnt->getAnimationState("Walk");
-                mAnimationState->setLoop(true);
-                mAnimationState->setEnabled(true);
-                mAnimationState->setTimePosition(0);
-                idleTime = 0;
-
-            }
-        }
-        else if(mAnimationState->getAnimationName() == "Falling" && !_falling)
+    }
+    else if(mAnimationState->getAnimationName() == "Break_up" ||
+            mAnimationState->getAnimationName() == "Break_down" ||
+            mAnimationState->getAnimationName() == "Front_break" ||
+            mAnimationState->getAnimationName() == "Bored_1" ||
+            mAnimationState->getAnimationName() == "Bored_2" ||
+            mAnimationState->getAnimationName() == "Bored_3")
+    {
+        if(mAnimationState->hasEnded())
         {
             mAnimationState->setEnabled(false);
             mAnimationState = mEnt->getAnimationState("Idle");
             mAnimationState->setLoop(true);
             mAnimationState->setEnabled(true);
             mAnimationState->setTimePosition(0);
+
         }
-
-
-
-
-        mNode->setPosition(getPosition()+speed*lTimeElapsed);
     }
+    else if(mAnimationState->getAnimationName() == "Idle" && fallTime > 700)
+    {
+        mAnimationState->setEnabled(false);
+        mAnimationState = mEnt->getAnimationState("Falling");
+        mAnimationState->setLoop(true);
+        mAnimationState->setEnabled(true);
+        mAnimationState->setTimePosition(0);
+    }
+    else if(mAnimationState->getAnimationName() == "Idle")
+    {
+        idleTime += lTimeElapsed;
+
+        if(idleTime > BORED_TIME)
+        {
+            int oneOfThree = rand() % 3;
+
+            mAnimationState->setEnabled(false);
+            if(oneOfThree == 0) mAnimationState = mEnt->getAnimationState("Bored_1");
+            if(oneOfThree == 1) mAnimationState = mEnt->getAnimationState("Bored_2");
+            if(oneOfThree == 2) mAnimationState = mEnt->getAnimationState("Bored_3");
+            mAnimationState->setLoop(false);
+            mAnimationState->setEnabled(true);
+            mAnimationState->setTimePosition(0);
+
+            idleTime = 0;
+        }
+        if(fabs(speed.x) > 0)
+        {
+
+            mAnimationState->setEnabled(false);
+            mAnimationState = mEnt->getAnimationState("Walk");
+            mAnimationState->setLoop(true);
+            mAnimationState->setEnabled(true);
+            mAnimationState->setTimePosition(0);
+            idleTime = 0;
+
+        }
+    }
+    else if(mAnimationState->getAnimationName() == "Falling" && !_falling)
+    {
+        mAnimationState->setEnabled(false);
+        mAnimationState = mEnt->getAnimationState("Idle");
+        mAnimationState->setLoop(true);
+        mAnimationState->setEnabled(true);
+        mAnimationState->setTimePosition(0);
+    }
+
+    mNode->setPosition(getPosition()+speed*lTimeElapsed);
+
 
     mBox.setExtents(getPosition().x-0.4,getPosition().y-0.5,getPosition().z-0.5,
                      getPosition().x+0.4,getPosition().y+0.4,getPosition().z+0.5);
@@ -317,40 +378,46 @@ void Player::update(unsigned long lTimeElapsed)
 
 void Player::moveLeft()
 {
-
-    _moveLeft = true;
-    orientation = LOOK_LEFT;
-    mEnt->setMaterialName("tux");
-
+    if(alive)
+    {
+        _moveLeft = true;
+        orientation = LOOK_LEFT;
+        mEnt->setMaterialName("tux");
+    }
 }
 
 void Player::moveRight()
 {
-
+    if(alive)
+    {
     _moveRight = true;
     orientation = LOOK_RIGHT;
     mEnt->setMaterialName("tux");
-
+    }
 }
 
 void Player::moveUp()
 {
-
+    if(alive)
+    {
     orientation = LOOK_UP;
     mEnt->setMaterialName("tux_look_up");
-
+    }
 }
 
 void Player::moveDown()
 {
-
+    if(alive)
+    {
     orientation = LOOK_DOWN;
     mEnt->setMaterialName("tux");
-
+    }
 }
 
 void  Player::breakBlock()
 {
+    if(alive)
+    {
         if(orientation==LOOK_LEFT)
         {
             if(fabs(goodRound(getPosition().x)-getPosition().x) < 0.2 )
@@ -394,13 +461,30 @@ void  Player::breakBlock()
             mAnimationState->setTimePosition(0);
             idleTime = 0;
         }
+    }
 }
 
-void Player::setAir(float air)
+void Player::setAir(Real air)
 {
     this->air = air;
 
     if(air<0) air = 0;
-    if(air>100) air = 100;
+    if(air>1) air = 1;
 }
 
+void Player::resurrect()
+{
+    alive = true;
+    mScaleNode->setScale(1,1,1);
+    mScaleNode->setPosition(0,0,0);
+    scale = 1;
+    air = 1;
+    orientation = LOOK_DOWN;
+
+    //redeondea la posicion a la posicion entera mas cercana
+    Vector3 pos = mNode->getPosition();
+    mNode->setPosition(goodRound(pos.x),goodRound(pos.y),goodRound(pos.z));
+
+
+
+}

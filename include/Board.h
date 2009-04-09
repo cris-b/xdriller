@@ -28,10 +28,10 @@ class Board
     void rSetFallState(int x, int y, int state);
     void rClearDone(int x, int y);
 
+
     bool checkFall (int x, int y);
     int  checkNum  (int x, int y);
 
-    void update(unsigned long lTimeElapsed);
 
 
     void rKillUp(Vector3 pos);
@@ -39,7 +39,11 @@ class Board
     void rKillLeft(Vector3 pos);
     void rKillRight(Vector3 pos);
 
+    void killUpwards(Vector3 pos);
+
     Brick *detectCollision(AxisAlignedBox &b2);
+
+    void update(unsigned long lTimeElapsed);
 
     void printLog();
 
