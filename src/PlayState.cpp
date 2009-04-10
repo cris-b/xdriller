@@ -66,7 +66,7 @@ void PlayState::enter( void ) {
     mCam->getSceneNode()->attachObject(light);
 
     SceneNode *fondoNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "fondo" , Vector3(0,0,0));
-    Entity *fondoEnt = mSceneMgr->createEntity("fondo", "fondo_roca.mesh");
+    Entity *fondoEnt = mSceneMgr->createEntity("fondo", "fondo_polo.mesh");
     fondoNode->attachObject(fondoEnt);
 
     fondoNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
@@ -100,7 +100,7 @@ void PlayState::enter( void ) {
     mTextAreaDepth->setDimensions(0.2, 0.2);
     mTextAreaDepth->setCaption("0");
     mTextAreaDepth->setCharHeight(0.07);
-    mTextAreaDepth->setFontName("MenuFont");
+    mTextAreaDepth->setFontName("CoolFont");
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,1,1));
@@ -270,6 +270,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
     }
     if ( e.key == OIS::KC_I)
     {
+        //LogManager::getSingleton().logMessage(StringConverter::toString(GpuProgramManager::getSingleton().getSupportedSyntax()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getTriangleCount()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getBatchCount()));
@@ -286,7 +287,7 @@ void PlayState::keyReleased( const OIS::KeyEvent &e ) {
         GameManager::getSingletonPtr()->screenshotRenderTexture->addViewport(mCamera);
         GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setClearEveryFrame(true);
         GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setBackgroundColour(mViewport->getBackgroundColour());
-        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(true);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(false);
         GameManager::getSingletonPtr()->screenshotRenderTexture->update();
 
 

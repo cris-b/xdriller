@@ -106,15 +106,20 @@ void GameManager::startGame( GameState *gameState ) {
     SoundManager::getSingleton().loadSounds();
 
     //Textura donde renderizar la pantalla para modo pausa
-    TexturePtr screenshotTexturePtr = Ogre::TextureManager::getSingleton().createManual("ScreenShot_texture", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, mRenderWindow->getWidth(), mRenderWindow->getHeight(), 0, PF_R8G8B8, TU_RENDERTARGET);
+    TexturePtr screenshotTexturePtr = Ogre::TextureManager::getSingleton().createManual("ScreenShot_texture",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D,
+        //mRenderWindow->getWidth(), mRenderWindow->getHeight(), 0, PF_R8G8B8, TU_RENDERTARGET);
+        512, 512, 0, PF_R8G8B8, TU_RENDERTARGET);
     screenshotRenderTexture = screenshotTexturePtr->getBuffer()->getRenderTarget();
 
 
-    MaterialPtr material = MaterialManager::getSingleton().create("ScreenShot", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    Ogre::Technique *technique = material->createTechnique();
-    technique->createPass();
-    material->getTechnique(0)->getPass(0)->setLightingEnabled(false);
-    material->getTechnique(0)->getPass(0)->createTextureUnitState("ScreenShot_texture");
+    //MaterialPtr material = MaterialManager::getSingleton().create("ScreenShot", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MaterialPtr material = MaterialManager::getSingleton().getByName("ScreenShot");
+
+    //Ogre::Technique *technique = material->createTechnique();
+    //technique->createPass();
+    //material->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+    //material->getTechnique(0)->getPass(0)->createTextureUnitState("ScreenShot_texture");
 
 
     // Change to first state

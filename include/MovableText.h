@@ -57,7 +57,7 @@ protected:
     /******************************** public methods ******************************/
 public:
 
-    MovableText(const String &name, const UTFString &caption, const String &fontName = "MenuFont", Real charHeight = 1.0, const ColourValue &color = ColourValue::White);
+    MovableText(const String &name, const UTFString &caption, const String &fontName = "CoolFont", Real charHeight = 1.0, const ColourValue &color = ColourValue::White);
     virtual ~MovableText();
 
     // Add to build on Shoggoth:

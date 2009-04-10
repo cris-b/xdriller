@@ -36,8 +36,7 @@ private:
     Ogre::Camera         *mCamera;
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
-    Ogre::OverlayManager *mOverlayMgr;
-    Ogre::Overlay        *mIntroOverlay;
+
 
     static IntroState    *mIntroState;
 };

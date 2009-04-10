@@ -6,18 +6,16 @@ IntroState* IntroState::mIntroState;
 
 void IntroState::enter( void ) {
     mRoot         = Root::getSingletonPtr();
-    mOverlayMgr   = OverlayManager::getSingletonPtr();
+
     mSceneMgr     = mRoot->getSceneManager( "ST_GENERIC" );
     mCamera       = mSceneMgr->createCamera( "IntroCamera" );
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
-    mIntroOverlay = mOverlayMgr->getByName( "Overlay/IntroState" );
 
-    mIntroOverlay->show();
 }
 
 void IntroState::exit( void ) {
-    mIntroOverlay->hide();
+
 
     mSceneMgr->clearScene();
     mSceneMgr->destroyAllCameras();
@@ -25,11 +23,11 @@ void IntroState::exit( void ) {
 }
 
 void IntroState::pause( void ) {
-    mIntroOverlay->hide();
+
 }
 
 void IntroState::resume( void ) {
-    mIntroOverlay->show();
+
 }
 
 void IntroState::update( unsigned long lTimeElapsed ) {

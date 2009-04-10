@@ -27,7 +27,7 @@ void PauseState::enter( void ) {
     mTextAreaDepth->setDimensions(0.2, 0.2);
     mTextAreaDepth->setCaption("PAUSE");
     mTextAreaDepth->setCharHeight(0.07);
-    mTextAreaDepth->setFontName("MenuFont");
+    mTextAreaDepth->setFontName("CoolFont");
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,0,0));
