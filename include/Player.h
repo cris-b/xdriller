@@ -52,6 +52,7 @@ class Player
     private:
 
     Vector3 speed;
+    Real orientationAngle;
 
     Real air;
     Real idleTime;

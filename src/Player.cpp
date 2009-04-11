@@ -24,6 +24,7 @@ Player::Player(Board *mBoard)
 
     Vector3 startPos(0,2,0);
     speed = Vector3(0,0,0);
+    orientationAngle = 0;
 
     mEnt = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->createEntity("player", "tux.mesh");
     mEnt->setMaterialName("tux");
@@ -84,23 +85,19 @@ void Player::update(unsigned long lTimeElapsed)
 
 
     }
-    else if(scale < 1)
-    {
-    //    scale = 1;
-    }
 
-    if(scale < 1)
+    if(scale < 1 && alive)  //aki es donde muere
     {
 
         alive = false;
         lives --;
         speed.x=0;
-
-
     }
+
 
     if(alive)
     {
+
 
         //Orienta al amigo
 
@@ -110,12 +107,36 @@ void Player::update(unsigned long lTimeElapsed)
 
         if(orientation == LOOK_LEFT)
         {
-            mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_Z));
+            if(orientationAngle > -90)
+            {
+                orientationAngle -= lTimeElapsed*2;
+                if(orientationAngle < -90) orientationAngle = -90;
+            }
+
         }
         else if(orientation == LOOK_RIGHT)
         {
-            mNode->rotate(Quaternion(Degree(90),Vector3::UNIT_Z));
+            if(orientationAngle < 90)
+            {
+                orientationAngle += lTimeElapsed*2;
+                if(orientationAngle > 90) orientationAngle = 90;
+            }
+
         }
+        else
+        {
+            if(orientationAngle > 0)
+            {
+                orientationAngle -= lTimeElapsed*2;
+                if(orientationAngle < 0) orientationAngle = 0;
+            }
+            if(orientationAngle < 0)
+            {
+                orientationAngle += lTimeElapsed*2;
+                if(orientationAngle > 0) orientationAngle = 0;
+            }
+        }
+        mNode->rotate(Quaternion(Degree(orientationAngle),Vector3::UNIT_Z));
 
         //Friccion horizontal
 
@@ -332,7 +353,7 @@ void Player::update(unsigned long lTimeElapsed)
 
             idleTime = 0;
         }
-        if(fabs(speed.x) > 0)
+        if(fabs(speed.x) > 0 && !_falling)
         {
 
             mAnimationState->setEnabled(false);

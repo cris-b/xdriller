@@ -3,6 +3,7 @@
 
 #include <Ogre.h>//#include <OgreCamera.h>
 #include <OgreTextAreaOverlayElement.h>
+#include <OgrePanelOverlayElement.h>
 #include "Cam.h"
 #include "Board.h"
 #include "Player.h"
@@ -55,10 +56,12 @@ private:
 
     Ogre::OverlayManager    *mOverlayMgr;
     Overlay                 *mOverlay;
-    OverlayContainer        *mPanel;
+    PanelOverlayElement     *mPanel;
     TextAreaOverlayElement  *mTextAreaDepth;
+    PanelOverlayElement     *mLivesPanel;
 
     bool tiempoBala;
+    bool nextFramePause;
 
 
 

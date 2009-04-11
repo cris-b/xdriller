@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-
+#define HEARTS_SCALE 1.5
 
 
 
@@ -26,6 +26,7 @@ void PlayState::enter( void ) {
     mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
     //mSceneMgr = mRoot->createSceneManager("DotSceneOctreeManager");
     tiempoBala = false;
+    nextFramePause = false;
 
     /*CDotScene *dotScene;
     dotScene = new CDotScene();
@@ -87,7 +88,7 @@ void PlayState::enter( void ) {
 
      //LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
 
-    mPanel = static_cast<OverlayContainer*>(
+    mPanel = static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
     mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
     mPanel->setPosition(0, 0);
@@ -97,7 +98,7 @@ void PlayState::enter( void ) {
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaDepth"));
     mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
     mTextAreaDepth->setPosition(0.01, 0);
-    mTextAreaDepth->setDimensions(0.2, 0.2);
+    mTextAreaDepth->setDimensions(0.1, 0.1);
     mTextAreaDepth->setCaption("0");
     mTextAreaDepth->setCharHeight(0.07);
     mTextAreaDepth->setFontName("CoolFont");
@@ -105,11 +106,22 @@ void PlayState::enter( void ) {
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,1,1));
 
+    mLivesPanel =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "LivesPanel"));
+    mLivesPanel->setMetricsMode(Ogre::GMM_RELATIVE);
+    mLivesPanel->setPosition(0.98-(mPlayer->getLives())*0.0375*HEARTS_SCALE, 0.02);
+    mLivesPanel->setDimensions(0.0375*HEARTS_SCALE*mPlayer->getLives(), 0.05*HEARTS_SCALE);
+    mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
+    mLivesPanel->setMaterialName("heart");
+
+
     mOverlay = mOverlayMgr->create("PlayStateOverlay");
     mOverlay->add2D(mPanel);
 
 
+
     mPanel->addChild(mTextAreaDepth);
+    mPanel->addChild(mLivesPanel);
 
     // Show the overlay
     mOverlay->show();
@@ -140,7 +152,7 @@ void PlayState::pause( void ) {
 
 void PlayState::resume( void ) {
 
-
+    nextFramePause = false;
     mOverlay->show();
 }
 
@@ -206,6 +218,9 @@ void PlayState::update( unsigned long lTimeElapsed )
             mBoard->killUpwards(mPlayer->getPosition());
             mPlayer->resurrect();
 
+            mLivesPanel->setPosition(0.98-(mPlayer->getLives())*0.0375*HEARTS_SCALE, 0.02);
+            mLivesPanel->setDimensions(0.0375*HEARTS_SCALE*mPlayer->getLives(), 0.05*HEARTS_SCALE);
+            mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
 
         }
     }
@@ -226,7 +241,10 @@ void PlayState::update( unsigned long lTimeElapsed )
     mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getDepth()));
 
 
-
+    if(nextFramePause == true)
+    {
+        this->pushState( PauseState::getSingletonPtr() );
+    }
 
 }
 
@@ -292,7 +310,7 @@ void PlayState::keyReleased( const OIS::KeyEvent &e ) {
 
 
 
-        this->pushState( PauseState::getSingletonPtr() );
+        nextFramePause = true;
     }
     else if( e.key == OIS::KC_ESCAPE ) {
         this->changeState( MenuState::getSingletonPtr());
