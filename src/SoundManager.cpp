@@ -33,11 +33,33 @@ SoundManager::SoundManager()
         SDL_Quit();
     }
 
+    numChannels = Mix_AllocateChannels(MAX_CHANNELS);
+
+    channelMap = new int[numChannels];
+
+    for (int i=0; i<numChannels; i++)
+    {
+        channelMap[i] = -1;
+    }
+
+
+    Ogre::LogManager::getSingleton().logMessage(
+            "SoundManager: " + Ogre::StringConverter::toString(numChannels) + " channels allocated");
+
     mMusic = NULL;
 
     setMusicVolume(ConfigManager::getSingleton().getInt("music_volume"));
     setSoundVolume(ConfigManager::getSingleton().getInt("sound_volume"));
 
+}
+SoundManager::~SoundManager()
+{
+    delete [] channelMap;
+
+    for(int i; i < NUM_SOUNDS; i++)
+    {
+        delete mSound[i];
+    }
 }
 
 void SoundManager::loadMusic(std::string filename)
@@ -54,33 +76,36 @@ void SoundManager::playMusic()
 
 void SoundManager::loadSounds()
 {
-    mSoundBreak = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "break.wav");
-    mSoundJoin  = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "join.wav");
-    mSoundKick  = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "kick.wav");
-    mSoundAir   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "air.wav");
+    mSound[SOUND_BREAK]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "break.wav");
+    mSound[SOUND_JOIN]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "join.wav");
+    mSound[SOUND_KICK]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "kick.wav");
+    mSound[SOUND_AIR]       = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "air.wav");
+    mSound[SOUND_SQUASH]    = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "squash.wav");
+    mSound[SOUND_RESURRECT] = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "resurrect.wav");
+    mSound[SOUND_FALLING]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "falling.wav");
 }
 
 void SoundManager::playSound(int type)
 {
+    int chan;
+    chan = mSound[type]->play();
 
-    switch(type)
+    mapChannel(type,chan);
+
+    if(chan >= 0) Mix_ChannelFinished(SoundManager::getSingleton().channelFinishCallback);
+}
+
+void SoundManager::stopSound(int type)
+{
+    for (int i=0; i<numChannels; i++)
     {
-        case SOUND_BREAK:
-            mSoundBreak->play();
-            break;
-        case SOUND_JOIN:
-            mSoundJoin->play();
-            break;
-        case SOUND_KICK:
-            mSoundKick->play();
-            break;
-        case SOUND_AIR:
-            mSoundAir->play();
-            break;
-        default:
-            break;
+        if(channelMap[i] == type)
+        {
+            //Mix_HaltChannel(i);
+            Mix_FadeOutChannel(i,100);
+            mapChannel(type,i);
+        }
     }
-
 }
 
 void SoundManager::setMusicVolume(int vol)
@@ -115,3 +140,18 @@ void SoundManager::setSoundVolume(int vol)
 		Mix_Volume( -1, vol);
 		soundVolume = vol;
 }
+
+void SoundManager::mapChannel(int type,int chan)
+{
+    if(chan >= 0 && chan < numChannels)
+    {
+        channelMap[chan] = type;
+    }
+    else
+    {
+        Ogre::LogManager::getSingleton().logMessage("SoundManager: Warning channel out of scope");
+    }
+}
+
+
+

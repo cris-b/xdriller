@@ -51,6 +51,7 @@ class Player
 
     private:
 
+    SceneManager *mSceneMgr;
     Vector3 speed;
     Real orientationAngle;
 
@@ -75,6 +76,7 @@ class Player
 	Entity *mEnt;
 	SceneNode *mNode;
 	SceneNode *mScaleNode;
+	ParticleSystem *starsParticle;
 
     AnimationState *mAnimationState;
 

@@ -14,8 +14,9 @@ class Sound
     Sound(std::string filename);
     ~Sound();
 
-    void play();
-    void pause();
+    int  play();
+
+    void finishCallback(int chan);
 
     private:
     Mix_Chunk* 	m_Sound;

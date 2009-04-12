@@ -239,7 +239,15 @@ void PlayState::update( unsigned long lTimeElapsed )
 
 
     mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getDepth()));
-
+    /*mTextAreaDepth->setCaption(
+            StringConverter::toString(SoundManager::getSingleton().channelMap[0]) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[1]) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[2]) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[3]) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[4]) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[5]) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[6])
+        );*/
 
     if(nextFramePause == true)
     {
@@ -305,7 +313,8 @@ void PlayState::keyReleased( const OIS::KeyEvent &e ) {
         GameManager::getSingletonPtr()->screenshotRenderTexture->addViewport(mCamera);
         GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setClearEveryFrame(true);
         GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setBackgroundColour(mViewport->getBackgroundColour());
-        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(false);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(true);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->setAutoUpdated(false);
         GameManager::getSingletonPtr()->screenshotRenderTexture->update();
 
 

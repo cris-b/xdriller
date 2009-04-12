@@ -7,10 +7,17 @@
 #include "Music.h"
 #include "Sound.h"
 
-#define SOUND_BREAK 0
-#define SOUND_JOIN  1
-#define SOUND_KICK  2
-#define SOUND_AIR   3
+#define SOUND_BREAK         0
+#define SOUND_JOIN          1
+#define SOUND_KICK          2
+#define SOUND_AIR           3
+#define SOUND_SQUASH        4
+#define SOUND_RESURRECT     5
+#define SOUND_FALLING       6
+
+#define NUM_SOUNDS          7
+
+#define MAX_CHANNELS        10
 
 
 class SoundManager : public Ogre::Singleton<SoundManager>
@@ -20,12 +27,12 @@ class SoundManager : public Ogre::Singleton<SoundManager>
     SoundManager();
     ~SoundManager();
 
-
     void loadMusic(std::string filename);
     void loadSounds();
 
     void playMusic();
     void playSound(int type);
+    void stopSound(int type);
 
     void setMusicVolume(int vol);
     void setSoundVolume(int vol);
@@ -33,19 +40,24 @@ class SoundManager : public Ogre::Singleton<SoundManager>
     int getMusicVolume() {return musicVolume;}
     int getSoundVolume() {return soundVolume;}
 
+    void mapChannel(int soundNum,int chan);
+    static void channelFinishCallback(int chan) { SoundManager::getSingletonPtr()->mapChannel(-1,chan); }
+
     static SoundManager& getSingleton(void);
     static SoundManager* getSingletonPtr(void);
 
+
     private:
+
+    int numChannels;
+
+    int *channelMap;
 
     int musicVolume;
     int soundVolume;
 
     Music *mMusic;
-    Sound *mSoundBreak;
-    Sound *mSoundJoin;
-    Sound *mSoundKick;
-    Sound *mSoundAir;
+    Sound *mSound[NUM_SOUNDS];
 
 };
 

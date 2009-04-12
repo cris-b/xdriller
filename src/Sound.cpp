@@ -1,4 +1,6 @@
+
 #include "Sound.h"
+
 
 
 Sound::Sound(std::string filename)
@@ -24,15 +26,23 @@ Sound::~Sound()
     }
 }
 
-void Sound::play()
+int Sound::play()
 {
+    int channel;
     if(m_Sound != NULL)
     {
-		if( Mix_PlayChannel(-1, m_Sound, 0) == -1)
+        channel = Mix_PlayChannel(-1, m_Sound, 0);
+		if(channel  == -1)
 		{
-		    Ogre::LogManager::getSingleton().logMessage("Failed to play sound");
+
+		    Ogre::LogManager::getSingleton().logMessage("Sound: Failed to play: " + Ogre::String(Mix_GetError()));
 			//std::cout << "Failed to play sound " << m_Filename << " " << Mix_GetError() << std::endl;
 		}
+		return channel;
     }
+
+    return -1;
 }
+
+
 

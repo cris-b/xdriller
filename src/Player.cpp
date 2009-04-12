@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Tools.h"
+#include "SoundManager.h"
 
 
 #define FALL_SPEED  -0.004
@@ -14,6 +15,8 @@ Player::Player(Board *mBoard)
 {
     this->mBoard = mBoard;
 
+    mSceneMgr = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" );
+
     alive = true;
     air = 1;
     idleTime = 0;
@@ -21,16 +24,18 @@ Player::Player(Board *mBoard)
     lives = 3;
     depth = 0;
     lastDepth = 0;
+    orientation = LOOK_DOWN;
+    scale = 1;
 
     Vector3 startPos(0,2,0);
     speed = Vector3(0,0,0);
     orientationAngle = 0;
 
-    mEnt = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->createEntity("player", "tux.mesh");
+    mEnt = mSceneMgr->createEntity("player", "tux.mesh");
     mEnt->setMaterialName("tux");
 
 
-    mNode = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->getRootSceneNode()->createChildSceneNode( "player" , startPos);
+    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "player" , startPos);
     mScaleNode = mNode->createChildSceneNode( "player_scale_node");
     mScaleNode->attachObject(mEnt);
 
@@ -41,12 +46,18 @@ Player::Player(Board *mBoard)
     mBox = AxisAlignedBox(Vector3(pos.x-0.5,pos.y-0.5,pos.z-0.5),
                           Vector3(pos.x+0.5,pos.y+0.5,pos.z+0.5));
 
-    orientation = LOOK_DOWN;
+
 
 
     mAnimationState = mEnt->getAnimationState("Idle");
     mAnimationState->setLoop(true);
     mAnimationState->setEnabled(true);
+
+    starsParticle = mSceneMgr->createParticleSystem("StarsParticle", "Stars");
+    starsParticle->getEmitter(0)->setEnabled(false);
+
+    mScaleNode->attachObject(starsParticle);
+
 
 
 }
@@ -55,11 +66,15 @@ Player::~Player()
 {
 
     mScaleNode->detachAllObjects();
+    mNode->detachAllObjects();
 	mNode->removeAndDestroyChild(mScaleNode->getName());
 	mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
 
 	if (mEnt)
-		Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->destroyEntity(mEnt);
+		mSceneMgr->destroyEntity(mEnt);
+    if (starsParticle)
+        mSceneMgr->destroyParticleSystem(starsParticle);
+
 
 }
 
@@ -79,19 +94,20 @@ void Player::update(unsigned long lTimeElapsed)
     else if(colBrick != NULL && _falling == false)
     {
         speed.y = 0;
-        _falling = false;
+        Real tmpScale = fabs(colBrick->getPosition().y-mNode->getPosition().y);
 
-        scale = fabs(colBrick->getPosition().y-mNode->getPosition().y);
-
+        if(tmpScale < scale) scale = tmpScale;
 
     }
 
-    if(scale < 1 && alive)  //aki es donde muere
+    if(scale < 1 && alive)  //aki es donde muere aplastado
     {
 
         alive = false;
         lives --;
         speed.x=0;
+
+        SoundManager::getSingleton().playSound(SOUND_SQUASH);
     }
 
 
@@ -157,6 +173,7 @@ void Player::update(unsigned long lTimeElapsed)
         speed.y += FALL_ACC*lTimeElapsed;
         if(speed.y < FALL_SPEED) speed.y=FALL_SPEED;
 
+
         //cubo para colisionar abajo
         tmpBox.setExtents(getPosition().x-0.4,getPosition().y-0.5+speed.y*lTimeElapsed,getPosition().z-0.5,
                           getPosition().x+0.4,getPosition().y+0.0+speed.y*lTimeElapsed,getPosition().z+0.5);
@@ -167,22 +184,44 @@ void Player::update(unsigned long lTimeElapsed)
         {
             colBrick->kill();
             setAir(getAir()+0.2);
-            _falling = true;
+            if(_falling == false)
+            {
+                _falling = true;
+
+            }
         }
         else if(colBrick != NULL)
         {
-            speed.y = 0;
-            _falling = false;
-            fallTime = 0;
+
+            if(_falling == true)
+            {
+                speed.y = 0;
+                _falling = false;
+                if(fallTime > 700) SoundManager::getSingleton().stopSound(SOUND_FALLING);
+                fallTime = 0;
+            }
+
             mNode->setPosition(Vector3(getPosition().x,colBrick->getPosition().y+1.0001,0));
         }
         else if(-getPosition().y > mBoard->getHeight()-1 && mBoard->mSuperBrick->isAlive())
         {
-            speed.y = 0;
-            _falling = false;
-            fallTime = 0;
+
+            if(_falling == true)
+            {
+                speed.y = 0;
+                _falling = false;
+                if(fallTime > 700) SoundManager::getSingleton().stopSound(SOUND_FALLING);
+                fallTime = 0;
+            }
+
         }
-        else _falling = true;
+        else
+        {
+            if(_falling == false)
+            {
+                _falling = true;
+            }
+        }
 
         if(_moveLeft)
         {
@@ -271,17 +310,24 @@ void Player::update(unsigned long lTimeElapsed)
             speed.y = 0;
             _falling = false;
             fallTime = 0;
+
             //desactiva el posicionamiento del monigote porque con un
             //bloque encima lo mandaria pa'arriba
             //mNode->setPosition(Vector3(getPosition().x,colBrick->getPosition().y+1.0001,0));
         }
+
         else if(-getPosition().y > mBoard->getHeight()-1 && mBoard->mSuperBrick->isAlive())
         {
             speed.y = 0;
             _falling = false;
             fallTime = 0;
+
         }
-        else _falling = true;
+        else if(_falling == false)
+        {
+            _falling = true;
+
+        };
 
 
     }
@@ -334,6 +380,8 @@ void Player::update(unsigned long lTimeElapsed)
         mAnimationState->setLoop(true);
         mAnimationState->setEnabled(true);
         mAnimationState->setTimePosition(0);
+
+        SoundManager::getSingleton().playSound(SOUND_FALLING);
     }
     else if(mAnimationState->getAnimationName() == "Idle")
     {
@@ -502,10 +550,12 @@ void Player::resurrect()
     air = 1;
     orientation = LOOK_DOWN;
 
+    starsParticle->getEmitter(0)->setEnabled(true);
+
     //redeondea la posicion a la posicion entera mas cercana
     Vector3 pos = mNode->getPosition();
     mNode->setPosition(goodRound(pos.x),goodRound(pos.y),goodRound(pos.z));
 
-
+    SoundManager::getSingleton().playSound(SOUND_RESURRECT);
 
 }
