@@ -23,11 +23,12 @@ void PauseState::enter( void ) {
     mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "PauseText"));
     mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
-    mTextAreaDepth->setPosition(0.01, 0);
+    mTextAreaDepth->setPosition(0.5, 0.5);
     mTextAreaDepth->setDimensions(0.2, 0.2);
     mTextAreaDepth->setCaption("PAUSE");
     mTextAreaDepth->setCharHeight(0.07);
     mTextAreaDepth->setFontName("CoolFont");
+    mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,0,0));

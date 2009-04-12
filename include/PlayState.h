@@ -58,7 +58,10 @@ private:
     Overlay                 *mOverlay;
     PanelOverlayElement     *mPanel;
     TextAreaOverlayElement  *mTextAreaDepth;
+    PanelOverlayElement     *mArrow;
     PanelOverlayElement     *mLivesPanel;
+    PanelOverlayElement     *mBottle;
+    PanelOverlayElement     *mBottleAir;
 
     bool tiempoBala;
     bool nextFramePause;

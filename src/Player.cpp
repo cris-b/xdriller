@@ -11,6 +11,8 @@
 #define H_FRICTION   0.0001
 #define BORED_TIME   6000
 
+#define AIR_FULL_USE_TIME   50000.0
+
 Player::Player(Board *mBoard)
 {
     this->mBoard = mBoard;
@@ -440,7 +442,7 @@ void Player::update(unsigned long lTimeElapsed)
     depth = (int)-mNode->getPosition().y+1;
     if(depth < 0) depth = 0;
 
-
+    setAir(getAir()-lTimeElapsed/AIR_FULL_USE_TIME);
 
 }
 
@@ -537,8 +539,8 @@ void Player::setAir(Real air)
 {
     this->air = air;
 
-    if(air<0) air = 0;
-    if(air>1) air = 1;
+    if(this->air<0) this->air = 0;
+    if(this->air>1) this->air = 1;
 }
 
 void Player::resurrect()

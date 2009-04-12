@@ -98,6 +98,8 @@ void Board::rKill(int x,int y)
 
 void Board::_rKill(int x,int y, int type)
 {
+    if(y > firstToCheck) firstToCheck = y;
+
     if(mBricksPtr[x+y*width] == NULL) return;
     else if(mBricksPtr[x+y*width]->getType() != type) return;
 
@@ -141,6 +143,8 @@ void Board::rSetPredye(int x,int y)
 
 void Board::_rSetPredye(int x,int y, int type)
 {
+    if(y > firstToCheck) firstToCheck = y;
+
     if(mBricksPtr[x+y*width] == NULL) return;
     else if(mBricksPtr[x+y*width]->getType() != type) return;
 
@@ -187,6 +191,8 @@ void Board::rSetFallState(int x,int y,int state)
 
 void Board::_rSetFallState(int x,int y, int state, int type)
 {
+    if(y > firstToCheck) firstToCheck = y;
+
     if(mBricksPtr[x+y*width] == NULL) return;
     else if(mBricksPtr[x+y*width]->getType() != type) return;
 
@@ -312,6 +318,7 @@ int Board::checkNum(int x, int y)
 
 void Board::_checkNum(int x,int y, int type,int &num)
 {
+    if(y > firstToCheck) firstToCheck = y;
 
     if(y == height -1) return;
 

@@ -94,10 +94,17 @@ void PlayState::enter( void ) {
     mPanel->setPosition(0, 0);
     mPanel->setDimensions(1, 1);
 
+    mArrow =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "Arrow"));
+    mArrow->setMetricsMode(Ogre::GMM_RELATIVE);
+    mArrow->setPosition(0.01,0.88);
+    mArrow->setDimensions(0.075,0.1);
+    mArrow->setMaterialName("arrow");
+
     mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaDepth"));
     mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
-    mTextAreaDepth->setPosition(0.01, 0);
+    mTextAreaDepth->setPosition(0.0475, 0.88);
     mTextAreaDepth->setDimensions(0.1, 0.1);
     mTextAreaDepth->setCaption("0");
     mTextAreaDepth->setCharHeight(0.07);
@@ -105,6 +112,7 @@ void PlayState::enter( void ) {
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,1,1));
+    mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
 
     mLivesPanel =  static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "LivesPanel"));
@@ -115,13 +123,35 @@ void PlayState::enter( void ) {
     mLivesPanel->setMaterialName("heart");
 
 
-    mOverlay = mOverlayMgr->create("PlayStateOverlay");
-    mOverlay->add2D(mPanel);
 
+    mBottleAir =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "BottlePanelAir"));
+    mBottleAir->setMetricsMode(Ogre::GMM_RELATIVE);
+    mBottleAir->setPosition(0.9,0.72);
+    mBottleAir->setDimensions(0.1,0.25);
+    mBottleAir->setUV(0,0,1,1);
+    mBottleAir->setMaterialName("bottle_air");
+
+    mBottle =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "BottlePanel"));
+    mBottle->setMetricsMode(Ogre::GMM_RELATIVE);
+    mBottle->setPosition(0.9,0.72);
+    mBottle->setDimensions(0.1,0.25);
+    //mBottle->setUV(0,0,mPlayer->getLives(),1);
+    mBottle->setMaterialName("bottle");
+
+    mOverlay = mOverlayMgr->create("PlayStateOverlay");
+
+    mOverlay->add2D(mArrow);
+    mOverlay->add2D(mPanel);
+    mOverlay->add2D(mLivesPanel);
+    mOverlay->add2D(mBottleAir);
+    mOverlay->add2D(mBottle);
 
 
     mPanel->addChild(mTextAreaDepth);
-    mPanel->addChild(mLivesPanel);
+
+
 
     // Show the overlay
     mOverlay->show();
@@ -236,10 +266,12 @@ void PlayState::update( unsigned long lTimeElapsed )
     //    + StringConverter::toString(mPlayer->getPosition().x);
     //s = "FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS());
 
-
-
+    mBottleAir->setPosition(0.9,0.72+0.25*(1-mPlayer->getAir()*0.8));
+    mBottleAir->setDimensions(0.1,0.25*(mPlayer->getAir()*0.8));
+    mBottleAir->setUV(0,1-mPlayer->getAir()*0.8,1,1);
 
     mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getDepth()));
+    //mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getAir()));
     /*mTextAreaDepth->setCaption(
             StringConverter::toString(SoundManager::getSingleton().channelMap[0]) +
             StringConverter::toString(SoundManager::getSingleton().channelMap[1]) +
