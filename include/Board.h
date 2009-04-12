@@ -51,6 +51,9 @@ class Board
 
     SceneManager *mSceneMgr;
     int height, width;
+
+    int firstToCheck;
+
     void _rKill(int x, int y, int type);
     void _rSetPredye(int x, int y, int type);
     void _rSetFallState(int x, int y, int state, int type);

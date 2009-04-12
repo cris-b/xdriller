@@ -14,7 +14,7 @@ class Music
     ~Music();
 
     void play();
-    void pause();
+    void stop();
 
     private:
     Mix_Music* 	m_Music;

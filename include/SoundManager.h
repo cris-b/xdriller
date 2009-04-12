@@ -31,8 +31,10 @@ class SoundManager : public Ogre::Singleton<SoundManager>
     void loadSounds();
 
     void playMusic();
+    void stopMusic();
     void playSound(int type);
     void stopSound(int type);
+    void stopAllSounds();
 
     void setMusicVolume(int vol);
     void setSoundVolume(int vol);

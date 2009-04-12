@@ -27,6 +27,13 @@ void Music::play()
 {
     if(m_Music != NULL)
     {
-        Mix_PlayMusic(m_Music, 1);
+        Mix_FadeInMusic(m_Music, 1, 100);
+    }
+}
+void Music::stop()
+{
+    if(m_Music != NULL)
+    {
+        Mix_FadeOutMusic(100);
     }
 }

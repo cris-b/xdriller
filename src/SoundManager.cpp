@@ -73,16 +73,20 @@ void SoundManager::playMusic()
 {
     mMusic->play();
 }
+void SoundManager::stopMusic()
+{
+    mMusic->stop();
+}
 
 void SoundManager::loadSounds()
 {
-    mSound[SOUND_BREAK]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "break.wav");
-    mSound[SOUND_JOIN]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "join.wav");
-    mSound[SOUND_KICK]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "kick.wav");
-    mSound[SOUND_AIR]       = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "air.wav");
-    mSound[SOUND_SQUASH]    = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "squash.wav");
-    mSound[SOUND_RESURRECT] = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "resurrect.wav");
-    mSound[SOUND_FALLING]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "falling.wav");
+    mSound[SOUND_BREAK]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "break.ogg");
+    mSound[SOUND_JOIN]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "join.ogg");
+    mSound[SOUND_KICK]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "kick.ogg");
+    mSound[SOUND_AIR]       = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "air.ogg");
+    mSound[SOUND_SQUASH]    = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "squash.ogg");
+    mSound[SOUND_RESURRECT] = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "resurrect.ogg");
+    mSound[SOUND_FALLING]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "sounds/" +  "falling.ogg");
 }
 
 void SoundManager::playSound(int type)
@@ -103,7 +107,20 @@ void SoundManager::stopSound(int type)
         {
             //Mix_HaltChannel(i);
             Mix_FadeOutChannel(i,100);
-            mapChannel(type,i);
+            mapChannel(-1,i);
+        }
+    }
+}
+
+void SoundManager::stopAllSounds()
+{
+    for (int i=0; i<numChannels; i++)
+    {
+        if(channelMap[i] != -1)
+        {
+            //Mix_HaltChannel(i);
+            Mix_FadeOutChannel(i,100);
+            mapChannel(-1,i);
         }
     }
 }

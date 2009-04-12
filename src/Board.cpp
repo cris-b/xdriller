@@ -67,6 +67,8 @@ Board::Board(int w, int h, const String&  levelName)
 
     mSuperBrick = new SuperBrick(Vector3(0,-height,0));
 
+    firstToCheck = 0;
+
 
 }
 
@@ -220,6 +222,8 @@ bool Board::checkFall(int x, int y)
 
     if(mBricksPtr[x+y*width] == NULL) return true;
 
+    if(y == height -1) return false;
+
     if(mBricksPtr[x+y*width]->done == true) return mBricksPtr[x+y*width]->isFalling();
 
     type = mBricksPtr[x+y*width]->getType();
@@ -235,7 +239,11 @@ bool Board::checkFall(int x, int y)
 bool Board::_checkFall(int x,int y, int type)
 {
 
+    if(y > firstToCheck) firstToCheck = y;
+
     if(y == height -1) return false;
+
+
 
 
     if(mBricksPtr[x+y*width]->getType() == type)
@@ -402,8 +410,9 @@ void Board::update(unsigned long lTimeElapsed)
         }
     }
 
-    //for(int j = 0; j < height; j++)
-    for(int j = height-1; j >= 0; j--)
+
+    //for(int j = height-1; j >= 0; j--)
+    for(int j = firstToCheck; j >= 0; j--)
     {
         for(int i = 0; i < width; i++)
         {
@@ -471,8 +480,6 @@ void Board::printLog()
                 s += StringConverter::toString(mBricksPtr[i+j*width]->getType()) + ",";
             }
             else s += "N,";
-
-
         }
 
         s += "\n";

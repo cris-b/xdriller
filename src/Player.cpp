@@ -195,24 +195,24 @@ void Player::update(unsigned long lTimeElapsed)
 
             if(_falling == true)
             {
-                speed.y = 0;
                 _falling = false;
                 if(fallTime > 700) SoundManager::getSingleton().stopSound(SOUND_FALLING);
                 fallTime = 0;
             }
-
+            speed.y = 0;
             mNode->setPosition(Vector3(getPosition().x,colBrick->getPosition().y+1.0001,0));
         }
-        else if(-getPosition().y > mBoard->getHeight()-1 && mBoard->mSuperBrick->isAlive())
+        else if(getPosition().y+speed.y*lTimeElapsed < -(mBoard->getHeight()-1) && mBoard->mSuperBrick->isAlive())
         {
 
             if(_falling == true)
             {
-                speed.y = 0;
                 _falling = false;
                 if(fallTime > 700) SoundManager::getSingleton().stopSound(SOUND_FALLING);
                 fallTime = 0;
             }
+            speed.y = 0;
+            mNode->setPosition(Vector3(getPosition().x,-(mBoard->getHeight()-1),0));
 
         }
         else

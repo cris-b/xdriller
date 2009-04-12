@@ -20,6 +20,8 @@ class SuperBrick
 
     bool isAlive() { return alive; }
 
+    Vector3 getPosition() {return mNode->getPosition();}
+
     AxisAlignedBox mBox;
 
     private:

@@ -133,8 +133,6 @@ void PlayState::exit( void ) {
     delete mBoard;
     delete mPlayer;
 
-
-
     mOverlayMgr->destroyAllOverlayElements();
 
     mOverlayMgr->destroy(mOverlay);
@@ -143,6 +141,9 @@ void PlayState::exit( void ) {
     mSceneMgr->clearScene();
     mSceneMgr->destroyAllCameras();
     mRoot->getAutoCreatedWindow()->removeAllViewports();
+
+    SoundManager::getSingleton().stopMusic();
+    SoundManager::getSingleton().stopAllSounds();
 }
 
 void PlayState::pause( void ) {
@@ -281,7 +282,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
     if ( e.key == OIS::KC_R)
     {
         delete mBoard;
-        mBoard = new Board(9,80,"random");
+        mBoard = new Board(9,5,"random");
 
         delete mPlayer;
         mPlayer = new Player(mBoard);
