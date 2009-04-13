@@ -26,6 +26,8 @@ class SuperBrick
 
     private:
 
+    Real alpha;
+
     bool alive;
 
     SceneManager *mSceneMgr;

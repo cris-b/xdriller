@@ -43,9 +43,11 @@ class Player
     void setAir(Real air);
     Real getLives() {return lives;};
     void setLives(int lives);
-    Real getDepth() {return depth;}
-    Real getLastDepth() {return lastDepth;}
+    int getDepth() {return depth;}
+    int getLastDepth() {return lastDepth;}
     void resurrect();
+
+    void setBoard(Board *board) {mBoard = board;};
 
     int orientation;
 
@@ -58,8 +60,8 @@ class Player
     Real air;
     Real idleTime;
     int lives;
-    Real depth;
-    Real lastDepth;
+    int depth;
+    int lastDepth;
     Real scale;
 
     bool _moveLeft;
@@ -77,6 +79,7 @@ class Player
 	SceneNode *mNode;
 	SceneNode *mScaleNode;
 	ParticleSystem *starsParticle;
+	ParticleSystem *plus20Particle;
 
     AnimationState *mAnimationState;
 

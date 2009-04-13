@@ -58,7 +58,11 @@ Player::Player(Board *mBoard)
     starsParticle = mSceneMgr->createParticleSystem("StarsParticle", "Stars");
     starsParticle->getEmitter(0)->setEnabled(false);
 
-    mScaleNode->attachObject(starsParticle);
+    plus20Particle = mSceneMgr->createParticleSystem("Plus20Particle", "Plus20");
+    plus20Particle->getEmitter(0)->setEnabled(false);
+
+    mNode->attachObject(starsParticle);
+    mNode->attachObject(plus20Particle);
 
 
 
@@ -76,7 +80,8 @@ Player::~Player()
 		mSceneMgr->destroyEntity(mEnt);
     if (starsParticle)
         mSceneMgr->destroyParticleSystem(starsParticle);
-
+    if (plus20Particle)
+        mSceneMgr->destroyParticleSystem(plus20Particle);
 
 }
 
@@ -340,7 +345,7 @@ void Player::update(unsigned long lTimeElapsed)
         mScaleNode->setPosition(0,0,-(1-scale)/2.0);
     }
 
-    if(!alive && mAnimationState->getEnabled())
+    if(!alive && mAnimationState->getAnimationName() != "Dye")
     {
         mAnimationState->setEnabled(false);
     }
@@ -442,7 +447,23 @@ void Player::update(unsigned long lTimeElapsed)
     depth = (int)-mNode->getPosition().y+1;
     if(depth < 0) depth = 0;
 
-    setAir(getAir()-lTimeElapsed/AIR_FULL_USE_TIME);
+    setAir(air-lTimeElapsed/AIR_FULL_USE_TIME);
+
+    if(air <= 0 && alive)
+    {
+        alive=false;
+
+        speed.x = 0;
+
+        orientation = LOOK_DOWN;
+
+        mAnimationState->setEnabled(false);
+        mAnimationState = mEnt->getAnimationState("Dye");
+        mAnimationState->setLoop(false);
+        mAnimationState->setEnabled(true);
+        mAnimationState->setTimePosition(0);
+
+    }
 
 }
 
@@ -537,10 +558,14 @@ void  Player::breakBlock()
 
 void Player::setAir(Real air)
 {
+    if(air > this->air) plus20Particle->getEmitter(0)->setEnabled(true);
+
     this->air = air;
 
     if(this->air<0) this->air = 0;
     if(this->air>1) this->air = 1;
+
+
 }
 
 void Player::resurrect()
@@ -559,5 +584,11 @@ void Player::resurrect()
     mNode->setPosition(goodRound(pos.x),goodRound(pos.y),goodRound(pos.z));
 
     SoundManager::getSingleton().playSound(SOUND_RESURRECT);
+
+    mAnimationState->setEnabled(false);
+    mAnimationState = mEnt->getAnimationState("Idle");
+    mAnimationState->setLoop(true);
+    mAnimationState->setEnabled(true);
+    mAnimationState->setTimePosition(0);
 
 }

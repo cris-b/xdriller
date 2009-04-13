@@ -18,6 +18,8 @@ Brick::~Brick()
 	mNode->detachAllObjects();
 	mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
 
+    delete mEmi;
+
 	if (mEnt)
 		Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->destroyEntity(mEnt);
 

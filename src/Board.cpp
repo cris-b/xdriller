@@ -12,7 +12,7 @@
 using namespace Ogre;
 
 
-Board::Board(int w, int h, const String&  levelName)
+Board::Board(const String&  levelName, int w, int h)
 {
 
     mSceneMgr = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" );
@@ -468,7 +468,7 @@ void Board::update(unsigned long lTimeElapsed)
 
 
 
-
+    mSuperBrick->update(lTimeElapsed);
 
 }
 

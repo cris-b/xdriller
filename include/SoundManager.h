@@ -18,6 +18,7 @@
 #define NUM_SOUNDS          7
 
 #define MAX_CHANNELS        10
+#define MAX_EQUAL_SOUNDS    3
 
 
 class SoundManager : public Ogre::Singleton<SoundManager>
@@ -35,6 +36,7 @@ class SoundManager : public Ogre::Singleton<SoundManager>
     void playSound(int type);
     void stopSound(int type);
     void stopAllSounds();
+    int  getNumEqualSounds(int type);
 
     void setMusicVolume(int vol);
     void setSoundVolume(int vol);
@@ -48,12 +50,12 @@ class SoundManager : public Ogre::Singleton<SoundManager>
     static SoundManager& getSingleton(void);
     static SoundManager* getSingletonPtr(void);
 
-
+int *channelMap;
     private:
 
     int numChannels;
 
-    int *channelMap;
+
 
     int musicVolume;
     int soundVolume;

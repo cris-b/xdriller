@@ -40,6 +40,8 @@ public:
     void mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id );
     void mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id );
 
+    void nextBoard();
+
     static PlayState* getSingletonPtr( void );
 private:
     PlayState( void ) { }
@@ -54,6 +56,9 @@ private:
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
 
+    SceneNode *backgroundSceneNode;
+    Entity *backgroundSceneEnt;
+
     Ogre::OverlayManager    *mOverlayMgr;
     Overlay                 *mOverlay;
     PanelOverlayElement     *mPanel;
@@ -63,8 +68,10 @@ private:
     PanelOverlayElement     *mBottle;
     PanelOverlayElement     *mBottleAir;
 
+
     bool tiempoBala;
     bool nextFramePause;
+    int depthAccumulation;
 
 
 

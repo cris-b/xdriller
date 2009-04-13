@@ -40,7 +40,7 @@ void Cam::update( unsigned long lTimeElapsed )
         mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
 
         mCamNode->setPosition(0,mCamNode->getPosition().y+
-            ((parentNode->getPosition().y-mCamNode->getPosition().y)*0.95)*(lTimeElapsed/1000.0),
+            (parentNode->getPosition().y-mCamNode->getPosition().y)*(lTimeElapsed/1000.0),
             9);
     }
     else if(camMode == CMODE_FOLLOW_LOOK_UP)
@@ -50,7 +50,7 @@ void Cam::update( unsigned long lTimeElapsed )
         mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
 
         mCamNode->setPosition(0,mCamNode->getPosition().y+
-            ((parentNode->getPosition().y-3-mCamNode->getPosition().y)*0.95)*(lTimeElapsed/1000.0),
+            (parentNode->getPosition().y-3-mCamNode->getPosition().y)*(lTimeElapsed/1000.0),
             9);
 
     }

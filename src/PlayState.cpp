@@ -27,11 +27,12 @@ void PlayState::enter( void ) {
     //mSceneMgr = mRoot->createSceneManager("DotSceneOctreeManager");
     tiempoBala = false;
     nextFramePause = false;
+    depthAccumulation = 0;
 
     /*CDotScene *dotScene;
     dotScene = new CDotScene();
     dotScene->parseDotScene("Scene.xml","General",mSceneMgr, NULL, "");
-*/
+    */
 
 
     mCamera           = mSceneMgr->createCamera( "Camera" );
@@ -66,19 +67,19 @@ void PlayState::enter( void ) {
 
     mCam->getSceneNode()->attachObject(light);
 
-    SceneNode *fondoNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "fondo" , Vector3(0,0,0));
-    Entity *fondoEnt = mSceneMgr->createEntity("fondo", "fondo_polo.mesh");
-    fondoNode->attachObject(fondoEnt);
+    backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundScene_Node" , Vector3(0,0,0));
+    backgroundSceneEnt = mSceneMgr->createEntity("backGroundScene_Ent", "fondo_polo.mesh");
+    backgroundSceneNode->attachObject(backgroundSceneEnt);
 
-    fondoNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
+    backgroundSceneNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
 
-    mBoard = new Board(0,0,"test");
+    mBoard = new Board("test");
 
     mPlayer = new Player(mBoard);
 
     mPlayer->setPosition(0,10,0);
-    mCam->setPosition(0,mPlayer->getPosition().y,0);
+    mCam->setPosition(0,mPlayer->getPosition().y,9);
 
 
     //prueba de sonido
@@ -100,6 +101,9 @@ void PlayState::enter( void ) {
     mArrow->setPosition(0.01,0.88);
     mArrow->setDimensions(0.075,0.1);
     mArrow->setMaterialName("arrow");
+
+
+
 
     mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaDepth"));
@@ -147,6 +151,7 @@ void PlayState::enter( void ) {
     mOverlay->add2D(mLivesPanel);
     mOverlay->add2D(mBottleAir);
     mOverlay->add2D(mBottle);
+
 
 
     mPanel->addChild(mTextAreaDepth);
@@ -270,16 +275,21 @@ void PlayState::update( unsigned long lTimeElapsed )
     mBottleAir->setDimensions(0.1,0.25*(mPlayer->getAir()*0.8));
     mBottleAir->setUV(0,1-mPlayer->getAir()*0.8,1,1);
 
-    mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getDepth()));
+
+    if(mPlayer->getLastDepth() != mPlayer->getDepth())
+    {
+
+        mTextAreaDepth->setCaption( StringConverter::toString(depthAccumulation+mPlayer->getDepth()));
+    }
     //mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getAir()));
     /*mTextAreaDepth->setCaption(
-            StringConverter::toString(SoundManager::getSingleton().channelMap[0]) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[1]) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[2]) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[3]) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[4]) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[5]) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[6])
+            StringConverter::toString(SoundManager::getSingleton().channelMap[0]+1) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[1]+1) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[2]+1) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[3]+1) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[4]+1) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[5]+1) +
+            StringConverter::toString(SoundManager::getSingleton().channelMap[6]+1)
         );*/
 
     if(nextFramePause == true)
@@ -287,7 +297,33 @@ void PlayState::update( unsigned long lTimeElapsed )
         this->pushState( PauseState::getSingletonPtr() );
     }
 
+    if(mPlayer->getDepth() >= mBoard-> getHeight() + 10)
+    {
+        nextBoard();
+    }
+
 }
+
+void PlayState::nextBoard()
+{
+    Real distanceUp = -mPlayer->getPosition().y + 10;
+
+    depthAccumulation = depthAccumulation+mPlayer->getDepth();
+
+    delete mBoard;
+    mBoard = new Board("test");
+
+    mPlayer->setBoard(mBoard);
+
+    mPlayer->setPosition(mPlayer->getPosition().x,mPlayer->getPosition().y + distanceUp,mPlayer->getPosition().z);
+    mCam->setPosition(0,mCam->getPosition().y + distanceUp,9);
+    mCam->setParentPos(mPlayer->getPosition());
+    mCam->update(0);
+
+    backgroundSceneNode->detachObject(backgroundSceneEnt);
+
+
+};
 
 void PlayState::keyPressed( const OIS::KeyEvent &e )
 {
@@ -314,7 +350,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
     if ( e.key == OIS::KC_R)
     {
         delete mBoard;
-        mBoard = new Board(9,5,"random");
+        mBoard = new Board("random",9,10);
 
         delete mPlayer;
         mPlayer = new Player(mBoard);
@@ -322,7 +358,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
     if ( e.key == OIS::KC_T)
     {
         delete mBoard;
-        mBoard = new Board(9,500,"random");
+        mBoard = new Board("random",9,200);
 
         delete mPlayer;
         mPlayer = new Player(mBoard);

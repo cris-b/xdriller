@@ -66,6 +66,8 @@ GameManager::~GameManager( void ) {
         mMenuState = 0;
     }
 
+    LogManager::getSingleton().logMessage("Everage FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS()));
+
     if( mRoot ) {
         delete mRoot;
         mRoot = 0;

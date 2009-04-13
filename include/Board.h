@@ -13,7 +13,7 @@ class Board
 {
     public:
 
-    Board(int width, int height, const String&  level);
+    Board(const String&  level,int width = 9, int height = 10);
     ~Board();
 
     Brick *mBricks;

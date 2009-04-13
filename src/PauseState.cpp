@@ -10,9 +10,6 @@ void PauseState::enter( void ) {
     mViewport        = mRoot->getAutoCreatedWindow()->getViewport( 0 );
 
 
-
-
-
     mPanel = static_cast<OverlayContainer*>(
         mOverlayMgr->createOverlayElement("Panel", "PauseStateOverlayPanel"));
     mPanel->setMetricsMode(Ogre::GMM_RELATIVE);

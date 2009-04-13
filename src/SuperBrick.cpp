@@ -25,6 +25,8 @@ SuperBrick::SuperBrick (const Vector3& position )
 
     mEmi = new EntityMaterialInstance (mEnt);
     mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
+
+    alpha = 0.0;
 }
 
 
@@ -33,8 +35,11 @@ SuperBrick::~SuperBrick()
 	mNode->detachAllObjects();
 	mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
 
+    delete mEmi;
+
 	if (mEnt)
 		mSceneMgr->destroyEntity(mEnt);
+
 
 }
 
@@ -46,6 +51,16 @@ SuperBrick::~SuperBrick()
 void SuperBrick::update(unsigned long lTimeElapsed)
 {
 
+
+    if(!alive && alpha < 1.0)
+    {
+        alpha += 0.005*lTimeElapsed;
+
+        if(alpha > 1) alpha = 1;
+
+        mEmi->setTransparency (alpha);
+    }
+
 }
 
 
@@ -54,7 +69,6 @@ void SuperBrick::kill()
 {
 
     alive = false;
-    mEmi->setTransparency (0.5);
 
 }
 

@@ -1,7 +1,7 @@
 #ifndef __MATERIALINSTANCE_H__
 #define __MATERIALINSTANCE_H__
 
-#include "OGRE/Ogre.h"
+#include "Ogre.h"
 
 using namespace Ogre;
 

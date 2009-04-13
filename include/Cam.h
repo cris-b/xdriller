@@ -42,6 +42,11 @@ class Cam
 		mCamNode->setPosition(x,y,z);
 	};
 
+    Vector3 getPosition()
+    {
+        return mCamNode->getPosition();
+    }
+
 	void setParentPos(Vector3 pos)
 	{
 		parentNode->setPosition(pos);
