@@ -227,7 +227,8 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
     if(e.key == OIS::KC_S)
     {
 
-
+        //solo funciona en ogre 1.6 +
+        #if OGRE_VERSION_MINOR >= 6
         TexturePtr tp = static_cast<Ogre::TexturePtr> (TextureManager::getSingleton().getByName("MenuFontTexture"));
         const size_t buffSize = (tp->getWidth() * tp->getHeight() * 4);
         unsigned char *data = OGRE_ALLOC_T(unsigned char,buffSize,Ogre::MEMCATEGORY_GENERAL);
@@ -240,7 +241,8 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         buf->blitToMemory(destBox);
 
         // Save to disk!
-        i.save("waka.png");
+        i.save("screenshoot.png");
+        #endif
 
 
     }

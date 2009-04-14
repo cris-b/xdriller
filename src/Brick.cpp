@@ -9,7 +9,7 @@
 #define PREFALL_TIME    750
 #define PREDYE_TIME     200
 
-#define DYE_TIME        500.0
+#define DYE_TIME        500
 
 using namespace Ogre;
 

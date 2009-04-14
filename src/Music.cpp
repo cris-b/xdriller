@@ -27,7 +27,8 @@ void Music::play()
 {
     if(m_Music != NULL)
     {
-        Mix_FadeInMusic(m_Music, 1, 100);
+        //segundo parametro num loops: -1 = infinito
+        Mix_FadeInMusic(m_Music, -1, 100);
     }
 }
 void Music::stop()

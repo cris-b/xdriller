@@ -554,9 +554,12 @@ void MovableText::_updateRenderQueue(RenderQueue* queue)
     }
 }
 
+#if OGRE_VERSION_MINOR >= 6
+
 // Add to build on Shoggoth:
 void MovableText::visitRenderables(Ogre::Renderable::Visitor* visitor,
         bool debugRenderables)
 {
 }
 
+#endif

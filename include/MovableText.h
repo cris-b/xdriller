@@ -60,8 +60,10 @@ public:
     MovableText(const String &name, const UTFString &caption, const String &fontName = "CoolFont", Real charHeight = 1.0, const ColourValue &color = ColourValue::White);
     virtual ~MovableText();
 
-    // Add to build on Shoggoth:
+    #if OGRE_VERSION_MINOR >= 6
+    // Add to build on Shoggoth: (1.6.*)
     virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables = false);
+    #endif
 
     // Set settings
     void    setFontName(const String &fontName);
