@@ -19,6 +19,8 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT ) {
 int main( int argc, char **argv ) {
 #endif
 
+
+
     srand(time(0));
 
     GameManager *gameManager = GameManager::getSingletonPtr();
@@ -26,7 +28,7 @@ int main( int argc, char **argv ) {
 
     try {
         // Initialise the game and switch to the first state
-        gameManager->startGame( MenuState::getSingletonPtr() );
+        gameManager->startGame( IntroState::getSingletonPtr() );
     }
     catch ( Ogre::Exception& ex ) {
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

@@ -15,6 +15,7 @@ class Music
 
     void play();
     void stop();
+    void load(std::string filename);
 
     private:
     Mix_Music* 	m_Music;

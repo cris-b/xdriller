@@ -1,8 +1,71 @@
 #include <Ogre.h>
+#include <sys/stat.h>
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#include "windows.h"
+#endif
 
 #include "Tools.h"
 
+#include <iostream>
+
+
+
 using namespace Ogre;
+
+int copyFile(const std::string& source,const std::string& dest)
+{
+   std::ifstream ifs(source.c_str(),std::ios::in|std::ios::binary);
+   std::ofstream ofs(dest.c_str(),std::ios::out|std::ios::binary);
+
+   if(!ifs)
+   {
+      std::cerr <<"Can't open " <<  source << std::endl;
+      return false;
+   }
+   if(!ofs)
+   {
+      std::cerr <<"Can't open " <<  dest << std::endl;
+      return false;
+   }
+
+   //while(f1 && f1.get(ch) )
+   //   f2.put(ch);
+   //return false;
+
+   ofs << ifs.rdbuf();
+
+   return true;
+}
+
+int makeDirectory(const std::string& filename)
+{
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    //?
+#else
+    mkdir(filename.c_str(),0700);
+#endif
+    return true;
+}
+
+bool fileExists(const std::string& filename)
+{
+  std::fstream fin;
+
+  //this will fail if more capabilities to read the
+  //contents of the file is required (e.g. \private\...)
+  fin.open(filename.c_str() );
+
+  if(fin.is_open())
+    {
+    fin.close();
+    return true;
+    }
+  fin.close();
+
+  return false;
+}
+
 
 void DumpNodes(std::stringstream &ss, Ogre::Node *n, int level)
 {

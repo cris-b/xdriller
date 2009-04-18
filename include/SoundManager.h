@@ -33,6 +33,8 @@ class SoundManager : public Ogre::Singleton<SoundManager>
 
     void playMusic();
     void stopMusic();
+    void reloadMusic(std::string filename);
+
     void playSound(int type);
     void stopSound(int type);
     void stopAllSounds();

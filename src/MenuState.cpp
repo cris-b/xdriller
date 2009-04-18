@@ -1,6 +1,4 @@
 #include "MenuState.h"
-
-
 #include <OgreTextAreaOverlayElement.h>
 #include <OgreFontManager.h>
 
@@ -81,11 +79,15 @@ void MenuState::enter( void )
         //Vector3 v = Vector3(0,0,0);
         mBrickEnt[i] = mSceneMgr->createEntity(n, "cube.mesh");
 
-        if(i>3) mBrickEnt[i]->setMaterialName("gris");
+        if(i>7) mBrickEnt[i]->setMaterialName("gris");
         else if(i==0) mBrickEnt[i]->setMaterialName("rojo");
         else if(i==1) mBrickEnt[i]->setMaterialName("verde");
         else if(i==2) mBrickEnt[i]->setMaterialName("azul");
         else if(i==3) mBrickEnt[i]->setMaterialName("amarillo");
+        else if(i==4) mBrickEnt[i]->setMaterialName("rojo");
+        else if(i==5) mBrickEnt[i]->setMaterialName("verde");
+        else if(i==6) mBrickEnt[i]->setMaterialName("azul");
+        else if(i==7) mBrickEnt[i]->setMaterialName("amarillo");
 
 
         mBrickNode[i] = mSceneMgr->getRootSceneNode()->createChildSceneNode( n , v);
@@ -213,7 +215,7 @@ void MenuState::update( unsigned long lTimeElapsed ) {
 void MenuState::keyPressed( const OIS::KeyEvent &e )
 {
 
-    if(e.key == OIS::KC_R)
+    /*if(e.key == OIS::KC_R)
     {
 
 
@@ -223,8 +225,8 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         //SaveImage(Texture,"font.png");
 
 
-    }
-    if(e.key == OIS::KC_S)
+    }*/
+    /*if(e.key == OIS::KC_S)
     {
 
         //solo funciona en ogre 1.6 +
@@ -245,7 +247,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         #endif
 
 
-    }
+    }*/
 
     if(e.key == OIS::KC_DOWN)
     {
@@ -337,23 +339,23 @@ void MenuState::changePage(unsigned int page)
         {
             buttons.push_back(new MenuButton("Start random level"));
 
-            buttons[0]->setPosition(-10,1,0);
+            buttons[0]->setPosition(0,1,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(0,1,0));
 
             buttons.push_back(new MenuButton("Options"));
 
-            buttons[1]->setPosition(-15,0,0);
+            buttons[1]->setPosition(0,0,0);
             buttons[1]->setDest(Vector3(0,0,0));
 
             buttons.push_back(new MenuButton("Credits"));
 
-            buttons[2]->setPosition(-20,-1,0);
+            buttons[2]->setPosition(0,-1,0);
             buttons[2]->setDest(Vector3(0,-1,0));
 
             buttons.push_back(new MenuButton("Exit"));
 
-            buttons[3]->setPosition(-25,-2,0);
+            buttons[3]->setPosition(0,-2,0);
             buttons[3]->setDest(Vector3(0,-2,0));
 
             menuCursor = 0;
@@ -365,13 +367,13 @@ void MenuState::changePage(unsigned int page)
         {
             buttons.push_back(new MenuButton("Go Back!"));
 
-            buttons[0]->setPosition(-10,0,0);
+            buttons[0]->setPosition(0,0,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(0,0,0));
 
             buttons.push_back(new MenuButton("Quit"));
 
-            buttons[1]->setPosition(-15,-1,0);
+            buttons[1]->setPosition(0,-1,0);
             buttons[1]->setDest(Vector3(0,-1,0));
 
             menuCursor = 0;

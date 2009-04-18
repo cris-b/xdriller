@@ -52,7 +52,7 @@ private:
     Ogre::RenderWindow *mRenderWindow;
     InputManager       *mInputMgr;
 
-
+    Ogre::String        configPath;
 
 
     GameState          *mIntroState;

@@ -2,16 +2,12 @@
 
 Music::Music(std::string filename)
 {
-    m_Music = Mix_LoadMUS(filename.c_str());
-
-    Ogre::LogManager::getSingleton().logMessage("Loading music " + Ogre::String(filename));
-
-    if(m_Music == NULL)
+    if(filename != "")
     {
-        Ogre::String s;
-        s = "Failed to load music " + filename;
-        Ogre::LogManager::getSingleton().logMessage(s);
+        load(filename);
     }
+
+
 }
 
 
@@ -23,13 +19,25 @@ Music::~Music()
     }
 }
 
+void Music::load(std::string filename)
+{
+
+    Ogre::LogManager::getSingleton().logMessage("Loading music " + Ogre::String(filename));
+    m_Music = Mix_LoadMUS(filename.c_str());
+    if(m_Music == NULL)
+    {
+        Ogre::String s;
+        s = "Failed to load music " + filename;
+        Ogre::LogManager::getSingleton().logMessage(s);
+    }
+}
+
 void Music::play()
 {
-    if(m_Music != NULL)
-    {
-        //segundo parametro num loops: -1 = infinito
-        Mix_FadeInMusic(m_Music, -1, 100);
-    }
+
+
+    Mix_FadeInMusic(m_Music, -1, 100);
+
 }
 void Music::stop()
 {

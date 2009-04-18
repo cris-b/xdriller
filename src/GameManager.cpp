@@ -20,6 +20,12 @@
 #include "SoundManager.h"
 #include "ConfigManager.h"
 
+#include "Tools.h"
+
+#include "Globals.h"
+
+
+
 using namespace Ogre;
 
 GameManager* GameManager::mGameManager;
@@ -74,8 +80,61 @@ GameManager::~GameManager( void ) {
     }
 }
 
-void GameManager::startGame( GameState *gameState ) {
-    mRoot = new Root("plugins.cfg", "ogre.cfg", "xdriller.log");
+void GameManager::startGame( GameState *gameState )
+{
+
+    #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
+    configPath = ".";
+    #else  //Linux, etc...
+    configPath = String(getenv("HOME")) + "/.config/xdriller";
+    #endif
+
+    if(fileExists("resources.cfg"))
+    {
+        configPath = ".";
+    }
+
+    new LogManager;
+    LogManager::getSingleton().createLog(configPath + "/xdriller.log");
+    LogManager::getSingleton().logMessage("Xdriller v" + String(XDRILLER_VERSION_STRING));
+
+
+    if(!fileExists(configPath))
+    {
+        makeDirectory(configPath);
+    }
+
+
+    if(!fileExists(configPath + "/plugins.cfg"))
+    {
+        //std::cout << "Copying default config file: plugins.cfg" << endl;
+        LogManager::getSingleton().logMessage("Copying default config file: plugins.cfg");
+        copyFile("default_config/plugins.cfg",configPath + "/plugins.cfg");
+    }
+    if(!fileExists(configPath + "/ogre.cfg"))
+    {
+        //std::cout << "Copying default config file: ogre.cfg" << endl;
+        LogManager::getSingleton().logMessage("Copying default config file: ogre.cfg");
+        copyFile("default_config/ogre.cfg",configPath + "/ogre.cfg");
+    }
+    if(!fileExists(configPath + "/resources.cfg"))
+    {
+        //std::cout << "Copying default config file: resources.cfg" << endl;
+        LogManager::getSingleton().logMessage("Copying default config file: resources.cfg");
+        copyFile("default_config/resources.cfg",configPath + "/resources.cfg");
+    }
+    if(!fileExists(configPath + "/config.cfg"))
+    {
+        //std::cout << "Copying default config file: config.cfg" << endl;
+        LogManager::getSingleton().logMessage("Copying default config file: config.cfg");
+        copyFile("default_config/config.cfg",configPath + "/config.cfg");
+    }
+
+
+
+    mRoot = new Root(configPath + "/plugins.cfg", configPath + "/ogre.cfg");
+
+    //LogManager::getSingleton().setLogDetail(LL_LOW);
 
     // Setup states
     mIntroState = IntroState::getSingletonPtr();
@@ -166,7 +225,7 @@ bool GameManager::configureGame( void ) {
         }
     }
 
-    new ConfigManager("config.cfg");
+    new ConfigManager(configPath + "/config.cfg");
 
     ConfigManager::getSingleton().load();
 
@@ -193,7 +252,7 @@ bool GameManager::configureGame( void ) {
 void GameManager::setupResources( void ) {
     // Load resource paths from config file
     ConfigFile cf;
-    cf.load( "resources.cfg" );
+    cf.load( configPath + "/resources.cfg" );
 
     // Go through all settings in the file
     ConfigFile::SectionIterator itSection = cf.getSectionIterator();

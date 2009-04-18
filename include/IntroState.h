@@ -37,6 +37,18 @@ private:
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
 
+    Ogre::SceneNode     *mLogoNode;
+    Ogre::Entity        *mLogoEnt;
+
+    Ogre::SceneNode     *mCamNode;
+
+    Ogre::OverlayManager    *mOverlayMgr;
+    Ogre::Overlay           *mOverlay;
+    Ogre::OverlayContainer  *mLogoFSPanel;
+    Ogre::OverlayContainer  *mFadePanel;
+
+    Ogre::AnimationState *mAnimState;
+
 
     static IntroState    *mIntroState;
 };

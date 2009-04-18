@@ -78,6 +78,11 @@ void SoundManager::stopMusic()
     mMusic->stop();
 }
 
+void SoundManager::reloadMusic(std::string filename)
+{
+    mMusic->load(filename);
+}
+
 void SoundManager::loadSounds()
 {
     mSound[SOUND_BREAK]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "break.ogg");

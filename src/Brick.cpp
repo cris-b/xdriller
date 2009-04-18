@@ -9,7 +9,9 @@
 #define PREFALL_TIME    750
 #define PREDYE_TIME     200
 
-#define DYE_TIME        500
+//tiene que ser de coma flotante aunque se queje el compilador
+#define DYE_TIME        500.0
+
 
 using namespace Ogre;
 
