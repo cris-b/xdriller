@@ -174,8 +174,25 @@ void GameManager::startGame( GameState *gameState )
         }
 
         tmpRenderSystem->setConfigOption("Full Screen",ConfigManager::getSingleton().getString("fullscreen"));
-        tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
-        tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
+
+        if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
+            tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
+        else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
+        {
+            tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution") + " @ 32-bit colour");
+        }
+
+        if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
+            tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
+        else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
+        {
+            if(ConfigManager::getSingleton().getString("FSAA") == "0")
+                tmpRenderSystem->setConfigOption("Anti aliasing","None");
+            if(ConfigManager::getSingleton().getString("FSAA") == "2")
+                tmpRenderSystem->setConfigOption("Anti aliasing","Level 2");
+            if(ConfigManager::getSingleton().getString("FSAA") == "4")
+                tmpRenderSystem->setConfigOption("Anti aliasing","Level 4");
+        }
 
     }
 
