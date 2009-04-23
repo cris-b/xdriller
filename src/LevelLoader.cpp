@@ -4,13 +4,60 @@
 
 using namespace Ogre;
 
-LevelLoader::LevelLoader(String levelName)
+template<> LevelLoader* Ogre::Singleton<LevelLoader>::ms_Singleton = 0;
+LevelLoader* LevelLoader::getSingletonPtr(void)
 {
-    levelName += ".png";
+    return ms_Singleton;
+}
+LevelLoader& LevelLoader::getSingleton(void)
+{
+    assert( ms_Singleton );  return ( *ms_Singleton );
+}
+
+LevelLoader::LevelLoader()
+{
+
+}
+
+void LevelLoader::setLevelName(String levelName)
+{
+    this->levelName = levelName;
+    setBoardNum(0);
+
+    cf.loadFromResourceSystem("levels.cfg","General");
+
+   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+   Ogre::String secName, optName, optValue;
+
+   while (seci.hasMoreElements())
+   {
+
+       secName = seci.peekNextKey();
+       ConfigFile::SettingsMultiMap *settings = seci.getNext();
+       ConfigFile::SettingsMultiMap::iterator i;
+
+       for (i = settings->begin(); i != settings->end(); ++i)
+       {
+           optName = i->first;
+           optValue = i->second;
+
+           if(secName == levelName)
+           {
+                if(optName == "num_boards") numBoards = StringConverter::parseInt(optValue);
+           }
+       }
+   }
+
+}
+
+int LevelLoader::loadBoard()
+{
+    levelData.clear();
 
     levelImage = new Image;
 
-    levelImage->load(levelName , "General");
+    levelImage->load(levelName + StringConverter::toString(boardNum) + ".png", "General");
 
     height = levelImage->getHeight();
     width  = levelImage->getWidth();
@@ -41,6 +88,9 @@ LevelLoader::LevelLoader(String levelName)
 
         }
 
+    delete levelImage;
+
+    return true;
 }
 
 LevelLoader::~LevelLoader()

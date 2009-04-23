@@ -6,6 +6,7 @@
 
 #define CMODE_FOLLOW            0
 #define CMODE_FOLLOW_LOOK_UP    1
+#define CMODE_FOLLOW_ABOVE      2
 
 
 

@@ -12,12 +12,14 @@
 using namespace Ogre;
 
 
-Board::Board(const String&  levelName, int w, int h)
+Board::Board()
 {
 
     mSceneMgr = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" );
 
-    if(levelName == "random")
+
+
+    /*if(levelName == "random")
     {
 
         this->width = w;
@@ -38,36 +40,32 @@ Board::Board(const String&  levelName, int w, int h)
                 mBricks[j*width+i].create(n,mSceneMgr,t,v);
 
             }
-    }
-    else
-    {
-        LevelLoader *mLevel = new LevelLoader(levelName);
+    }*/
 
-        this->height = mLevel->getHeight();
-        this->width = mLevel->getWidth();
+    LevelLoader *mLevel = LevelLoader::getSingletonPtr();
 
-        mBricks = new Brick[width*height];
-        mBricksPtr = new Brick *[width*height];
+    mLevel->loadBoard();
 
-        for(int j = 0; j < this->height; j++)
-            for(int i = 0; i < this->width; i++)
-            {
-                int t = mLevel->getBrickType(j*width+i);
-                String n = "Brick" + StringConverter::toString(i) + ":" + StringConverter::toString(j);
-                Vector3 v = Vector3(i-4,-j,0);
-                mBricks[j*width+i].create(n,mSceneMgr,t,v);
-            }
+    this->height = mLevel->getHeight();
+    this->width = mLevel->getWidth();
 
-        delete mLevel;
-    }
+    mBricks = new Brick[width*height];
+    mBricksPtr = new Brick *[width*height];
 
-
-
+    for(int j = 0; j < this->height; j++)
+        for(int i = 0; i < this->width; i++)
+        {
+            int t = mLevel->getBrickType(j*width+i);
+            String n = "Brick" + StringConverter::toString(i) + ":" + StringConverter::toString(j);
+            Vector3 v = Vector3(i-4,-j,0);
+            mBricks[j*width+i].create(n,mSceneMgr,t,v);
+        }
 
 
     mSuperBrick = new SuperBrick(Vector3(0,-height,0));
 
     firstToCheck = 0;
+    points = 0;
 
 
 }
@@ -85,8 +83,12 @@ void Board::rKill(int x,int y)
 {
     int type;
 
+
+
     if(mBricksPtr[x+y*width] == NULL) return;
     if(mBricksPtr[x+y*width]->isFalling()) return;
+
+    points += 10;
 
     type = mBricksPtr[x+y*width]->getType();
 
@@ -129,9 +131,13 @@ void Board::rSetPredye(int x,int y)
 {
     int type;
 
+
+
     if(mBricksPtr[x+y*width] == NULL) return;
     if(mBricksPtr[x+y*width]->isPreDying()) return;
     type = mBricksPtr[x+y*width]->getType();
+
+    points += 5;
 
     SoundManager::getSingleton().playSound(SOUND_JOIN);
 

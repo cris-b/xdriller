@@ -6,11 +6,14 @@
 #define BSTATE_INACTIVE     0
 #define BSTATE_ACTIVE       1
 
+#define ALIGN_LEFT          0
+#define ALIGN_CENTER        1
+
 
 class MenuButton
 {
     public:
-        MenuButton(UTFString caption);
+        MenuButton(UTFString caption, int align = ALIGN_CENTER, bool hasOption = false);
         ~MenuButton();
 
         void setPosition(Vector3 pos) {mNode->setPosition(pos);}
@@ -19,17 +22,31 @@ class MenuButton
         void setDest(Real x,Real y ,Real z);
 
         void setState(int state);
+        void setColor(Ogre::ColourValue col) {text->setColor(col);}
+
+        void setOptionCaption(Ogre::String caption);
+        String getOptionCaption() {return optionText->getCaption();}
+
+
+
 
 
         void update(unsigned long lTimeElapsed);
 
     private:
 
+    int hasOption;
+
     ManualObject *frame;
     MovableText *text;
+    MovableText *optionText;
 
     SceneNode *mTextNode;
+    SceneNode *mOptionNode;
     SceneNode *mNode;
+
+    String optionCaption;
+
 
     Vector3 dest,speed;
     bool dest_reached;

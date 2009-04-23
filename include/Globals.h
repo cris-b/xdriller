@@ -9,4 +9,6 @@
 
 #define XDRILLER_VERSION_STRING "0.1"
 
+#define XDRILLER_DEBUG 0
+
 #endif

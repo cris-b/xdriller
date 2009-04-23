@@ -69,18 +69,14 @@ void SoundManager::loadMusic(std::string filename)
     mMusic = new Music(filename);
 }
 
-void SoundManager::playMusic()
+void SoundManager::playMusic(bool loop)
 {
-    mMusic->play();
+    if(loop) mMusic->play(true);
+    else mMusic->play(false);
 }
 void SoundManager::stopMusic()
 {
     mMusic->stop();
-}
-
-void SoundManager::reloadMusic(std::string filename)
-{
-    mMusic->load(filename);
 }
 
 void SoundManager::loadSounds()
@@ -92,6 +88,10 @@ void SoundManager::loadSounds()
     mSound[SOUND_SQUASH]    = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "squash.ogg");
     mSound[SOUND_RESURRECT] = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "resurrect.ogg");
     mSound[SOUND_FALLING]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "falling.ogg");
+    mSound[SOUND_MENU1]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_1.ogg");
+    mSound[SOUND_MENU2]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_2.ogg");
+    mSound[SOUND_MENU3]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_3.ogg");
+    mSound[SOUND_MENU4]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_4.ogg");
 }
 
 void SoundManager::playSound(int type)
@@ -139,16 +139,16 @@ void SoundManager::stopAllSounds()
 
 void SoundManager::setMusicVolume(int vol)
 {
-		if( vol > 128 )
+		if( vol > 100 )
 		{
-			vol = 128;
+			vol = 100;
 		}
 		if( vol < 0 )
 		{
 			vol = 0;
 		}
 
-		Mix_VolumeMusic(vol);
+		Mix_VolumeMusic(int((128.0*vol)/100.0));
 
 		musicVolume = vol;
 
@@ -157,16 +157,16 @@ void SoundManager::setMusicVolume(int vol)
 
 void SoundManager::setSoundVolume(int vol)
 	{
-		if( vol > 128 )
+		if( vol > 100 )
 		{
-			vol = 128;
+			vol = 100;
 		}
 		if( vol < 0 )
 		{
 			vol = 0;
 		}
 
-		Mix_Volume( -1, vol);
+		Mix_Volume( -1, int((128.0*vol)/100.0));
 		soundVolume = vol;
 }
 

@@ -10,17 +10,18 @@
 
 #include "MenuButton.h"
 
-
 #include <vector>
 
 
-#define NUM_MENU_BRICKS         100
+#define NUM_MENU_BRICKS         10
 
-#define MENU_PAGE_MAIN          0
-#define MENU_PAGE_OPTIONS       1
-#define MENU_PAGE_CREDITS       2
-#define MENU_PAGE_QUIT          3
-#define MENU_PAGE_GAMESELECT    4
+#define MENU_PAGE_MAIN                  0
+#define MENU_PAGE_OPTIONS               1
+#define MENU_PAGE_CREDITS               2
+#define MENU_PAGE_QUIT                  3
+#define MENU_PAGE_GAMESELECT            4
+#define MENU_PAGE_GRAPHIC_OPTIONS       5
+#define MENU_PAGE_AUDIO_OPTIONS         6
 
 class MenuState : public GameState {
 public:
@@ -56,6 +57,8 @@ private:
     Ogre::OverlayManager    *mOverlayMgr;
     Ogre::Overlay           *mOverlay;
     Ogre::OverlayContainer  *mLogoXDriller;
+    PanelOverlayElement     *mPanel;
+    TextAreaOverlayElement  *mInfoTextArea;
 
 
 
@@ -66,6 +69,8 @@ private:
     static MenuState    *mMenuState;
 
     std::vector<MenuButton*> buttons;
+
+    MenuButton *titleButton;
 
     unsigned int menuPage;
     int menuCursor;

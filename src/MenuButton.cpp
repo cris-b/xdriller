@@ -2,8 +2,9 @@
 
 int menuButtonCount = 0;
 
-MenuButton::MenuButton(UTFString caption)
+MenuButton::MenuButton(UTFString caption, int align, bool hasOption)
 {
+    this->hasOption = hasOption;
 
     String name = "MenuButton_" + StringConverter::toString(menuButtonCount);
     menuButtonCount++;
@@ -12,18 +13,39 @@ MenuButton::MenuButton(UTFString caption)
     mTextNode = mNode->createChildSceneNode();
 
 
-    text = new MovableText(name,caption);
 
+    text = new MovableText(name,caption);
 
 
     mTextNode->attachObject(text);
 
     mTextNode->scale(0.5,0.5,0.5);
 
+    if(hasOption)
+    {
+        optionText = new MovableText(name + "_option",".");
+
+        mOptionNode = mNode->createChildSceneNode();
+
+        mOptionNode->attachObject(optionText);
+
+        AxisAlignedBox aabb = optionText->GetAABB();
+
+        mOptionNode->scale(0.5,0.5,0.5);
+
+        mOptionNode->setPosition(9 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
+
+
+    }
+
+
     AxisAlignedBox aabb = text->GetAABB();
 
-    mTextNode->translate(-(aabb.getMinimum().x+aabb.getMaximum().x)/4.0,0,0);
-    //mTextNode->translate(-(aabb.getMinimum().x+aabb.getMaximum().x)/3.0,0,0);
+    if(align == ALIGN_CENTER)
+        mTextNode->setPosition(-(aabb.getMinimum().x+aabb.getMaximum().x)/4.0,0,0);
+    //else
+
+        //mTextNode->translate(-(aabb.getMinimum().x+aabb.getMaximum().x)/3.0,0,0);
 
     //LogManager::getSingleton().logMessage(StringConverter::toString(this->text->getWidth()));
 
@@ -76,12 +98,37 @@ MenuButton::MenuButton(UTFString caption)
 
 }
 
+void MenuButton::setOptionCaption(String caption)
+{
+    mOptionNode->detachObject(optionText);
+
+    delete optionText;
+
+    optionText = new MovableText("MenuButton_" + StringConverter::toString(menuButtonCount) + "_option",caption);
+
+    optionText->setColor(ColourValue(1.0,0.3,0.0));
+
+    mOptionNode->attachObject(optionText);
+
+    AxisAlignedBox aabb = optionText->GetAABB();
+
+    mOptionNode->setPosition(0,0,0);
+
+    mOptionNode->setScale(1,1,1);
+
+    mOptionNode->scale(0.5,0.5,0.5);
+
+    mOptionNode->setPosition(8 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
+
+}
+
 MenuButton::~MenuButton()
 {
 
     mTextNode->detachAllObjects();
     mNode->detachAllObjects();
     delete text;
+    if(hasOption) delete optionText;
     Root::getSingleton().getSceneManager( "ST_GENERIC" )->destroyManualObject( frame );
     mNode->removeAndDestroyAllChildren();
     mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());

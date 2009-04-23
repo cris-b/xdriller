@@ -14,8 +14,13 @@
 #define SOUND_SQUASH        4
 #define SOUND_RESURRECT     5
 #define SOUND_FALLING       6
+#define SOUND_MENU1         7
+#define SOUND_MENU2         8
+#define SOUND_MENU3         9
+#define SOUND_MENU4         10
 
-#define NUM_SOUNDS          7
+
+#define NUM_SOUNDS          11
 
 #define MAX_CHANNELS        10
 #define MAX_EQUAL_SOUNDS    3
@@ -31,9 +36,9 @@ class SoundManager : public Ogre::Singleton<SoundManager>
     void loadMusic(std::string filename);
     void loadSounds();
 
-    void playMusic();
+    void playMusic(bool loop = true);
     void stopMusic();
-    void reloadMusic(std::string filename);
+
 
     void playSound(int type);
     void stopSound(int type);

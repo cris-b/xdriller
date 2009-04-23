@@ -13,7 +13,7 @@ class Board
 {
     public:
 
-    Board(const String&  level,int width = 9, int height = 10);
+    Board();
     ~Board();
 
     Brick *mBricks;
@@ -47,6 +47,8 @@ class Board
 
     void printLog();
 
+    int getPoints() {return points;}
+
     private:
 
     SceneManager *mSceneMgr;
@@ -63,6 +65,8 @@ class Board
     void _checkNum (int x, int y, int type,int &num);
 
     void clearDone();
+
+    int points;
 
 
 };

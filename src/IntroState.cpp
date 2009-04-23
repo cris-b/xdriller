@@ -96,6 +96,9 @@ void IntroState::enter( void ) {
     mOverlay = mOverlayMgr->create("IntroStateOverlay");
     mOverlay->add2D(mLogoFSPanel);
 
+    SoundManager::getSingleton().loadMusic("intro_music.ogg");
+    SoundManager::getSingleton().playMusic(false);
+
 
 }
 
@@ -189,8 +192,10 @@ void IntroState::keyPressed( const OIS::KeyEvent &e ) {
 }
 
 void IntroState::keyReleased( const OIS::KeyEvent &e ) {
-    if( e.key == OIS::KC_ESCAPE ) {
-        this->requestShutdown();
+    if( e.key == OIS::KC_ESCAPE )
+    {
+        //this->requestShutdown();
+        this->changeState( MenuState::getSingletonPtr() );
     }
     else if( e.key == OIS::KC_RETURN )
     {

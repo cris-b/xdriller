@@ -13,7 +13,7 @@ class Music
     Music(std::string filename = "");
     ~Music();
 
-    void play();
+    void play(bool loop = false);
     void stop();
     void load(std::string filename);
 

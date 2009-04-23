@@ -22,6 +22,8 @@ Music::~Music()
 void Music::load(std::string filename)
 {
 
+    Mix_HaltMusic();
+
     Ogre::LogManager::getSingleton().logMessage("Loading music " + Ogre::String(filename));
     m_Music = Mix_LoadMUS(filename.c_str());
     if(m_Music == NULL)
@@ -32,17 +34,18 @@ void Music::load(std::string filename)
     }
 }
 
-void Music::play()
+void Music::play(bool loop)
 {
 
 
-    Mix_FadeInMusic(m_Music, -1, 100);
+    if(loop) Mix_FadeInMusic(m_Music, -1, 100);
+    else Mix_FadeInMusic(m_Music, 0, 100);
 
 }
 void Music::stop()
 {
     if(m_Music != NULL)
     {
-        Mix_FadeOutMusic(100);
+        Mix_HaltMusic();
     }
 }

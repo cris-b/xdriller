@@ -54,7 +54,18 @@ void Cam::update( unsigned long lTimeElapsed )
             9);
 
     }
+    else if(camMode == CMODE_FOLLOW_ABOVE)
+    {
 
+        limitPitch(-80,80);
+
+        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
+
+        if(mCamNode->getPosition().z < 200)
+            mCamNode->setPosition(0,mCamNode->getPosition().y+
+                (parentNode->getPosition().y-mCamNode->getPosition().y)*(lTimeElapsed/1000.0),
+                mCamNode->getPosition().z-(8+parentNode->getPosition().z-mCamNode->getPosition().z)*(lTimeElapsed/5000.0));
+    }
 
     //mCamNode->setPosition(parentNode->getPosition());
     //mCamNode->setOrientation(Quaternion(Degree(0),Vector3::UNIT_Y));

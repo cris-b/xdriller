@@ -20,6 +20,7 @@ Player::Player(Board *mBoard)
     mSceneMgr = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" );
 
     alive = true;
+    finished = false;
     air = 1;
     idleTime = 0;
     fallTime = 1000;
@@ -28,6 +29,8 @@ Player::Player(Board *mBoard)
     lastDepth = 0;
     orientation = LOOK_DOWN;
     scale = 1;
+    endFloor = false;
+    points = 0;
 
     Vector3 startPos(0,2,0);
     speed = Vector3(0,0,0);
@@ -120,8 +123,6 @@ void Player::update(unsigned long lTimeElapsed)
 
     if(alive)
     {
-
-
         //Orienta al amigo
 
         mNode->resetOrientation();
@@ -160,6 +161,10 @@ void Player::update(unsigned long lTimeElapsed)
             }
         }
         mNode->rotate(Quaternion(Degree(orientationAngle),Vector3::UNIT_Z));
+    }
+
+    if(alive && !finished)
+    {
 
         //Friccion horizontal
 
@@ -299,7 +304,7 @@ void Player::update(unsigned long lTimeElapsed)
             fallTime+=lTimeElapsed;
         }
     }
-    else //alive == false
+    else if (!alive && !finished)
     {
         //gravedad
 
@@ -335,8 +340,23 @@ void Player::update(unsigned long lTimeElapsed)
             _falling = true;
 
         };
+    }
+    //else //alive && finished
+    //{
+    //}
 
-
+    if(endFloor)
+    {
+        if(mNode->getPosition().y < endFloorPosY+1)
+        {
+            mNode->setPosition(mNode->getPosition().x,endFloorPosY+1,mNode->getPosition().z);
+            finished = true;
+            speed.x = 0;
+            speed.y = 0;
+            _falling=false;
+            fallTime=0;
+            orientation = LOOK_DOWN;
+        }
     }
 
     if(scale < 1)
@@ -442,16 +462,19 @@ void Player::update(unsigned long lTimeElapsed)
 
     mAnimationState->addTime(0.001*lTimeElapsed);
 
+    if(!finished)
+    {
+        lastDepth = depth;
+        depth = (int)-mNode->getPosition().y+1;
+        if(depth < 0) depth = 0;
 
-    lastDepth = depth;
-    depth = (int)-mNode->getPosition().y+1;
-    if(depth < 0) depth = 0;
-
-    setAir(air-lTimeElapsed/AIR_FULL_USE_TIME);
+        setAir(air-lTimeElapsed/AIR_FULL_USE_TIME);
+    }
 
     if(air <= 0 && alive)
     {
         alive=false;
+        lives --;
 
         speed.x = 0;
 
@@ -470,7 +493,7 @@ void Player::update(unsigned long lTimeElapsed)
 
 void Player::moveLeft()
 {
-    if(alive)
+    if(alive && !finished)
     {
         _moveLeft = true;
         orientation = LOOK_LEFT;
@@ -480,7 +503,7 @@ void Player::moveLeft()
 
 void Player::moveRight()
 {
-    if(alive)
+    if(alive && !finished)
     {
     _moveRight = true;
     orientation = LOOK_RIGHT;
@@ -490,7 +513,7 @@ void Player::moveRight()
 
 void Player::moveUp()
 {
-    if(alive)
+    if(alive && !finished)
     {
     orientation = LOOK_UP;
     mEnt->setMaterialName("tux_look_up");
@@ -499,7 +522,7 @@ void Player::moveUp()
 
 void Player::moveDown()
 {
-    if(alive)
+    if(alive && !finished)
     {
     orientation = LOOK_DOWN;
     mEnt->setMaterialName("tux");
@@ -508,7 +531,7 @@ void Player::moveDown()
 
 void  Player::breakBlock()
 {
-    if(alive)
+    if(alive && !finished)
     {
         if(orientation==LOOK_LEFT)
         {
@@ -558,7 +581,11 @@ void  Player::breakBlock()
 
 void Player::setAir(Real air)
 {
-    if(air > this->air) plus20Particle->getEmitter(0)->setEnabled(true);
+    if(air > this->air)
+    {
+        plus20Particle->getEmitter(0)->setEnabled(true);
+        points++;
+    }
 
     this->air = air;
 
@@ -570,6 +597,11 @@ void Player::setAir(Real air)
 
 void Player::resurrect()
 {
+    if(lives<=0)
+    {
+        finished = true;
+        return;
+    }
     alive = true;
     mScaleNode->setScale(1,1,1);
     mScaleNode->setPosition(0,0,0);
@@ -591,4 +623,10 @@ void Player::resurrect()
     mAnimationState->setEnabled(true);
     mAnimationState->setTimePosition(0);
 
+}
+
+void Player::setEndFloor()
+{
+    endFloor = true;
+    endFloorPosY = mNode->getPosition().y - 10.0;
 }

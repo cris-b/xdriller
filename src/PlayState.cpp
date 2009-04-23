@@ -3,13 +3,14 @@
 #include "DotScene.h"
 #include "Tools.h"
 #include "SoundManager.h"
+#include "LevelLoader.h"
 
 
 
 #include <string>
 #include <vector>
 
-#define HEARTS_SCALE 1.5
+#define HEARTS_SCALE 1.0
 
 
 
@@ -28,6 +29,13 @@ void PlayState::enter( void ) {
     tiempoBala = false;
     nextFramePause = false;
     depthAccumulation = 0;
+    depth = 0;
+    boardNum = 0;
+    points = 0;
+    pointsAccumulation = 0;
+    gameTime = 0;
+    gameSeconds = 0;
+    finished = false;
 
     /*CDotScene *dotScene;
     dotScene = new CDotScene();
@@ -74,7 +82,7 @@ void PlayState::enter( void ) {
     backgroundSceneNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
 
-    mBoard = new Board("test");
+    mBoard = new Board();
 
     mPlayer = new Player(mBoard);
 
@@ -85,7 +93,7 @@ void PlayState::enter( void ) {
     //prueba de sonido
 
     SoundManager::getSingleton().loadMusic("music.ogg");
-    SoundManager::getSingleton().playMusic();
+    SoundManager::getSingleton().playMusic(true);
 
      //LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
 
@@ -102,6 +110,20 @@ void PlayState::enter( void ) {
     mArrow->setDimensions(0.075,0.1);
     mArrow->setMaterialName("arrow");
 
+    mScore =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "Score"));
+    mScore->setMetricsMode(Ogre::GMM_RELATIVE);
+    mScore->setPosition(0.01,0.01);
+    mScore->setDimensions(0.0375,0.05);
+    mScore->setMaterialName("score");
+
+    mClock =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "Clock"));
+    mClock->setMetricsMode(Ogre::GMM_RELATIVE);
+    mClock->setPosition(0.4,0.01);
+    mClock->setDimensions(0.0375,0.05);
+    mClock->setMaterialName("clock");
+
 
 
 
@@ -117,6 +139,28 @@ void PlayState::enter( void ) {
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,1,1));
     mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
+
+    mTextAreaPoints = static_cast<TextAreaOverlayElement*>(
+        mOverlayMgr->createOverlayElement("TextArea", "TextAreaPoints"));
+    mTextAreaPoints->setMetricsMode(Ogre::GMM_RELATIVE);
+    mTextAreaPoints->setPosition(0.05, 0.0);
+    mTextAreaPoints->setDimensions(0.2, 0.1);
+    mTextAreaPoints->setCaption("x0");
+    mTextAreaPoints->setCharHeight(0.07);
+    mTextAreaPoints->setFontName("CoolFont");
+    mTextAreaPoints->setColour(ColourValue(1,1,1));
+    mTextAreaPoints->setAlignment(TextAreaOverlayElement::Left);
+
+    mTextAreaClock = static_cast<TextAreaOverlayElement*>(
+        mOverlayMgr->createOverlayElement("TextArea", "TextAreaClock"));
+    mTextAreaClock->setMetricsMode(Ogre::GMM_RELATIVE);
+    mTextAreaClock->setPosition(0.45, 0.0);
+    mTextAreaClock->setDimensions(0.2, 0.1);
+    mTextAreaClock->setCaption("00:00");
+    mTextAreaClock->setCharHeight(0.07);
+    mTextAreaClock->setFontName("CoolFont");
+    mTextAreaClock->setColour(ColourValue(1,1,1));
+    mTextAreaClock->setAlignment(TextAreaOverlayElement::Left);
 
     mLivesPanel =  static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "LivesPanel"));
@@ -147,6 +191,8 @@ void PlayState::enter( void ) {
     mOverlay = mOverlayMgr->create("PlayStateOverlay");
 
     mOverlay->add2D(mArrow);
+    mOverlay->add2D(mScore);
+    mOverlay->add2D(mClock);
     mOverlay->add2D(mPanel);
     mOverlay->add2D(mLivesPanel);
     mOverlay->add2D(mBottleAir);
@@ -155,7 +201,8 @@ void PlayState::enter( void ) {
 
 
     mPanel->addChild(mTextAreaDepth);
-
+    mPanel->addChild(mTextAreaPoints);
+    mPanel->addChild(mTextAreaClock);
 
 
     // Show the overlay
@@ -169,6 +216,10 @@ void PlayState::exit( void ) {
     delete mPlayer;
 
     mOverlayMgr->destroyAllOverlayElements();
+
+    mTextAreaLives = NULL;
+    mTextAreaTotal = NULL;
+    mSkull         = NULL;
 
     mOverlayMgr->destroy(mOverlay);
 
@@ -198,41 +249,53 @@ void PlayState::update( unsigned long lTimeElapsed )
     if(lTimeElapsed <= 0) return;
     if(lTimeElapsed > 100) lTimeElapsed = 100;
 
+    if(!finished && mPlayer->getFinished())
+    {
+        finished = true;
+    }
+
     if(tiempoBala) lTimeElapsed = 1;
 
-
+    gameTime += lTimeElapsed;
 
     mInputDevice->capture();
 
     mBoard->update(lTimeElapsed);
 
-	if (mInputDevice->isKeyDown(OIS::KC_F1))
-	{
+    if(!finished)
+    {
+        if (mInputDevice->isKeyDown(OIS::KC_F1))
+        {
 
-	    if(tiempoBala) tiempoBala = false;
-	    else tiempoBala = true;
-	}
+            if(tiempoBala) tiempoBala = false;
+            else tiempoBala = true;
+        }
 
-	if (mInputDevice->isKeyDown(OIS::KC_LEFT))
-	{
+        if (mInputDevice->isKeyDown(OIS::KC_LEFT))
+        {
 
-	    mPlayer->moveLeft();
-	}
-	else if (mInputDevice->isKeyDown(OIS::KC_RIGHT))
-	{
+            mPlayer->moveLeft();
+        }
+        else if (mInputDevice->isKeyDown(OIS::KC_RIGHT))
+        {
 
-	    mPlayer->moveRight();
-	}
-	else if (mInputDevice->isKeyDown(OIS::KC_UP))
-	{
-	    mCam->setMode(CMODE_FOLLOW_LOOK_UP);
-	    mPlayer->moveUp();
-	}
-	else if (mInputDevice->isKeyDown(OIS::KC_DOWN))
-	{
-	    mCam->setMode(CMODE_FOLLOW);
-	    mPlayer->moveDown();
-	}
+            mPlayer->moveRight();
+        }
+        else if (mInputDevice->isKeyDown(OIS::KC_UP))
+        {
+            mCam->setMode(CMODE_FOLLOW_LOOK_UP);
+            mPlayer->moveUp();
+        }
+        else if (mInputDevice->isKeyDown(OIS::KC_DOWN))
+        {
+            mCam->setMode(CMODE_FOLLOW);
+            mPlayer->moveDown();
+        }
+    }
+    else
+    {
+       mCam->setMode(CMODE_FOLLOW_ABOVE);
+    }
 
     mPlayer->update(lTimeElapsed);
 
@@ -253,10 +316,12 @@ void PlayState::update( unsigned long lTimeElapsed )
 
             mBoard->killUpwards(mPlayer->getPosition());
             mPlayer->resurrect();
-
-            mLivesPanel->setPosition(0.98-(mPlayer->getLives())*0.0375*HEARTS_SCALE, 0.02);
-            mLivesPanel->setDimensions(0.0375*HEARTS_SCALE*mPlayer->getLives(), 0.05*HEARTS_SCALE);
-            mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
+            if(mPlayer->isAlive())
+            {
+                mLivesPanel->setPosition(0.98-(mPlayer->getLives())*0.0375*HEARTS_SCALE, 0.02);
+                mLivesPanel->setDimensions(0.0375*HEARTS_SCALE*mPlayer->getLives(), 0.05*HEARTS_SCALE);
+                mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
+            }
 
         }
     }
@@ -271,26 +336,42 @@ void PlayState::update( unsigned long lTimeElapsed )
     //    + StringConverter::toString(mPlayer->getPosition().x);
     //s = "FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS());
 
-    mBottleAir->setPosition(0.9,0.72+0.25*(1-mPlayer->getAir()*0.8));
-    mBottleAir->setDimensions(0.1,0.25*(mPlayer->getAir()*0.8));
-    mBottleAir->setUV(0,1-mPlayer->getAir()*0.8,1,1);
 
 
-    if(mPlayer->getLastDepth() != mPlayer->getDepth())
+    if(!finished)
     {
+        mBottleAir->setPosition(0.9,0.72+0.25*(1-mPlayer->getAir()*0.8));
+        mBottleAir->setDimensions(0.1,0.25*(mPlayer->getAir()*0.8));
+        mBottleAir->setUV(0,1-mPlayer->getAir()*0.8,1,1);
 
-        mTextAreaDepth->setCaption( StringConverter::toString(depthAccumulation+mPlayer->getDepth()));
+        if(mPlayer->getLastDepth() != mPlayer->getDepth())
+        {
+            depth = depthAccumulation+mPlayer->getDepth();
+            mTextAreaDepth->setCaption( StringConverter::toString(depth));
+        }
+
+        if(points < pointsAccumulation + mPlayer->getPoints()*5 + mBoard->getPoints())
+        {
+            points = pointsAccumulation + mPlayer->getPoints()*5 + mBoard->getPoints();
+            mTextAreaPoints->setCaption( String("x") + StringConverter::toString(points) );
+        }
+        if(gameSeconds != int(gameTime / 1000))
+        {
+            gameSeconds = int(gameTime / 1000);
+
+            int minutes = int(gameSeconds/60);
+            int seconds = gameSeconds - minutes*60;
+
+            if(minutes < 10 && seconds < 10)
+                mTextAreaClock->setCaption( String("0") + StringConverter::toString(minutes) + ":0" +  StringConverter::toString(seconds));
+            else if(minutes < 10)
+                mTextAreaClock->setCaption( String("0") + StringConverter::toString(minutes) + ":" +  StringConverter::toString(seconds));
+            else if(seconds < 10)
+                mTextAreaClock->setCaption(StringConverter::toString(minutes) + ":0" +  StringConverter::toString(seconds));
+            else mTextAreaClock->setCaption( StringConverter::toString(minutes) + ":" +  StringConverter::toString(seconds));
+
+        }
     }
-    //mTextAreaDepth->setCaption( StringConverter::toString(mPlayer->getAir()));
-    /*mTextAreaDepth->setCaption(
-            StringConverter::toString(SoundManager::getSingleton().channelMap[0]+1) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[1]+1) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[2]+1) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[3]+1) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[4]+1) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[5]+1) +
-            StringConverter::toString(SoundManager::getSingleton().channelMap[6]+1)
-        );*/
 
     if(nextFramePause == true)
     {
@@ -302,25 +383,238 @@ void PlayState::update( unsigned long lTimeElapsed )
         nextBoard();
     }
 
+    static float count = 0;
+
+    if(finished)
+    {
+
+
+        const float countTime = 1000;
+
+
+        if(mTextAreaLives == NULL && mPlayer->isAlive())
+        {
+
+            mOverlayMgr->destroyAllOverlayElements();
+
+            mPanel = static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
+            mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
+            mPanel->setPosition(0, 0);
+            mPanel->setDimensions(1, 1);
+
+            mArrow =  static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "Arrow"));
+            mArrow->setMetricsMode(Ogre::GMM_RELATIVE);
+            mArrow->setPosition(0.1,0.05);
+            mArrow->setDimensions(0.0375,0.05);
+            mArrow->setMaterialName("arrow");
+
+            mScore =  static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "Score"));
+            mScore->setMetricsMode(Ogre::GMM_RELATIVE);
+            mScore->setPosition(0.1,0.15);
+            mScore->setDimensions(0.0375,0.05);
+            mScore->setMaterialName("score");
+
+            mClock =  static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "Clock"));
+            mClock->setMetricsMode(Ogre::GMM_RELATIVE);
+            mClock->setPosition(0.1,0.25);
+            mClock->setDimensions(0.0375,0.05);
+            mClock->setMaterialName("clock");
+
+            mLivesPanel =  static_cast<PanelOverlayElement*>(
+            mOverlayMgr->createOverlayElement("Panel", "LivesPanel"));
+            mLivesPanel->setMetricsMode(Ogre::GMM_RELATIVE);
+            mLivesPanel->setPosition(0.1,0.35);
+            mLivesPanel->setDimensions(0.0375,0.05);
+            mLivesPanel->setMaterialName("heart");
+
+            mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
+                mOverlayMgr->createOverlayElement("TextArea", "TextAreaDepth"));
+            mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
+            mTextAreaDepth->setPosition(0.15, 0.035);
+            mTextAreaDepth->setDimensions(0.1, 0.1);
+            mTextAreaDepth->setCaption("x = ");
+            mTextAreaDepth->setCharHeight(0.07);
+            mTextAreaDepth->setFontName("CoolFont");
+            mTextAreaDepth->setColour(ColourValue(1,1,1));
+            mTextAreaDepth->setAlignment(TextAreaOverlayElement::Left);
+
+            mTextAreaPoints = static_cast<TextAreaOverlayElement*>(
+                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaPoints"));
+            mTextAreaPoints->setMetricsMode(Ogre::GMM_RELATIVE);
+            mTextAreaPoints->setPosition(0.15, 0.135);
+            mTextAreaPoints->setDimensions(0.1, 0.1);
+            mTextAreaPoints->setCaption("x = ");
+            mTextAreaPoints->setCharHeight(0.07);
+            mTextAreaPoints->setFontName("CoolFont");
+            mTextAreaPoints->setColour(ColourValue(1,1,1));
+            mTextAreaPoints->setAlignment(TextAreaOverlayElement::Left);
+
+            mTextAreaClock = static_cast<TextAreaOverlayElement*>(
+                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaClock"));
+            mTextAreaClock->setMetricsMode(Ogre::GMM_RELATIVE);
+            mTextAreaClock->setPosition(0.15, 0.235);
+            mTextAreaClock->setDimensions(0.1, 0.1);
+            mTextAreaClock->setCaption("x = ");
+            mTextAreaClock->setCharHeight(0.07);
+            mTextAreaClock->setFontName("CoolFont");
+            mTextAreaClock->setColour(ColourValue(1,1,1));
+            mTextAreaClock->setAlignment(TextAreaOverlayElement::Left);
+
+            mTextAreaLives = static_cast<TextAreaOverlayElement*>(
+                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaLives"));
+            mTextAreaLives->setMetricsMode(Ogre::GMM_RELATIVE);
+            mTextAreaLives->setPosition(0.15, 0.335);
+            mTextAreaLives->setDimensions(0.1, 0.1);
+            mTextAreaLives->setCaption("x = ");
+            mTextAreaLives->setCharHeight(0.07);
+            mTextAreaLives->setFontName("CoolFont");
+            mTextAreaLives->setColour(ColourValue(1,1,1));
+            mTextAreaLives->setAlignment(TextAreaOverlayElement::Left);
+
+
+
+            mOverlay->add2D(mArrow);
+            mOverlay->add2D(mScore);
+            mOverlay->add2D(mClock);
+            mOverlay->add2D(mPanel);
+            mOverlay->add2D(mLivesPanel);
+
+            mPanel->addChild(mTextAreaDepth);
+            mPanel->addChild(mTextAreaPoints);
+            mPanel->addChild(mTextAreaClock);
+            mPanel->addChild(mTextAreaLives);
+
+        }
+        else if(mSkull == NULL && !mPlayer->isAlive())
+        {
+            mOverlayMgr->destroyAllOverlayElements();
+
+            mPanel = static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
+            mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
+            mPanel->setPosition(0, 0);
+            mPanel->setDimensions(1, 1);
+
+            mSkull =  static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "Arrow"));
+            mSkull->setMetricsMode(Ogre::GMM_RELATIVE);
+            mSkull->setPosition(0.425,0.2);
+            mSkull->setDimensions(0.150,0.2);
+            mSkull->setMaterialName("skull");
+
+            mTextAreaTotal = static_cast<TextAreaOverlayElement*>(
+                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaTotal"));
+            mTextAreaTotal->setMetricsMode(Ogre::GMM_RELATIVE);
+            mTextAreaTotal->setPosition(0.5, 0.45);
+            mTextAreaTotal->setDimensions(1.0, 0.1);
+            mTextAreaTotal->setCaption("Press ESC");
+            mTextAreaTotal->setCharHeight(0.07);
+            mTextAreaTotal->setFontName("CoolFont");
+            mTextAreaTotal->setColour(ColourValue(1,1,1));
+            mTextAreaTotal->setAlignment(TextAreaOverlayElement::Center);
+
+            mPanel->addChild(mTextAreaTotal);
+            mOverlay->add2D(mPanel);
+
+            mOverlay->add2D(mSkull);
+
+
+
+
+
+
+        }
+
+        if(count<countTime && mPlayer->isAlive())
+        {
+
+            count += lTimeElapsed;
+            if(count>countTime) count = countTime;
+
+            mTextAreaDepth->setCaption(String("+ ") + StringConverter::toString((int)(depth*(count/countTime))));
+            mTextAreaPoints->setCaption(String("+ ") + StringConverter::toString((int)(points*(count/countTime))));
+            mTextAreaClock->setCaption(String("- ") + StringConverter::toString((int)(gameSeconds*(count/countTime))));
+            mTextAreaLives->setCaption(String("x ") + StringConverter::toString((int)(mPlayer->getLives()*(count/countTime))));
+
+
+        }
+        else if (mPlayer->isAlive())
+        {
+
+            if(mTextAreaTotal == NULL)
+            {
+                int total = (depth + points - gameSeconds) * mPlayer->getLives();
+
+                mTextAreaTotal = static_cast<TextAreaOverlayElement*>(
+                    mOverlayMgr->createOverlayElement("TextArea", "mTextAreaTotal"));
+                mTextAreaTotal->setMetricsMode(Ogre::GMM_RELATIVE);
+                mTextAreaTotal->setPosition(0.15, 0.435);
+                mTextAreaTotal->setDimensions(0.1, 0.1);
+                mTextAreaTotal->setCaption("= " + StringConverter::toString(total) + "");
+                mTextAreaTotal->setCharHeight(0.07);
+                mTextAreaTotal->setFontName("CoolFont");
+                mTextAreaTotal->setColour(ColourValue(1,1,1));
+                mTextAreaTotal->setAlignment(TextAreaOverlayElement::Left);
+
+
+                mPanel->addChild(mTextAreaTotal);
+            }
+
+
+        }
+
+
+
+
+    }
+    else count = 0;
+
 }
 
 void PlayState::nextBoard()
 {
-    Real distanceUp = -mPlayer->getPosition().y + 10;
 
-    depthAccumulation = depthAccumulation+mPlayer->getDepth();
+    boardNum ++;
 
-    delete mBoard;
-    mBoard = new Board("test");
+    if(boardNum<LevelLoader::getSingleton().getNumBoards())
+    {
+        LevelLoader::getSingleton().setBoardNum(boardNum);
 
-    mPlayer->setBoard(mBoard);
+        Real distanceUp = -mPlayer->getPosition().y + 10;
 
-    mPlayer->setPosition(mPlayer->getPosition().x,mPlayer->getPosition().y + distanceUp,mPlayer->getPosition().z);
-    mCam->setPosition(0,mCam->getPosition().y + distanceUp,9);
-    mCam->setParentPos(mPlayer->getPosition());
-    mCam->update(0);
+        depthAccumulation += depth;
 
-    backgroundSceneNode->detachObject(backgroundSceneEnt);
+        pointsAccumulation += points;
+
+        delete mBoard;
+        mBoard = new Board();
+        mPlayer->setBoard(mBoard);
+
+        mPlayer->setPosition(mPlayer->getPosition().x,mPlayer->getPosition().y + distanceUp,mPlayer->getPosition().z);
+        mCam->setPosition(0,mCam->getPosition().y + distanceUp,9);
+        mCam->setParentPos(mPlayer->getPosition());
+        mCam->update(0);
+    }
+    else
+    {
+
+        if(!mSceneMgr->hasSceneNode("EndFloor"))
+        {
+            Entity *endFloorEnt = mSceneMgr->createEntity("EndFloor", "endsupercube.mesh");
+            SceneNode *endFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "EndFloor" , Vector3(0,mPlayer->getPosition().y-10,0));
+            endFloorNode->attachObject(endFloorEnt);
+
+            mPlayer->setEndFloor();
+
+        }
+
+    }
+
+    if(boardNum == 1) backgroundSceneNode->detachObject(backgroundSceneEnt);
 
 
 };
@@ -342,7 +636,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
 
         mBoard->killUpwards(mPlayer->getPosition());
     }
-    if ( e.key == OIS::KC_0)
+    /*if ( e.key == OIS::KC_0)
     {
         mBoard->printLog();
     }
@@ -350,26 +644,19 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
     if ( e.key == OIS::KC_R)
     {
         delete mBoard;
-        mBoard = new Board("random",9,10);
+        mBoard = new Board();
 
         delete mPlayer;
         mPlayer = new Player(mBoard);
     }
-    if ( e.key == OIS::KC_T)
-    {
-        delete mBoard;
-        mBoard = new Board("random",9,200);
 
-        delete mPlayer;
-        mPlayer = new Player(mBoard);
-    }
     if ( e.key == OIS::KC_I)
     {
         //LogManager::getSingleton().logMessage(StringConverter::toString(GpuProgramManager::getSingleton().getSupportedSyntax()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getTriangleCount()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getBatchCount()));
-    }
+    }*/
 }
 
 void PlayState::keyReleased( const OIS::KeyEvent &e ) {
@@ -382,7 +669,7 @@ void PlayState::keyReleased( const OIS::KeyEvent &e ) {
         GameManager::getSingletonPtr()->screenshotRenderTexture->addViewport(mCamera);
         GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setClearEveryFrame(true);
         GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setBackgroundColour(mViewport->getBackgroundColour());
-        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(true);
+        GameManager::getSingletonPtr()->screenshotRenderTexture->getViewport(0)->setOverlaysEnabled(false);
         GameManager::getSingletonPtr()->screenshotRenderTexture->setAutoUpdated(false);
         GameManager::getSingletonPtr()->screenshotRenderTexture->update();
 

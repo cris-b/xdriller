@@ -63,16 +63,32 @@ private:
     Overlay                 *mOverlay;
     PanelOverlayElement     *mPanel;
     TextAreaOverlayElement  *mTextAreaDepth;
+    TextAreaOverlayElement  *mTextAreaPoints;
+    TextAreaOverlayElement  *mTextAreaClock;
+    TextAreaOverlayElement  *mTextAreaLives;
+    TextAreaOverlayElement  *mTextAreaTotal;
     PanelOverlayElement     *mArrow;
+    PanelOverlayElement     *mSkull;
+    PanelOverlayElement     *mScore;
+    PanelOverlayElement     *mClock;
     PanelOverlayElement     *mLivesPanel;
     PanelOverlayElement     *mBottle;
     PanelOverlayElement     *mBottleAir;
 
 
+    int boardNum;
     bool tiempoBala;
     bool nextFramePause;
     int depthAccumulation;
+    int depth;
+    int pointsAccumulation;
+    int points;
 
+    long int gameTime;
+
+    long int gameSeconds;
+
+    int finished;
 
 
     OIS::Keyboard        *mInputDevice;

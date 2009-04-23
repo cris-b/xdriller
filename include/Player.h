@@ -46,8 +46,11 @@ class Player
     int getDepth() {return depth;}
     int getLastDepth() {return lastDepth;}
     void resurrect();
+    int getPoints() { return points; }
+    bool getFinished() {return finished;}
 
     void setBoard(Board *board) {mBoard = board;};
+    void setEndFloor();
 
     int orientation;
 
@@ -61,6 +64,7 @@ class Player
     Real idleTime;
     int lives;
     int depth;
+    int points;
     int lastDepth;
     Real scale;
 
@@ -74,6 +78,10 @@ class Player
     int fallTime;
 
     bool alive;
+    bool finished;
+
+    bool endFloor;
+    Real endFloorPosY;
 
 	Entity *mEnt;
 	SceneNode *mNode;

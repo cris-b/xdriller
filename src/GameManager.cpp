@@ -24,6 +24,7 @@
 
 #include "Globals.h"
 
+#include "LevelLoader.h"
 
 
 using namespace Ogre;
@@ -72,6 +73,8 @@ GameManager::~GameManager( void ) {
         mMenuState = 0;
     }
 
+    ConfigManager::getSingleton().save();
+
     LogManager::getSingleton().logMessage("Everage FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS()));
 
     if( mRoot ) {
@@ -83,16 +86,21 @@ GameManager::~GameManager( void ) {
 void GameManager::startGame( GameState *gameState )
 {
 
+
     #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
     configPath = ".";
+    String defaultMediaPath = ".";
     #else  //Linux, etc...
     configPath = String(getenv("HOME")) + "/.config/xdriller";
+    String defaultMediaPath = "/usr/share/games/xdriller";
     #endif
 
     if(fileExists("resources.cfg"))
     {
         configPath = ".";
     }
+
+
 
     new LogManager;
     LogManager::getSingleton().createLog(configPath + "/xdriller.log");
@@ -109,30 +117,67 @@ void GameManager::startGame( GameState *gameState )
     {
         //std::cout << "Copying default config file: plugins.cfg" << endl;
         LogManager::getSingleton().logMessage("Copying default config file: plugins.cfg");
-        copyFile("default_config/plugins.cfg",configPath + "/plugins.cfg");
-    }
-    if(!fileExists(configPath + "/ogre.cfg"))
-    {
-        //std::cout << "Copying default config file: ogre.cfg" << endl;
-        LogManager::getSingleton().logMessage("Copying default config file: ogre.cfg");
-        copyFile("default_config/ogre.cfg",configPath + "/ogre.cfg");
+        copyFile(defaultMediaPath + "/default_config/plugins.cfg",configPath + "/plugins.cfg");
     }
     if(!fileExists(configPath + "/resources.cfg"))
     {
         //std::cout << "Copying default config file: resources.cfg" << endl;
         LogManager::getSingleton().logMessage("Copying default config file: resources.cfg");
-        copyFile("default_config/resources.cfg",configPath + "/resources.cfg");
+        copyFile(defaultMediaPath + "/default_config/resources.cfg",configPath + "/resources.cfg");
     }
     if(!fileExists(configPath + "/config.cfg"))
     {
         //std::cout << "Copying default config file: config.cfg" << endl;
         LogManager::getSingleton().logMessage("Copying default config file: config.cfg");
-        copyFile("default_config/config.cfg",configPath + "/config.cfg");
+        copyFile(defaultMediaPath + "/default_config/config.cfg",configPath + "/config.cfg");
     }
 
 
 
-    mRoot = new Root(configPath + "/plugins.cfg", configPath + "/ogre.cfg");
+
+
+
+    new ConfigManager(configPath + "/config.cfg");
+    if (!ConfigManager::getSingleton().load())
+    {
+        LogManager::getSingleton().logMessage("Error: could not load config.cfg");
+    }
+
+    mRoot = new Root(configPath + "/plugins.cfg", "", "");
+
+    {
+        Ogre::NameValuePairList opts;
+        opts.clear();
+        std::string val;
+        Ogre::RenderSystemList *renderSystems = NULL;
+        Ogre::RenderSystemList::iterator r_it;
+
+        val = ConfigManager::getSingleton().getString("render_system");
+        renderSystems = mRoot->getAvailableRenderers();
+
+        RenderSystem *tmpRenderSystem = 0;
+
+        bool renderSystemFound = false;
+        for (r_it=renderSystems->begin(); r_it!=renderSystems->end(); r_it++) {
+            tmpRenderSystem = *r_it;
+            std::string rName(tmpRenderSystem->getName());
+
+            if ((int) rName.find(val) >= 0) {
+                mRoot->setRenderSystem(*r_it);
+                renderSystemFound = true;
+                break;
+            }
+        }
+
+        if (!renderSystemFound) {
+            LogManager::getSingleton().logMessage("Error: Specified render system (" + val + ") not found");
+        }
+
+        tmpRenderSystem->setConfigOption("Full Screen",ConfigManager::getSingleton().getString("fullscreen"));
+        tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
+        tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
+
+    }
 
     //LogManager::getSingleton().setLogDetail(LL_LOW);
 
@@ -177,10 +222,8 @@ void GameManager::startGame( GameState *gameState )
     //MaterialPtr material = MaterialManager::getSingleton().create("ScreenShot", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     MaterialPtr material = MaterialManager::getSingleton().getByName("ScreenShot");
 
-    //Ogre::Technique *technique = material->createTechnique();
-    //technique->createPass();
-    //material->getTechnique(0)->getPass(0)->setLightingEnabled(false);
-    //material->getTechnique(0)->getPass(0)->createTextureUnitState("ScreenShot_texture");
+
+    new LevelLoader();
 
 
     // Change to first state
@@ -218,16 +261,14 @@ void GameManager::startGame( GameState *gameState )
 
 bool GameManager::configureGame( void ) {
     // Load config settings from ogre.cfg
-    if( !mRoot->restoreConfig() ) {
+    //if( !mRoot->restoreConfig() ) {
         // If there is no config file, show the configuration dialog
-        if( !mRoot->showConfigDialog() ) {
-            return false;
-        }
-    }
+        //if( !mRoot->showConfigDialog() ) {
+        //    return false;
+        //}
+    //}
 
-    new ConfigManager(configPath + "/config.cfg");
 
-    ConfigManager::getSingleton().load();
 
     /*ConfigManager::getSingleton().setValue("audio_rate","44100");
     ConfigManager::getSingleton().setValue("audio_channels","2");
@@ -238,7 +279,7 @@ bool GameManager::configureGame( void ) {
     ConfigManager::getSingleton().save();*/
 
     // Initialise and create a default rendering window
-    mRenderWindow = mRoot->initialise( true, "XDriller" );
+    mRenderWindow = mRoot->initialise( true, "Xdriller v" + String(XDRILLER_VERSION_STRING) );
 
     // Initialise resources
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();

@@ -9,26 +9,24 @@
 #include <map>
 
 
-using namespace std;
-using namespace Ogre;
 
-typedef std::map<string,string> ConfMap;
+typedef std::map<std::string,std::string> ConfMap;
 
 class ConfigManager : public Ogre::Singleton<ConfigManager>
 {
     public:
 
-    ConfigManager(string filename);
+    ConfigManager(std::string filename);
     ~ConfigManager();
 
     int load();
     int save();
 
-	void setValue(string key, string value);
-	bool hasKey(string key);
+	void setValue(std::string key, std::string value);
+	bool hasKey(std::string key);
 
-	string  getString   (string key);
-	int     getInt      (string key);
+	std::string  getString   (std::string key);
+	int     getInt      (std::string key);
 
 
     static ConfigManager& getSingleton(void);
@@ -38,7 +36,7 @@ class ConfigManager : public Ogre::Singleton<ConfigManager>
 
 	private:
 		ConfMap config;
-		string filename;
+		std::string filename;
 
 
 
