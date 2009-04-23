@@ -15,7 +15,8 @@ KEYWORDS="amd64 x86"
 IUSE=""
 
 RDEPEND="dev-games/ogre
-	media-libs/sdl-mixer"
+	media-libs/sdl-mixer
+	dev-games/ois"
 DEPEND="${RDEPEND}
     dev-util/pkgconfig"
 
