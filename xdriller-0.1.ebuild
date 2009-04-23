@@ -27,7 +27,8 @@ src_install() {
 	dogamesbin ${PN} || die "dogamesbin failed"
 
 	insinto "${GAMES_DATADIR}"/${PN}
-	doins -r media/* || die "doins failed"
+	doins -r media || die "doins failed"
+	doins -r default_config || die "doins failed"
 
 	dodoc README
 

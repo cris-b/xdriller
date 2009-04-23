@@ -17,6 +17,8 @@ OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))
 
 EXECUTABLE = xdriller
 
+INSTALL_PREFIX=/usr
+
 all: $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $(EXECUTABLE)
 
@@ -25,3 +27,25 @@ all: $(OBJS)
 
 clean:
 	rm -f $(EXECUTABLE) $(SOURCES_DIR)/*.o
+
+
+
+install:
+	mkdir -p $(INSTALL_PREFIX)/games/bin
+	mkdir -p $(INSTALL_PREFIX)/share/games/xdriller
+	mkdir -p $(INSTALL_PREFIX)/share/pixmaps
+	mkdir -p $(INSTALL_PREFIX)/share/applications
+
+	cp  xdriller $(INSTALL_PREFIX)/games/bin
+	cp -rv default_config $(INSTALL_PREFIX)/share/games/xdriller
+	cp -rv media $(INSTALL_PREFIX)/share/games/xdriller
+	cp  xdriller.png $(INSTALL_PREFIX)/share/pixmaps
+	cp  xdriller.desktop $(INSTALL_PREFIX)/share/applications
+
+uninstall:
+	rm   $(INSTALL_PREFIX)/games/bin/xdriller
+	rm -rv $(INSTALL_PREFIX)/share/games/xdriller
+	rm   $(INSTALL_PREFIX)/share/pixmaps/xdriller.png
+	rm   $(INSTALL_PREFIX)/share/applications/xdriller.desktop
+
+
