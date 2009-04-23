@@ -1,0 +1,22 @@
+Xdriller is a Mr.Driller clone. This program is released under the 
+GPLv3 license (see COPYING file).
+
+INSTRUCTIONS:
+
+make
+
+./xdriller
+
+to install: (NOT RECOMENDED YET)
+
+sudo make install
+
+to uninstall:
+
+sudo make uninstall
+
+to remove config files type:
+
+rm ~/.config/xdriller -R
+
+Copyright 2009 durmieu <durmieu@gmail.com>
