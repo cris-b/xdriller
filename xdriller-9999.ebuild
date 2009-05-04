@@ -36,12 +36,12 @@ src_install() {
 	dogamesbin ${PN} || die "dogamesbin failed"
 
 	insinto "${GAMES_DATADIR}"/${PN}
-	doins -r xdriller-0.1/media/* || die "doins failed"
+	doins -r xdriller-0.1/media || die "doins failed"
 	doins -r xdriller-0.1/default_config || die "doins failed"
 
 	dodoc README
 
-	doicon  ${PN}.png
+	doicon  xdriller-0.1/${PN}.png
 	make_desktop_entry ${PN} "Xdriller" ${PN}
 }
 
