@@ -16,7 +16,7 @@ IUSE=""
 
 RDEPEND="dev-games/ogre
 	media-libs/sdl-mixer
-	dev-games/ois""
+	dev-games/ois"
 DEPEND="${RDEPEND}
     dev-util/pkgconfig"
 
