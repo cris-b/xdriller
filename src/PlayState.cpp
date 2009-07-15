@@ -37,6 +37,8 @@ void PlayState::enter( void ) {
     gameSeconds = 0;
     finished = false;
 
+    fade_alpha = 1.0;
+
     /*CDotScene *dotScene;
     dotScene = new CDotScene();
     dotScene->parseDotScene("Scene.xml","General",mSceneMgr, NULL, "");
@@ -190,6 +192,7 @@ void PlayState::enter( void ) {
 
     mOverlay = mOverlayMgr->create("PlayStateOverlay");
 
+
     mOverlay->add2D(mArrow);
     mOverlay->add2D(mScore);
     mOverlay->add2D(mClock);
@@ -205,8 +208,23 @@ void PlayState::enter( void ) {
     mPanel->addChild(mTextAreaClock);
 
 
+    mFadePanel = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "FadeOverlayPanel"));
+    mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
+    mFadePanel->setPosition(0, 0);
+    mFadePanel->setDimensions(1, 1);
+    mFadePanel->setMaterialName("fade_material");
+
+    mFadeOverlay = mOverlayMgr->create("FadeOverlay");
+    mFadeOverlay->add2D(mFadePanel);
+
+
+    mOverlay->setZOrder(100);
+    mFadeOverlay->setZOrder(101);
+
     // Show the overlay
     mOverlay->show();
+    mFadeOverlay->show();
 
 }
 
@@ -222,6 +240,7 @@ void PlayState::exit( void ) {
     mSkull         = NULL;
 
     mOverlayMgr->destroy(mOverlay);
+    mOverlayMgr->destroy(mFadeOverlay);
 
 
     mSceneMgr->clearScene();
@@ -245,6 +264,21 @@ void PlayState::resume( void ) {
 
 void PlayState::update( unsigned long lTimeElapsed )
 {
+
+    if(fade_alpha > 0)
+    {
+        fade_alpha -= (float) lTimeElapsed / 1000.0;
+
+		Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
+		Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+
+		mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, fade_alpha);;
+    }
+    else
+    {
+        fade_alpha = 0;
+        mFadeOverlay->hide();
+    }
 
     if(lTimeElapsed <= 0) return;
     if(lTimeElapsed > 100) lTimeElapsed = 100;

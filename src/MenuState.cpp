@@ -7,13 +7,12 @@
 #include "LevelLoader.h"
 #include "SoundManager.h"
 
-
-
 using namespace Ogre;
 
 
-
 MenuState* MenuState::mMenuState;
+
+
 
 void MenuState::enter( void )
 {
@@ -60,7 +59,7 @@ void MenuState::enter( void )
     {
 
         String n = "Menu_Brick_" + StringConverter::toString(i);
-        Vector3 v = Vector3((rand()%400)/10.0 - 20 , (rand() % 400)/10.0 - 20 , -(rand() % 200)/10.0-10);
+        Vector3 v = Vector3((rand()%400)/10.0 - 20 , (rand() % 400)/10.0 - 200 , -(rand() % 200)/10.0-10);
         //Vector3 v = Vector3(0,0,0);
         mBrickEnt[i] = mSceneMgr->createEntity(n, "cube.mesh");
 

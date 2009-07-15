@@ -75,6 +75,11 @@ private:
     PanelOverlayElement     *mBottle;
     PanelOverlayElement     *mBottleAir;
 
+    Overlay                 *mFadeOverlay;
+    PanelOverlayElement     *mFadePanel;
+
+    float fade_alpha;
+
 
     int boardNum;
     bool tiempoBala;
