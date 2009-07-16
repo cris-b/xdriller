@@ -11,6 +11,8 @@
 #define H_FRICTION   0.0001
 #define BORED_TIME   6000
 
+#define MAX_LIVES    10
+
 #define AIR_FULL_USE_TIME   50000.0
 
 Player::Player(Board *mBoard)
@@ -96,10 +98,15 @@ void Player::update(unsigned long lTimeElapsed)
                                            getPosition().x+0.01,getPosition().y+0.3,getPosition().z+0.5);
 
     Brick *colBrick = mBoard->detectCollision(tmpBox);
-    if(colBrick != NULL && colBrick->getType() == 6)
+    if(colBrick != NULL && colBrick->getType() == BRICK_AIR)
     {
         colBrick->kill();
         setAir(getAir()+0.2);
+    }
+    else if(colBrick != NULL && colBrick->getType() == BRICK_HEART)
+    {
+        colBrick->kill();
+        livesUp(1);
     }
     else if(colBrick != NULL && _falling == false)
     {
@@ -192,10 +199,20 @@ void Player::update(unsigned long lTimeElapsed)
 
         colBrick = mBoard->detectCollision(tmpBox);
 
-        if(colBrick != NULL && colBrick->getType() == 6)
+        if(colBrick != NULL && colBrick->getType() == BRICK_AIR)
         {
             colBrick->kill();
             setAir(getAir()+0.2);
+            if(_falling == false)
+            {
+                _falling = true;
+
+            }
+        }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_HEART)
+        {
+            colBrick->kill();
+            livesUp(1);
             if(_falling == false)
             {
                 _falling = true;
@@ -249,10 +266,15 @@ void Player::update(unsigned long lTimeElapsed)
 
         colBrick = mBoard->detectCollision(tmpBox);
 
-        if(colBrick != NULL && colBrick->getType() == 6)
+        if(colBrick != NULL && colBrick->getType() == BRICK_AIR)
         {
             colBrick->kill();
             setAir(getAir()+0.2);
+        }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_HEART)
+        {
+            colBrick->kill();
+            livesUp(1);
         }
         else if(colBrick != NULL)
         {
@@ -283,10 +305,15 @@ void Player::update(unsigned long lTimeElapsed)
         colBrick = mBoard->detectCollision(tmpBox);
 
 
-        if(colBrick != NULL && colBrick->getType() == 6)
+        if(colBrick != NULL && colBrick->getType() == BRICK_AIR)
         {
             colBrick->kill();
             setAir(getAir()+0.2);
+        }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_HEART)
+        {
+            colBrick->kill();
+            livesUp(1);
         }
         else if(colBrick != NULL)
         {
@@ -629,4 +656,10 @@ void Player::setEndFloor()
 {
     endFloor = true;
     endFloorPosY = mNode->getPosition().y - 10.0;
+}
+
+void Player::livesUp(int n)
+{
+    lives += n;
+    if(lives >= MAX_LIVES) lives = MAX_LIVES;
 }

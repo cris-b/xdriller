@@ -17,7 +17,7 @@
 #define BRICK_ROCK      4
 #define BRICK_YELLOW    5
 #define BRICK_AIR       6
-
+#define BRICK_HEART     7
 
 
 

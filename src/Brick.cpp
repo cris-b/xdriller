@@ -43,14 +43,18 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
 
     speed = Vector3(0,0,0);
 
-    if(type == 4)
+    if(type == BRICK_ROCK)
     {
         mEnt = mSceneMgr->createEntity(name, "rock.mesh");
         lives = 4;
     }
-    else if(type == 6)
+    else if(type == BRICK_AIR)
     {
         mEnt = mSceneMgr->createEntity(name, "O2.mesh");
+    }
+    else if(type == BRICK_HEART)
+    {
+        mEnt = mSceneMgr->createEntity(name, "corazon.mesh");
     }
     else mEnt = mSceneMgr->createEntity(name, "cube.mesh");
 
@@ -71,6 +75,7 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     else if(type == BRICK_BLUE) mEmi->setMaterialName("azul");
     else if(type == BRICK_ROCK) mEmi->setMaterialName("roca");
     else if(type == BRICK_YELLOW) mEmi->setMaterialName("amarillo");
+    else if(type == BRICK_HEART) mEmi->setMaterialName("corazon");
     else if(type == BRICK_AIR);
     else kill();
 
@@ -240,6 +245,7 @@ void Brick::kill()
 {
 
     if(type == BRICK_AIR) SoundManager::getSingleton().playSound(SOUND_AIR);
+    if(type == BRICK_HEART) SoundManager::getSingleton().playSound(SOUND_AIR);
 
     alive = false;
 

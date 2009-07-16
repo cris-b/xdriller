@@ -16,5 +16,7 @@ int makeDirectory(const std::string& filename);
 
 int copyFile(const std::string& source,const std::string& dest);
 
+void roundColourValue(ColourValue *col);
+
 
 #endif

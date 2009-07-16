@@ -1,6 +1,7 @@
 #include "LevelLoader.h"
 #include "ConfigManager.h"
 #include "Brick.h"
+#include "Tools.h"
 
 using namespace Ogre;
 
@@ -69,6 +70,8 @@ int LevelLoader::loadBoard()
         {
             ColourValue brickColour = levelImage->getColourAt(i,j,0);
 
+            roundColourValue(&brickColour);
+
             if(brickColour == ColourValue(0,0,0)) levelData.push_back(BRICK_NONE);
             else if(brickColour == ColourValue(1,0,0)) levelData.push_back(BRICK_RED);
             else if(brickColour == ColourValue(0,1,0)) levelData.push_back(BRICK_GREEN);
@@ -76,11 +79,17 @@ int LevelLoader::loadBoard()
             else if(brickColour == ColourValue(1,1,0)) levelData.push_back(BRICK_YELLOW);
             else if(brickColour == ColourValue(1,0,1)) levelData.push_back(BRICK_ROCK);
             else if(brickColour == ColourValue(1,1,1)) levelData.push_back(BRICK_AIR);
+            else if(brickColour == ColourValue(0.5,0,0)) levelData.push_back(BRICK_HEART);
             else
             {
                 Ogre::LogManager::getSingleton().logMessage("LevelLoader: Wrong color at x=" +
                                                 StringConverter::toString(i) + " y=" +
-                                                StringConverter::toString(j) + " on level image " + "levelName");
+                                                StringConverter::toString(j) + " on level image " +
+                                                levelName + " : r = " +
+                                                StringConverter::toString(brickColour.r) + ", g = " +
+                                                StringConverter::toString(brickColour.g) + ", b = " +
+                                                StringConverter::toString(brickColour.b) + ", a = " +
+                                                StringConverter::toString(brickColour.a) + ".");
 
                 levelData.push_back(BRICK_NONE);
 

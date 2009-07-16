@@ -49,6 +49,8 @@ class Player
     int getPoints() { return points; }
     bool getFinished() {return finished;}
 
+    void livesUp(int n);
+
     void setBoard(Board *board) {mBoard = board;};
     void setEndFloor();
 

@@ -104,9 +104,16 @@ std::string DumpNodes(Ogre::Node *n)
 }
 
 float goodRound(float num) {
-    return (num > 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
+    return (num >= 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
 }
 
+
+void roundColourValue(ColourValue *col)
+{
+    col->r = goodRound(col->r * 10.0)/10.0;
+    col->g = goodRound(col->g * 10.0)/10.0;
+    col->b = goodRound(col->b * 10.0)/10.0;
+}
 
 
 

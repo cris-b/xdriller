@@ -350,16 +350,20 @@ void PlayState::update( unsigned long lTimeElapsed )
 
             mBoard->killUpwards(mPlayer->getPosition());
             mPlayer->resurrect();
-            if(mPlayer->isAlive())
-            {
-                mLivesPanel->setPosition(0.98-(mPlayer->getLives())*0.0375*HEARTS_SCALE, 0.02);
-                mLivesPanel->setDimensions(0.0375*HEARTS_SCALE*mPlayer->getLives(), 0.05*HEARTS_SCALE);
-                mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
-            }
-
         }
     }
+    {
+        static int lastLives = 0;
 
+        if(mPlayer->isAlive() && lastLives!=mPlayer->getLives())
+        {
+            mLivesPanel->setPosition(0.98-(mPlayer->getLives())*0.0375*HEARTS_SCALE, 0.02);
+            mLivesPanel->setDimensions(0.0375*HEARTS_SCALE*mPlayer->getLives(), 0.05*HEARTS_SCALE);
+            mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
+
+            lastLives = mPlayer->getLives();
+        }
+    }
     mCam->setParentPos(mPlayer->getPosition());
     mCam->update(lTimeElapsed);
 

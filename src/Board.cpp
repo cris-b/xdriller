@@ -312,7 +312,7 @@ int Board::checkNum(int x, int y)
   if(mBricksPtr[x+y*width] == NULL) return 0;
   else type = mBricksPtr[x+y*width]->getType();
 
-  if(type == BRICK_AIR) return 1;
+  if(type == BRICK_AIR || type == BRICK_HEART) return 1;
 
   _checkNum(x,y,type,num);
 
@@ -570,6 +570,11 @@ void Board::rKillDown(Vector3 pos)
             mBricksPtr[column+row*width]->kill();
 
         }
+        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
+        {
+            mBricksPtr[column+row*width]->kill();
+
+        }
         else rKill(column,row);
     }
 }
@@ -590,6 +595,11 @@ void Board::rKillLeft(Vector3 pos)
             mBricksPtr[column+row*width]->kick();
         }
         else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_AIR)
+        {
+            mBricksPtr[column+row*width]->kill();
+
+        }
+        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
         {
             mBricksPtr[column+row*width]->kill();
 
@@ -618,6 +628,11 @@ void Board::rKillRight(Vector3 pos)
             mBricksPtr[column+row*width]->kill();
 
         }
+        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
+        {
+            mBricksPtr[column+row*width]->kill();
+
+        }
         else rKill(column,row);
     }
 }
@@ -638,6 +653,11 @@ void Board::rKillUp(Vector3 pos)
             mBricksPtr[column+row*width]->kick();
         }
         else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_AIR)
+        {
+            mBricksPtr[column+row*width]->kill();
+
+        }
+        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
         {
             mBricksPtr[column+row*width]->kill();
 
