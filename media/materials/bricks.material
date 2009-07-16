@@ -138,7 +138,7 @@ material roca4
 	}
 }
 
-material 02
+material O2
 {
 	technique
 	{
@@ -146,7 +146,7 @@ material 02
 		{
 			texture_unit
 			{
-				texture 02.jpg 2d 1
+				texture O2.jpg 2d 1
 			}
 		}
 	}
