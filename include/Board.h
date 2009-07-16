@@ -6,6 +6,7 @@
 #include "SuperBrick.h"
 
 
+
 using namespace Ogre;
 
 
@@ -34,10 +35,10 @@ class Board
 
 
 
-    void rKillUp(Vector3 pos);
-    void rKillDown(Vector3 pos);
-    void rKillLeft(Vector3 pos);
-    void rKillRight(Vector3 pos);
+    int  rKillUp(Vector3 pos);
+    int  rKillDown(Vector3 pos);
+    int  rKillLeft(Vector3 pos);
+    int  rKillRight(Vector3 pos);
 
     void killUpwards(Vector3 pos);
 

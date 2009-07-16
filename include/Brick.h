@@ -10,14 +10,15 @@
 #define FSTATE_FALLING  2
 #define FSTATE_PREDYE   3
 
-#define BRICK_NONE      0
-#define BRICK_GREEN     1
-#define BRICK_RED       2
-#define BRICK_BLUE      3
-#define BRICK_ROCK      4
-#define BRICK_YELLOW    5
-#define BRICK_AIR       6
-#define BRICK_HEART     7
+#define BRICK_SUPERBRICK   -1
+#define BRICK_NONE          0
+#define BRICK_GREEN         1
+#define BRICK_RED           2
+#define BRICK_BLUE          3
+#define BRICK_ROCK          4
+#define BRICK_YELLOW        5
+#define BRICK_AIR           6
+#define BRICK_HEART         7
 
 
 

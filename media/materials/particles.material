@@ -1,4 +1,21 @@
+material heart_particle
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
 
+            texture_unit
+            {
+                texture corazon.png
+                //tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
 
 material star
 {

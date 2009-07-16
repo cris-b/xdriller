@@ -28,7 +28,7 @@ void PauseState::enter( void ) {
     mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
-    mTextAreaDepth->setColour(ColourValue(1,0,0));
+    mTextAreaDepth->setColour(ColourValue(1,0,0,0.5));
 
     mOverlay = mOverlayMgr->create("PauseStateOverlay");
     mOverlay->add2D(mPanel);

@@ -544,7 +544,7 @@ Brick *Board::detectCollision(AxisAlignedBox &b2)
     return NULL;
 }
 
-void Board::rKillDown(Vector3 pos)
+int Board::rKillDown(Vector3 pos)
 {
 
     int row;
@@ -556,29 +556,41 @@ void Board::rKillDown(Vector3 pos)
     if(row == height)
     {
         mSuperBrick->kill();
+        return BRICK_SUPERBRICK;
     }
 
 
-    if(row >= 0 && row < height && column >=0 && column < width)
+    if(row >= 0 && row < height && column >=0 && column < width && mBricksPtr[column+row*width]!= NULL)
     {
-        if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_ROCK)
+        int t = mBricksPtr[column+row*width]->getType();
+
+        if(t==BRICK_ROCK)
         {
             mBricksPtr[column+row*width]->kick();
+            return t;
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_AIR)
+        else if(t==BRICK_AIR)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
+        else if(t==BRICK_HEART)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else rKill(column,row);
+        else
+        {
+            rKill(column,row);
+            return t;
+        }
     }
+
+    return -2;
 }
-void Board::rKillLeft(Vector3 pos)
+int Board::rKillLeft(Vector3 pos)
 {
 
     int row;
@@ -588,26 +600,37 @@ void Board::rKillLeft(Vector3 pos)
     column = (int)(pos.x+4+0.5)-1;
 
 
-    if(row >= 0 && row < height && column >=0 && column < width)
+    if(row >= 0 && row < height && column >=0 && column < width && mBricksPtr[column+row*width]!= NULL)
     {
-        if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_ROCK)
+        int t = mBricksPtr[column+row*width]->getType();
+
+        if(t==BRICK_ROCK)
         {
             mBricksPtr[column+row*width]->kick();
+            return t;
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_AIR)
+        else if(t==BRICK_AIR)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
+        else if(t==BRICK_HEART)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else rKill(column,row);
+        else
+        {
+            rKill(column,row);
+            return t;
+        }
     }
+
+    return -2;
 }
-void Board::rKillRight(Vector3 pos)
+int Board::rKillRight(Vector3 pos)
 {
 
     int row;
@@ -617,26 +640,37 @@ void Board::rKillRight(Vector3 pos)
     column = (int)(pos.x+4+0.5)+1;
 
 
-    if(row >= 0 && row < height && column >=0 && column < width)
+    if(row >= 0 && row < height && column >=0 && column < width && mBricksPtr[column+row*width]!= NULL)
     {
-        if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_ROCK)
+        int t = mBricksPtr[column+row*width]->getType();
+
+        if(t==BRICK_ROCK)
         {
             mBricksPtr[column+row*width]->kick();
+            return t;
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_AIR)
+        else if(t==BRICK_AIR)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
+        else if(t==BRICK_HEART)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else rKill(column,row);
+        else
+        {
+            rKill(column,row);
+            return t;
+        }
     }
+
+    return -2;
 }
-void Board::rKillUp(Vector3 pos)
+int Board::rKillUp(Vector3 pos)
 {
 
     int row;
@@ -646,24 +680,35 @@ void Board::rKillUp(Vector3 pos)
     column = (int)(pos.x+4+0.5);
 
 
-    if(row >= 0 && row < height && column >=0 && column < width)
+    if(row >= 0 && row < height && column >=0 && column < width && mBricksPtr[column+row*width]!= NULL)
     {
-        if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_ROCK)
+        int t = mBricksPtr[column+row*width]->getType();
+
+        if(t==BRICK_ROCK)
         {
             mBricksPtr[column+row*width]->kick();
+            return t;
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_AIR)
+        else if(t==BRICK_AIR)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else if(mBricksPtr[column+row*width]!= NULL && mBricksPtr[column+row*width]->getType()==BRICK_HEART)
+        else if(t==BRICK_HEART)
         {
             mBricksPtr[column+row*width]->kill();
+            return t;
 
         }
-        else rKill(column,row);
+        else
+        {
+            rKill(column,row);
+            return t;
+        }
     }
+
+    return -2;
 }
 
 void Board::killUpwards(Vector3 pos)

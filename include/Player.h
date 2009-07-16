@@ -89,6 +89,7 @@ class Player
 	SceneNode *mNode;
 	SceneNode *mScaleNode;
 	ParticleSystem *starsParticle;
+	ParticleSystem *heartsParticle;
 	ParticleSystem *plus20Particle;
 
     AnimationState *mAnimationState;

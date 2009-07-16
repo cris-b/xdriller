@@ -12,8 +12,9 @@
 #define BORED_TIME   6000
 
 #define MAX_LIVES    10
+#define ROCK_BREAK_AIR 0.05
 
-#define AIR_FULL_USE_TIME   50000.0
+#define AIR_FULL_USE_TIME   100000.0
 
 Player::Player(Board *mBoard)
 {
@@ -66,8 +67,12 @@ Player::Player(Board *mBoard)
     plus20Particle = mSceneMgr->createParticleSystem("Plus20Particle", "Plus20");
     plus20Particle->getEmitter(0)->setEnabled(false);
 
+    heartsParticle = mSceneMgr->createParticleSystem("HeartsParticle", "Hearts");
+    heartsParticle->getEmitter(0)->setEnabled(false);
+
     mNode->attachObject(starsParticle);
     mNode->attachObject(plus20Particle);
+    mNode->attachObject(heartsParticle);
 
 
 
@@ -563,7 +568,13 @@ void  Player::breakBlock()
         if(orientation==LOOK_LEFT)
         {
             if(fabs(goodRound(getPosition().x)-getPosition().x) < 0.2 )
-                mBoard->rKillLeft(getPosition());
+            {
+                int t = mBoard->rKillLeft(getPosition());
+                if( t == BRICK_AIR ) setAir(getAir()+0.2);
+                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_HEART ) livesUp(1);
+
+            }
             mAnimationState->setEnabled(false);
             mAnimationState = mEnt->getAnimationState("Front_break");
             mAnimationState->setLoop(false);
@@ -575,7 +586,13 @@ void  Player::breakBlock()
         else if(orientation==LOOK_RIGHT)
         {
             if(fabs(goodRound(getPosition().x)-getPosition().x) < 0.2 )
-                mBoard->rKillRight(getPosition());
+            {
+                int t = mBoard->rKillRight(getPosition());
+                if( t == BRICK_AIR ) setAir(getAir()+0.2);
+                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_HEART ) livesUp(1);
+
+            }
             mAnimationState->setEnabled(false);
             mAnimationState = mEnt->getAnimationState("Front_break");
             mAnimationState->setLoop(false);
@@ -585,7 +602,12 @@ void  Player::breakBlock()
         }
         else if(orientation==LOOK_UP)
         {
-            mBoard->rKillUp(getPosition());
+            {
+                int t = mBoard->rKillUp(getPosition());
+                if( t == BRICK_AIR ) setAir(getAir()+0.2);
+                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_HEART ) livesUp(1);
+            }
             mAnimationState->setEnabled(false);
             mAnimationState = mEnt->getAnimationState("Break_up");
             mAnimationState->setLoop(false);
@@ -595,7 +617,12 @@ void  Player::breakBlock()
         }
         else if(orientation==LOOK_DOWN)
         {
-            mBoard->rKillDown(getPosition());
+            {
+                int t = mBoard->rKillDown(getPosition());
+                if( t == BRICK_AIR ) setAir(getAir()+0.2);
+                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_HEART ) livesUp(1);
+            }
             mAnimationState->setEnabled(false);
             mAnimationState = mEnt->getAnimationState("Break_down");
             mAnimationState->setLoop(false);
@@ -662,4 +689,6 @@ void Player::livesUp(int n)
 {
     lives += n;
     if(lives >= MAX_LIVES) lives = MAX_LIVES;
+
+    heartsParticle->getEmitter(0)->setEnabled(true);
 }
