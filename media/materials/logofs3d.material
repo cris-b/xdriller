@@ -1,0 +1,57 @@
+fragment_program logofs3d_fragment glsl
+{
+    source logofs3d_fp.glsl
+
+	default_params
+	{
+
+	}
+}
+
+
+vertex_program logofs3d_vertex glsl
+{
+    source logofs3d_vp.glsl
+
+	default_params
+	{
+
+
+
+	}
+
+}
+
+
+material logofs3d
+{
+	technique
+	{
+		pass
+		{
+
+			fragment_program_ref logofs3d_fragment
+			{
+
+			    param_named_auto uCamera camera_position
+
+			}
+			vertex_program_ref logofs3d_vertex
+			{
+
+
+
+			}
+		}
+	}
+	technique
+	{
+        pass
+        {
+		    ambient 1.0 0.3 0.0
+			diffuse 1.0 0.3 0.0
+			specular 1.0 0.3 0.0 12.5
+
+        }
+	}
+}

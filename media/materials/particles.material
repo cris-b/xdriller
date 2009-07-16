@@ -1,0 +1,40 @@
+
+
+material star
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture estrella.png
+                //tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material plus20
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture 20.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+

@@ -1,0 +1,23 @@
+
+
+material logoFS
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture fixi_studios.png
+
+            }
+            scene_blend alpha_blend
+
+        }
+    }
+}
+
+

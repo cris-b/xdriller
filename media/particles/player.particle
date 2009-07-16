@@ -1,0 +1,182 @@
+particle_system Stars
+{
+	quota	10
+	emit_emitter_quota	3
+	material	star
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+    sorted true
+
+	emitter Box
+	{
+		colour	1 1 1 1
+		direction	0 0 1
+		emission_rate	10
+		position	0 0 0
+		velocity_min	0
+		velocity_max	0.1
+		time_to_live	1
+		duration	1
+		repeat_delay	0
+		width	1
+		height	1
+		depth	1
+	}
+
+
+	affector Scaler
+	{
+		rate	0.5
+	}
+
+
+
+    affector ColourFader
+    {
+        alpha -1
+    }
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-100
+		rotation_speed_range_end	100
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+
+}
+
+particle_system Plus20
+{
+	quota	5
+
+	material	plus20
+	particle_width	0.4
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+    sorted false
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		direction	0 0.5 2
+		emission_rate	10
+		position	0 0 0
+		velocity_min	0.1
+		velocity_max	0.5
+		time_to_live	1
+		duration	0.1
+		repeat_delay	0
+
+	}
+
+
+	affector Scaler
+	{
+		rate	1
+	}
+
+
+
+    affector ColourFader
+    {
+        alpha -1
+    }
+
+}
+
+Stars
+{
+	quota	10
+	emit_emitter_quota	3
+	material	star
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+    sorted true
+
+	emitter Box
+	{
+		colour	1 1 1 1
+		direction	0 0 1
+		emission_rate	10
+		position	0 0 0
+		velocity_min	0
+		velocity_max	0.1
+		time_to_live	1
+		duration	1
+		repeat_delay	0
+		width	1
+		height	1
+		depth	1
+	}
+
+
+	affector Scaler
+	{
+		rate	0.5
+	}
+
+
+
+    affector ColourFader
+    {
+        alpha -1
+    }
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-100
+		rotation_speed_range_end	100
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+
+}
+
+Plus20
+{
+	quota	5
+
+	material	plus20
+	particle_width	0.4
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+    sorted false
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		direction	0 0.5 2
+		emission_rate	10
+		position	0 0 0
+		velocity_min	0.1
+		velocity_max	0.5
+		time_to_live	1
+		duration	0.1
+		repeat_delay	0
+
+	}
+
+
+	affector Scaler
+	{
+		rate	1
+	}
+
+
+
+    affector ColourFader
+    {
+        alpha -1
+    }
+
+}
+

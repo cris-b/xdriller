@@ -548,11 +548,14 @@ void MenuState::mouseMoved( const OIS::MouseEvent &e )
     //btn->setPosition(Vector3((e.state.X.abs / 640.0)+0.5,(e.state.Y.abs / 480.0)+0.5,0));
 }
 
-void MenuState::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {
+void MenuState::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id )
+{
+
 }
 
-void MenuState::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {
-    this->changeState( PlayState::getSingletonPtr() );
+void MenuState::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id )
+{
+
 }
 
 MenuState* MenuState::getSingletonPtr( void ) {

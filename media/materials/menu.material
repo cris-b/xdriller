@@ -1,0 +1,99 @@
+vertex_program wave_vertex glsl
+{
+        source wave_vp.glsl
+}
+
+fragment_program textured_fragment glsl
+{
+        source textured_fp.glsl
+}
+
+material LogoXDriller
+{
+    technique
+    {
+        pass
+        {
+		depth_check off
+		lighting off
+
+		
+		vertex_program_ref wave_vertex
+		{
+			param_named_auto scale_x sintime_0_X 6.283185308
+			param_named_auto scale_y costime_0_X 6.283185308
+		}
+
+		fragment_program_ref textured_fragment
+		{
+		    param_named tex0 int 0
+		}
+
+
+		texture_unit
+		{
+			texture logo_xdriller.png
+			tex_address_mode clamp
+		}
+		scene_blend alpha_blend
+        }
+    }
+
+    technique
+    {
+        pass
+        {
+		depth_check off
+		lighting off
+
+		texture_unit
+		{
+			texture logo_xdriller.png
+			tex_address_mode clamp
+		}
+		scene_blend alpha_blend
+        }
+    }
+}
+
+
+material foreground
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+            texture_unit
+            {
+                texture foreground.png
+                filtering none
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material button
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+            //depth_check off
+            //cull_hardware none
+
+            texture_unit
+            {
+                texture boton.png
+                tex_address_mode clamp
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}

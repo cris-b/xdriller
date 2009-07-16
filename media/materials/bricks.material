@@ -1,0 +1,153 @@
+material rojo
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cuborojo.jpg
+			}
+		}
+	}
+}
+material verde
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cuboverde.jpg
+			}
+		}
+	}
+}
+
+material azul
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cuboazul.jpg
+			}
+		}
+	}
+}
+material amarillo
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cuboamarillo.jpg
+			}
+		}
+	}
+}
+
+material gris
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cubogris.jpg
+			}
+		}
+	}
+}
+
+material roca
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.000000 0.000000 0.000000 12.500000
+			texture_unit
+			{
+				texture roca.jpg
+			}
+		}
+	}
+}
+
+material roca2
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.000000 0.000000 0.000000 12.500000
+			texture_unit
+			{
+				texture roca2.jpg
+			}
+		}
+	}
+}
+material roca3
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.000000 0.000000 0.000000 12.500000
+			texture_unit
+			{
+				texture roca3.jpg
+			}
+		}
+	}
+}
+material roca4
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.000000 0.000000 0.000000 12.500000
+			texture_unit
+			{
+				texture roca4.jpg
+			}
+		}
+	}
+}
+
+material 02
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture 02.jpg 2d 1
+			}
+		}
+	}
+}

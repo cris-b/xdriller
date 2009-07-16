@@ -1,0 +1,137 @@
+material heart
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture corazon.png
+                //tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+
+
+material bottle
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture botella.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material bottle_air
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture botella_aire.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material arrow
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture flecha.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+
+material score
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture puntos.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material clock
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture reloj.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+
+
+material skull
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture calavera.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}

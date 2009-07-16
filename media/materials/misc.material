@@ -1,0 +1,56 @@
+material default
+{
+	technique
+	{
+		pass
+		{
+		    ambient 1 1 1
+			diffuse 1.000000 1.000000 1.000000
+			//specular 0.000000 0.000000 0.000000 12.500000
+
+		}
+	}
+}
+material fade_material
+{
+	technique
+	{
+		pass
+		{
+            scene_blend alpha_blend
+
+
+
+            texture_unit
+            {
+                texture blanco.png
+
+            }
+
+		}
+	}
+}
+
+material white_fader
+{
+	technique
+	{
+		pass
+		{
+            scene_blend alpha_blend
+
+
+
+            texture_unit
+            {
+                texture blanco.png
+
+            }
+
+		}
+	}
+}
+
+
+
+

@@ -1,0 +1,60 @@
+
+fragment_program blur_fragment glsl
+{
+        source blur_fp.glsl
+}
+
+
+vertex_program blur_vertex glsl
+{
+        source blur_vp.glsl
+}
+
+
+material ScreenShot
+{
+	technique
+	{
+		pass
+		{
+			//cull_hardware none
+			//cull_software none
+			depth_check off
+
+			fragment_program_ref blur_fragment
+			{
+			    param_named tex0 int 0
+
+			}
+			vertex_program_ref blur_vertex
+			{
+			}
+
+			texture_unit
+			{
+                		tex_coord_set 0
+				tex_address_mode clamp
+				filtering linear linear linear
+				texture ScreenShot_texture //2d 0 none PF_R8G8B8
+			}
+		}
+	}
+
+	//segunda tecnica en caso que falle
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+
+				texture ScreenShot_texture
+			}
+			//texture_unit
+			//{
+			//	texture lomo.png
+			//	colour_op alpha_blend
+			//}
+		}
+	}
+}
