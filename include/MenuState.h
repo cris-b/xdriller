@@ -60,6 +60,10 @@ private:
     PanelOverlayElement     *mPanel;
     TextAreaOverlayElement  *mInfoTextArea;
 
+    Overlay                 *mFadeOverlay;
+    PanelOverlayElement     *mFadePanel;
+
+    float fade_alpha;
 
 
     Ogre::SceneNode *mBrickNode[NUM_MENU_BRICKS];

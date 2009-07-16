@@ -119,7 +119,25 @@ void MenuState::enter( void )
     mOverlay->add2D(mPanel);
     mPanel->addChild(mInfoTextArea);
 
+    mFadePanel = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "FadeOverlayPanel"));
+    mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
+    mFadePanel->setPosition(0, 0);
+    mFadePanel->setDimensions(1, 1);
+    mFadePanel->setMaterialName("fade_material");
+
+    mFadeOverlay = mOverlayMgr->create("FadeOverlay");
+    mFadeOverlay->add2D(mFadePanel);
+
+    fade_alpha = 1.0;
+
+
+    mOverlay->setZOrder(100);
+    mFadeOverlay->setZOrder(101);
+
+    // Show the overlay
     mOverlay->show();
+    mFadeOverlay->show();
 
     changePage(MENU_PAGE_MAIN);
 
@@ -142,6 +160,7 @@ void MenuState::exit( void )
     mOverlayMgr->destroyAllOverlayElements();
 
     mOverlayMgr->destroy(mOverlay);
+    mOverlayMgr->destroy(mFadeOverlay);
 
 
     while (!buttons.empty())
@@ -165,7 +184,26 @@ void MenuState::resume( void ) {
 
 }
 
-void MenuState::update( unsigned long lTimeElapsed ) {
+void MenuState::update( unsigned long lTimeElapsed )
+{
+
+    if(fade_alpha > 0)
+    {
+        fade_alpha -= (float) lTimeElapsed / 1000.0;
+
+		Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
+		Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+
+		mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, fade_alpha);;
+    }
+    else
+    {
+        fade_alpha = 0;
+        mFadeOverlay->hide();
+    }
+
+
+
 
     for(int i = 0; i < NUM_MENU_BRICKS; i++)
     {

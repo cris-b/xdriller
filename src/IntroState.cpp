@@ -128,7 +128,7 @@ void IntroState::resume( void ) {
 void IntroState::update( unsigned long lTimeElapsed )
 {
     static float alpha = 0;
-    static float fader_alpha = -1;
+    static float fader_alpha = -2;
 
     mAnimState->addTime(lTimeElapsed*0.001);
 
@@ -167,9 +167,9 @@ void IntroState::update( unsigned long lTimeElapsed )
              mOverlay->add2D(mFadePanel);
         }
     }
-    else if(fader_alpha < 1)
+    else if(fader_alpha <= 1)
     {
-        if(fader_alpha>99)
+        if(fader_alpha >= 0 && fader_alpha <= 1)
         {
             MaterialPtr FadeMaterial = MaterialManager::getSingleton().getByName("white_fader");
             TextureUnitState *FadeTextureLayer = FadeMaterial->getTechnique(0)->getPass(0)->getTextureUnitState(0);
