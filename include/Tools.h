@@ -18,5 +18,8 @@ int copyFile(const std::string& source,const std::string& dest);
 
 void roundColourValue(ColourValue *col);
 
+Vector2 worldToScreen(const Vector3& worldPoint, Camera* cam);
+
+std::string findAndReplace(std::string str, const std::string& findStr, const std::string& replaceStr);
 
 #endif

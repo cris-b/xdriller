@@ -28,7 +28,7 @@ int main( int argc, char **argv ) {
 
     try {
         // Initialise the game and switch to the first state
-        gameManager->startGame( IntroState::getSingletonPtr() );
+        gameManager->startGame( MenuState::getSingletonPtr() );
     }
     catch ( Ogre::Exception& ex ) {
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

@@ -27,31 +27,35 @@ class MenuButton
         void setOptionCaption(Ogre::String caption);
         String getOptionCaption() {return optionText->getCaption();}
 
+        void setCaption(Ogre::String caption);
 
+        Vector3 getPosition() {return mNode->getPosition();}
 
+        float getWidth();
 
 
         void update(unsigned long lTimeElapsed);
 
     private:
 
-    int hasOption;
+        int hasOption;
+        int align;
 
-    ManualObject *frame;
-    MovableText *text;
-    MovableText *optionText;
+        ManualObject *frame;
+        MovableText *text;
+        MovableText *optionText;
 
-    SceneNode *mTextNode;
-    SceneNode *mOptionNode;
-    SceneNode *mNode;
+        SceneNode *mTextNode;
+        SceneNode *mOptionNode;
+        SceneNode *mNode;
 
-    String optionCaption;
+        String optionCaption;
 
 
-    Vector3 dest,speed;
-    bool dest_reached;
+        Vector3 dest,speed;
+        bool dest_reached;
 
-    int state;
+        int state;
 
 };
 

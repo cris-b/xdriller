@@ -8,6 +8,7 @@
 #include "Tools.h"
 
 #include <iostream>
+#include <cstddef>
 
 
 
@@ -103,7 +104,8 @@ std::string DumpNodes(Ogre::Node *n)
 	return ss.str();
 }
 
-float goodRound(float num) {
+float goodRound(float num)
+{
     return (num >= 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
 }
 
@@ -115,6 +117,34 @@ void roundColourValue(ColourValue *col)
     col->b = goodRound(col->b * 10.0)/10.0;
 }
 
+// Converts 3D world position to screen coordinate
+Vector2 worldToScreen(const Vector3& worldPoint, Camera* cam)
+{
+    // Pass point through camera projection matrices
+    Vector3 screenPoint = cam->getProjectionMatrix() *
+                          cam->getViewMatrix() *
+                          worldPoint;
+
+    // Convert to relative screen space
+    return Vector2(screenPoint.x * 0.5f,
+                   -(screenPoint.y *0.5f));
+}
+
+
+std::string findAndReplace(std::string str, const std::string& findStr, const std::string& replaceStr)
+{
+    while(1)
+    {
+        size_t i = str.find(findStr, 0);
+
+        if(i != std::string::npos)
+            str.replace(i, findStr.size(), replaceStr);
+        else break;
+
+    }
+
+    return str;
+}
 
 
 

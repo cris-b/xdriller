@@ -3,8 +3,8 @@ SmallFont
 	type	truetype
 	source  komika.ttf
 
-	size 72
-	resolution 24
+	size 96
+	resolution 21
 
 	code_points 33-126 191-255
 

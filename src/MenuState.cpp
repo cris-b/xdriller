@@ -7,12 +7,164 @@
 #include "LevelLoader.h"
 #include "SoundManager.h"
 
+#define MENU_PAGE_MAIN                  0
+#define MENU_PAGE_OPTIONS               1
+#define MENU_PAGE_CREDITS               2
+#define MENU_PAGE_QUIT                  3
+#define MENU_PAGE_LEVELSELECT           4
+#define MENU_PAGE_GRAPHIC_OPTIONS       5
+#define MENU_PAGE_AUDIO_OPTIONS         6
+
 using namespace Ogre;
 
 
 MenuState* MenuState::mMenuState;
 
 
+class Arrows
+{
+    public:
+    Arrows();
+    ~Arrows();
+
+    void setPosition(float x, float y);
+    void setSize(float s);
+
+    void show();
+    void hide();
+
+    void left();
+    void right();
+
+    void update(unsigned long lTimeElapsed);
+
+    private:
+
+    float x,y,w,h,s;
+    float s2;
+    float ar,al;
+    float min_alpha;
+
+    OverlayManager    *mOverlayMgr;
+    Overlay           *mOverlay;
+    PanelOverlayElement     *arrowLeft;
+    PanelOverlayElement     *arrowRight;
+
+};
+
+Arrows::Arrows()
+{
+
+    x = 0;
+    y = 0;
+    s=0.5;
+    s2=0.5;
+    h = 0.05;
+    w = 0.0375;
+    min_alpha = 0.2;
+    ar = 1;
+    al = 1;
+
+    mOverlayMgr   = OverlayManager::getSingletonPtr();
+    mOverlay = mOverlayMgr->create("ArrowsOverlay");
+
+    arrowLeft = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "arrowLeftPanel"));
+    arrowLeft->setMetricsMode(Ogre::GMM_RELATIVE);
+    arrowLeft->setPosition(0, 0);
+    arrowLeft->setDimensions(w, h);
+    arrowLeft->setHorizontalAlignment(Ogre::GHA_CENTER);
+    arrowLeft->setVerticalAlignment(Ogre::GVA_CENTER);
+    arrowLeft->setMaterialName("arrow_left");
+
+    arrowRight = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "arrowRightPanel"));
+    arrowRight->setMetricsMode(Ogre::GMM_RELATIVE);
+    arrowRight->setPosition(0, 0);
+    arrowRight->setDimensions(w, h);
+    arrowRight->setHorizontalAlignment(Ogre::GHA_CENTER);
+    arrowRight->setVerticalAlignment(Ogre::GVA_CENTER);
+    arrowRight->setMaterialName("arrow_right");
+
+    mOverlay->add2D(arrowLeft);
+    mOverlay->add2D(arrowRight);
+
+
+
+    update(1000);
+
+}
+
+Arrows::~Arrows()
+{
+
+    mOverlay->remove2D(arrowLeft);
+    mOverlay->remove2D(arrowRight);
+    mOverlayMgr->destroy(mOverlay);
+
+}
+
+void Arrows::setPosition(float x, float y)
+{
+    this->x = x;
+    this->y = y;
+}
+
+void Arrows::setSize(float s)
+{
+    this->s2 = s;
+}
+
+void Arrows::update(unsigned long lTimeElapsed)
+{
+    arrowLeft->setPosition(x-(w/2.0)-s,y-(h/2.0));
+    arrowRight->setPosition(x-(w/2.0)+s,y-(h/2.0));
+
+    s += (s2-s)*(lTimeElapsed/100.0);
+
+    {
+        if( al > min_alpha )
+        {
+            al -= lTimeElapsed/1000.0;
+            if(al<min_alpha) al = min_alpha;
+            Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("arrow_left");
+            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+
+            mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, al);
+        }
+    }
+    {
+        if( ar > min_alpha )
+        {
+            ar -= lTimeElapsed/1000.0;
+            if(ar<min_alpha) ar = min_alpha;
+            Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("arrow_right");
+            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+
+            mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, ar);
+        }
+    }
+}
+
+void Arrows::show()
+{
+    mOverlay->show();
+}
+
+void Arrows::hide()
+{
+    mOverlay->hide();
+}
+
+void Arrows::left()
+{
+    al = 1.0;
+}
+
+void Arrows::right()
+{
+    ar = 1.0;
+}
 
 void MenuState::enter( void )
 {
@@ -44,7 +196,6 @@ void MenuState::enter( void )
     light->setSpecularColour(1.0, 1.0, 1.0);
 
     mSceneMgr->setFog(FOG_LINEAR, ColourValue(1,1,1), 0.0, 20, 50);
-
 
     Rectangle2D* toprect = new Rectangle2D(true);
     toprect->setCorners(-1.0, 1.0, 1.0, -1.0);
@@ -112,12 +263,48 @@ void MenuState::enter( void )
     mLogoXDriller->setDimensions(0.4875, 0.254166667);
     mLogoXDriller->setMaterialName("LogoXDriller");
 
-    //mLogoXDriller->show();
+
+
+    mLevelScreenshot_shadow = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "LevelScreenshot_shadow"));
+    mLevelScreenshot_shadow->setMetricsMode(Ogre::GMM_RELATIVE);
+    mLevelScreenshot_shadow->setHorizontalAlignment(Ogre::GHA_CENTER);
+    mLevelScreenshot_shadow->setVerticalAlignment(Ogre::GVA_CENTER);
+    mLevelScreenshot_shadow->setPosition(-0.02, -0.23);
+    mLevelScreenshot_shadow->setDimensions(0.44, 0.46);
+    mLevelScreenshot_shadow->setMaterialName("level_screenshot_shadow");
+
+    mLevelScreenshot = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "LevelScreenshot"));
+    mLevelScreenshot->setMetricsMode(Ogre::GMM_RELATIVE);
+    mLevelScreenshot->setHorizontalAlignment(Ogre::GHA_CENTER);
+    mLevelScreenshot->setVerticalAlignment(Ogre::GVA_CENTER);
+    mLevelScreenshot->setPosition(0.0, -0.2);
+    mLevelScreenshot->setDimensions(0.4, 0.4);
+    mLevelScreenshot->setMaterialName("level_screenshot");
+
+    mLevelInfo = static_cast<TextAreaOverlayElement*>(
+        mOverlayMgr->createOverlayElement("TextArea", "LevelInfoTextArea"));
+    mLevelInfo->setMetricsMode(Ogre::GMM_RELATIVE);
+    mLevelInfo->setPosition(0.05, 0.3);
+    mLevelInfo->setDimensions(0.5, 0.5);
+    mLevelInfo->setCaption("Test text 213 enj afj ajfdsajfoajs pofj asjfd iaJSF IJASPOFJIJADSFJPOIGJ POJPAJGPOIAG FA PIGJ");
+    mLevelInfo->setCharHeight(0.035);
+    mLevelInfo->setFontName("SmallFont");
+    //mLevelInfo->setColourBottom(ColourValue(1.0, 1, 1.0));
+    //mLevelInfo->setColourTop(ColourValue(0, 0, 0));
+    mLevelInfo->setColour(ColourValue(0,0,0));
+    mLevelInfo->setAlignment(TextAreaOverlayElement::Left);
 
     mOverlay = mOverlayMgr->create("MenuOverlay");
 
     mOverlay->add2D(mPanel);
+
+    mOverlay->add2D(mLevelScreenshot_shadow);
+    mOverlay->add2D(mLevelScreenshot);
+
     mPanel->addChild(mInfoTextArea);
+    mPanel->addChild(mLevelInfo);
 
     mFadePanel = static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "FadeOverlayPanel"));
@@ -139,23 +326,21 @@ void MenuState::enter( void )
     mOverlay->show();
     mFadeOverlay->show();
 
+    arrows = new Arrows;
+
+    arrows->hide();
+
+
     changePage(MENU_PAGE_MAIN);
 
     SoundManager::getSingleton().loadMusic("menu_music.ogg");
     SoundManager::getSingleton().playMusic(true);
 
-
-    //mGUI = new BetaGUI::GUI("MenuFont",32);
-
-    //BetaGUI::Window* window = mGUI->createWindow(Vector4(100,100,300,100), "button", BetaGUI::NONE, "Magical Doubler");
-    //window->createStaticText(Vector4(4,22,198,40), "Type in a number and I'll double it!");
-    //BetaGUI::Button* mDoubleIt = window->createButton(Vector4(108,50,104,24), "button", "Go on then!", BetaGUI::Callback(myCallback));
-    //BetaGUI::TextInput* mAmount = window->createTextInput(Vector4(4,50,104,24), "button", "1", 3);
-
 }
 
 void MenuState::exit( void )
 {
+    delete arrows;
 
     mOverlayMgr->destroyAllOverlayElements();
 
@@ -187,6 +372,8 @@ void MenuState::resume( void ) {
 void MenuState::update( unsigned long lTimeElapsed )
 {
 
+    arrows->update(lTimeElapsed);
+
     if(fade_alpha > 0)
     {
         fade_alpha -= (float) lTimeElapsed / 1000.0;
@@ -194,7 +381,7 @@ void MenuState::update( unsigned long lTimeElapsed )
 		Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
 		Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
 
-		mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, fade_alpha);;
+		mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, fade_alpha);
     }
     else
     {
@@ -229,29 +416,26 @@ void MenuState::update( unsigned long lTimeElapsed )
 
     }
 
+    if(titleButton != NULL)
+    {
+        titleButton->update(lTimeElapsed);
+
+
+    }
+
 
 }
 
 void MenuState::keyPressed( const OIS::KeyEvent &e )
 {
 
-    /*if(e.key == OIS::KC_R)
-    {
 
-
-        //TexturePtr Texture = TextureManager::getSingleton().getByName("MenuFontTexture");
-        //RenderTexture* pRenderTexture = Texture->getBuffer()->getRenderTarget();
-        //pRenderTexture->update();
-        //SaveImage(Texture,"font.png");
-
-
-    }*/
-    /*if(e.key == OIS::KC_S)
+    if(e.key == OIS::KC_S)
     {
 
         //solo funciona en ogre 1.6 +
         #if OGRE_VERSION_MINOR >= 6
-        TexturePtr tp = static_cast<Ogre::TexturePtr> (TextureManager::getSingleton().getByName("MenuFontTexture"));
+        TexturePtr tp = static_cast<Ogre::TexturePtr> (TextureManager::getSingleton().getByName("SmallFontTexture"));
         const size_t buffSize = (tp->getWidth() * tp->getHeight() * 4);
         unsigned char *data = OGRE_ALLOC_T(unsigned char,buffSize,Ogre::MEMCATEGORY_GENERAL);
         memset(data, 0, buffSize);
@@ -267,7 +451,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         #endif
 
 
-    }*/
+    }
 
     if(e.key == OIS::KC_DOWN)
     {
@@ -356,6 +540,21 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+            case MENU_PAGE_LEVELSELECT:
+            {
+
+                if(menuCursor == 0)
+                {
+                    LevelLoader::getSingleton().prevLevel();
+
+                    arrows->left();
+
+                    _updateLevelSelect();
+
+                }
+
+                break;
+            }
         }
     }
     if(e.key == OIS::KC_RIGHT)
@@ -419,6 +618,22 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+            case MENU_PAGE_LEVELSELECT:
+            {
+
+                if(menuCursor == 0)
+                {
+                    LevelLoader::getSingleton().nextLevel();
+
+                    arrows->right();
+
+                    _updateLevelSelect();
+
+
+                }
+
+                break;
+            }
         }
     }
     if( e.key == OIS::KC_RETURN)
@@ -429,9 +644,9 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             {
                 if(menuCursor == 0)
                 {
-                    LevelLoader::getSingleton().setLevelName("test");
-                    this->changeState( PlayState::getSingletonPtr() );
+                    changePage(MENU_PAGE_LEVELSELECT);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
+
                 }
                 if(menuCursor == 1)
                 {
@@ -500,6 +715,18 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+            case MENU_PAGE_LEVELSELECT:
+            {
+
+                if(menuCursor == 0)
+                {
+                    //LevelLoader::getSingleton().setLevelName("test");
+                    this->changeState( PlayState::getSingletonPtr() );
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
+
+                break;
+            }
 
 
 
@@ -513,6 +740,12 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             case MENU_PAGE_MAIN:
             {
                 changePage(MENU_PAGE_QUIT);
+                SoundManager::getSingleton().playSound(SOUND_MENU4);
+                break;
+            }
+            case MENU_PAGE_LEVELSELECT:
+            {
+                changePage(MENU_PAGE_MAIN);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
@@ -570,6 +803,11 @@ void MenuState::changePage(unsigned int page)
 {
     menuPage = page;
 
+    arrows->hide();
+    mLevelScreenshot->hide();
+    mLevelScreenshot_shadow->hide();
+    mLevelInfo->hide();
+
     while (!buttons.empty())
     {
         delete buttons.back();  buttons.pop_back();
@@ -588,7 +826,7 @@ void MenuState::changePage(unsigned int page)
         {
             mOverlay->add2D(mLogoXDriller);
 
-            buttons.push_back(new MenuButton("Play test level"));
+            buttons.push_back(new MenuButton("Play Game"));
 
             buttons[0]->setPosition(0,1,0);
             buttons[0]->setState(BSTATE_ACTIVE);
@@ -728,6 +966,41 @@ void MenuState::changePage(unsigned int page)
             break;
         }
 
+        case MENU_PAGE_LEVELSELECT:
+        {
+            buttons.push_back(new MenuButton(LevelLoader::getSingleton().getLongName(LevelLoader::getSingleton().getLevelName())));
+
+            buttons[0]->setPosition(0,4.5,0);
+            buttons[0]->setState(BSTATE_ACTIVE);
+            buttons[0]->setDest(Vector3(0,3.5,0));
+
+            arrows->show();
+
+            Vector2 pos = worldToScreen(Vector3(0,3.5,0),mCamera);
+
+            //Ogre::LogManager::getSingleton().logMessage("ARROWS_POS X = " + StringConverter::toString(pos.x)
+            //                                            + " Y = " + StringConverter::toString(pos.y));
+
+            arrows->setPosition(pos.x,pos.y*0.97);
+
+            //Ogre::LogManager::getSingleton().logMessage("ARROWS_SIZE = " + StringConverter::toString(buttons[0]->getWidth()));
+
+
+
+
+            mLevelScreenshot->show();
+            mLevelScreenshot_shadow->show();
+            mLevelInfo->show();
+
+            _updateLevelSelect();
+
+            menuCursor = 0;
+
+            mInfoTextArea->setCaption("Select Level & Press ENTER");
+
+            break;
+        }
+
         case MENU_PAGE_QUIT:
         {
             titleButton = new MenuButton("Are you sure you want to quit?");
@@ -755,6 +1028,35 @@ void MenuState::changePage(unsigned int page)
         }
 
     }
+
+}
+
+void MenuState::_updateLevelSelect()
+{
+
+            buttons[0]->setCaption(LevelLoader::getSingleton().getLongName(LevelLoader::getSingleton().getLevelName()));
+            buttons[0]->setPosition(0,4.5,0);
+            buttons[0]->setDest(Vector3(0,3.5,0));
+
+            arrows->setSize(buttons[0]->getWidth());
+
+            Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("level_screenshot");
+            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+
+            mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureName(
+                LevelLoader::getSingleton().getLevelName() + ".jpg");
+
+
+
+            Ogre::String caption = findAndReplace(
+                    LevelLoader::getSingleton().getLevelInfo(LevelLoader::getSingleton().getLevelName()),
+                    "</br>",
+                    "\n"
+                    );
+
+            mLevelInfo->setCaption(caption);
+
+            arrows->setSize(buttons[0]->getWidth());
 
 }
 

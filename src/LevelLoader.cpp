@@ -17,6 +17,139 @@ LevelLoader& LevelLoader::getSingleton(void)
 
 LevelLoader::LevelLoader()
 {
+    numLevels = -1;
+
+    cf.loadFromResourceSystem("levels.cfg","General");
+
+   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+   while (seci.hasMoreElements())
+   {
+        numLevels++;
+        seci.getNext();
+
+   }
+
+   Ogre::LogManager::getSingleton().logMessage("LevelLoader: Loaded levels.cfg. Number of Levels: "
+                                                + StringConverter::toString(numLevels));
+
+    setLevelNum(numLevels-1);
+
+}
+
+void LevelLoader::nextLevel()
+{
+    levelNum ++;
+    if(levelNum >= numLevels)
+        levelNum = 0;
+
+    setLevelNum(levelNum);
+}
+
+void LevelLoader::prevLevel()
+{
+    levelNum --;
+    if(levelNum < 0)
+        levelNum = numLevels-1;
+
+    setLevelNum(levelNum);
+}
+
+void LevelLoader::setLevelNum(int levelNum)
+{
+    this->levelNum = levelNum;
+    setBoardNum(0);
+
+   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+   Ogre::String secName, optName, optValue;
+
+   int n = -1;
+   while (seci.hasMoreElements())
+   {
+
+       secName = seci.peekNextKey();
+       ConfigFile::SettingsMultiMap *settings = seci.getNext();
+       ConfigFile::SettingsMultiMap::iterator i;
+
+       n++;
+       for (i = settings->begin(); i != settings->end(); ++i)
+       {
+           optName = i->first;
+           optValue = i->second;
+
+           if(levelNum == n-1)
+           {
+                if(optName == "num_boards") numBoards = StringConverter::parseInt(optValue);
+                levelName = secName;
+
+                //Ogre::LogManager::getSingleton().logMessage("SET LEVELNAME TO: " + secName + " " + StringConverter::toString(levelNum));
+           }
+       }
+
+
+   }
+
+
+}
+
+Ogre::String LevelLoader::getLongName(Ogre::String levelName)
+{
+
+   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+   Ogre::String secName, optName, optValue;
+
+   while (seci.hasMoreElements())
+   {
+
+       secName = seci.peekNextKey();
+       ConfigFile::SettingsMultiMap *settings = seci.getNext();
+       ConfigFile::SettingsMultiMap::iterator i;
+
+       for (i = settings->begin(); i != settings->end(); ++i)
+       {
+           optName = i->first;
+           optValue = i->second;
+
+           if(secName == levelName)
+           {
+                if(optName == "long_name") return optValue;
+           }
+       }
+   }
+
+   return "No info";
+
+}
+
+Ogre::String LevelLoader::getLevelInfo(Ogre::String levelName)
+{
+
+   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+   Ogre::String secName, optName, optValue;
+
+   while (seci.hasMoreElements())
+   {
+
+       secName = seci.peekNextKey();
+       ConfigFile::SettingsMultiMap *settings = seci.getNext();
+       ConfigFile::SettingsMultiMap::iterator i;
+
+       for (i = settings->begin(); i != settings->end(); ++i)
+       {
+           optName = i->first;
+           optValue = i->second;
+
+           if(secName == levelName)
+           {
+                if(optName == "info") return optValue;
+           }
+       }
+   }
+
+   return "No info";
 
 }
 
@@ -24,8 +157,6 @@ void LevelLoader::setLevelName(String levelName)
 {
     this->levelName = levelName;
     setBoardNum(0);
-
-    cf.loadFromResourceSystem("levels.cfg","General");
 
    ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
@@ -46,6 +177,7 @@ void LevelLoader::setLevelName(String levelName)
            if(secName == levelName)
            {
                 if(optName == "num_boards") numBoards = StringConverter::parseInt(optValue);
+
            }
        }
    }

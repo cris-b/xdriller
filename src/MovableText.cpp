@@ -94,6 +94,7 @@ void MovableText::setCaption(const UTFString &caption)
     {
         mCaption = caption;
         mNeedUpdate = true;
+        this->_setupGeometry();
     }
 }
 

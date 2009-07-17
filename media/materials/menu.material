@@ -17,7 +17,7 @@ material LogoXDriller
 		depth_check off
 		lighting off
 
-		
+
 		vertex_program_ref wave_vertex
 		{
 			param_named_auto scale_x sintime_0_X 6.283185308
@@ -90,6 +90,86 @@ material button
             texture_unit
             {
                 texture boton.png
+                tex_address_mode clamp
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material arrow_right
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+
+            texture_unit
+            {
+                texture flecha_derecha.png
+                tex_address_mode clamp
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material arrow_left
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+
+            texture_unit
+            {
+                texture flecha_derecha.png
+                tex_address_mode clamp
+                rotate 180
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material level_screenshot
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+
+            texture_unit
+            {
+                texture test.jpg
+                tex_address_mode clamp
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+material level_screenshot_shadow
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+
+            texture_unit
+            {
+                texture screenshot_shadow.png
                 tex_address_mode clamp
 
             }

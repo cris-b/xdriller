@@ -15,13 +15,7 @@
 
 #define NUM_MENU_BRICKS         10
 
-#define MENU_PAGE_MAIN                  0
-#define MENU_PAGE_OPTIONS               1
-#define MENU_PAGE_CREDITS               2
-#define MENU_PAGE_QUIT                  3
-#define MENU_PAGE_GAMESELECT            4
-#define MENU_PAGE_GRAPHIC_OPTIONS       5
-#define MENU_PAGE_AUDIO_OPTIONS         6
+class Arrows;
 
 class MenuState : public GameState {
 public:
@@ -44,10 +38,14 @@ public:
     void changePage(unsigned int page);
 
     static MenuState* getSingletonPtr( void );
+
+
 private:
     MenuState( void ) { }
     MenuState( const MenuState& ) { }
     MenuState & operator = ( const MenuState& );
+
+    void _updateLevelSelect();
 
     Ogre::Root           *mRoot;
     Ogre::Camera         *mCamera;
@@ -58,10 +56,17 @@ private:
     Ogre::Overlay           *mOverlay;
     Ogre::OverlayContainer  *mLogoXDriller;
     PanelOverlayElement     *mPanel;
+
     TextAreaOverlayElement  *mInfoTextArea;
 
     Overlay                 *mFadeOverlay;
     PanelOverlayElement     *mFadePanel;
+
+    PanelOverlayElement     *mLevelScreenshot;
+    PanelOverlayElement     *mLevelScreenshot_shadow;
+    TextAreaOverlayElement  *mLevelInfo;
+
+
 
     float fade_alpha;
 
@@ -75,6 +80,10 @@ private:
     std::vector<MenuButton*> buttons;
 
     MenuButton *titleButton;
+
+    float tittle_alpha;
+
+    Arrows *arrows;
 
     unsigned int menuPage;
     int menuCursor;

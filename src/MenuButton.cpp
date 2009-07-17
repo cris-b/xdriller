@@ -5,6 +5,7 @@ int menuButtonCount = 0;
 MenuButton::MenuButton(UTFString caption, int align, bool hasOption)
 {
     this->hasOption = hasOption;
+    this->align = align;
 
     String name = "MenuButton_" + StringConverter::toString(menuButtonCount);
     menuButtonCount++;
@@ -98,6 +99,13 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption)
 
 }
 
+float MenuButton::getWidth()
+{
+    AxisAlignedBox aabb = text->GetAABB();
+
+    return (aabb.getMinimum().x+aabb.getMaximum().x)/45.0+0.06;
+}
+
 void MenuButton::setOptionCaption(String caption)
 {
     mOptionNode->detachObject(optionText);
@@ -119,6 +127,19 @@ void MenuButton::setOptionCaption(String caption)
     mOptionNode->scale(0.5,0.5,0.5);
 
     mOptionNode->setPosition(8 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
+
+}
+
+void MenuButton::setCaption(String caption)
+{
+    text->setCaption(caption);
+
+
+    AxisAlignedBox aabb = text->GetAABB();
+
+
+    if(align == ALIGN_CENTER)
+        mTextNode->setPosition(-(aabb.getMinimum().x+aabb.getMaximum().x)/4.0,0,0);
 
 }
 
