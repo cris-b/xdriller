@@ -2,9 +2,12 @@
 
 int menuButtonCount = 0;
 
-MenuButton::MenuButton(UTFString caption, int align, bool hasOption)
+using namespace Ogre;
+
+MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArrows)
 {
-    this->hasOption = hasOption;
+    this->_hasOption = hasOption;
+    this->_hasArrows = hasArrows;
     this->align = align;
 
     String name = "MenuButton_" + StringConverter::toString(menuButtonCount);
@@ -12,8 +15,6 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption)
 
     mNode = Root::getSingleton().getSceneManager( "ST_GENERIC" )->getRootSceneNode()->createChildSceneNode(name + "_Node");
     mTextNode = mNode->createChildSceneNode();
-
-
 
     text = new MovableText(name,caption);
 
@@ -34,7 +35,7 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption)
 
         mOptionNode->scale(0.5,0.5,0.5);
 
-        mOptionNode->setPosition(9 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
+        mOptionNode->setPosition(8 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
 
 
     }
@@ -106,6 +107,52 @@ float MenuButton::getWidth()
     return (aabb.getMinimum().x+aabb.getMaximum().x)/45.0+0.06;
 }
 
+float MenuButton::getOptionWidth()
+{
+    //return 0;
+    if(!_hasOption) return 0;
+
+    AxisAlignedBox aabb = optionText->GetAABB();
+
+    return (aabb.getMinimum().x+aabb.getMaximum().x)/45.0+0.06;
+}
+
+Ogre::Vector2 MenuButton::getScreenPosition()
+{
+
+    Vector2 pos;
+
+    pos.y = dest.y*-0.118 + 0.003;
+
+    pos.x = 0;
+
+    return pos;
+
+
+
+    //return aabb.getCenter();
+}
+
+Ogre::Vector2 MenuButton::getOptionScreenPosition()
+{
+
+    if(!_hasOption) return Vector2(0,0);
+
+    //AxisAlignedBox aabb = optionText->GetAABB();
+
+    Vector2 pos;
+
+    pos.y = dest.y*-0.118 + 0.003;
+
+    pos.x = 0.41-getOptionWidth();
+
+    return pos;
+
+
+
+    //return aabb.getCenter();
+}
+
 void MenuButton::setOptionCaption(String caption)
 {
     mOptionNode->detachObject(optionText);
@@ -149,7 +196,7 @@ MenuButton::~MenuButton()
     mTextNode->detachAllObjects();
     mNode->detachAllObjects();
     delete text;
-    if(hasOption) delete optionText;
+    if(_hasOption) delete optionText;
     Root::getSingleton().getSceneManager( "ST_GENERIC" )->destroyManualObject( frame );
     mNode->removeAndDestroyAllChildren();
     mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());

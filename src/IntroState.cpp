@@ -81,7 +81,7 @@ void IntroState::enter( void ) {
 
 
     mFadePanel = static_cast<OverlayContainer*>(
-        mOverlayMgr->createOverlayElement("Panel", "FadePanel"));
+        mOverlayMgr->createOverlayElement("Panel", "IntroFadeOverlayPanel"));
     mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
     mFadePanel->setPosition(0.0, 0.0);
     mFadePanel->setDimensions(1.0, 1.0);

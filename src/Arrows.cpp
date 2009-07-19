@@ -14,9 +14,11 @@ Arrows::Arrows()
     s2=0.5;
     h = 0.05;
     w = 0.0375;
-    min_alpha = 0.2;
-    ar = 1;
-    al = 1;
+    min_alpha = 0.0;
+    ar = 0.01;
+    al = 0.01;
+
+    visible = false;
 
     mOverlayMgr   = OverlayManager::getSingletonPtr();
     mOverlay = mOverlayMgr->create("ArrowsOverlay");
@@ -42,9 +44,10 @@ Arrows::Arrows()
     mOverlay->add2D(arrowLeft);
     mOverlay->add2D(arrowRight);
 
+    mOverlay->show();
 
 
-    update(1000);
+    update(100);
 
 }
 
@@ -53,17 +56,34 @@ Arrows::~Arrows()
 
     mOverlay->remove2D(arrowLeft);
     mOverlay->remove2D(arrowRight);
+
+    mOverlayMgr->destroyOverlayElement(arrowLeft);
+    mOverlayMgr->destroyOverlayElement(arrowRight);
+
     mOverlayMgr->destroy(mOverlay);
 
 }
 
+void Arrows::setDest(float x, float y)
+{
+    this->x2 = x;
+    this->y2 = y;
+}
 void Arrows::setPosition(float x, float y)
 {
+    this->x2 = x;
+    this->y2 = y;
     this->x = x;
     this->y = y;
 }
 
 void Arrows::setSize(float s)
+{
+    this->s2 = s;
+    this->s = s;
+}
+
+void Arrows::setDestSize(float s)
 {
     this->s2 = s;
 }
@@ -74,9 +94,11 @@ void Arrows::update(unsigned long lTimeElapsed)
     arrowRight->setPosition(x-(w/2.0)+s,y-(h/2.0));
 
     s += (s2-s)*(lTimeElapsed/100.0);
+    x += (x2-x)*(lTimeElapsed/100.0);
+    y += (y2-y)*(lTimeElapsed/100.0);
 
     {
-        if( al > min_alpha )
+        if( al > min_alpha  || al < min_alpha)
         {
             al -= lTimeElapsed/1000.0;
             if(al<min_alpha) al = min_alpha;
@@ -87,7 +109,7 @@ void Arrows::update(unsigned long lTimeElapsed)
         }
     }
     {
-        if( ar > min_alpha )
+        if( ar > min_alpha  || ar < min_alpha)
         {
             ar -= lTimeElapsed/1000.0;
             if(ar<min_alpha) ar = min_alpha;
@@ -101,12 +123,17 @@ void Arrows::update(unsigned long lTimeElapsed)
 
 void Arrows::show()
 {
-    mOverlay->show();
+    //mOverlay->show();
+
+    min_alpha = 0.2;
+    visible = true;
 }
 
 void Arrows::hide()
 {
-    mOverlay->hide();
+    //mOverlay->hide();
+    min_alpha=0.0;
+    visible = false;
 }
 
 void Arrows::left()

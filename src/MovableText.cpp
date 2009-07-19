@@ -9,7 +9,8 @@
 
 #include "Ogre.h"
 #include "OgreFontManager.h"
-#include "MenuButton.h"
+#include "MovableText.h"
+
 
 using namespace Ogre;
 

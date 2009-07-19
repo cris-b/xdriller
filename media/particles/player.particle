@@ -221,3 +221,43 @@ Plus20
 
 }
 
+Hearts
+{
+	quota	1
+	emit_emitter_quota	3
+	material	heart
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+    sorted true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		direction	0 0 1
+		emission_rate	10
+		position	0 0 0
+		time_to_live	1
+		duration	1
+		repeat_delay	0
+	}
+
+
+	affector Scaler
+	{
+		rate	1
+	}
+
+
+
+    affector ColourFader
+    {
+        alpha -1
+    }
+
+
+
+
+}
+

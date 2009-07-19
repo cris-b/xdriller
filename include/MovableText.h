@@ -10,12 +10,13 @@
 #ifndef MovableText_H
 #define MovableText_H
 
-#include "Ogre.h"
-#include "OgreFontManager.h"
+#include <Ogre.h>
+#include <OgreFontManager.h>
 
-using namespace Ogre;
+//using namespace Ogre;
 
-class MovableText : public MovableObject, public Renderable
+
+class MovableText : public Ogre::MovableObject, public Ogre::Renderable
 {
     /******************************** MovableText data ****************************/
 public:
@@ -23,41 +24,41 @@ public:
     enum VerticalAlignment      {V_BELOW, V_ABOVE, V_CENTER};
 
 protected:
-    String			mFontName;
-    String			mType;
-    String			mName;
-    UTFString			mCaption;
+    Ogre::String			mFontName;
+    Ogre::String			mType;
+    Ogre::String			mName;
+    Ogre::UTFString			mCaption;
     HorizontalAlignment	mHorizontalAlignment;
     VerticalAlignment	mVerticalAlignment;
 
-    ColourValue		mColor;
-    RenderOperation	mRenderOp;
-    AxisAlignedBox	mAABB;
-    LightList		mLList;
+    Ogre::ColourValue		mColor;
+    Ogre::RenderOperation	mRenderOp;
+    Ogre::AxisAlignedBox	mAABB;
+    Ogre::LightList		mLList;
 
-    Real			mCharHeight;
-    Real			mSpaceWidth;
+    Ogre::Real			mCharHeight;
+    Ogre::Real			mSpaceWidth;
 
     bool			mNeedUpdate;
     bool			mUpdateColors;
     bool			mOnTop;
 
-    Real			mTimeUntilNextToggle;
-    Real			mRadius;
+    Ogre::Real			mTimeUntilNextToggle;
+    Ogre::Real			mRadius;
 
-    Vector3            mGlobalTranslation;
-    Vector3            mLocalTranslation;
+    Ogre::Vector3            mGlobalTranslation;
+    Ogre::Vector3            mLocalTranslation;
 
-    Camera			*mpCam;
-    RenderWindow	*mpWin;
-    Font			*mpFont;
-    MaterialPtr		mpMaterial;
-    MaterialPtr		mpBackgroundMaterial;
+    Ogre::Camera			*mpCam;
+    Ogre::RenderWindow	*mpWin;
+    Ogre::Font			*mpFont;
+    Ogre::MaterialPtr		mpMaterial;
+    Ogre::MaterialPtr		mpBackgroundMaterial;
 
     /******************************** public methods ******************************/
 public:
 
-    MovableText(const String &name, const UTFString &caption, const String &fontName = "CoolFont", Real charHeight = 1.0, const ColourValue &color = ColourValue::White);
+    MovableText(const Ogre::String &name, const Ogre::UTFString &caption, const Ogre::String &fontName = "CoolFont", Ogre::Real charHeight = 1.0, const Ogre::ColourValue &color = Ogre::ColourValue::White);
     virtual ~MovableText();
 
     #if OGRE_VERSION_MINOR >= 6
@@ -66,27 +67,27 @@ public:
     #endif
 
     // Set settings
-    void    setFontName(const String &fontName);
-    void    setCaption(const UTFString &caption);
-    void    setColor(const ColourValue &color);
-    void    setCharacterHeight(Real height);
-    void    setSpaceWidth(Real width);
+    void    setFontName(const Ogre::String &fontName);
+    void    setCaption(const Ogre::UTFString &caption);
+    void    setColor(const Ogre::ColourValue &color);
+    void    setCharacterHeight(Ogre::Real height);
+    void    setSpaceWidth(Ogre::Real width);
     void    setTextAlignment(const HorizontalAlignment& horizontalAlignment, const VerticalAlignment& verticalAlignment);
-    void    setGlobalTranslation( Vector3 trans );
-    void    setLocalTranslation( Vector3 trans );
+    void    setGlobalTranslation( Ogre::Vector3 trans );
+    void    setLocalTranslation( Ogre::Vector3 trans );
     void    showOnTop(bool show=true);
 
     // Get settings
-    const   String          &getFontName() const {return mFontName;}
-    const   UTFString          &getCaption() const {return mCaption;}
-    const   ColourValue     &getColor() const {return mColor;}
+    const   Ogre::String          &getFontName() const {return mFontName;}
+    const   Ogre::UTFString          &getCaption() const {return mCaption;}
+    const   Ogre::ColourValue     &getColor() const {return mColor;}
 
-    Real    getCharacterHeight() const {return mCharHeight;}
-    Real    getSpaceWidth() const {return mSpaceWidth;}
-    Vector3    getGlobalTranslation() const {return mGlobalTranslation;}
-    Vector3    getLocalTranslation() const {return mLocalTranslation;}
+    Ogre::Real    getCharacterHeight() const {return mCharHeight;}
+    Ogre::Real    getSpaceWidth() const {return mSpaceWidth;}
+    Ogre::Vector3    getGlobalTranslation() const {return mGlobalTranslation;}
+    Ogre::Vector3    getLocalTranslation() const {return mLocalTranslation;}
     bool    getShowOnTop() const {return mOnTop;}
-    AxisAlignedBox	        GetAABB(void) { return mAABB; }
+    Ogre::AxisAlignedBox	        GetAABB(void) { return mAABB; }
     //Real    getWidth()  const {return mRadius;}
 
     /******************************** protected methods and overload **************/
@@ -97,22 +98,22 @@ protected:
     void	_updateColors();
 
     // from MovableObject
-    void    getWorldTransforms(Matrix4 *xform) const;
-    Real    getBoundingRadius(void) const {return mRadius;};
-    Real    getSquaredViewDepth(const Camera *cam) const {return 0;};
-    const   Quaternion        &getWorldOrientation(void) const;
-    const   Vector3           &getWorldPosition(void) const;
-    const   AxisAlignedBox    &getBoundingBox(void) const {return mAABB;};
-    const   String            &getName(void) const {return mName;};
-    const   String            &getMovableType(void) const {static Ogre::String movType = "MovableText"; return movType;};
+    void    getWorldTransforms(Ogre::Matrix4 *xform) const;
+    Ogre::Real    getBoundingRadius(void) const {return mRadius;};
+    Ogre::Real    getSquaredViewDepth(const Ogre::Camera *cam) const {return 0;};
+    const   Ogre::Quaternion        &getWorldOrientation(void) const;
+    const   Ogre::Vector3           &getWorldPosition(void) const;
+    const   Ogre::AxisAlignedBox    &getBoundingBox(void) const {return mAABB;};
+    const   Ogre::String            &getName(void) const {return mName;};
+    const   Ogre::String            &getMovableType(void) const {static Ogre::String movType = "MovableText"; return movType;};
 
-    void    _notifyCurrentCamera(Camera *cam);
-    void    _updateRenderQueue(RenderQueue* queue);
+    void    _notifyCurrentCamera(Ogre::Camera *cam);
+    void    _updateRenderQueue(Ogre::RenderQueue* queue);
 
     // from renderable
-    void    getRenderOperation(RenderOperation &op);
-    const   MaterialPtr       &getMaterial(void) const {assert(!mpMaterial.isNull());return mpMaterial;};
-    const   LightList         &getLights(void) const {return mLList;};
+    void    getRenderOperation(Ogre::RenderOperation &op);
+    const   Ogre::MaterialPtr       &getMaterial(void) const {assert(!mpMaterial.isNull());return mpMaterial;};
+    const   Ogre::LightList         &getLights(void) const {return mLList;};
 };
 
 #endif

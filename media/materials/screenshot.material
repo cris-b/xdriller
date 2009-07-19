@@ -35,7 +35,7 @@ material ScreenShot
                 		tex_coord_set 0
 				tex_address_mode clamp
 				filtering linear linear linear
-				texture ScreenShot_texture //2d 0 none PF_R8G8B8
+				texture ScreenShot_texture
 			}
 		}
 	}

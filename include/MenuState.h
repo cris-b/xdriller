@@ -9,13 +9,14 @@
 #endif
 
 #include "MenuButton.h"
+#include "Arrows.h"
 
 #include <vector>
 
 
 #define NUM_MENU_BRICKS         10
 
-class Arrows;
+
 
 class MenuState : public GameState {
 public:
@@ -46,6 +47,7 @@ private:
     MenuState & operator = ( const MenuState& );
 
     void _updateLevelSelect();
+    void _updateArrows(bool jump = false);
 
     Ogre::Root           *mRoot;
     Ogre::Camera         *mCamera;

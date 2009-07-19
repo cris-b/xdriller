@@ -20,15 +20,15 @@ void PauseState::enter( void ) {
     mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "PauseText"));
     mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
-    mTextAreaDepth->setPosition(0.5, 0.5);
-    mTextAreaDepth->setDimensions(0.2, 0.2);
+    mTextAreaDepth->setPosition(0.5, 0.35);
+    mTextAreaDepth->setDimensions(0.6, 0.3);
     mTextAreaDepth->setCaption("PAUSE");
-    mTextAreaDepth->setCharHeight(0.07);
+    mTextAreaDepth->setCharHeight(0.3);
     mTextAreaDepth->setFontName("CoolFont");
     mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
-    mTextAreaDepth->setColour(ColourValue(1,0,0,0.5));
+    mTextAreaDepth->setColour(ColourValue(0,0,0,0.5));
 
     mOverlay = mOverlayMgr->create("PauseStateOverlay");
     mOverlay->add2D(mPanel);
@@ -63,8 +63,10 @@ void PauseState::resume( void ) {
 
 }
 
-void PauseState::update( unsigned long lTimeElapsed ) {
-    // Update wat je moet updaten
+void PauseState::update( unsigned long lTimeElapsed )
+{
+
+    sleep(10);
 }
 
 void PauseState::keyPressed( const OIS::KeyEvent &e ) {

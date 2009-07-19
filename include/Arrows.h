@@ -13,7 +13,11 @@ class Arrows
     ~Arrows();
 
     void setPosition(float x, float y);
+    void setDest(float x, float y);
     void setSize(float s);
+    void setDestSize(float s);
+
+    bool isVisible() {return visible;}
 
     void show();
     void hide();
@@ -25,10 +29,13 @@ class Arrows
 
     private:
 
-    float x,y,w,h,s;
-    float s2;
+    float x,y,x2,y2;
+    float w,h;
+    float s,s2;
     float ar,al;
     float min_alpha;
+
+    bool visible;
 
     Ogre::OverlayManager    *mOverlayMgr;
     Ogre::Overlay           *mOverlay;

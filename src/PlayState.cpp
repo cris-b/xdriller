@@ -209,13 +209,13 @@ void PlayState::enter( void ) {
 
 
     mFadePanel = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "FadeOverlayPanel"));
+        mOverlayMgr->createOverlayElement("Panel", "PlayFadeOverlayPanel"));
     mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
     mFadePanel->setPosition(0, 0);
     mFadePanel->setDimensions(1, 1);
     mFadePanel->setMaterialName("fade_material");
 
-    mFadeOverlay = mOverlayMgr->create("FadeOverlay");
+    mFadeOverlay = mOverlayMgr->create("PlayFadeOverlay");
     mFadeOverlay->add2D(mFadePanel);
 
 

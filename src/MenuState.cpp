@@ -6,6 +6,7 @@
 #include "Tools.h"
 #include "LevelLoader.h"
 #include "SoundManager.h"
+#include "Arrows.h"
 
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1
@@ -21,150 +22,9 @@ using namespace Ogre;
 MenuState* MenuState::mMenuState;
 
 
-class Arrows
-{
-    public:
-    Arrows();
-    ~Arrows();
-
-    void setPosition(float x, float y);
-    void setSize(float s);
-
-    void show();
-    void hide();
-
-    void left();
-    void right();
-
-    void update(unsigned long lTimeElapsed);
-
-    private:
-
-    float x,y,w,h,s;
-    float s2;
-    float ar,al;
-    float min_alpha;
-
-    OverlayManager    *mOverlayMgr;
-    Overlay           *mOverlay;
-    PanelOverlayElement     *arrowLeft;
-    PanelOverlayElement     *arrowRight;
-
-};
-
-Arrows::Arrows()
-{
-
-    x = 0;
-    y = 0;
-    s=0.5;
-    s2=0.5;
-    h = 0.05;
-    w = 0.0375;
-    min_alpha = 0.2;
-    ar = 1;
-    al = 1;
-
-    mOverlayMgr   = OverlayManager::getSingletonPtr();
-    mOverlay = mOverlayMgr->create("ArrowsOverlay");
-
-    arrowLeft = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "arrowLeftPanel"));
-    arrowLeft->setMetricsMode(Ogre::GMM_RELATIVE);
-    arrowLeft->setPosition(0, 0);
-    arrowLeft->setDimensions(w, h);
-    arrowLeft->setHorizontalAlignment(Ogre::GHA_CENTER);
-    arrowLeft->setVerticalAlignment(Ogre::GVA_CENTER);
-    arrowLeft->setMaterialName("arrow_left");
-
-    arrowRight = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "arrowRightPanel"));
-    arrowRight->setMetricsMode(Ogre::GMM_RELATIVE);
-    arrowRight->setPosition(0, 0);
-    arrowRight->setDimensions(w, h);
-    arrowRight->setHorizontalAlignment(Ogre::GHA_CENTER);
-    arrowRight->setVerticalAlignment(Ogre::GVA_CENTER);
-    arrowRight->setMaterialName("arrow_right");
-
-    mOverlay->add2D(arrowLeft);
-    mOverlay->add2D(arrowRight);
 
 
 
-    update(1000);
-
-}
-
-Arrows::~Arrows()
-{
-
-    mOverlay->remove2D(arrowLeft);
-    mOverlay->remove2D(arrowRight);
-    mOverlayMgr->destroy(mOverlay);
-
-}
-
-void Arrows::setPosition(float x, float y)
-{
-    this->x = x;
-    this->y = y;
-}
-
-void Arrows::setSize(float s)
-{
-    this->s2 = s;
-}
-
-void Arrows::update(unsigned long lTimeElapsed)
-{
-    arrowLeft->setPosition(x-(w/2.0)-s,y-(h/2.0));
-    arrowRight->setPosition(x-(w/2.0)+s,y-(h/2.0));
-
-    s += (s2-s)*(lTimeElapsed/100.0);
-
-    {
-        if( al > min_alpha )
-        {
-            al -= lTimeElapsed/1000.0;
-            if(al<min_alpha) al = min_alpha;
-            Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("arrow_left");
-            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
-
-            mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, al);
-        }
-    }
-    {
-        if( ar > min_alpha )
-        {
-            ar -= lTimeElapsed/1000.0;
-            if(ar<min_alpha) ar = min_alpha;
-            Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("arrow_right");
-            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
-
-            mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, ar);
-        }
-    }
-}
-
-void Arrows::show()
-{
-    mOverlay->show();
-}
-
-void Arrows::hide()
-{
-    mOverlay->hide();
-}
-
-void Arrows::left()
-{
-    al = 1.0;
-}
-
-void Arrows::right()
-{
-    ar = 1.0;
-}
 
 void MenuState::enter( void )
 {
@@ -184,6 +44,8 @@ void MenuState::enter( void )
     mViewport->setBackgroundColour(ColourValue(1,1,1));
 
     mSceneMgr->setAmbientLight(ColourValue(1,1,1));
+
+
 
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(0.1);
@@ -307,13 +169,13 @@ void MenuState::enter( void )
     mPanel->addChild(mLevelInfo);
 
     mFadePanel = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "FadeOverlayPanel"));
+        mOverlayMgr->createOverlayElement("Panel", "MenuFadeOverlayPanel"));
     mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
     mFadePanel->setPosition(0, 0);
     mFadePanel->setDimensions(1, 1);
     mFadePanel->setMaterialName("fade_material");
 
-    mFadeOverlay = mOverlayMgr->create("FadeOverlay");
+    mFadeOverlay = mOverlayMgr->create("MenuFadeOverlay");
     mFadeOverlay->add2D(mFadePanel);
 
     fade_alpha = 1.0;
@@ -429,7 +291,6 @@ void MenuState::update( unsigned long lTimeElapsed )
 void MenuState::keyPressed( const OIS::KeyEvent &e )
 {
 
-
     if(e.key == OIS::KC_S)
     {
 
@@ -455,6 +316,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
     if(e.key == OIS::KC_DOWN)
     {
+
         buttons[menuCursor]->setState(BSTATE_INACTIVE);
         menuCursor++;
         if(menuCursor >= (int)buttons.size())
@@ -466,9 +328,13 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
         SoundManager::getSingleton().playSound(SOUND_MENU1);
 
+        _updateArrows();
+
+
     }
     if(e.key == OIS::KC_UP)
     {
+
         buttons[menuCursor]->setState(BSTATE_INACTIVE);
         menuCursor--;
         if(menuCursor < 0)
@@ -479,9 +345,15 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         buttons[menuCursor]->setState(BSTATE_ACTIVE);
 
         SoundManager::getSingleton().playSound(SOUND_MENU1);
+
+        _updateArrows();
+
     }
     if(e.key == OIS::KC_LEFT)
     {
+        arrows->left();
+
+
        switch(menuPage)
         {
             case MENU_PAGE_GRAPHIC_OPTIONS:
@@ -547,7 +419,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 {
                     LevelLoader::getSingleton().prevLevel();
 
-                    arrows->left();
+
 
                     _updateLevelSelect();
 
@@ -556,9 +428,12 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
         }
+        _updateArrows();
     }
     if(e.key == OIS::KC_RIGHT)
     {
+        arrows->right();
+
        switch(menuPage)
         {
             case MENU_PAGE_GRAPHIC_OPTIONS:
@@ -625,7 +500,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 {
                     LevelLoader::getSingleton().nextLevel();
 
-                    arrows->right();
+
 
                     _updateLevelSelect();
 
@@ -635,9 +510,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
         }
+        _updateArrows();
     }
     if( e.key == OIS::KC_RETURN)
     {
+
         switch(menuPage)
         {
             case MENU_PAGE_MAIN:
@@ -732,9 +609,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
 
         }
+        _updateArrows();
     }
     if( e.key == OIS::KC_ESCAPE)
     {
+
         switch(menuPage)
         {
             case MENU_PAGE_MAIN:
@@ -757,6 +636,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_GRAPHIC_OPTIONS:
             {
+
                 changePage(MENU_PAGE_OPTIONS);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
@@ -768,6 +648,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
         }
+        _updateArrows();
     }
 
 }
@@ -924,6 +805,8 @@ void MenuState::changePage(unsigned int page)
 
             mInfoTextArea->setCaption("ATENTION: restart the game for new settings to apply");
 
+
+
             break;
         }
         case MENU_PAGE_OPTIONS:
@@ -973,19 +856,7 @@ void MenuState::changePage(unsigned int page)
             buttons[0]->setPosition(0,4.5,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(0,3.5,0));
-
-            arrows->show();
-
-            Vector2 pos = worldToScreen(Vector3(0,3.5,0),mCamera);
-
-            //Ogre::LogManager::getSingleton().logMessage("ARROWS_POS X = " + StringConverter::toString(pos.x)
-            //                                            + " Y = " + StringConverter::toString(pos.y));
-
-            arrows->setPosition(pos.x,pos.y*0.97);
-
-            //Ogre::LogManager::getSingleton().logMessage("ARROWS_SIZE = " + StringConverter::toString(buttons[0]->getWidth()));
-
-
+            buttons[0]->setArrows(true);
 
 
             mLevelScreenshot->show();
@@ -1029,6 +900,8 @@ void MenuState::changePage(unsigned int page)
 
     }
 
+    _updateArrows(true);
+
 }
 
 void MenuState::_updateLevelSelect()
@@ -1037,8 +910,6 @@ void MenuState::_updateLevelSelect()
             buttons[0]->setCaption(LevelLoader::getSingleton().getLongName(LevelLoader::getSingleton().getLevelName()));
             buttons[0]->setPosition(0,4.5,0);
             buttons[0]->setDest(Vector3(0,3.5,0));
-
-            arrows->setSize(buttons[0]->getWidth());
 
             Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("level_screenshot");
             Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
@@ -1056,7 +927,50 @@ void MenuState::_updateLevelSelect()
 
             mLevelInfo->setCaption(caption);
 
-            arrows->setSize(buttons[0]->getWidth());
+
 
 }
 
+void MenuState::_updateArrows(bool jump)
+{
+    if(buttons[menuCursor]->hasOption())
+    {
+
+        Vector2 pos = buttons[menuCursor]->getOptionScreenPosition();
+
+        /*Ogre::LogManager::getSingleton().logMessage("ARROWS_POS X = " + StringConverter::toString(pos.x)
+                                                    + " Y = " + StringConverter::toString(pos.y));*/
+
+        if(jump || !arrows->isVisible()) arrows->setPosition(pos.x,pos.y);
+        else arrows->setDest(pos.x,pos.y);
+
+        if(jump || !arrows->isVisible()) arrows->setSize(buttons[menuCursor]->getOptionWidth());
+        else arrows->setDestSize(buttons[menuCursor]->getOptionWidth());
+
+        //Ogre::LogManager::getSingleton().logMessage("ARROWS_SIZE = " + StringConverter::toString(buttons[menuCursor]->getOptionWidth()));
+
+
+        arrows->show();
+    }
+    else if(buttons[menuCursor]->hasArrows())
+    {
+
+
+        Vector2 pos = buttons[menuCursor]->getScreenPosition();
+
+
+        if(jump || !arrows->isVisible()) arrows->setPosition(pos.x,pos.y);
+        else arrows->setDest(pos.x,pos.y);
+
+         if(jump || !arrows->isVisible()) arrows->setSize(buttons[menuCursor]->getWidth());
+         else arrows->setDestSize(buttons[menuCursor]->getWidth());
+
+         arrows->show();
+    }
+    else
+    {
+        arrows->hide();
+    }
+
+
+}
