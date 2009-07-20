@@ -138,10 +138,10 @@ void Arrows::hide()
 
 void Arrows::left()
 {
-    al = 1.0;
+    if(visible) al = 1.0;
 }
 
 void Arrows::right()
 {
-    ar = 1.0;
+    if (visible) ar = 1.0;
 }
