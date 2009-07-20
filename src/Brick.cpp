@@ -72,10 +72,6 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     }
     else mEnt = mSceneMgr->createEntity(name, "cube.mesh");
 
-    #if OGRE_VERSION_MINOR < 6
-        mEnt->setNormaliseNormals(true);
-    #endif
-
     mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( name , position);
     mNode->attachObject(mEnt);
 
