@@ -7,7 +7,6 @@ inherit games bzr
 
 DESCRIPTION="3D arcade-puzzle based on Mr.Driller"
 HOMEPAGE="http://xdriller.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/xdriller-0.1.tar.bz2"
 EBZR_REPO_URI="bzr://xdriller.bzr.sourceforge.net/bzrroot/xdriller"
 EBZR_BRANCH=""
 
@@ -25,7 +24,6 @@ DEPEND="${RDEPEND}
 
 src_unpack() {
 	bzr_src_unpack
-	unpack xdriller-0.1.tar.bz2
 }
 
 src_compile() {
@@ -36,12 +34,12 @@ src_install() {
 	dogamesbin ${PN} || die "dogamesbin failed"
 
 	insinto "${GAMES_DATADIR}"/${PN}
-	doins -r xdriller-0.1/media || die "doins failed"
-	doins -r xdriller-0.1/default_config || die "doins failed"
+	doins -r media || die "doins failed"
+	doins -r default_config || die "doins failed"
 
 	dodoc README
 
-	doicon  xdriller-0.1/${PN}.png
+	doicon  ${PN}.png
 	make_desktop_entry ${PN} "Xdriller" ${PN}
 }
 
