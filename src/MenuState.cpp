@@ -600,6 +600,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     //LevelLoader::getSingleton().setLevelName("test");
                     this->changeState( PlayState::getSingletonPtr() );
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
+                    return;
                 }
 
                 break;

@@ -110,7 +110,7 @@ float MenuButton::getWidth()
 float MenuButton::getOptionWidth()
 {
     //return 0;
-    if(!_hasOption) return 0;
+    if(!_hasOption) return 0.0;
 
     AxisAlignedBox aabb = optionText->GetAABB();
 

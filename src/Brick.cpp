@@ -15,16 +15,24 @@
 
 using namespace Ogre;
 
+Brick::Brick()
+{
+    type = BRICK_NONE;
+}
+
 Brick::~Brick()
 {
-	mNode->detachAllObjects();
-	mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
+    if(type != BRICK_NONE)
+    {
 
-    delete mEmi;
+        if(mNode->numAttachedObjects()>0) mNode->detachAllObjects();
+        mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
 
-	if (mEnt)
-		Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->destroyEntity(mEnt);
+        delete mEmi;
 
+        if (mEnt)
+            Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->destroyEntity(mEnt);
+    }
 }
 
 
@@ -32,6 +40,12 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
 {
 
     this->type = type;
+
+    if(type == BRICK_NONE)
+    {
+        alive=false;
+        return;
+    }
 
     done = false;
     fallstate = FSTATE_STILL;
@@ -69,14 +83,14 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     mEmi = new EntityMaterialInstance (mEnt);
     mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
 
-    if(type == BRICK_NONE) kill();
-    else if(type == BRICK_GREEN) mEmi->setMaterialName("verde");
+
+    if(type == BRICK_GREEN) mEmi->setMaterialName("verde");
     else if(type == BRICK_RED) mEmi->setMaterialName("rojo");
     else if(type == BRICK_BLUE) mEmi->setMaterialName("azul");
     else if(type == BRICK_ROCK) mEmi->setMaterialName("roca");
     else if(type == BRICK_YELLOW) mEmi->setMaterialName("amarillo");
     else if(type == BRICK_HEART) mEmi->setMaterialName("corazon");
-    else if(type == BRICK_AIR);
+    else if(type == BRICK_AIR) mEmi->setMaterialName("O2");
     else kill();
 
 
@@ -126,6 +140,10 @@ void Brick::setPredye()
 
 void Brick::update(unsigned long lTimeElapsed)
 {
+    if(lTimeElapsed == 0) return;
+
+    if(type == BRICK_NONE) return;
+
     static Vector3 pos;
 
     if(type == 6)

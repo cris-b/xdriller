@@ -31,7 +31,7 @@ class Brick
 {
     public:
 
-    Brick() {}
+    Brick();
     ~Brick();
     void create (const String&  name, SceneManager *mSceneMgr, int type, const Vector3& position);
 
