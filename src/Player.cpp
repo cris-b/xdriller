@@ -6,7 +6,7 @@
 #define FALL_SPEED  -0.004
 #define FALL_ACC    -0.0001
 #define H_SPEED      0.004
-#define H_SPEED_FALL 0.0005
+#define H_SPEED_FALL 0.002
 #define H_ACC        0.0005
 #define H_FRICTION   0.0001
 #define BORED_TIME   6000

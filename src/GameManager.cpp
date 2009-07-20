@@ -304,6 +304,7 @@ bool GameManager::configureGame( void ) {
     // Create needed scenemanagers
     mRoot->createSceneManager( ST_GENERIC, "ST_GENERIC" );
 
+
     return true;
 }
 
