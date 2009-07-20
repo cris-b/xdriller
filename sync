@@ -1,2 +1,2 @@
 for i in `find media include src -type f `; do cp -uv ../$i $i; done
-cp -uv ../README ../COPYING ../Makefile ../config.cfg ../ogre.cfg ../plugins.cfg ../resources.cfg ../xdriller-9999.ebuild .
+cp -uv ../README ../COPYING ../Makefile ../xdriller-9999.ebuild .
