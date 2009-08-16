@@ -192,6 +192,8 @@ void MenuState::enter( void )
 
     arrows->hide();
 
+    titleButton = NULL;
+
 
     changePage(MENU_PAGE_MAIN);
 
