@@ -37,21 +37,25 @@ void Cam::update( unsigned long lTimeElapsed )
 
         limitPitch(-80,80);
 
-        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
+
 
         mCamNode->setPosition(0,mCamNode->getPosition().y+
             (parentNode->getPosition().y-mCamNode->getPosition().y)*(lTimeElapsed/1000.0),
             9);
+
+        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
     }
     else if(camMode == CMODE_FOLLOW_LOOK_UP)
     {
         limitPitch(-80,80);
 
-        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
+
 
         mCamNode->setPosition(0,mCamNode->getPosition().y+
             (parentNode->getPosition().y-3-mCamNode->getPosition().y)*(lTimeElapsed/1000.0),
             9);
+
+        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
 
     }
     else if(camMode == CMODE_FOLLOW_ABOVE)
@@ -59,12 +63,14 @@ void Cam::update( unsigned long lTimeElapsed )
 
         limitPitch(-80,80);
 
-        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
+
 
         if(mCamNode->getPosition().z < 200)
             mCamNode->setPosition(0,mCamNode->getPosition().y+
                 (parentNode->getPosition().y-mCamNode->getPosition().y)*(lTimeElapsed/1000.0),
                 mCamNode->getPosition().z-(8+parentNode->getPosition().z-mCamNode->getPosition().z)*(lTimeElapsed/5000.0));
+
+        mCamNode->lookAt(Vector3(0,parentNode->getPosition().y,parentNode->getPosition().z),Node::TS_WORLD);
     }
 
     //mCamNode->setPosition(parentNode->getPosition());
