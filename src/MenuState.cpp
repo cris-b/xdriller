@@ -854,7 +854,7 @@ void MenuState::changePage(unsigned int page)
 
         case MENU_PAGE_LEVELSELECT:
         {
-            buttons.push_back(new MenuButton(LevelLoader::getSingleton().getLongName(LevelLoader::getSingleton().getLevelName())));
+            buttons.push_back(new MenuButton(LevelLoader::getSingleton().getLongName()));
 
             buttons[0]->setPosition(0,4.5,0);
             buttons[0]->setState(BSTATE_ACTIVE);
@@ -910,7 +910,7 @@ void MenuState::changePage(unsigned int page)
 void MenuState::_updateLevelSelect()
 {
 
-            buttons[0]->setCaption(LevelLoader::getSingleton().getLongName(LevelLoader::getSingleton().getLevelName()));
+            buttons[0]->setCaption(LevelLoader::getSingleton().getLongName());
             buttons[0]->setPosition(0,4.5,0);
             buttons[0]->setDest(Vector3(0,3.5,0));
 
@@ -923,7 +923,7 @@ void MenuState::_updateLevelSelect()
 
 
             Ogre::String caption = findAndReplace(
-                    LevelLoader::getSingleton().getLevelInfo(LevelLoader::getSingleton().getLevelName()),
+                    LevelLoader::getSingleton().getLevelInfo(),
                     "</br>",
                     "\n"
                     );

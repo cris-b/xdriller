@@ -57,7 +57,7 @@ private:
     Ogre::Viewport       *mViewport;
 
     SceneNode *backgroundSceneNode;
-    Entity *backgroundSceneEnt;
+
 
     Ogre::OverlayManager    *mOverlayMgr;
     Overlay                 *mOverlay;

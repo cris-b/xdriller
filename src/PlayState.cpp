@@ -4,7 +4,7 @@
 #include "Tools.h"
 #include "SoundManager.h"
 #include "LevelLoader.h"
-
+#include "DotScene.h"
 
 
 #include <string>
@@ -39,10 +39,7 @@ void PlayState::enter( void ) {
 
     fade_alpha = 1.0;
 
-    /*CDotScene *dotScene;
-    dotScene = new CDotScene();
-    dotScene->parseDotScene("Scene.xml","General",mSceneMgr, NULL, "");
-    */
+
 
 
     mCamera           = mSceneMgr->createCamera( "Camera" );
@@ -78,11 +75,19 @@ void PlayState::enter( void ) {
     mCam->getSceneNode()->attachObject(light);
 
     backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundScene_Node" , Vector3(0,0,0));
-    backgroundSceneEnt = mSceneMgr->createEntity("backGroundScene_Ent", "fondo_polo.mesh");
-    backgroundSceneNode->attachObject(backgroundSceneEnt);
+    //backgroundSceneEnt = mSceneMgr->createEntity("backGroundScene_Ent", "fondo_polo.mesh");
+    //backgroundSceneNode->attachObject(backgroundSceneEnt);
 
-    backgroundSceneNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
+    //backgroundSceneNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
+
+    // Load background scene
+    CDotScene dotScene;
+    //dotScene = new CDotScene();
+
+    String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
+
+    dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "backgroundScene_");
 
     mBoard = new Board();
 
@@ -92,12 +97,8 @@ void PlayState::enter( void ) {
     mCam->setPosition(0,mPlayer->getPosition().y,9);
 
 
-    //prueba de sonido
-
     SoundManager::getSingleton().loadMusic("music.ogg");
     SoundManager::getSingleton().playMusic(true);
-
-     //LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
 
     mPanel = static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
@@ -225,6 +226,9 @@ void PlayState::enter( void ) {
     // Show the overlay
     mOverlay->show();
     mFadeOverlay->show();
+
+
+    LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
 
 }
 
@@ -652,7 +656,9 @@ void PlayState::nextBoard()
 
     }
 
-    if(boardNum == 1) backgroundSceneNode->detachObject(backgroundSceneEnt);
+    //en los subsiguentes tableros la escena de fondo de sigue dibujando
+    // ¿como hacer que nop se dibujen?
+    //if(boardNum == 1) backgroundSceneNode->detachObject(backgroundSceneEnt);
 
 
 };

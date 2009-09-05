@@ -93,37 +93,21 @@ void LevelLoader::setLevelNum(int levelNum)
 
 }
 
-Ogre::String LevelLoader::getLongName(Ogre::String levelName)
+Ogre::String LevelLoader::getLongName()
 {
 
-   ConfigFile::SectionIterator seci = cf.getSectionIterator();
-
-   Ogre::String secName, optName, optValue;
-
-   while (seci.hasMoreElements())
-   {
-
-       secName = seci.peekNextKey();
-       ConfigFile::SettingsMultiMap *settings = seci.getNext();
-       ConfigFile::SettingsMultiMap::iterator i;
-
-       for (i = settings->begin(); i != settings->end(); ++i)
-       {
-           optName = i->first;
-           optValue = i->second;
-
-           if(secName == levelName)
-           {
-                if(optName == "long_name") return optValue;
-           }
-       }
-   }
-
-   return "No info";
+    return getValue("long_name");
 
 }
 
-Ogre::String LevelLoader::getLevelInfo(Ogre::String levelName)
+Ogre::String LevelLoader::getLevelInfo()
+{
+
+    return getValue("info");
+
+}
+
+Ogre::String LevelLoader::getValue(Ogre::String opt)
 {
 
    ConfigFile::SectionIterator seci = cf.getSectionIterator();
@@ -144,12 +128,12 @@ Ogre::String LevelLoader::getLevelInfo(Ogre::String levelName)
 
            if(secName == levelName)
            {
-                if(optName == "info") return optValue;
+                if(optName == opt) return optValue;
            }
        }
    }
 
-   return "No info";
+   return "error";
 
 }
 

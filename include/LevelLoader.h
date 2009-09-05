@@ -27,8 +27,9 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         int getHeight() {return height;}
         int getWidth() {return width;}
         Ogre::String getLevelName(void) {return levelName;}
-        Ogre::String getLongName(Ogre::String levelName);
-        Ogre::String getLevelInfo(Ogre::String levelName);
+        Ogre::String getLongName(void);
+        Ogre::String getLevelInfo(void);
+        Ogre::String getValue(Ogre::String opt);
 
         int getBrickType(int index) {return levelData[index];}
 
