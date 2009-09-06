@@ -12,10 +12,14 @@ SuperBrick::SuperBrick (const Vector3& position )
 
     mSceneMgr = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" );
 
-    mEnt = mSceneMgr->createEntity("superbrick", "endsupercube.mesh");
+    mEnt = mSceneMgr->createEntity("SuperBrick", "endsupercube.mesh");
 
+    if(mSceneMgr->hasSceneNode("BoardSceneNode") == false)
+    {
+        mSceneMgr->getRootSceneNode()->createChildSceneNode("BoardSceneNode");
+    }
 
-    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "superbrick" , position);
+    mNode = mSceneMgr->getSceneNode("BoardSceneNode")->createChildSceneNode( "SuperBrick" , position);
     mNode->attachObject(mEnt);
 
     mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));

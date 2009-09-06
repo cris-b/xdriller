@@ -74,7 +74,7 @@ void PlayState::enter( void ) {
 
     mCam->getSceneNode()->attachObject(light);
 
-    backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundScene_Node" , Vector3(0,0,0));
+    backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
     //backgroundSceneEnt = mSceneMgr->createEntity("backGroundScene_Ent", "fondo_polo.mesh");
     //backgroundSceneNode->attachObject(backgroundSceneEnt);
 
@@ -87,7 +87,7 @@ void PlayState::enter( void ) {
 
     String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
 
-    dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "backgroundScene_");
+    dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
     mBoard = new Board();
 

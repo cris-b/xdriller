@@ -6,7 +6,7 @@
 #define FALL_SPEED  -0.004
 #define FALL_ACC    -0.0001
 #define H_SPEED      0.004
-#define H_SPEED_FALL 0.0005
+#define H_SPEED_FALL 0.002
 #define H_ACC        0.0005
 #define H_FRICTION   0.0001
 #define BORED_TIME   6000
@@ -39,12 +39,12 @@ Player::Player(Board *mBoard)
     speed = Vector3(0,0,0);
     orientationAngle = 0;
 
-    mEnt = mSceneMgr->createEntity("player", "tux.mesh");
+    mEnt = mSceneMgr->createEntity("Player", "tux.mesh");
     mEnt->setMaterialName("tux");
 
 
-    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "player" , startPos);
-    mScaleNode = mNode->createChildSceneNode( "player_scale_node");
+    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "Player" , startPos);
+    mScaleNode = mNode->createChildSceneNode( "PlayerScaleNode");
     mScaleNode->attachObject(mEnt);
 
     Vector3 pos = mNode->getPosition();
@@ -61,13 +61,13 @@ Player::Player(Board *mBoard)
     mAnimationState->setLoop(true);
     mAnimationState->setEnabled(true);
 
-    starsParticle = mSceneMgr->createParticleSystem("StarsParticle", "Stars");
+    starsParticle = mSceneMgr->createParticleSystem("Stars", "Stars");
     starsParticle->getEmitter(0)->setEnabled(false);
 
-    plus20Particle = mSceneMgr->createParticleSystem("Plus20Particle", "Plus20");
+    plus20Particle = mSceneMgr->createParticleSystem("Plus20", "Plus20");
     plus20Particle->getEmitter(0)->setEnabled(false);
 
-    heartsParticle = mSceneMgr->createParticleSystem("HeartsParticle", "Hearts");
+    heartsParticle = mSceneMgr->createParticleSystem("Hearts", "Hearts");
     heartsParticle->getEmitter(0)->setEnabled(false);
 
     mNode->attachObject(starsParticle);

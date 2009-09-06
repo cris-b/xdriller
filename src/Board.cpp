@@ -56,7 +56,7 @@ Board::Board()
         for(int i = 0; i < this->width; i++)
         {
             int t = mLevel->getBrickType(j*width+i);
-            String n = "Brick" + StringConverter::toString(i) + ":" + StringConverter::toString(j);
+            String n = "Brick_" + StringConverter::toString(i) + ":" + StringConverter::toString(j);
             Vector3 v = Vector3(i-4,-j,0);
             mBricks[j*width+i].create(n,mSceneMgr,t,v);
         }

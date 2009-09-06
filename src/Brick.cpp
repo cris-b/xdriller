@@ -72,7 +72,17 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     }
     else mEnt = mSceneMgr->createEntity(name, "cube.mesh");
 
-    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( name , position);
+    #if OGRE_VERSION_MINOR < 6
+        mEnt->setNormaliseNormals(true);
+    #endif
+
+    if(mSceneMgr->hasSceneNode("BoardSceneNode") == false)
+    {
+        mSceneMgr->getRootSceneNode()->createChildSceneNode("BoardSceneNode");
+    }
+
+    mNode = mSceneMgr->getSceneNode("BoardSceneNode")->createChildSceneNode( name , position);
+
     mNode->attachObject(mEnt);
 
     mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
