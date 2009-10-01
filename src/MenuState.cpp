@@ -59,13 +59,13 @@ void MenuState::enter( void )
 
     mSceneMgr->setFog(FOG_LINEAR, ColourValue(1,1,1), 0.0, 20, 50);
 
-    Rectangle2D* toprect = new Rectangle2D(true);
+    /*Rectangle2D* toprect = new Rectangle2D(true);
     toprect->setCorners(-1.0, 1.0, 1.0, -1.0);
     toprect->setMaterial("foreground");
     toprect->setRenderQueueGroup(RENDER_QUEUE_6);
 
-    SceneNode* foregorund_node = mSceneMgr->getRootSceneNode()->createChildSceneNode("foreground");
-    foregorund_node->attachObject(toprect);
+    SceneNode* foregorund_node = mSceneMgr->getRootSceneNode()->createChildSceneNode("foreground_node");
+    foregorund_node->attachObject(toprect);*/
 
 
     for(int i = 0; i < NUM_MENU_BRICKS; i++)
@@ -206,6 +206,9 @@ void MenuState::exit( void )
 {
     delete arrows;
 
+    //foregorund_node->dettachObject("foreground_node");
+
+
     mOverlayMgr->destroyAllOverlayElements();
 
     mOverlayMgr->destroy(mOverlay);
@@ -214,7 +217,8 @@ void MenuState::exit( void )
 
     while (!buttons.empty())
     {
-        delete buttons.back();  buttons.pop_back();
+        delete buttons.back();
+        buttons.pop_back();
     }
 
     //delete mGUI;
@@ -532,6 +536,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     changePage(MENU_PAGE_OPTIONS);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
+                if(menuCursor == 2)
+                {
+                    this->changeState( CreditsState::getSingletonPtr() );
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
                 if(menuCursor == 3)
                 {
                     changePage(MENU_PAGE_QUIT);
@@ -612,7 +621,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
 
         }
-        _updateArrows();
+
     }
     if( e.key == OIS::KC_ESCAPE)
     {
@@ -651,7 +660,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
         }
-        _updateArrows();
+
     }
 
 }
@@ -972,7 +981,7 @@ void MenuState::_updateArrows(bool jump)
     }
     else
     {
-        arrows->hide();
+       arrows->hide();
     }
 
 

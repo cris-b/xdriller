@@ -1,0 +1,74 @@
+material gplv3
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture gplv3.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+material ogre_logo
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture ogrelogo.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+material fslogo
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture fslogo.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material fixi_studios
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture fixi_studios.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+

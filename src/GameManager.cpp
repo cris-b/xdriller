@@ -17,6 +17,10 @@
 #ifndef MenuState_H
 #include "MenuState.h"
 #endif
+#ifndef CreditsState_H
+#include "CreditsState.h"
+#endif
+
 #include "SoundManager.h"
 #include "ConfigManager.h"
 

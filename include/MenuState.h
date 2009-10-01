@@ -4,6 +4,9 @@
 #ifndef PlayState_H
 #include "PlayState.h"
 #endif
+#ifndef CreditsState_H
+#include "CreditsState.h"
+#endif
 #ifndef GameState_H
 #include "GameState.h"
 #endif

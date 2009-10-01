@@ -7,7 +7,7 @@ IntroState* IntroState::mIntroState;
 
 void IntroState::enter( void ) {
     mRoot         = Root::getSingletonPtr();
-    mOverlayMgr      = OverlayManager::getSingletonPtr();
+    mOverlayMgr    = OverlayManager::getSingletonPtr();
     mSceneMgr     = mRoot->getSceneManager( "ST_GENERIC" );
     mCamera       = mSceneMgr->createCamera( "IntroCamera" );
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
@@ -19,11 +19,7 @@ void IntroState::enter( void ) {
     mCamera->setNearClipDistance(0.1);
     mCamera->setFarClipDistance(100);
 
-    /*Light *light = mSceneMgr->createLight("Intro_Light");
-    light->setType(Light::LT_POINT);
-    light->setPosition(Vector3(10, 0, 5));
-    light->setDiffuseColour(1.0, 1.0, 1.0);
-    light->setSpecularColour(1.0, 1.0, 1.0);*/
+
 
 
     mCamNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("IntroCamNode",Vector3(0,-3,25));

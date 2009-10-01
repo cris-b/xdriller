@@ -1,0 +1,128 @@
+vertex_program camadenubes_vertex glsl
+{
+    source camadenubes_vp.glsl
+
+	default_params
+	{
+
+
+
+	}
+
+}
+
+fragment_program camadenubes_fragment glsl
+{
+    source camadenubes_fp.glsl
+
+	default_params
+	{
+		//param_named_auto ambient ambient_light_colour
+		param_named tex0 int 0
+	}
+}
+
+material karola/SOLID/TEX/madera.png/VertCol
+{
+	technique
+	{
+		pass
+		{
+			//fragment_program_ref camadenubes_fragment {}
+			//vertex_program_ref camadenubes_vertex {}
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.100000 0.100000 0.100000 12.500000
+			texture_unit
+			{
+				texture madera.png
+			}
+		}
+	}
+}
+material karola/SOLID/TEX/metal_negro.png/VertCol
+{
+	technique
+	{
+		pass
+		{
+
+			//fragment_program_ref camadenubes_fragment {}
+			//vertex_program_ref camadenubes_vertex {}
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.400000 0.400000 0.400000 12.500000
+			texture_unit
+			{
+				texture metal_negro.png
+			}
+		}
+	}
+}
+material karola/SOLID/TEX/ventana.png/VertCol
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref camadenubes_fragment {}
+			vertex_program_ref camadenubes_vertex {}
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture ventana.png
+			}
+		}
+	}
+}
+material karola/SOLID/TEX/meral_rojo.png/VertCol
+{
+	technique
+	{
+		pass
+		{
+
+			fragment_program_ref camadenubes_fragment {}
+			vertex_program_ref camadenubes_vertex {}
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture meral_rojo.png
+			}
+		}
+	}
+}
+material karola/SOLID/TEX/cubogris.jpg/VertCol
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref camadenubes_fragment {}
+			vertex_program_ref camadenubes_vertex {}
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cubogris.jpg
+			}
+		}
+	}
+}
+material karola/SOLID/TEX/cuboverde.jpg/VertCol
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref camadenubes_fragment {}
+			vertex_program_ref camadenubes_vertex {}
+			diffuse 1.000000 1.000000 1.000000
+			specular 0.500000 0.500000 0.500000 12.500000
+			texture_unit
+			{
+				texture cuboverde.jpg
+			}
+		}
+	}
+}
