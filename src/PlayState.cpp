@@ -202,8 +202,6 @@ void PlayState::enter( void ) {
     mOverlay->add2D(mBottleAir);
     mOverlay->add2D(mBottle);
 
-
-
     mPanel->addChild(mTextAreaDepth);
     mPanel->addChild(mTextAreaPoints);
     mPanel->addChild(mTextAreaClock);
@@ -237,13 +235,14 @@ void PlayState::exit( void ) {
     delete mBoard;
     delete mPlayer;
 
-    mOverlayMgr->destroyAllOverlayElements();
+    destroyOverlayElements();
 
     mTextAreaLives = NULL;
     mTextAreaTotal = NULL;
     mSkull         = NULL;
 
     mOverlayMgr->destroy(mOverlay);
+    mOverlayMgr->destroyOverlayElement(mFadePanel);
     mOverlayMgr->destroy(mFadeOverlay);
 
 
@@ -437,7 +436,9 @@ void PlayState::update( unsigned long lTimeElapsed )
         if(mTextAreaLives == NULL && mPlayer->isAlive())
         {
 
-            mOverlayMgr->destroyAllOverlayElements();
+            //mOverlayMgr->destroyAllOverlayElements();
+
+            destroyOverlayElements();
 
             mPanel = static_cast<PanelOverlayElement*>(
                 mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
@@ -533,7 +534,9 @@ void PlayState::update( unsigned long lTimeElapsed )
         }
         else if(mSkull == NULL && !mPlayer->isAlive())
         {
-            mOverlayMgr->destroyAllOverlayElements();
+            //mOverlayMgr->destroyAllOverlayElements();
+
+            destroyOverlayElements();
 
             mPanel = static_cast<PanelOverlayElement*>(
                 mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
@@ -743,4 +746,23 @@ PlayState* PlayState::getSingletonPtr( void ) {
     }
 
     return mPlayState;
+}
+
+void PlayState::destroyOverlayElements()
+{
+
+    mOverlayMgr->destroyOverlayElement(mTextAreaDepth);
+    mOverlayMgr->destroyOverlayElement(mTextAreaPoints);
+    mOverlayMgr->destroyOverlayElement(mTextAreaClock);
+    if(mTextAreaLives != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaLives);
+    if(mTextAreaLives != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaTotal);
+    mOverlayMgr->destroyOverlayElement(mArrow);
+    if(mTextAreaLives != NULL) mOverlayMgr->destroyOverlayElement(mSkull);
+    mOverlayMgr->destroyOverlayElement(mScore);
+    mOverlayMgr->destroyOverlayElement(mClock);
+    mOverlayMgr->destroyOverlayElement(mLivesPanel);
+    mOverlayMgr->destroyOverlayElement(mBottle);
+    mOverlayMgr->destroyOverlayElement(mBottleAir);
+    mOverlayMgr->destroyOverlayElement(mPanel);
+
 }

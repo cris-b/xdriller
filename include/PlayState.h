@@ -95,7 +95,6 @@ private:
 
     int finished;
 
-
     OIS::Keyboard        *mInputDevice;
 
     Cam *mCam;
@@ -104,6 +103,8 @@ private:
     Player *mPlayer;
 
     static PlayState *mPlayState;
+
+    void destroyOverlayElements();
 };
 #endif
 

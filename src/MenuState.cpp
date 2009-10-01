@@ -209,9 +209,28 @@ void MenuState::exit( void )
     //foregorund_node->dettachObject("foreground_node");
 
 
-    mOverlayMgr->destroyAllOverlayElements();
+    //mOverlayMgr->destroyAllOverlayElements();
+    /*
+    mOverlay->add2D(mPanel);
+
+    mOverlay->add2D(mLevelScreenshot_shadow);
+    mOverlay->add2D(mLevelScreenshot);
+
+    mPanel->addChild(mInfoTextArea);
+    mPanel->addChild(mLevelInfo);
+    */
+
+
+    mOverlayMgr->destroyOverlayElement(mLogoXDriller);
+    mOverlayMgr->destroyOverlayElement(mLevelScreenshot);
+    mOverlayMgr->destroyOverlayElement(mLevelScreenshot_shadow);
+    mOverlayMgr->destroyOverlayElement(mLevelInfo);
+    mOverlayMgr->destroyOverlayElement(mInfoTextArea);
+    mOverlayMgr->destroyOverlayElement(mPanel);
+
 
     mOverlayMgr->destroy(mOverlay);
+    mOverlayMgr->destroyOverlayElement(mFadePanel);
     mOverlayMgr->destroy(mFadeOverlay);
 
 

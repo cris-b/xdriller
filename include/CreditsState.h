@@ -41,11 +41,13 @@ private:
 
     Ogre::SceneNode     *mKarolaNode;
     Ogre::Entity        *mKarolaEnt;
+    Ogre::AnimationState *mKarolaAnimState;
 
     Ogre::SceneNode     *mCamNode;
 
     Ogre::OverlayManager    *mOverlayMgr;
     Ogre::Overlay           *mOverlay;
+
 
     Ogre::Overlay                 *mFadeOverlay;
     Ogre::PanelOverlayElement     *mFadePanel;
