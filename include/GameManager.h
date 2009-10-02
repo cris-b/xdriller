@@ -17,6 +17,8 @@
 #include "InputManager.h"
 #endif
 
+
+
 class GameState;
 
 class GameManager : public OIS::KeyListener, OIS::MouseListener ,  public Ogre::WindowEventListener {
@@ -59,6 +61,7 @@ private:
     GameState          *mPlayState;
     GameState          *mPauseState;
     GameState          *mMenuState;
+    GameState          *mCreditsState;
 
     bool bShutdown;
     std::vector<GameState*> mStates;

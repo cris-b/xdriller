@@ -18,6 +18,9 @@
 #include "InputManager.h"
 #endif
 
+
+#include "Fader.h"
+
 class GameState {
 public:
     ~GameState( void ) { }
@@ -40,8 +43,16 @@ public:
     void pushState( GameState *state );
     void popState( void );
     void requestShutdown( void );
+
+    void fadeState(GameState *state);
+    void updateStateFader();
+
+    GameState *fadeTo;
+
 protected:
     GameState( void ) { }
+
+
 private:
     GameState( const GameState& ) { }
     GameState & operator = ( const GameState& );

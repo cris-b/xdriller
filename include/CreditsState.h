@@ -49,10 +49,6 @@ private:
     Ogre::Overlay           *mOverlay;
 
 
-    Ogre::Overlay                 *mFadeOverlay;
-    Ogre::PanelOverlayElement     *mFadePanel;
-
-    float fade_alpha;
 
     static CreditsState    *mCreditsState;
 };

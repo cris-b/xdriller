@@ -64,16 +64,11 @@ private:
 
     TextAreaOverlayElement  *mInfoTextArea;
 
-    Overlay                 *mFadeOverlay;
-    PanelOverlayElement     *mFadePanel;
+
 
     PanelOverlayElement     *mLevelScreenshot;
     PanelOverlayElement     *mLevelScreenshot_shadow;
     TextAreaOverlayElement  *mLevelInfo;
-
-
-
-    float fade_alpha;
 
 
     Ogre::SceneNode *mBrickNode[NUM_MENU_BRICKS];
@@ -92,6 +87,8 @@ private:
 
     unsigned int menuPage;
     int menuCursor;
+
+    int changingState;
 
 };
 #endif

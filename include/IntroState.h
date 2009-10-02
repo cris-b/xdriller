@@ -8,7 +8,7 @@
 #include "GameState.h"
 #endif
 
-class IntroState : public GameState {
+class IntroState : public GameState{
 public:
     ~IntroState( void );
 
@@ -45,12 +45,12 @@ private:
     Ogre::OverlayManager    *mOverlayMgr;
     Ogre::Overlay           *mOverlay;
     Ogre::OverlayContainer  *mLogoFSPanel;
-    Ogre::OverlayContainer  *mFadePanel;
 
     Ogre::AnimationState *mAnimState;
 
 
     static IntroState    *mIntroState;
+
 };
 #endif
 

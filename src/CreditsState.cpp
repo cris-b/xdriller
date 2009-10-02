@@ -2,6 +2,7 @@
 #include "SoundManager.h"
 #include "Tools.h"
 
+
 using namespace Ogre;
 
 CreditsState* CreditsState::mCreditsState;
@@ -30,11 +31,13 @@ void CreditsState::enter( void ) {
 
 
 
-    mCamNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("CreditsCamNode",Vector3(0,0,15));
+    mCamNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("CreditsCamNode",Vector3(0,-10,15));
 
     mCamNode->attachObject(mCamera);
 
-    mCamNode->lookAt(Vector3(0,0,0),Ogre::SceneNode::TS_WORLD);
+    //mCamNode->lookAt(Vector3(0,-10,0),Ogre::SceneNode::TS_WORLD);
+
+
 
 
     mKarolaEnt = mSceneMgr->createEntity("KarolaEnt", "karola.mesh");
@@ -120,27 +123,16 @@ void CreditsState::enter( void ) {
 
     mPanel->addChild(mTextArea);
 */
-    mFadeOverlay = mOverlayMgr->create("CreditsFadeOverlay");
-
-    mFadePanel = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "CreditsFadeOverlayPanel"));
-    mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
-    mFadePanel->setPosition(0, 0);
-    mFadePanel->setDimensions(1, 1);
-    mFadePanel->setMaterialName("fade_material");
 
 
-    mFadeOverlay->add2D(mFadePanel);
-
-    fade_alpha = 1.0;
 
 
     mOverlay->setZOrder(100);
-    mFadeOverlay->setZOrder(101);
+
 
     // Show the overlay
     mOverlay->show();
-    mFadeOverlay->show();
+
 
 
 }
@@ -153,8 +145,8 @@ void CreditsState::exit( void )
 
     mOverlay->hide();
 
-    mOverlayMgr->destroyOverlayElement(mFadePanel);
-    mOverlayMgr->destroy(mFadeOverlay);
+
+
 
     mSceneMgr->destroyAllCameras();
     mSceneMgr->clearScene();
@@ -177,20 +169,6 @@ void CreditsState::update( unsigned long lTimeElapsed )
     mMobilePanel->setTop(mMobilePanel->getTop()-0.00005*lTimeElapsed);
     //if(mMobilePanel->getTop() < -2) mMobilePanel->setTop(-2);
 
-    if(fade_alpha > 0)
-    {
-        fade_alpha -= (float) lTimeElapsed / 1000.0;
-
-		Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
-		Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
-
-		mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, fade_alpha);
-    }
-    else
-    {
-        fade_alpha = 0;
-        mFadeOverlay->hide();
-    }
 
     mKarolaAnimState->addTime(0.00002*lTimeElapsed);
 
@@ -224,6 +202,10 @@ void CreditsState::update( unsigned long lTimeElapsed )
 
     mKarolaNode->translate(lTimeElapsed*karolaSpeed,0,0);
 
+
+    //esto pa cuando tengo una nuve volumetrica de esas
+    //mCamNode->setPosition(mCamNode->getPosition().x,mCamNode->getPosition().y-((mCamNode->getPosition().y/2.0)*(lTimeElapsed/1000.0)),mCamNode->getPosition().z);
+
 }
 
 void CreditsState::keyPressed( const OIS::KeyEvent &e ) {
@@ -234,12 +216,13 @@ void CreditsState::keyReleased( const OIS::KeyEvent &e )
     if( e.key == OIS::KC_ESCAPE )
     {
         //this->requestShutdown();
-        this->changeState( MenuState::getSingletonPtr() );
+        //this->changeState( GAMESTATE_MENU );
+        fadeState(MenuState::getSingletonPtr());
     }
     if( e.key == OIS::KC_Q )
     {
         this->requestShutdown();
-        //this->changeState( MenuState::getSingletonPtr() );
+        //this->fadeState( MenuState::getSingletonPtr() );
     }
 }
 

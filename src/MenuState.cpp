@@ -8,6 +8,7 @@
 #include "SoundManager.h"
 #include "Arrows.h"
 
+
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1
 #define MENU_PAGE_CREDITS               2
@@ -28,7 +29,6 @@ MenuState* MenuState::mMenuState;
 
 void MenuState::enter( void )
 {
-
     menuPage = MENU_PAGE_MAIN;
     menuCursor = 0;
 
@@ -42,6 +42,8 @@ void MenuState::enter( void )
     //mCamera->setPolygonMode(PM_WIREFRAME);
 
     mViewport->setBackgroundColour(ColourValue(1,1,1));
+
+
 
     mSceneMgr->setAmbientLight(ColourValue(1,1,1));
 
@@ -168,25 +170,15 @@ void MenuState::enter( void )
     mPanel->addChild(mInfoTextArea);
     mPanel->addChild(mLevelInfo);
 
-    mFadePanel = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "MenuFadeOverlayPanel"));
-    mFadePanel->setMetricsMode(Ogre::GMM_RELATIVE);
-    mFadePanel->setPosition(0, 0);
-    mFadePanel->setDimensions(1, 1);
-    mFadePanel->setMaterialName("fade_material");
 
-    mFadeOverlay = mOverlayMgr->create("MenuFadeOverlay");
-    mFadeOverlay->add2D(mFadePanel);
 
-    fade_alpha = 1.0;
+
 
 
     mOverlay->setZOrder(100);
-    mFadeOverlay->setZOrder(101);
 
     // Show the overlay
     mOverlay->show();
-    mFadeOverlay->show();
 
     arrows = new Arrows;
 
@@ -199,6 +191,8 @@ void MenuState::enter( void )
 
     SoundManager::getSingleton().loadMusic("menu_music.ogg");
     SoundManager::getSingleton().playMusic(true);
+
+    Fader::getSingletonPtr()->fadeIn();
 
 }
 
@@ -230,9 +224,6 @@ void MenuState::exit( void )
 
 
     mOverlayMgr->destroy(mOverlay);
-    mOverlayMgr->destroyOverlayElement(mFadePanel);
-    mOverlayMgr->destroy(mFadeOverlay);
-
 
     while (!buttons.empty())
     {
@@ -260,23 +251,6 @@ void MenuState::update( unsigned long lTimeElapsed )
 {
 
     arrows->update(lTimeElapsed);
-
-    if(fade_alpha > 0)
-    {
-        fade_alpha -= (float) lTimeElapsed / 1000.0;
-
-		Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
-		Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
-
-		mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, fade_alpha);
-    }
-    else
-    {
-        fade_alpha = 0;
-        mFadeOverlay->hide();
-    }
-
-
 
 
     for(int i = 0; i < NUM_MENU_BRICKS; i++)
@@ -309,6 +283,8 @@ void MenuState::update( unsigned long lTimeElapsed )
 
 
     }
+
+
 
 
 }
@@ -557,7 +533,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    this->changeState( CreditsState::getSingletonPtr() );
+                    fadeState( CreditsState::getSingletonPtr() );
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
                 if(menuCursor == 3)
@@ -628,7 +604,8 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 if(menuCursor == 0)
                 {
                     //LevelLoader::getSingleton().setLevelName("test");
-                    this->changeState( PlayState::getSingletonPtr() );
+                    fadeState( PlayState::getSingletonPtr() );
+                    //changingState = GAMESTATE_PLAY;
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                     return;
                 }
@@ -684,7 +661,17 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
 }
 
-void MenuState::keyReleased( const OIS::KeyEvent &e ) {
+void MenuState::keyReleased( const OIS::KeyEvent &e )
+{
+    if(e.key == OIS::KC_K)
+    {
+        Fader::getSingletonPtr()->enable();
+    }
+    else if(e.key == OIS::KC_L)
+    {
+        Fader::getSingletonPtr()->disable();
+    }
+
 
 }
 
