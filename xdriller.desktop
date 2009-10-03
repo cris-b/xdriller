@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=0.1
+Name=Xdriller
+Type=Application
+Comment=A Mr Driller clone by Fixi Studios
+Exec=xdriller
+TryExec=xdriller
+Icon=xdriller
+Categories=Game;ActionGame;
