@@ -1,2 +1,2 @@
-for i in `find media include src -type f `; do cp -uv ../$i $i; done
+for i in `find default_config media include src -type f `; do cp -uv ../$i $i; done
 cp -uv ../README ../COPYING ../Makefile ../xdriller-9999.ebuild .
