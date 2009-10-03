@@ -11,6 +11,7 @@ material default
 		}
 	}
 }
+
 material fade_material
 {
 	technique
@@ -18,38 +19,18 @@ material fade_material
 		pass
 		{
             scene_blend alpha_blend
-
-
+            depth_write off
 
             texture_unit
             {
-                texture blanco.png
-
+                colour_op_ex source1 src_manual src_current 1 1 1
+                alpha_op_ex source1 src_manual src_current 1
             }
 
 		}
 	}
 }
 
-material white_fader
-{
-	technique
-	{
-		pass
-		{
-            scene_blend alpha_blend
-
-
-
-            texture_unit
-            {
-                texture blanco.png
-
-            }
-
-		}
-	}
-}
 
 
 

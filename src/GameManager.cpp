@@ -264,7 +264,7 @@ void GameManager::startGame( GameState *gameState )
 
         mStates.back()->update( lTimeSinceLastFrame );
 
-        mStates.back()->updateStateFader();
+        //mStates.back()->updateStateFader();
 
         Fader::getSingletonPtr()->update(lTimeSinceLastFrame);
 

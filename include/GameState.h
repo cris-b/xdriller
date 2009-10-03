@@ -47,7 +47,7 @@ public:
     void fadeState(GameState *state);
     void updateStateFader();
 
-    GameState *fadeTo;
+
 
 protected:
     GameState( void ) { }

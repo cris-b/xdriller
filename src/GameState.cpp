@@ -20,20 +20,6 @@ void GameState::requestShutdown( void ) {
 
 void GameState::fadeState( GameState *state )
 {
-    fadeTo = state;
+    Fader::getSingletonPtr()->fadeToState(state);
 }
 
-void GameState::updateStateFader()
-{
-    if(fadeTo != NULL && Fader::getSingletonPtr()->getFadeState() != FADE_OUT)
-        Fader::getSingletonPtr()->fadeOut();
-
-    if(fadeTo != NULL && Fader::getSingletonPtr()->getFadeState() == FADE_FULL)
-    {
-        GameState *_fadeTo = fadeTo;
-        fadeTo = NULL;
-        Fader::getSingletonPtr()->fadeIn();
-        GameManager::getSingletonPtr()->changeState( _fadeTo );
-    }
-
-}

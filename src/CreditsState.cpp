@@ -31,7 +31,7 @@ void CreditsState::enter( void ) {
 
 
 
-    mCamNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("CreditsCamNode",Vector3(0,-10,15));
+    mCamNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("CreditsCamNode",Vector3(0,0,15));
 
     mCamNode->attachObject(mCamera);
 
