@@ -115,8 +115,11 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 		// Open the .scene File
 		XMLDoc = new TiXmlDocument();
 		XMLDoc->Parse( data.c_str() );
-		pStream->close();
-		pStream.setNull();
+
+		//siguientes lineas comentadas pa evitar error si dentro de zip
+		//
+		//pStream->close();
+		//pStream.setNull();
 
 		if( XMLDoc->Error() )
 		{
