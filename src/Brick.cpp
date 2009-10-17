@@ -136,9 +136,11 @@ void Brick::setFalling(int newState)
     }
     if(fallstate == FSTATE_FALLING && newState == FSTATE_PREFALL)
     {
+        //prefallTime = PREFALL_TIME;
         fallstate = FSTATE_PREFALL;
         mAnimationState->setEnabled(true);
     }
+
 
 }
 
@@ -200,8 +202,11 @@ void Brick::update(unsigned long lTimeElapsed)
         }
 
 
-        else speed = Vector3(0,0,0);
-
+        else
+        {
+            speed.x=0;
+            speed.y=0;
+        }
     }
     else if(dyeTime>0)
     {

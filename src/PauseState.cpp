@@ -66,7 +66,12 @@ void PauseState::resume( void ) {
 void PauseState::update( unsigned long lTimeElapsed )
 {
 
+    #if defined OIS_WIN32_PLATFORM
+    // como se sleepea en windows???
+    #elif defined OIS_LINUX_PLATFORM
     sleep(10);
+    #endif
+
 }
 
 void PauseState::keyPressed( const OIS::KeyEvent &e ) {

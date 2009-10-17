@@ -56,7 +56,7 @@ SoundManager::~SoundManager()
 {
     delete [] channelMap;
 
-    for(int i; i < NUM_SOUNDS; i++)
+    for(int i = 0; i < NUM_SOUNDS; i++)
     {
         delete mSound[i];
     }

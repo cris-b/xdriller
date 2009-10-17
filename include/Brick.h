@@ -48,7 +48,7 @@ class Brick
     void setPredye();
 
 
-    float getX() {return mNode->getPosition().x+4;}
+    float getX() {return mNode->getPosition().x+4.0;}
     float getY() {return -(mNode->getPosition().y);}
 
     void setY(Real pos) { mNode->setPosition(mNode->getPosition().x,pos,0);}

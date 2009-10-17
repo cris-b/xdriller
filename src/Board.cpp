@@ -270,6 +270,14 @@ bool Board::_checkFall(int x,int y, int type)
                 {
                     return false;
                 }
+                else
+                {
+
+                 int locomotora = 1;
+
+                 locomotora++;
+
+                }
             }
         }
 
@@ -302,7 +310,62 @@ bool Board::_checkFall(int x,int y, int type)
 
 
 }
+/*
+bool Board::_checkFall(int x,int y, int type)
+{
 
+    if(y > firstToCheck) firstToCheck = y;
+
+    if(y == height -1) return false;
+
+
+
+
+    if(mBricksPtr[x+y*width]->getType() == type)
+    {
+        mBricksPtr[x+y*width]->done = true;
+
+        if(mBricksPtr[x+(y+1)*width] != NULL)
+        {
+            if(mBricksPtr[x+(y+1)*width]->getType() != type)
+            {
+                if(!mBricksPtr[x+(y+1)*width]->isPreOrFalling())
+                {
+                    return false;
+                }
+            }
+        }
+
+        if(x > 0)
+            if(mBricksPtr[x-1+y*width] != NULL && !mBricksPtr[x-1+y*width]->done && mBricksPtr[x-1+y*width]->getType() != 6)
+                if(_checkFall(x-1,y,type) == false)
+                    return false;
+
+        if(x < width -1)
+            if(mBricksPtr[x+1+y*width] != NULL && !mBricksPtr[x+1+y*width]->done && mBricksPtr[x+1+y*width]->getType() != 6)
+                if(_checkFall(x+1,y,type) == false)
+                    return false;
+
+        if(y > 0)
+            if(mBricksPtr[x+(y-1)*width] != NULL && !mBricksPtr[x+(y-1)*width]->done && mBricksPtr[x+(y-1)*width]->getType() != 6)
+                if(_checkFall(x,y-1,type) == false)
+                    return false;
+
+        if(y < height -1)
+        {
+            if(mBricksPtr[x+(y+1)*width] != NULL && !mBricksPtr[x+(y+1)*width]->done)
+                if(_checkFall(x,y+1,type) == false)
+                    return false;
+        }
+        else return false;
+    }
+    //else return true;
+
+    return true;
+
+
+}
+*/
 int Board::checkNum(int x, int y)
 {
 
@@ -397,6 +460,8 @@ void Board::_rClearDone(int x,int y, int type)
 }
 
 
+
+
 void Board::clearDone()
 {
     for(int i = 0; i < height*width; i++)
@@ -423,54 +488,78 @@ void Board::update(unsigned long lTimeElapsed)
         }
     }
 
+    for(int i = 0; i < width; i++)
+    {
+        bool fall = false;
 
-    //for(int j = height-1; j >= 0; j--)
+        for(int j = height-2; j >= 0; j--)
+        {
+            if( mBricksPtr[i+j*width] == NULL)
+            {
+                fall = true;
+
+            }
+
+            else if(mBricksPtr[i+j*width] != NULL &&
+                    !mBricksPtr[i+j*width]->isPreOrFalling() && fall == true)
+            {
+                mBricksPtr[i+j*width]->setFalling(FSTATE_PREFALL);
+                if(j > firstToCheck) firstToCheck = j;
+            }
+        }
+    }
+
     for(int j = firstToCheck; j >= 0; j--)
     {
         for(int i = 0; i < width; i++)
         {
             if( mBricksPtr[i+j*width] != NULL)
             {
-                bool doFall = checkFall(i,j);
-
-
-
-                if(mBricksPtr[i+j*width]->isFalling() && !doFall)
+                if(!mBricksPtr[i+j*width]->done)
                 {
-                    mBricksPtr[i+j*width]->setFalling(FSTATE_STILL);
+                    bool doFall = checkFall(i,j);
 
-                    //LogManager::getSingleton().logMessage(StringConverter::toString(checkNum(i,j)));
 
-                    if(checkNum(i,j) >= 4) rSetPredye(i,j);
 
-                }
-                else if(!mBricksPtr[i+j*width]->isFalling() && doFall)
-                {
-                    mBricksPtr[i+j*width]->setFalling(FSTATE_PREFALL);
-                }
-                //else if(mBricksPtr[i+j*width]->isFalling() && doFall)
-                //{
-                //    mBricksPtr[i+j*width]->setFalling(FSTATE_PREFALL);
-                //}
 
-            }
-
-            if(j<height-1 && mBricksPtr[i+j*width] != NULL && mBricksPtr[i+(j+1)*width] != NULL)
-            {
-                if(mBricksPtr[i+j*width]->isFalling() && mBricksPtr[i+(j+1)*width]->isPreFalling())
-                {
-                    //if(mBricksPtr[i+j*width]->getType() == mBricksPtr[i+(j+1)*width]->getType())
+                    if(mBricksPtr[i+j*width]->isPreOrFalling() && !doFall)
                     {
-                        //if(mBricksPtr[i+j*width]->getPosition().y-mBricksPtr[i+(j+1)*width]->getPosition().y < 1)
+                        mBricksPtr[i+j*width]->setFalling(FSTATE_STILL);
+
+                        //LogManager::getSingleton().logMessage(StringConverter::toString(checkNum(i,j)));
+
+                        if(checkNum(i,j) >= 4) rSetPredye(i,j);
+
+                    }
+                    else if(!mBricksPtr[i+j*width]->isFalling() && doFall)
+                    {
+                        mBricksPtr[i+j*width]->setFalling(FSTATE_PREFALL);
+                    }
+                    //else if(mBricksPtr[i+j*width]->isFalling() && doFall)
+                    //{
+                    //    mBricksPtr[i+j*width]->setFalling(FSTATE_PREFALL);
+                    //}
+
+                }
+
+                if(j<height-1 && mBricksPtr[i+(j+1)*width] != NULL)
+                {
+                    if(mBricksPtr[i+j*width]->isFalling() && mBricksPtr[i+(j+1)*width]->isPreFalling())
+                    {
+                        //if(mBricksPtr[i+j*width]->getType() == mBricksPtr[i+(j+1)*width]->getType())
                         {
-                            //mBricksPtr[i+j*width]->setY((int)-mBricksPtr[i+j*width]->getY());
-                                      rSetFallState(i,j,FSTATE_PREFALL);
+                            //if(mBricksPtr[i+j*width]->getPosition().y-mBricksPtr[i+(j+1)*width]->getPosition().y < 1)
+                            {
+                                //mBricksPtr[i+j*width]->setY((int)-mBricksPtr[i+j*width]->getY());
+                                          rSetFallState(i,j,FSTATE_PREFALL);
+                            }
                         }
                     }
                 }
             }
         }
     }
+    //clearDone();
 
 
 
