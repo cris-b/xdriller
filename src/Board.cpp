@@ -310,62 +310,7 @@ bool Board::_checkFall(int x,int y, int type)
 
 
 }
-/*
-bool Board::_checkFall(int x,int y, int type)
-{
 
-    if(y > firstToCheck) firstToCheck = y;
-
-    if(y == height -1) return false;
-
-
-
-
-    if(mBricksPtr[x+y*width]->getType() == type)
-    {
-        mBricksPtr[x+y*width]->done = true;
-
-        if(mBricksPtr[x+(y+1)*width] != NULL)
-        {
-            if(mBricksPtr[x+(y+1)*width]->getType() != type)
-            {
-                if(!mBricksPtr[x+(y+1)*width]->isPreOrFalling())
-                {
-                    return false;
-                }
-            }
-        }
-
-        if(x > 0)
-            if(mBricksPtr[x-1+y*width] != NULL && !mBricksPtr[x-1+y*width]->done && mBricksPtr[x-1+y*width]->getType() != 6)
-                if(_checkFall(x-1,y,type) == false)
-                    return false;
-
-        if(x < width -1)
-            if(mBricksPtr[x+1+y*width] != NULL && !mBricksPtr[x+1+y*width]->done && mBricksPtr[x+1+y*width]->getType() != 6)
-                if(_checkFall(x+1,y,type) == false)
-                    return false;
-
-        if(y > 0)
-            if(mBricksPtr[x+(y-1)*width] != NULL && !mBricksPtr[x+(y-1)*width]->done && mBricksPtr[x+(y-1)*width]->getType() != 6)
-                if(_checkFall(x,y-1,type) == false)
-                    return false;
-
-        if(y < height -1)
-        {
-            if(mBricksPtr[x+(y+1)*width] != NULL && !mBricksPtr[x+(y+1)*width]->done)
-                if(_checkFall(x,y+1,type) == false)
-                    return false;
-        }
-        else return false;
-    }
-    //else return true;
-
-    return true;
-
-
-}
-*/
 int Board::checkNum(int x, int y)
 {
 
@@ -524,11 +469,9 @@ void Board::update(unsigned long lTimeElapsed)
 
                     if(mBricksPtr[i+j*width]->isPreOrFalling() && !doFall)
                     {
+                        if(checkNum(i,j) >= 4 && mBricksPtr[i+j*width]->isFalling()) rSetPredye(i,j);
+
                         mBricksPtr[i+j*width]->setFalling(FSTATE_STILL);
-
-                        //LogManager::getSingleton().logMessage(StringConverter::toString(checkNum(i,j)));
-
-                        if(checkNum(i,j) >= 4) rSetPredye(i,j);
 
                     }
                     else if(!mBricksPtr[i+j*width]->isFalling() && doFall)

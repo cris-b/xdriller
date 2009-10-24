@@ -90,6 +90,12 @@ void GameManager::startGame( GameState *gameState )
     #else  //Linux, etc...
     configPath = String(getenv("HOME")) + "/.config/xdriller";
     String defaultMediaPath = "/usr/share/games/xdriller";
+
+    if(fileExists(String(getenv("HOME")) + "/.config"))
+    {
+        makeDirectory(configPath);
+    }
+
     #endif
 
     if(fileExists("resources.cfg"))

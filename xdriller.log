@@ -1,0 +1,39 @@
+12:13:30: Xdriller v0.3
+12:13:30: Loading ./config.cfg
+12:13:30: FSAA 2
+12:13:30: audio_buffers 4096
+12:13:30: audio_channels 2
+12:13:30: audio_rate 44100
+12:13:30: fullscreen No
+12:13:30: music_volume 0
+12:13:30: render_system OpenGL Rendering Subsystem
+12:13:30: resolution 800 x 600
+12:13:30: resource_path media/
+12:13:30: sound_volume 0
+12:13:30: Creating resource group General
+12:13:30: Creating resource group Internal
+12:13:30: Creating resource group Autodetect
+12:13:30: SceneManagerFactory for type 'DefaultSceneManager' registered.
+12:13:30: Registering ResourceManager for type Material
+12:13:30: Registering ResourceManager for type Mesh
+12:13:30: Registering ResourceManager for type Skeleton
+12:13:30: MovableObjectFactory for type 'ParticleSystem' registered.
+12:13:30: OverlayElementFactory for type Panel registered.
+12:13:30: OverlayElementFactory for type BorderPanel registered.
+12:13:30: OverlayElementFactory for type TextArea registered.
+12:13:30: Registering ResourceManager for type Font
+12:13:30: ArchiveFactory for archive type FileSystem registered.
+12:13:30: ArchiveFactory for archive type Zip registered.
+12:13:30: DevIL version: Developer's Image Library (DevIL) 1.7.7
+12:13:30: DevIL image formats: bmp dib cut dcx dds gif hdr icns ico cur iff jpg jpe jpeg lif mdl pcd pcx pic pix png pbm pgm pnm ppm psd pdd psp pxr raw sgi bw rgb rgba sun tga vda icb vst tif tiff vtf wal raw 
+12:13:30: DDS codec registering
+12:13:30: Registering ResourceManager for type HighLevelGpuProgram
+12:13:30: Registering ResourceManager for type Compositor
+12:13:30: MovableObjectFactory for type 'Entity' registered.
+12:13:30: MovableObjectFactory for type 'Light' registered.
+12:13:30: MovableObjectFactory for type 'BillboardSet' registered.
+12:13:30: MovableObjectFactory for type 'ManualObject' registered.
+12:13:30: MovableObjectFactory for type 'BillboardChain' registered.
+12:13:30: MovableObjectFactory for type 'RibbonTrail' registered.
+12:13:30: Loading library ogre-1.4-libs/RenderSystem_GL
+12:13:30: OGRE EXCEPTION(7:InternalErrorException): Could not load dynamic library ogre-1.4-libs/RenderSystem_GL.  System Error: ogre-1.4-libs/RenderSystem_GL.so: cannot open shared object file: No such file or directory in DynLib::load at OgreDynLib.cpp (line 81)

@@ -232,10 +232,10 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 			Entity* NewEntity = mSceneMgr->createEntity(EntityName, EntityMeshFilename);
 
                         //castShadows      (true | false) "true"
-                        NewEntity->setCastShadows( true );
+                        NewEntity->setCastShadows( false );
                         if( XMLEntity->Attribute("castShadows") )
-                           if( String(XMLEntity->Attribute("castShadows")) == "false" )
-                              NewEntity->setCastShadows( false );
+                           if( String(XMLEntity->Attribute("castShadows")) == "true" )
+                              NewEntity->setCastShadows( true );
 
 			// Go though sub entities
 			XMLSubEntity = XMLEntity->FirstChildElement( "subentities" );

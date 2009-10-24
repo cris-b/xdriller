@@ -14,6 +14,8 @@ SuperBrick::SuperBrick (const Vector3& position )
 
     mEnt = mSceneMgr->createEntity("SuperBrick", "endsupercube.mesh");
 
+    mEnt->setCastShadows(false);
+
     if(mSceneMgr->hasSceneNode("BoardSceneNode") == false)
     {
         mSceneMgr->getRootSceneNode()->createChildSceneNode("BoardSceneNode");

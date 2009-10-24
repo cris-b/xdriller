@@ -108,7 +108,7 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     mAnimationState->setLoop(true);
     mAnimationState->setEnabled(false);
 
-
+    mEnt->setCastShadows(false);
 
 
 }

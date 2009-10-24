@@ -5,7 +5,7 @@
 #include "SoundManager.h"
 #include "LevelLoader.h"
 #include "DotScene.h"
-
+#include "Globals.h"
 
 #include <string>
 #include <vector>
@@ -43,8 +43,22 @@ void PlayState::enter( void ) {
 
 
     mViewport   = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
-    mViewport->setBackgroundColour(ColourValue(0.95,0.95,1));
-    mSceneMgr->setFog(FOG_LINEAR, ColourValue(0.95,0.95,1), 0.0, 10, 40);
+    mViewport->setBackgroundColour(StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")));
+
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+
+
+
+    //Setup fog
+    //--------------------------------------------------------------------
+    if(LevelLoader::getSingleton().getValue("fog") == "on")
+    {
+        mSceneMgr->setFog(FOG_LINEAR,
+        StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
+        0.0, 10, 40);
+    }
+    else mSceneMgr->setFog(FOG_NONE);
+    //-----------------------------------------------------------------------
 
     mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "CameraNode" , Vector3(0,2,0));
     mCameraNode->attachObject(mCamera);
@@ -52,29 +66,37 @@ void PlayState::enter( void ) {
 
     mCam = new Cam(mCamera, mCameraNode,mCameraDestNode);
 
+    mCam->setDistance(10);
 
 
-
-
-    mSceneMgr->setAmbientLight(ColourValue(0.5,0.5,0.5));
+    //Setup lights
+    //-----------------------------------------
+    mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
     Light *light = mSceneMgr->createLight("Light1");
-    light->setType(Light::LT_POINT);
-    light->setPosition(Vector3(10, 0, 5));
+    light->setType(Light::LT_DIRECTIONAL);
+    light->setDirection(Vector3(0.5, -1, -0.5));
 
 
-    light->setDiffuseColour(1.0, 1.0, 1.0);
-    light->setSpecularColour(1.0, 1.0, 1.0);
-    light->setAttenuation(200,1.0,0.022,0.0019);
+    light->setDiffuseColour(0.9,0.9,0.9);
+    light->setSpecularColour(0.5, 0.5, 0.5);
+    //light->setAttenuation(200,1.0,0.022,0.0019);
 
-    mCam->getSceneNode()->attachObject(light);
+
+    Light *light2 = mSceneMgr->createLight("Light2");
+    light2->setType(Light::LT_POINT);
+    light2->setPosition(Vector3(10, 0, 5));
+
+
+    light2->setDiffuseColour(0.1, 0.1, 0.1);
+    light2->setSpecularColour(0.2, 0.2, 0.2);
+    light2->setAttenuation(200,1.0,0.022,0.0019);
+
+    mCam->getSceneNode()->attachObject(light2);
+    //--------------------------------------------
+
 
     backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
-    //backgroundSceneEnt = mSceneMgr->createEntity("backGroundScene_Ent", "fondo_polo.mesh");
-    //backgroundSceneNode->attachObject(backgroundSceneEnt);
-
-    //backgroundSceneNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
-
 
     // Load background scene
     CDotScene dotScene;
@@ -224,10 +246,6 @@ void PlayState::exit( void ) {
 
     destroyOverlayElements();
 
-    mTextAreaLives = NULL;
-    mTextAreaTotal = NULL;
-    mSkull         = NULL;
-
     mOverlayMgr->destroy(mOverlay);
 
     mSceneMgr->clearScene();
@@ -236,6 +254,8 @@ void PlayState::exit( void ) {
 
     SoundManager::getSingleton().stopMusic();
     SoundManager::getSingleton().stopAllSounds();
+
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 }
 
 void PlayState::pause( void ) {
@@ -270,12 +290,7 @@ void PlayState::update( unsigned long lTimeElapsed )
 
     if(!finished)
     {
-        if (mInputDevice->isKeyDown(OIS::KC_F1))
-        {
 
-            if(tiempoBala) tiempoBala = false;
-            else tiempoBala = true;
-        }
 
         if (mInputDevice->isKeyDown(OIS::KC_LEFT))
         {
@@ -289,18 +304,14 @@ void PlayState::update( unsigned long lTimeElapsed )
         }
         else if (mInputDevice->isKeyDown(OIS::KC_UP))
         {
-            mCam->setMode(CMODE_FOLLOW_LOOK_UP);
+
             mPlayer->moveUp();
         }
         else if (mInputDevice->isKeyDown(OIS::KC_DOWN))
         {
-            mCam->setMode(CMODE_FOLLOW);
+
             mPlayer->moveDown();
         }
-    }
-    else
-    {
-       mCam->setMode(CMODE_FOLLOW_ABOVE);
     }
 
     mPlayer->update(lTimeElapsed);
@@ -612,6 +623,8 @@ void PlayState::nextBoard()
         mCam->setPosition(0,mCam->getPosition().y + distanceUp,9);
         mCam->setParentPos(mPlayer->getPosition());
         mCam->update(0);
+
+        backgroundSceneNode->translate(0,backgroundSceneNode->getPosition().y + distanceUp,0);
     }
     else
     {
@@ -619,6 +632,7 @@ void PlayState::nextBoard()
         if(!mSceneMgr->hasSceneNode("EndFloor"))
         {
             Entity *endFloorEnt = mSceneMgr->createEntity("EndFloor", "endsupercube.mesh");
+            endFloorEnt->setCastShadows(false);
             SceneNode *endFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "EndFloor" , Vector3(0,mPlayer->getPosition().y-10,0));
             endFloorNode->attachObject(endFloorEnt);
 
@@ -647,25 +661,41 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
 
         mPlayer->breakBlock();
     }
+
+
+    if( e.key == OIS::KC_UP)
+    {
+        mCam->setMode(CMODE_FOLLOW_LOOK_UP);
+    }
+    if( e.key == OIS::KC_DOWN)
+    {
+        mCam->setMode(CMODE_FOLLOW);
+    }
+
+    #ifdef XDRILLER_DEBUG
+
+    if (e.key == OIS::KC_F1)
+    {
+
+        if(tiempoBala) tiempoBala = false;
+        else tiempoBala = true;
+    }
+    if( e.key == OIS::KC_F2)
+    {
+        mCam->setMode(CMODE_FOLLOW_FAR);
+    }
+    if ( e.key == OIS::KC_0)
+    {
+        mBoard->printLog();
+    }
+
     if ( e.key == OIS::KC_U)
     {
 
         mBoard->killUpwards(mPlayer->getPosition());
     }
-    /*if ( e.key == OIS::KC_0)
-    {
-        mBoard->printLog();
-    }
 
-    if ( e.key == OIS::KC_R)
-    {
-        delete mBoard;
-        mBoard = new Board();
-
-        delete mPlayer;
-        mPlayer = new Player(mBoard);
-    }
-
+    /*
     if ( e.key == OIS::KC_I)
     {
         //LogManager::getSingleton().logMessage(StringConverter::toString(GpuProgramManager::getSingleton().getSupportedSyntax()));
@@ -673,6 +703,8 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getTriangleCount()));
         LogManager::getSingleton().logMessage(StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getBatchCount()));
     }*/
+
+    #endif
 }
 
 void PlayState::keyReleased( const OIS::KeyEvent &e ) {
@@ -720,18 +752,18 @@ PlayState* PlayState::getSingletonPtr( void ) {
 void PlayState::destroyOverlayElements()
 {
 
-    mOverlayMgr->destroyOverlayElement(mTextAreaDepth);
-    mOverlayMgr->destroyOverlayElement(mTextAreaPoints);
-    mOverlayMgr->destroyOverlayElement(mTextAreaClock);
-    if(mTextAreaLives != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaLives);
-    if(mTextAreaLives != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaTotal);
-    mOverlayMgr->destroyOverlayElement(mArrow);
-    if(mTextAreaLives != NULL) mOverlayMgr->destroyOverlayElement(mSkull);
-    mOverlayMgr->destroyOverlayElement(mScore);
-    mOverlayMgr->destroyOverlayElement(mClock);
-    mOverlayMgr->destroyOverlayElement(mLivesPanel);
-    mOverlayMgr->destroyOverlayElement(mBottle);
-    mOverlayMgr->destroyOverlayElement(mBottleAir);
-    mOverlayMgr->destroyOverlayElement(mPanel);
+    if(mTextAreaDepth != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaDepth);     mTextAreaDepth = NULL;
+    if(mTextAreaPoints != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaPoints);    mTextAreaPoints = NULL;
+    if(mTextAreaClock != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaClock);     mTextAreaClock = NULL;
+    if(mTextAreaLives != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaLives);     mTextAreaLives = NULL;
+    if(mTextAreaTotal != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaTotal);     mTextAreaTotal = NULL;
+    if(mArrow != NULL)          mOverlayMgr->destroyOverlayElement(mArrow);             mArrow = NULL;
+    if(mSkull != NULL)          mOverlayMgr->destroyOverlayElement(mSkull);             mSkull = NULL;
+    if(mScore != NULL)          mOverlayMgr->destroyOverlayElement(mScore);             mScore = NULL;
+    if(mClock != NULL)          mOverlayMgr->destroyOverlayElement(mClock);             mClock = NULL;
+    if(mLivesPanel != NULL)     mOverlayMgr->destroyOverlayElement(mLivesPanel);        mLivesPanel = NULL;
+    if(mBottle != NULL)         mOverlayMgr->destroyOverlayElement(mBottle);            mBottle = NULL;
+    if(mBottleAir != NULL)      mOverlayMgr->destroyOverlayElement(mBottleAir);         mBottleAir = NULL;
+    if(mPanel != NULL)          mOverlayMgr->destroyOverlayElement(mPanel);             mPanel = NULL;
 
 }

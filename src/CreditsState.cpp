@@ -53,13 +53,13 @@ void CreditsState::enter( void ) {
     mKarolaAnimState->setLoop(false);
     mKarolaAnimState->setEnabled(true);
 
-    Entity *mNubeEnt = mSceneMgr->createEntity("NubeEnt", "nube.mesh");
+    /*Entity *mNubeEnt = mSceneMgr->createEntity("NubeEnt", "nube.mesh");
 
     SceneNode *mNubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("NubeNode");
 
     //mNubeNode->attachObject(mNubeEnt);
 
-    mNubeNode->setPosition(0,-1.7,0);
+    mNubeNode->setPosition(0,-1.7,0);*/
 
     MaterialPtr fondoNubesMat = MaterialManager::getSingleton().create("FondoNubes", "General");
     fondoNubesMat->getTechnique(0)->getPass(0)->createTextureUnitState("fondonubes.jpg");

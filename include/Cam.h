@@ -7,6 +7,7 @@
 #define CMODE_FOLLOW            0
 #define CMODE_FOLLOW_LOOK_UP    1
 #define CMODE_FOLLOW_ABOVE      2
+#define CMODE_FOLLOW_FAR        3
 
 
 
@@ -59,11 +60,17 @@ class Cam
 		ry -= _rx*0.13;
 	};
 
+	void setDistance(float z)
+	{
+        this->z = z;
+    };
+
 	private:
 	Camera* mCamera;
 	SceneNode *mCamNode;
 	SceneNode *parentNode;
     float rx,ry;
+    float z;
 	int camMode;
 	void limitPitch(float min, float max);
 
