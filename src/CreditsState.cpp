@@ -97,36 +97,6 @@ void CreditsState::enter( void ) {
     OverlayElement* mMobilePanel = OverlayManager::getSingleton().getOverlayElement("CreditsOverlay/MobilePanel");
     mMobilePanel->setTop(1);
 
-
-    /*mPanel = static_cast<PanelOverlayElement*>(
-        mOverlayMgr->createOverlayElement("Panel", "CreditsOverlayPanel"));
-    mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
-    mPanel->setPosition(0.0, 0.0);
-    mPanel->setDimensions(1.0, 1.0);
-
-    mTextArea = static_cast<TextAreaOverlayElement*>(
-        mOverlayMgr->createOverlayElement("TextArea", "CreditsTextArea"));
-    mTextArea->setMetricsMode(Ogre::GMM_RELATIVE);
-    mTextArea->setPosition(0.5, 0.0);
-    mTextArea->setDimensions(0.5, 0.5);
-    mTextArea->setCaption("Credits:\n\nThis game was brouht to you\nby Fixi Studios.\n\nPowered by:");
-    mTextArea->setCharHeight(0.050);
-    mTextArea->setFontName("CoolFont");
-    //mTextArea->setColourTop(ColourValue(1, 0.5, 0.0));
-    //mTextArea->setColourBottom(ColourValue(1.0, 1.0, 1.0,0.9));
-    mTextArea->setColour(ColourValue(1.0,1.0,1.0));
-    mTextArea->setAlignment(TextAreaOverlayElement::Center);
-
-
-
-    mOverlay->add2D(mPanel);
-
-    mPanel->addChild(mTextArea);
-*/
-
-
-
-
     mOverlay->setZOrder(100);
 
 

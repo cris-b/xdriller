@@ -70,6 +70,10 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     {
         mEnt = mSceneMgr->createEntity(name, "corazon.mesh");
     }
+    else if(type == BRICK_FIXED)
+    {
+        mEnt = mSceneMgr->createEntity(name, "fijo.mesh");
+    }
     else mEnt = mSceneMgr->createEntity(name, "cube.mesh");
 
     #if OGRE_VERSION_MINOR < 6
@@ -101,13 +105,15 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     else if(type == BRICK_YELLOW) mEmi->setMaterialName("amarillo");
     else if(type == BRICK_HEART) mEmi->setMaterialName("corazon");
     else if(type == BRICK_AIR) mEmi->setMaterialName("O2");
+    else if(type == BRICK_FIXED) mEmi->setMaterialName("fijo");
     else kill();
 
-
-    mAnimationState = mEnt->getAnimationState("Shake");
-    mAnimationState->setLoop(true);
-    mAnimationState->setEnabled(false);
-
+    if(mEnt->hasSkeleton())
+    {
+        mAnimationState = mEnt->getAnimationState("Shake");
+        mAnimationState->setLoop(true);
+        mAnimationState->setEnabled(false);
+    }
     mEnt->setCastShadows(false);
 
 
@@ -115,30 +121,32 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
 
 void Brick::setFalling(int newState)
 {
+    if(type == BRICK_FIXED) return;
+
 
     if(fallstate == FSTATE_STILL && newState == FSTATE_PREFALL)
     {
         prefallTime = PREFALL_TIME;
         fallstate = FSTATE_PREFALL;
-        mAnimationState->setEnabled(true);
+        if(mEnt->hasSkeleton()) mAnimationState->setEnabled(true);
 
     }
 
     if(fallstate == FSTATE_FALLING && newState == FSTATE_STILL)
     {
         fallstate = FSTATE_STILL;
-        mAnimationState->setEnabled(false);
+        if(mEnt->hasSkeleton()) mAnimationState->setEnabled(false);
     }
     if(fallstate == FSTATE_PREFALL && newState == FSTATE_STILL)
     {
         fallstate = FSTATE_STILL;
-        mAnimationState->setEnabled(false);
+        if(mEnt->hasSkeleton()) mAnimationState->setEnabled(false);
     }
     if(fallstate == FSTATE_FALLING && newState == FSTATE_PREFALL)
     {
         //prefallTime = PREFALL_TIME;
         fallstate = FSTATE_PREFALL;
-        mAnimationState->setEnabled(true);
+        if(mEnt->hasSkeleton()) mAnimationState->setEnabled(true);
     }
 
 
@@ -187,7 +195,7 @@ void Brick::update(unsigned long lTimeElapsed)
             if(prefallTime <=0)
             {
                 fallstate = FSTATE_FALLING;
-                mAnimationState->setEnabled(false);
+                if(mEnt->hasSkeleton()) mAnimationState->setEnabled(false);
             }
 
         }
@@ -236,7 +244,7 @@ void Brick::update(unsigned long lTimeElapsed)
     mBox.setExtents(pos.x-0.5,pos.y-0.5,pos.z-0.5,
                      pos.x+0.5,pos.y+0.5,pos.z+0.5);
 
-    mAnimationState->addTime(0.001*lTimeElapsed);
+    if(mEnt->hasSkeleton()) mAnimationState->addTime(0.001*lTimeElapsed);
 
 }
 
@@ -261,7 +269,7 @@ void Brick::kick()
 
     }
 
-    if(lives <= 0)
+    if(lives <= 0 && type != BRICK_FIXED)
     {
         SoundManager::getSingleton().playSound(SOUND_BREAK);
         kill();

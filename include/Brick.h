@@ -19,6 +19,7 @@
 #define BRICK_YELLOW        5
 #define BRICK_AIR           6
 #define BRICK_HEART         7
+#define BRICK_FIXED         8
 
 
 

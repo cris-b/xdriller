@@ -231,7 +231,6 @@ void MenuState::exit( void )
         buttons.pop_back();
     }
 
-    //delete mGUI;
 
     mSceneMgr->clearScene();
     mSceneMgr->destroyAllCameras();

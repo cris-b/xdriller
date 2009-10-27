@@ -196,6 +196,7 @@ int LevelLoader::loadBoard()
             else if(brickColour == ColourValue(1,0,1)) levelData.push_back(BRICK_ROCK);
             else if(brickColour == ColourValue(1,1,1)) levelData.push_back(BRICK_AIR);
             else if(brickColour == ColourValue(0.5,0,0)) levelData.push_back(BRICK_HEART);
+            else if(brickColour == ColourValue(0.5,0.5,0.5)) levelData.push_back(BRICK_FIXED);
             else
             {
                 Ogre::LogManager::getSingleton().logMessage("LevelLoader: Wrong color at x=" +
