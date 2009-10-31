@@ -147,4 +147,16 @@ std::string findAndReplace(std::string str, const std::string& findStr, const st
 }
 
 
-
+Ogre::UTFString ConvertToUTF(Ogre::String String)
+{
+   Ogre::UTFString UTFString;
+   int i;
+   Ogre::UTFString::code_point cp;
+   for (i=0; i<(int)String.size(); ++i)
+   {
+      cp = String[i];
+      cp &= 0xFF;
+      UTFString.append(1, cp);
+   }
+   return UTFString;
+}

@@ -1,4 +1,5 @@
 #include "PauseState.h"
+#include "Gettext.h"
 
 using namespace Ogre;
 
@@ -22,7 +23,7 @@ void PauseState::enter( void ) {
     mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
     mTextAreaDepth->setPosition(0.5, 0.35);
     mTextAreaDepth->setDimensions(0.6, 0.3);
-    mTextAreaDepth->setCaption("PAUSE");
+    mTextAreaDepth->setCaption(_("PAUSE"));
     mTextAreaDepth->setCharHeight(0.3);
     mTextAreaDepth->setFontName("CoolFont");
     mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);

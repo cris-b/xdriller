@@ -8,6 +8,8 @@
 #include "SoundManager.h"
 #include "Arrows.h"
 
+#include "Gettext.h"
+
 
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1
@@ -21,10 +23,6 @@ using namespace Ogre;
 
 
 MenuState* MenuState::mMenuState;
-
-
-
-
 
 
 void MenuState::enter( void )
@@ -724,30 +722,30 @@ void MenuState::changePage(unsigned int page)
         {
             mOverlay->add2D(mLogoXDriller);
 
-            buttons.push_back(new MenuButton("Play Game"));
+            buttons.push_back(new MenuButton(_("Play Game")));
 
             buttons[0]->setPosition(0,1,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(0,1,0));
 
-            buttons.push_back(new MenuButton("Options"));
+            buttons.push_back(new MenuButton(_("Options")));
 
             buttons[1]->setPosition(0,0,0);
             buttons[1]->setDest(Vector3(0,0,0));
 
-            buttons.push_back(new MenuButton("Credits"));
+            buttons.push_back(new MenuButton(_("Credits")));
 
             buttons[2]->setPosition(0,-1,0);
             buttons[2]->setDest(Vector3(0,-1,0));
 
-            buttons.push_back(new MenuButton("Exit"));
+            buttons.push_back(new MenuButton(_("Exit")));
 
             buttons[3]->setPosition(0,-2,0);
             buttons[3]->setDest(Vector3(0,-2,0));
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("Fixi Studios makes cool games for you");
+            mInfoTextArea->setCaption(_("Fixi Studios makes cool games for you"));
 
             break;
         }
@@ -755,33 +753,33 @@ void MenuState::changePage(unsigned int page)
         case MENU_PAGE_AUDIO_OPTIONS:
         {
             //mOverlay->add2D(mLogoXDriller);
-            titleButton = new MenuButton("Audio Options");
+            titleButton = new MenuButton(_("Audio Options"));
             titleButton->setPosition(0,3.5,0);
             titleButton->setDest(Vector3(0,3.5,0));
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton("Music Volume",ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Music Volume"),ALIGN_LEFT,true));
 
             buttons[0]->setPosition(-4,1,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(-4,1,0));
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("music_volume"));
 
-            buttons.push_back(new MenuButton("FX Volume",ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("FX Volume"),ALIGN_LEFT,true));
 
             buttons[1]->setPosition(-4,0,0);
             buttons[1]->setDest(Vector3(-4,0,0));
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("sound_volume"));
 
 
-            buttons.push_back(new MenuButton("Back",ALIGN_LEFT));
+            buttons.push_back(new MenuButton(_("Back"),ALIGN_LEFT));
 
             buttons[2]->setPosition(-4,-1,0);
             buttons[2]->setDest(Vector3(-4,-1,0));
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("We are electric...");
+            mInfoTextArea->setCaption(_("We are electric..."));
 
             break;
         }
@@ -789,38 +787,38 @@ void MenuState::changePage(unsigned int page)
         case MENU_PAGE_GRAPHIC_OPTIONS:
         {
             //mOverlay->add2D(mLogoXDriller);
-            titleButton = new MenuButton("Graphic Options");
+            titleButton = new MenuButton(_("Graphic Options"));
             titleButton->setPosition(0,3.5,0);
             titleButton->setDest(Vector3(0,3.5,0));
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton("Resolution",ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Resolution"),ALIGN_LEFT,true));
 
             buttons[0]->setPosition(-4,1,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(-4,1,0));
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
 
-            buttons.push_back(new MenuButton("Anti-aliasing",ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Anti-aliasing"),ALIGN_LEFT,true));
 
             buttons[1]->setPosition(-4,0,0);
             buttons[1]->setDest(Vector3(-4,0,0));
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("FSAA"));
 
-            buttons.push_back(new MenuButton("Fullscreen",ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Fullscreen"),ALIGN_LEFT,true));
 
             buttons[2]->setPosition(-4,-1,0);
             buttons[2]->setDest(Vector3(-4,-1,0));
             buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
 
-            buttons.push_back(new MenuButton("Back",ALIGN_LEFT));
+            buttons.push_back(new MenuButton(_("Back"),ALIGN_LEFT));
 
             buttons[3]->setPosition(-4,-2,0);
             buttons[3]->setDest(Vector3(-4,-2,0));
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("ATENTION: restart the game for new settings to apply");
+            mInfoTextArea->setCaption(_("ATENTION: restart the game for new settings to apply"));
 
 
 
@@ -830,38 +828,38 @@ void MenuState::changePage(unsigned int page)
         {
             //mOverlay->add2D(mLogoXDriller);
 
-            titleButton = new MenuButton("Options");
+            titleButton = new MenuButton(_("Options"));
             titleButton->setPosition(0,3.5,0);
             titleButton->setDest(Vector3(0,3.5,0));
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton("Graphic Options"));
+            buttons.push_back(new MenuButton(_("Graphic Options")));
 
             buttons[0]->setPosition(0,1,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(0,1,0));
 
 
-            buttons.push_back(new MenuButton("Audio Options"));
+            buttons.push_back(new MenuButton(_("Audio Options")));
 
             buttons[1]->setPosition(0,0,0);
             buttons[1]->setDest(Vector3(0,0,0));
 
 
-            buttons.push_back(new MenuButton("Controls"));
+            buttons.push_back(new MenuButton(_("Controls")));
 
             buttons[2]->setPosition(0,-1,0);
             buttons[2]->setDest(Vector3(0,-1,0));
 
 
-            buttons.push_back(new MenuButton("Back"));
+            buttons.push_back(new MenuButton(_("Back")));
 
             buttons[3]->setPosition(0,-2,0);
             buttons[3]->setDest(Vector3(0,-2,0));
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("It's good to have options");
+            mInfoTextArea->setCaption(_("It's good to have options"));
 
             break;
         }
@@ -884,32 +882,32 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("Select Level & Press ENTER");
+            mInfoTextArea->setCaption(_("Select Level & Press ENTER"));
 
             break;
         }
 
         case MENU_PAGE_QUIT:
         {
-            titleButton = new MenuButton("Are you sure you want to quit?");
+            titleButton = new MenuButton(_("Are you sure you want to quit?"));
             titleButton->setPosition(0,3.5,0);
             titleButton->setDest(Vector3(0,3.5,0));
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton("No!"));
+            buttons.push_back(new MenuButton(_("No!")));
 
             buttons[0]->setPosition(0,0.5,0);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setDest(Vector3(0,0.5,0));
 
-            buttons.push_back(new MenuButton("Yes, quit!"));
+            buttons.push_back(new MenuButton(_("Yes, quit!")));
 
             buttons[1]->setPosition(0,-0.5,0);
             buttons[1]->setDest(Vector3(0,-0.5,0));
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("C'mon! One more game can't hurt...");
+            mInfoTextArea->setCaption(_("C'mon! One more game can't hurt..."));
 
             break;
 

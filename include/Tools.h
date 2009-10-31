@@ -22,4 +22,6 @@ Vector2 worldToScreen(const Vector3& worldPoint, Camera* cam);
 
 std::string findAndReplace(std::string str, const std::string& findStr, const std::string& replaceStr);
 
+Ogre::UTFString ConvertToUTF(Ogre::String String);
+
 #endif

@@ -16,7 +16,9 @@
 
 #include "Tools.h"
 #include "Globals.h"
+#include "Gettext.h"
 
+#include <locale.h>
 
 
 
@@ -145,6 +147,17 @@ void GameManager::startGame( GameState *gameState )
     {
         LogManager::getSingleton().logMessage("Error: could not load config.cfg");
     }
+
+
+    // For gettext support
+    //----------------------------------------------------------------
+
+    setlocale( LC_ALL, "" );
+    bindtextdomain( "xdriller", std::string(ConfigManager::getSingleton().getString("resource_path") + String("/locale")).c_str());
+    textdomain( "xdriller" );
+
+
+    //----------------------------------------------------------------
 
     mRoot = new Root(configPath + "/plugins.cfg", "", "");
 
