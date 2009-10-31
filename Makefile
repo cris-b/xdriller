@@ -1,10 +1,19 @@
 #Makefile simple para quien quiera intentar compilar el codigo sin el codeblocks
 
+RESET_COLOR="\033[0m"
+SET_GREEN="\033[32;01m"
+SET_YELLOW="\033[33m"
+SET_RED="\033[31m"
+
+
 CC=g++
 LIBS = OGRE OIS sdl
 CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include -I /usr/include/OGRE
 LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer
-SOURCES := Arrows.cpp Board.cpp Brick.cpp Cam.cpp ConfigManager.cpp CreditsState.cpp DotScene.cpp EntityMaterialInstance.cpp Fader.cpp GameManager.cpp GameState.cpp InputManager.cpp IntroState.cpp LevelLoader.cpp Main.cpp MaterialInstance.cpp MenuButton.cpp MenuState.cpp MovableText.cpp Music.cpp PauseState.cpp Player.cpp PlayState.cpp Sound.cpp SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp Tools.cpp
+SOURCES := Arrows.cpp Board.cpp Brick.cpp Cam.cpp ConfigManager.cpp CreditsState.cpp DotScene.cpp \
+EntityMaterialInstance.cpp Fader.cpp GameManager.cpp GameState.cpp InputManager.cpp IntroState.cpp LevelLoader.cpp Main.cpp \
+MaterialInstance.cpp MenuButton.cpp MenuState.cpp MovableText.cpp Music.cpp PauseState.cpp Player.cpp PlayState.cpp Sound.cpp \
+SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp Tools.cpp
 
 SOURCES_DIR = src
 OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))
@@ -14,13 +23,16 @@ EXECUTABLE = xdriller
 INSTALL_PREFIX=/usr
 
 all: $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o $(EXECUTABLE)
+	@echo -e $(SET_GREEN)Linking $(SET_YELLOW)$(EXECUTABLE)$(SET_GREEN) executable...$(RESET_COLOR)
+	@$(CC) $(LDFLAGS) $(OBJS) -o $(EXECUTABLE)
 
 %.o : %.cpp
-	$(CC) $(CFLAGS) -o $@ $<
+	@echo -e $(SET_GREEN)Compiling $(SET_YELLOW)$<$(SET_GREEN)...$(RESET_COLOR)
+	@$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	rm -f $(EXECUTABLE) $(SOURCES_DIR)/*.o
+	@echo -e $(SET_GREEN)Cleaning...$(RESET_COLOR)
+	@rm -f $(EXECUTABLE) $(SOURCES_DIR)/*.o
 
 
 
@@ -31,15 +43,10 @@ install:
 	mkdir -p $(INSTALL_PREFIX)/share/applications
 
 	cp  xdriller $(INSTALL_PREFIX)/games/bin
-	cp -rv default_config $(INSTALL_PREFIX)/share/games/xdriller
-	cp -rv media $(INSTALL_PREFIX)/share/games/xdriller
+	cp -r default_config $(INSTALL_PREFIX)/share/games/xdriller
+	cp -r media $(INSTALL_PREFIX)/share/games/xdriller
 	cp  xdriller.png $(INSTALL_PREFIX)/share/pixmaps
 	cp  xdriller.desktop $(INSTALL_PREFIX)/share/applications
 
-uninstall:
-	rm   $(INSTALL_PREFIX)/games/bin/xdriller
-	rm -rv $(INSTALL_PREFIX)/share/games/xdriller
-	rm   $(INSTALL_PREFIX)/share/pixmaps/xdriller.png
-	rm   $(INSTALL_PREFIX)/share/applications/xdriller.desktop
 
 
