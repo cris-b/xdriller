@@ -46,6 +46,9 @@ void RingSwitcher::update( unsigned long lTimeElapsed )
         pos.z = 0;
 
         objects[i]->setPosition(pos);
+
+        if(i == selected) objects[i]->setScale(1.5);
+        else objects[i]->setScale(1);
     }
 }
 

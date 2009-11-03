@@ -22,6 +22,8 @@ class RingSwitcher
 
         Ogre::String getCurrentName();
 
+        void setPosition(Ogre::Real x,Ogre::Real y,Ogre::Real z) {mNode->setPosition(x,y,z);}
+
     private:
 
         float radius;

@@ -100,12 +100,6 @@ Ogre::String LevelLoader::getLongName()
 
 }
 
-Ogre::String LevelLoader::getLevelInfo()
-{
-
-    return getValue("info");
-
-}
 
 Ogre::String LevelLoader::getValue(Ogre::String opt)
 {

@@ -20,7 +20,7 @@ OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))
 
 EXECUTABLE = xdriller
 
-LOCALES = es ca
+LOCALES = es ca de eu
 PO_FILES = $(patsubst %,media/locale/%/LC_MESSAGES/xdriller.po,$(LOCALES))
 MO_FILES = $(PO_FILES:.po=.mo)
 

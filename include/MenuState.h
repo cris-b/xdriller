@@ -14,6 +14,8 @@
 #include "MenuButton.h"
 #include "Arrows.h"
 
+#include "RingSwitcher.h"
+
 #include <vector>
 
 
@@ -64,8 +66,6 @@ private:
 
     TextAreaOverlayElement  *mInfoTextArea;
 
-
-
     PanelOverlayElement     *mLevelScreenshot;
     PanelOverlayElement     *mLevelScreenshot_shadow;
     TextAreaOverlayElement  *mLevelInfo;
@@ -84,6 +84,7 @@ private:
     float tittle_alpha;
 
     Arrows *arrows;
+    RingSwitcher *ringSwitcher;
 
     unsigned int menuPage;
     int menuCursor;

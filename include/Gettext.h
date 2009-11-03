@@ -4,6 +4,7 @@
 #include <libintl.h>
 #include "Tools.h"
 
-#define _(String) ConvertToUTF( gettext (String) )
+//#define _(String) ConvertToUTF( gettext (String) )
+#define _(String) gettext(String)
 
 #endif

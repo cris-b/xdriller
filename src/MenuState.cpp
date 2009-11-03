@@ -18,6 +18,7 @@
 #define MENU_PAGE_LEVELSELECT           4
 #define MENU_PAGE_GRAPHIC_OPTIONS       5
 #define MENU_PAGE_AUDIO_OPTIONS         6
+#define MENU_PAGE_GAME_MODE             7
 
 using namespace Ogre;
 
@@ -51,11 +52,24 @@ void MenuState::enter( void )
     mCamera->setNearClipDistance(0.1);
     mCamera->setFarClipDistance(100);
 
-    Light *light = mSceneMgr->createLight("Menu_Light");
-    light->setType(Light::LT_POINT);
-    light->setPosition(Vector3(0, 0, 0));
-    light->setDiffuseColour(1.0, 1.0, 1.0);
-    light->setSpecularColour(1.0, 1.0, 1.0);
+    Light *light = mSceneMgr->createLight("MenuLight1");
+    light->setType(Light::LT_DIRECTIONAL);
+    light->setDirection(Vector3(0.5, -1, -0.5));
+
+
+    light->setDiffuseColour(0.9,0.9,0.9);
+    light->setSpecularColour(0.5, 0.5, 0.5);
+    //light->setAttenuation(200,1.0,0.022,0.0019);
+
+
+    Light *light2 = mSceneMgr->createLight("MenuLight2");
+    light2->setType(Light::LT_POINT);
+    light2->setPosition(Vector3(10, 5, 5));
+
+
+    light2->setDiffuseColour(0.1, 0.1, 0.1);
+    light2->setSpecularColour(0.2, 0.2, 0.2);
+    light2->setAttenuation(200,1.0,0.022,0.0019);
 
     mSceneMgr->setFog(FOG_LINEAR, ColourValue(1,1,1), 0.0, 20, 50);
 
@@ -185,7 +199,8 @@ void MenuState::enter( void )
     titleButton = NULL;
 
 
-    changePage(MENU_PAGE_MAIN);
+    //changePage(MENU_PAGE_MAIN);
+    changePage(MENU_PAGE_GAME_MODE);
 
     SoundManager::getSingleton().loadMusic("menu_music.ogg");
     SoundManager::getSingleton().playMusic(true);
@@ -197,21 +212,6 @@ void MenuState::enter( void )
 void MenuState::exit( void )
 {
     delete arrows;
-
-    //foregorund_node->dettachObject("foreground_node");
-
-
-    //mOverlayMgr->destroyAllOverlayElements();
-    /*
-    mOverlay->add2D(mPanel);
-
-    mOverlay->add2D(mLevelScreenshot_shadow);
-    mOverlay->add2D(mLevelScreenshot);
-
-    mPanel->addChild(mInfoTextArea);
-    mPanel->addChild(mLevelInfo);
-    */
-
 
     mOverlayMgr->destroyOverlayElement(mLogoXDriller);
     mOverlayMgr->destroyOverlayElement(mLevelScreenshot);
@@ -248,6 +248,11 @@ void MenuState::update( unsigned long lTimeElapsed )
 {
 
     arrows->update(lTimeElapsed);
+
+    if(ringSwitcher != NULL)
+    {
+        ringSwitcher->update(lTimeElapsed);
+    }
 
 
     for(int i = 0; i < NUM_MENU_BRICKS; i++)
@@ -377,10 +382,18 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "Yes") ConfigManager::getSingleton().setValue("fullscreen","No");
-                    if(buttons[2]->getOptionCaption() == "No") ConfigManager::getSingleton().setValue("fullscreen","Yes");
+                    if(buttons[2]->getOptionCaption() == "Yes")
+                    {
+                        ConfigManager::getSingleton().setValue("fullscreen","No");
+                        buttons[2]->setOptionCaption(_("No"));
+                    }
+                    if(buttons[2]->getOptionCaption() == "No")
+                    {
+                        ConfigManager::getSingleton().setValue("fullscreen","Yes");
+                        buttons[2]->setOptionCaption(_("Yes"));
+                    }
 
-                    buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
+
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
 
@@ -417,11 +430,17 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 {
                     LevelLoader::getSingleton().prevLevel();
 
-
-
                     _updateLevelSelect();
-
                 }
+
+                break;
+            }
+            case MENU_PAGE_GAME_MODE:
+            {
+
+                ringSwitcher->prev();
+
+                buttons[0]->setCaption(ringSwitcher->getCurrentName());
 
                 break;
             }
@@ -458,10 +477,18 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "Yes") ConfigManager::getSingleton().setValue("fullscreen","No");
-                    if(buttons[2]->getOptionCaption() == "No") ConfigManager::getSingleton().setValue("fullscreen","Yes");
+                    if(buttons[2]->getOptionCaption() == "Yes")
+                    {
+                        ConfigManager::getSingleton().setValue("fullscreen","No");
+                        buttons[2]->setOptionCaption(_("No"));
+                    }
+                    if(buttons[2]->getOptionCaption() == "No")
+                    {
+                        ConfigManager::getSingleton().setValue("fullscreen","Yes");
+                        buttons[2]->setOptionCaption(_("Yes"));
+                    }
 
-                    buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
+
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
 
@@ -498,12 +525,17 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 {
                     LevelLoader::getSingleton().nextLevel();
 
-
-
                     _updateLevelSelect();
-
-
                 }
+
+                break;
+            }
+            case MENU_PAGE_GAME_MODE:
+            {
+
+                ringSwitcher->next();
+
+                buttons[0]->setCaption(ringSwitcher->getCurrentName());
 
                 break;
             }
@@ -519,7 +551,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             {
                 if(menuCursor == 0)
                 {
-                    changePage(MENU_PAGE_LEVELSELECT);
+                    changePage(MENU_PAGE_GAME_MODE);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
 
                 }
@@ -595,6 +627,18 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+            case MENU_PAGE_GAME_MODE:
+            {
+
+                if(menuCursor == 0)
+                {
+                    changePage(MENU_PAGE_LEVELSELECT);
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+                    return;
+                }
+
+                break;
+            }
             case MENU_PAGE_LEVELSELECT:
             {
 
@@ -627,9 +671,15 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
-            case MENU_PAGE_LEVELSELECT:
+            case MENU_PAGE_GAME_MODE:
             {
                 changePage(MENU_PAGE_MAIN);
+                SoundManager::getSingleton().playSound(SOUND_MENU4);
+                break;
+            }
+            case MENU_PAGE_LEVELSELECT:
+            {
+                changePage(MENU_PAGE_GAME_MODE);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
@@ -712,6 +762,12 @@ void MenuState::changePage(unsigned int page)
     {
         delete titleButton;
         titleButton = NULL;
+    }
+
+    if(ringSwitcher != NULL)
+    {
+        delete ringSwitcher;
+        ringSwitcher = NULL;
     }
 
     mOverlay->remove2D(mLogoXDriller);
@@ -864,6 +920,33 @@ void MenuState::changePage(unsigned int page)
             break;
         }
 
+        case MENU_PAGE_GAME_MODE:
+        {
+            ringSwitcher = new RingSwitcher;
+
+            ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
+            ringSwitcher->addObject(_("Adventure"),"cube.mesh");
+            ringSwitcher->addObject(_("Pressure Driller"),"tux.mesh");
+
+            ringSwitcher->setPosition(0,-1,0);
+
+            buttons.push_back(new MenuButton(ringSwitcher->getCurrentName()));
+
+            buttons[0]->setPosition(0,4.5,0);
+            buttons[0]->setState(BSTATE_ACTIVE);
+            buttons[0]->setDest(Vector3(0,3.5,0));
+            buttons[0]->setArrows(true);
+
+            menuCursor = 0;
+
+            mInfoTextArea->setCaption(_("Select Game Mode & Press ENTER"));
+
+            break;
+
+            break;
+
+        }
+
         case MENU_PAGE_LEVELSELECT:
         {
             buttons.push_back(new MenuButton(LevelLoader::getSingleton().getLongName()));
@@ -934,11 +1017,34 @@ void MenuState::_updateLevelSelect()
 
 
 
-            Ogre::String caption = findAndReplace(
+            /*Ogre::String caption = findAndReplace(
                     LevelLoader::getSingleton().getLevelInfo(),
                     "</br>",
                     "\n"
                     );
+            */
+
+            Ogre::String caption;
+
+            caption += _("Number of boards");
+
+            caption += ": ";
+
+            caption += LevelLoader::getSingleton().getValue("num_boards");
+
+            caption += "\n\n";
+
+            caption +=_("Difficulty");
+
+            caption += ": ";
+
+            Ogre::String difficulty = LevelLoader::getSingleton().getValue("difficulty");
+
+            if(difficulty == "easy") caption += _("Easy");
+            if(difficulty == "normal") caption += _("Normal");
+            if(difficulty == "hard") caption += _("Hard");
+
+            caption += "\n\n";
 
             mLevelInfo->setCaption(caption);
 

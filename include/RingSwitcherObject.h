@@ -12,6 +12,8 @@ class RingSwitcherObject
         void setPosition(const Ogre::Vector3 &pos);
 
         Ogre::String getName() {return name;}
+
+        void setScale(Ogre::Real s) {mNode->setScale(s,s,s);}
     private:
 
         Ogre::String name;
