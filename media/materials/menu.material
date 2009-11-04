@@ -150,7 +150,7 @@ material level_screenshot
 
             texture_unit
             {
-                texture test.jpg
+                texture test.png
                 tex_address_mode clamp
 
             }

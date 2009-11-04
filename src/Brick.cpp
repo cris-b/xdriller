@@ -89,7 +89,7 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
 
     mNode->attachObject(mEnt);
 
-    mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
+    //mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
     mBox = AxisAlignedBox(position.x-0.5,position.y-0.5,position.z-0.5,
                           position.x+0.5,position.y+0.5,position.z+0.5);

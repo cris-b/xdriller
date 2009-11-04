@@ -8,7 +8,7 @@ material rojo
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuborojo.jpg
+				texture cuborojo.png
 			}
 		}
 	}
@@ -23,7 +23,7 @@ material verde
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboverde.jpg
+				texture cuboverde.png
 			}
 		}
 	}
@@ -39,7 +39,7 @@ material azul
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboazul.jpg
+				texture cuboazul.png
 			}
 		}
 	}
@@ -54,7 +54,7 @@ material amarillo
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboamarillo.jpg
+				texture cuboamarillo.png
 			}
 		}
 	}
@@ -70,7 +70,7 @@ material gris
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cubogris.jpg
+				texture cubogris.png
 			}
 		}
 	}
@@ -86,7 +86,7 @@ material roca
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca.jpg
+				texture roca.png
 			}
 		}
 	}
@@ -102,7 +102,7 @@ material roca2
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca2.jpg
+				texture roca2.png
 			}
 		}
 	}
@@ -117,7 +117,7 @@ material roca3
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca3.jpg
+				texture roca3.png
 			}
 		}
 	}
@@ -132,7 +132,7 @@ material roca4
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca4.jpg
+				texture roca4.png
 			}
 		}
 	}
@@ -146,7 +146,7 @@ material O2
 		{
 			texture_unit
 			{
-				texture O2.jpg
+				texture O2.png
 			}
 		}
 	}
@@ -162,7 +162,7 @@ material corazon
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture corazon.jpg
+				texture corazon.png
 			}
 		}
 	}
@@ -181,7 +181,7 @@ material fijo
 
 			texture_unit
 			{
-				texture cubofijo.jpg 2d 1
+				texture cubofijo.png 2d 1
 			}
 		}
 	}

@@ -139,7 +139,7 @@ void Player::update(unsigned long lTimeElapsed)
 
         mNode->resetOrientation();
 
-        mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
+        //mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
         if(orientation == LOOK_LEFT)
         {
@@ -172,7 +172,7 @@ void Player::update(unsigned long lTimeElapsed)
                 if(orientationAngle > 0) orientationAngle = 0;
             }
         }
-        mNode->rotate(Quaternion(Degree(orientationAngle),Vector3::UNIT_Z));
+        mNode->rotate(Quaternion(Degree(orientationAngle),Vector3::UNIT_Y));
     }
 
     if(alive && !finished)

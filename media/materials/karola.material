@@ -92,7 +92,7 @@ material karola/SOLID/TEX/meral_rojo.png/VertCol
 		}
 	}
 }
-material karola/SOLID/TEX/cubogris.jpg/VertCol
+material karola/SOLID/TEX/cubogris.png/VertCol
 {
 	technique
 	{
@@ -104,12 +104,12 @@ material karola/SOLID/TEX/cubogris.jpg/VertCol
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cubogris.jpg
+				texture cubogris.png
 			}
 		}
 	}
 }
-material karola/SOLID/TEX/cuboverde.jpg/VertCol
+material karola/SOLID/TEX/cuboverde.png/VertCol
 {
 	technique
 	{
@@ -121,7 +121,7 @@ material karola/SOLID/TEX/cuboverde.jpg/VertCol
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboverde.jpg
+				texture cuboverde.png
 			}
 		}
 	}

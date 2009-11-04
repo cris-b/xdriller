@@ -1,4 +1,4 @@
-material SOLID/TEX/cactus.jpg
+material SOLID/TEX/cactus.png
 {
 	technique
 	{
@@ -6,7 +6,7 @@ material SOLID/TEX/cactus.jpg
 		{
 			texture_unit
 			{
-				texture cactus.jpg
+				texture cactus.png
 			}
 		}
 	}

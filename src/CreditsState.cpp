@@ -62,7 +62,7 @@ void CreditsState::enter( void ) {
     mNubeNode->setPosition(0,-1.7,0);*/
 
     MaterialPtr fondoNubesMat = MaterialManager::getSingleton().create("FondoNubes", "General");
-    fondoNubesMat->getTechnique(0)->getPass(0)->createTextureUnitState("fondonubes.jpg");
+    fondoNubesMat->getTechnique(0)->getPass(0)->createTextureUnitState("fondonubes.png");
     fondoNubesMat->getTechnique(0)->getPass(0)->setDepthCheckEnabled(false);
     fondoNubesMat->getTechnique(0)->getPass(0)->setDepthWriteEnabled(false);
     fondoNubesMat->getTechnique(0)->getPass(0)->setLightingEnabled(false);

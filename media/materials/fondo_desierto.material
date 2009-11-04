@@ -1,4 +1,4 @@
-material fondo_roka/SOLID/TEX/arena.jpg
+material fondo_roka/SOLID/TEX/arena.png
 {
 	technique
 	{
@@ -8,7 +8,7 @@ material fondo_roka/SOLID/TEX/arena.jpg
 			//specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture arena.jpg
+				texture arena.png
 			}
 		}
 	}

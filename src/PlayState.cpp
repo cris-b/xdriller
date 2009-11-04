@@ -235,7 +235,7 @@ void PlayState::enter( void ) {
 
 
 
-    LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
+    //LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
 
 }
 

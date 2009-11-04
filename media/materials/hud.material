@@ -9,7 +9,7 @@ material heart
 
             texture_unit
             {
-                texture corazon.png
+                texture corazon_hud.png
                 //tex_address_mode clamp
             }
             scene_blend alpha_blend

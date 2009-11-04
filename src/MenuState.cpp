@@ -101,7 +101,7 @@ void MenuState::enter( void )
 
         mBrickNode[i]->attachObject(mBrickEnt[i]);
 
-        mBrickNode[i]->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
+        //mBrickNode[i]->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
         mBrickSpeed[i] = Vector3(0,-(rand() % 20+10)*0.0001,0);
 
@@ -1013,7 +1013,7 @@ void MenuState::_updateLevelSelect()
             Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
 
             mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureName(
-                LevelLoader::getSingleton().getLevelName() + ".jpg");
+                LevelLoader::getSingleton().getLevelName() + ".png");
 
 
 
