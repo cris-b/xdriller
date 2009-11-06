@@ -25,7 +25,7 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArr
 
     mTextNode->scale(0.5,0.5,0.5);
 
-    text->setRenderQueueGroup(RENDER_QUEUE_OVERLAY+1);
+    text->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
     text->setCastShadows(false);
 
 
@@ -134,7 +134,7 @@ void MenuButton::setOptionCaption(String caption)
 
     optionText = new MovableText("MenuButton_" + StringConverter::toString(menuButtonCount) + "_option",caption);
 
-    optionText->setRenderQueueGroup(RENDER_QUEUE_OVERLAY+1);
+    optionText->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
     text->setCastShadows(false);
 
     optionText->setColor(ColourValue(1.0,0.3,0.0));

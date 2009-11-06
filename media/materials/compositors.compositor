@@ -40,8 +40,8 @@ compositor gaussian_blur
 
             pass render_scene
             {
-                first_render_queue 100
-                last_render_queue 101
+                first_render_queue 99
+                last_render_queue 100
             }
         }
     }
@@ -53,8 +53,8 @@ compositor gaussian_blur
 
             pass render_scene
             {
-                first_render_queue 100
-                last_render_queue 101
+                first_render_queue 99
+                last_render_queue 100
             }
         }
     }

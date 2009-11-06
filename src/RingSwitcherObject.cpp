@@ -8,7 +8,7 @@ RingSwitcherObject::RingSwitcherObject(const Ogre::String &name,const Ogre::Stri
 
     mEnt = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->createEntity(name + "_RingSwicherObjectEntity", mesh);
 
-    mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY+1);
+    mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
 
     mEnt->setCastShadows(false);
 
