@@ -19,8 +19,6 @@
 #include <vector>
 
 
-#define NUM_MENU_BRICKS         10
-
 
 
 class MenuState : public GameState {
@@ -69,11 +67,6 @@ private:
     PanelOverlayElement     *mLevelScreenshot;
     PanelOverlayElement     *mLevelScreenshot_shadow;
     TextAreaOverlayElement  *mLevelInfo;
-
-
-    Ogre::SceneNode *mBrickNode[NUM_MENU_BRICKS];
-    Ogre::Entity *mBrickEnt[NUM_MENU_BRICKS];
-    Vector3 mBrickSpeed[NUM_MENU_BRICKS];
 
     static MenuState    *mMenuState;
 

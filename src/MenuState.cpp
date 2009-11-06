@@ -23,17 +23,6 @@
 
 using namespace Ogre;
 
-// Clear depth buffer before overlays to render 3d overlay objects on top
-//---------------------------------------------------------------------
-class MenuOverlaysRenderGroup  : public RenderQueueListener {
-   void renderQueueStarted(Ogre::uint8 id,const Ogre::String &,bool &){
-      if (id == RENDER_QUEUE_OVERLAY+1)
-         Root::getSingleton().getRenderSystem()->clearFrameBuffer(FBT_DEPTH);
-   }
-   void renderQueueEnded(Ogre::uint8,const Ogre::String &,bool &){
-   }
-};
-//---------------------------------------------------------------------
 
 MenuState* MenuState::mMenuState;
 
@@ -50,7 +39,6 @@ void MenuState::enter( void )
     mCamera       = mSceneMgr->createCamera( "MenuCamera" );
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
-    mSceneMgr->addRenderQueueListener(new MenuOverlaysRenderGroup());
 
 
     //mCamera->setPolygonMode(PM_WIREFRAME);
@@ -123,34 +111,6 @@ void MenuState::enter( void )
 
     CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
     CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
-
-
-    for(int i = 0; i < NUM_MENU_BRICKS; i++)
-    {
-
-        String n = "Menu_Brick_" + StringConverter::toString(i);
-        Vector3 v = Vector3((rand()%400)/10.0 - 20 , (rand() % 400)/10.0 - 200 , -(rand() % 200)/10.0-10);
-        //Vector3 v = Vector3(0,0,0);
-        mBrickEnt[i] = mSceneMgr->createEntity(n, "cube.mesh");
-
-        mBrickEnt[i]->setCastShadows(false);
-
-        if(i<NUM_MENU_BRICKS*0.2) mBrickEnt[i]->setMaterialName("gris");
-        else if(i<NUM_MENU_BRICKS*0.4) mBrickEnt[i]->setMaterialName("rojo");
-        else if(i<NUM_MENU_BRICKS*0.6) mBrickEnt[i]->setMaterialName("verde");
-        else if(i<NUM_MENU_BRICKS*0.8) mBrickEnt[i]->setMaterialName("azul");
-        else if(i<=NUM_MENU_BRICKS) mBrickEnt[i]->setMaterialName("amarillo");
-
-
-        mBrickNode[i] = mSceneMgr->getRootSceneNode()->createChildSceneNode( n , v);
-
-        mBrickNode[i]->attachObject(mBrickEnt[i]);
-
-        //mBrickNode[i]->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
-
-        mBrickSpeed[i] = Vector3(0,-(rand() % 20+10)*0.0001,0);
-
-    }
 
 
     mPanel = static_cast<PanelOverlayElement*>(
@@ -244,8 +204,8 @@ void MenuState::enter( void )
     titleButton = NULL;
 
 
-    //changePage(MENU_PAGE_MAIN);
-    changePage(MENU_PAGE_GAME_MODE);
+    changePage(menuPage);
+    //changePage(MENU_PAGE_GAME_MODE);
 
     SoundManager::getSingleton().loadMusic("menu_music.ogg");
     SoundManager::getSingleton().playMusic(true);
@@ -308,19 +268,6 @@ void MenuState::update( unsigned long lTimeElapsed )
     }
 
 
-    for(int i = 0; i < NUM_MENU_BRICKS; i++)
-    {
-            //mBrickNode[i]->roll(Radian(0.0002*lTimeElapsed));
-            //mBrickNode[i]->pitch(Radian(0.0003*lTimeElapsed));
-            //mBrickNode[i]->yaw(Radian(0.0001*lTimeElapsed));
-            mBrickNode[i]->translate(mBrickSpeed[i]*lTimeElapsed);
-
-            if(mBrickNode[i]->getPosition().y<-20)
-            {
-                mBrickNode[i]->setPosition((rand()%400)/10.0 - 20 , 20, -(rand() % 200)/10.0-10);
-            }
-
-    }
 
 
     if(!buttons.empty())
@@ -440,7 +387,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                         ConfigManager::getSingleton().setValue("fullscreen","No");
                         buttons[2]->setOptionCaption(_("No"));
                     }
-                    if(buttons[2]->getOptionCaption() == "No")
+                    else if(buttons[2]->getOptionCaption() == "No")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
                         buttons[2]->setOptionCaption(_("Yes"));
@@ -537,7 +484,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                         ConfigManager::getSingleton().setValue("fullscreen","No");
                         buttons[2]->setOptionCaption(_("No"));
                     }
-                    if(buttons[2]->getOptionCaption() == "No")
+                    else if(buttons[2]->getOptionCaption() == "No")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
                         buttons[2]->setOptionCaption(_("Yes"));
