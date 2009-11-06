@@ -260,6 +260,8 @@ void GameManager::startGame( GameState *gameState )
     new Fader;
 
 
+
+
     // Change to first state
     this->changeState( gameState );
 

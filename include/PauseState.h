@@ -38,9 +38,12 @@ private:
     Ogre::Viewport       *mViewport;
 
     Ogre::OverlayManager    *mOverlayMgr;
-    Overlay                 *mOverlay;
-    OverlayContainer        *mPanel;
-    TextAreaOverlayElement  *mTextAreaDepth;
+    Ogre::Overlay                 *mOverlay;
+    Ogre::OverlayContainer        *mPanel;
+    Ogre::TextAreaOverlayElement  *mTextAreaDepth;
+
+    Ogre::Rectangle2D* backgroundRect;
+    Ogre::SceneNode* backgroundNode;
 
 
     static PauseState    *mPauseState;

@@ -7,6 +7,7 @@
 #include "LevelLoader.h"
 #include "SoundManager.h"
 #include "Arrows.h"
+#include "DotScene.h"
 
 #include "Gettext.h"
 
@@ -22,6 +23,17 @@
 
 using namespace Ogre;
 
+// Clear depth buffer before overlays to render 3d overlay objects on top
+//---------------------------------------------------------------------
+class MenuOverlaysRenderGroup  : public RenderQueueListener {
+   void renderQueueStarted(Ogre::uint8 id,const Ogre::String &,bool &){
+      if (id == RENDER_QUEUE_OVERLAY+1)
+         Root::getSingleton().getRenderSystem()->clearFrameBuffer(FBT_DEPTH);
+   }
+   void renderQueueEnded(Ogre::uint8,const Ogre::String &,bool &){
+   }
+};
+//---------------------------------------------------------------------
 
 MenuState* MenuState::mMenuState;
 
@@ -38,15 +50,42 @@ void MenuState::enter( void )
     mCamera       = mSceneMgr->createCamera( "MenuCamera" );
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
+    mSceneMgr->addRenderQueueListener(new MenuOverlaysRenderGroup());
+
+
     //mCamera->setPolygonMode(PM_WIREFRAME);
 
-    mViewport->setBackgroundColour(ColourValue(1,1,1));
+    //load scene
+    //--------------------------------------------
+
+    SceneNode *backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
+
+    // Load background scene
+    CDotScene dotScene;
+    //dotScene = new CDotScene();
+
+    String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
+
+    dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
+
+    //Setup fog and bg color
+    //--------------------------------------------------------------------
+    mViewport->setBackgroundColour(StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")));
+
+    if(LevelLoader::getSingleton().getValue("fog") == "on")
+    {
+        mSceneMgr->setFog(FOG_LINEAR,
+        StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
+        0.0, 10, 40);
+    }
+    else mSceneMgr->setFog(FOG_NONE);
+    //-----------------------------------------------------------------------
 
 
 
-    mSceneMgr->setAmbientLight(ColourValue(1,1,1));
+    mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
 
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(0.1);
@@ -64,14 +103,14 @@ void MenuState::enter( void )
 
     Light *light2 = mSceneMgr->createLight("MenuLight2");
     light2->setType(Light::LT_POINT);
-    light2->setPosition(Vector3(10, 5, 5));
+    light2->setPosition(Vector3(0, 0, 5));
 
 
     light2->setDiffuseColour(0.1, 0.1, 0.1);
     light2->setSpecularColour(0.2, 0.2, 0.2);
     light2->setAttenuation(200,1.0,0.022,0.0019);
 
-    mSceneMgr->setFog(FOG_LINEAR, ColourValue(1,1,1), 0.0, 20, 50);
+    //mSceneMgr->setFog(FOG_LINEAR, ColourValue(1,1,1), 0.0, 20, 50);
 
     /*Rectangle2D* toprect = new Rectangle2D(true);
     toprect->setCorners(-1.0, 1.0, 1.0, -1.0);
@@ -82,6 +121,10 @@ void MenuState::enter( void )
     foregorund_node->attachObject(toprect);*/
 
 
+    CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
+    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
+
+
     for(int i = 0; i < NUM_MENU_BRICKS; i++)
     {
 
@@ -89,6 +132,8 @@ void MenuState::enter( void )
         Vector3 v = Vector3((rand()%400)/10.0 - 20 , (rand() % 400)/10.0 - 200 , -(rand() % 200)/10.0-10);
         //Vector3 v = Vector3(0,0,0);
         mBrickEnt[i] = mSceneMgr->createEntity(n, "cube.mesh");
+
+        mBrickEnt[i]->setCastShadows(false);
 
         if(i<NUM_MENU_BRICKS*0.2) mBrickEnt[i]->setMaterialName("gris");
         else if(i<NUM_MENU_BRICKS*0.4) mBrickEnt[i]->setMaterialName("rojo");
@@ -207,10 +252,15 @@ void MenuState::enter( void )
 
     Fader::getSingletonPtr()->fadeIn();
 
+
+
+
 }
 
 void MenuState::exit( void )
 {
+    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
+
     delete arrows;
 
     mOverlayMgr->destroyOverlayElement(mLogoXDriller);
@@ -229,10 +279,13 @@ void MenuState::exit( void )
         buttons.pop_back();
     }
 
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 
     mSceneMgr->clearScene();
     mSceneMgr->destroyAllCameras();
     mRoot->getAutoCreatedWindow()->removeAllViewports();
+
+
 
 }
 
@@ -431,6 +484,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     LevelLoader::getSingleton().prevLevel();
 
                     _updateLevelSelect();
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
 
                 break;
@@ -441,6 +495,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 ringSwitcher->prev();
 
                 buttons[0]->setCaption(ringSwitcher->getCurrentName());
+                SoundManager::getSingleton().playSound(SOUND_MENU3);
 
                 break;
             }
@@ -526,6 +581,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     LevelLoader::getSingleton().nextLevel();
 
                     _updateLevelSelect();
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
 
                 break;
@@ -536,6 +592,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 ringSwitcher->next();
 
                 buttons[0]->setCaption(ringSwitcher->getCurrentName());
+                SoundManager::getSingleton().playSound(SOUND_MENU3);
 
                 break;
             }
@@ -922,11 +979,11 @@ void MenuState::changePage(unsigned int page)
 
         case MENU_PAGE_GAME_MODE:
         {
-            ringSwitcher = new RingSwitcher;
+            ringSwitcher = new RingSwitcher(2);
 
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
-            ringSwitcher->addObject(_("Adventure"),"cube.mesh");
-            ringSwitcher->addObject(_("Pressure Driller"),"tux.mesh");
+            ringSwitcher->addObject(_("Adventure"),"O2.mesh");
+            ringSwitcher->addObject(_("Pressure Driller"),"corazon.mesh");
 
             ringSwitcher->setPosition(0,-1,0);
 

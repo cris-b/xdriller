@@ -43,60 +43,19 @@ material LogoXDriller
     {
         pass
         {
-		depth_check off
-		lighting off
+            depth_check off
+            lighting off
 
-		texture_unit
-		{
-			texture logo_xdriller.png
-			tex_address_mode clamp
-		}
+            texture_unit
+            {
+                texture logo_xdriller.png
+                tex_address_mode clamp
+            }
 		scene_blend alpha_blend
         }
     }
 }
 
-
-material foreground
-{
-    technique
-    {
-        pass
-        {
-            lighting off
-            depth_write off
-            texture_unit
-            {
-                texture foreground.png
-                filtering none
-
-            }
-            scene_blend alpha_blend
-        }
-    }
-}
-
-material button
-{
-    technique
-    {
-        pass
-        {
-            lighting off
-            depth_write off
-            //depth_check off
-            //cull_hardware none
-
-            texture_unit
-            {
-                texture boton.png
-                tex_address_mode clamp
-
-            }
-            scene_blend alpha_blend
-        }
-    }
-}
 
 material arrow_right
 {

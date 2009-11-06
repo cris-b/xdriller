@@ -1,0 +1,62 @@
+compositor gaussian_blur
+{
+    technique
+    {
+        // Temporary textures
+        texture rt0 target_width target_height PF_R8G8B8
+        texture rt1 target_width target_height PF_R8G8B8
+
+
+        target rt0
+        {
+            // Render output from previous compositor (or original scene)
+            input previous
+        }
+
+        target rt1
+        {
+            // Blur horizontally
+            input none
+			pass render_quad
+			{
+				material blur_h
+				input 0 rt0
+				identifier 700
+			}
+        }
+
+		target_output
+        {
+            // Start with clear output
+            input none
+            // Blur vertically
+            pass render_quad
+            {
+                // Renders a fullscreen quad with a material
+				material blur_v
+                input 0 rt1
+				identifier 701
+            }
+
+            pass render_scene
+            {
+                first_render_queue 100
+                last_render_queue 101
+            }
+        }
+    }
+    technique
+    {
+		target_output
+        {
+            input previous
+
+            pass render_scene
+            {
+                first_render_queue 100
+                last_render_queue 101
+            }
+        }
+    }
+
+}

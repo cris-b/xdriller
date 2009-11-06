@@ -19,9 +19,15 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArr
     text = new MovableText(name,caption);
 
 
+
+
     mTextNode->attachObject(text);
 
     mTextNode->scale(0.5,0.5,0.5);
+
+    text->setRenderQueueGroup(RENDER_QUEUE_OVERLAY+1);
+    text->setCastShadows(false);
+
 
     if(hasOption)
     {
@@ -51,41 +57,8 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArr
 
     //LogManager::getSingleton().logMessage(StringConverter::toString(this->text->getWidth()));
 
-    // Create a manual object for 2D
-    frame = Root::getSingleton().getSceneManager( "ST_GENERIC" )->createManualObject(name + "_frame");
-
-    // Use identity view/projection matrices
-    //frame->setUseIdentityProjection(true);
-    //frame->setUseIdentityView(true);
-
-    frame->begin("button", RenderOperation::OT_TRIANGLE_STRIP);
-
-    frame->position(-3, -0.4, -0);
-    frame->textureCoord(0, 0);
-    frame->position( 3, -0.4, -0);
-    frame->textureCoord(1, 0);
-    frame->position( 3,  0.4, -0);
-    frame->textureCoord(1, 1);
-    frame->position(-3,  0.4, -0);
-    frame->textureCoord(0, 1);
-
-    frame->index(0);
-    frame->index(1);
-    frame->index(2);
-    frame->index(3);
-    frame->index(0);
-
-    frame->end();
-
-
-    frame->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    text->setRenderQueueGroup(RENDER_QUEUE_OVERLAY);
-
-
-
     //mTextNode->needUpdate();
 
-    mNode->attachObject(frame);
     //mNode->needUpdate();
 
 
@@ -161,6 +134,9 @@ void MenuButton::setOptionCaption(String caption)
 
     optionText = new MovableText("MenuButton_" + StringConverter::toString(menuButtonCount) + "_option",caption);
 
+    optionText->setRenderQueueGroup(RENDER_QUEUE_OVERLAY+1);
+    text->setCastShadows(false);
+
     optionText->setColor(ColourValue(1.0,0.3,0.0));
 
     mOptionNode->attachObject(optionText);
@@ -197,7 +173,7 @@ MenuButton::~MenuButton()
     mNode->detachAllObjects();
     delete text;
     if(_hasOption) delete optionText;
-    Root::getSingleton().getSceneManager( "ST_GENERIC" )->destroyManualObject( frame );
+
     mNode->removeAndDestroyAllChildren();
     mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
 

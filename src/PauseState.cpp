@@ -9,6 +9,7 @@ void PauseState::enter( void ) {
     mRoot            = Root::getSingletonPtr();
     mOverlayMgr      = OverlayManager::getSingletonPtr();
     mViewport        = mRoot->getAutoCreatedWindow()->getViewport( 0 );
+    mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
 
 
     mPanel = static_cast<OverlayContainer*>(
@@ -16,7 +17,6 @@ void PauseState::enter( void ) {
     mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
     mPanel->setPosition(0, 0);
     mPanel->setDimensions(1, 1);
-    mPanel->setMaterialName("ScreenShot");
 
     mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "PauseText"));
@@ -40,10 +40,41 @@ void PauseState::enter( void ) {
     // Show the overlay
     mOverlay->show();
 
+
+    // Create background rectangle covering the whole screen
+    backgroundRect = new Rectangle2D(true);
+    backgroundRect->setCorners(-1.0, 1.0, 1.0, -1.0);
+    backgroundRect->setMaterial("ScreenShot");
+
+    // Render the background before everything else
+    backgroundRect->setRenderQueueGroup(RENDER_QUEUE_BACKGROUND);
+
+    // Use infinite AAB to always stay visible
+    AxisAlignedBox aabInf;
+    aabInf.setInfinite();
+    backgroundRect->setBoundingBox(aabInf);
+
+    // Attach background to the scene
+    backgroundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("BackgroundNode");
+    backgroundNode->attachObject(backgroundRect);
+
+
+
+    CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
+    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
+
 }
 
 void PauseState::exit( void )
 {
+
+    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
+
+    backgroundNode->detachAllObjects();
+
+    mSceneMgr->destroySceneNode(backgroundNode);
+
+    delete backgroundRect;
 
     mPanel->removeChild("PauseText");
     mOverlayMgr->destroyOverlayElement(mTextAreaDepth);
@@ -83,7 +114,7 @@ void PauseState::keyReleased( const OIS::KeyEvent &e ) {
         this->popState();
     }
     else if( e.key == OIS::KC_ESCAPE ) {
-        this->requestShutdown();
+        this->popState();
     }
 }
 

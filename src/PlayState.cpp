@@ -25,7 +25,7 @@ void PlayState::enter( void ) {
     mOverlayMgr       = OverlayManager::getSingletonPtr();
     mInputDevice      = InputManager::getSingletonPtr()->getKeyboard();
     mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
-    //mSceneMgr = mRoot->createSceneManager("DotSceneOctreeManager");
+
     tiempoBala = false;
     nextFramePause = false;
     depthAccumulation = 0;
@@ -43,22 +43,13 @@ void PlayState::enter( void ) {
 
 
     mViewport   = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
-    mViewport->setBackgroundColour(StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")));
-
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 
 
 
-    //Setup fog
-    //--------------------------------------------------------------------
-    if(LevelLoader::getSingleton().getValue("fog") == "on")
-    {
-        mSceneMgr->setFog(FOG_LINEAR,
-        StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
-        0.0, 10, 40);
-    }
-    else mSceneMgr->setFog(FOG_NONE);
-    //-----------------------------------------------------------------------
+
+
+
+
 
     mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "CameraNode" , Vector3(0,2,0));
     mCameraNode->attachObject(mCamera);
@@ -72,6 +63,9 @@ void PlayState::enter( void ) {
     //Setup lights
     //-----------------------------------------
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
+
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+
 
     Light *light = mSceneMgr->createLight("Light1");
     light->setType(Light::LT_DIRECTIONAL);
@@ -93,8 +87,11 @@ void PlayState::enter( void ) {
     light2->setAttenuation(200,1.0,0.022,0.0019);
 
     mCam->getSceneNode()->attachObject(light2);
-    //--------------------------------------------
 
+
+
+    //load scene
+    //--------------------------------------------
 
     backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
 
@@ -105,6 +102,22 @@ void PlayState::enter( void ) {
     String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
 
     dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
+
+    //Setup fog and bg color
+    //--------------------------------------------------------------------
+    mViewport->setBackgroundColour(StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")));
+
+    if(LevelLoader::getSingleton().getValue("fog") == "on")
+    {
+        mSceneMgr->setFog(FOG_LINEAR,
+        StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
+        0.0, 10, 40);
+    }
+    else mSceneMgr->setFog(FOG_NONE);
+
+
+    //-----------------------------------------------------------------------
+
 
     mBoard = new Board();
 
@@ -248,6 +261,8 @@ void PlayState::exit( void ) {
 
     mOverlayMgr->destroy(mOverlay);
 
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
+
     mSceneMgr->clearScene();
     mSceneMgr->destroyAllCameras();
     mRoot->getAutoCreatedWindow()->removeAllViewports();
@@ -255,17 +270,19 @@ void PlayState::exit( void ) {
     SoundManager::getSingleton().stopMusic();
     SoundManager::getSingleton().stopAllSounds();
 
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
+
 }
 
 void PlayState::pause( void ) {
 
     mOverlay->hide();
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 }
 
 void PlayState::resume( void ) {
 
     nextFramePause = false;
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
     mOverlay->show();
 }
 

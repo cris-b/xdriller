@@ -30,6 +30,10 @@ class RingSwitcher
 
         int selected;
 
+        float angle;
+
+        float desired_angle;
+
 
         Ogre::SceneNode *mNode;
 

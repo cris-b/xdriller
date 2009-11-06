@@ -1,5 +1,5 @@
 
-fragment_program blur_fragment glsl
+/*fragment_program blur_fragment glsl
 {
         source blur_fp.glsl
 }
@@ -8,12 +8,12 @@ fragment_program blur_fragment glsl
 vertex_program blur_vertex glsl
 {
         source blur_vp.glsl
-}
+}*/
 
 
 material ScreenShot
 {
-	technique
+	/*technique
 	{
 		pass
 		{
@@ -38,7 +38,7 @@ material ScreenShot
 				texture ScreenShot_texture
 			}
 		}
-	}
+	}*/
 
 	//segunda tecnica en caso que falle
 	technique
@@ -47,8 +47,8 @@ material ScreenShot
 		{
 			texture_unit
 			{
-
 				texture ScreenShot_texture
+				colour_op none
 			}
 			//texture_unit
 			//{

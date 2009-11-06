@@ -18,24 +18,26 @@ using namespace Ogre;
 #define COLOUR_BINDING     1
 
 MovableText::MovableText(const String &name, const UTFString &caption, const String &fontName, Real charHeight, const ColourValue &color)
-: mpCam(NULL)
-, mpWin(NULL)
-, mpFont(NULL)
-, mName(name)
-, mCaption(caption)
-, mFontName(fontName)
-, mCharHeight(charHeight)
-, mColor(color)
-, mType("MovableText")
-, mTimeUntilNextToggle(0)
-, mSpaceWidth(0)
-, mUpdateColors(true)
-, mOnTop(true)
-, mHorizontalAlignment(H_LEFT)
-, mVerticalAlignment(V_BELOW)
-, mGlobalTranslation(0.0)
-, mLocalTranslation(0.0)
 {
+    mpCam = NULL;
+    mpWin = NULL;
+    mpFont = NULL;
+    mName = name;
+    mCaption = caption;
+    mFontName = fontName;
+    mCharHeight = charHeight;
+    mColor = color;
+    mType = "MovableText";
+    mTimeUntilNextToggle = 0;
+    mSpaceWidth = 0;
+    mUpdateColors = true;
+    mOnTop = true;
+    mHorizontalAlignment = H_LEFT;
+    mVerticalAlignment = V_BELOW;
+    mGlobalTranslation = 0.0;
+    mLocalTranslation = 0.0;
+
+
     if (name == "")
         throw Exception(Exception::ERR_INVALIDPARAMS, "Trying to create MovableText without name", "MovableText::MovableText");
 
@@ -45,6 +47,8 @@ MovableText::MovableText(const String &name, const UTFString &caption, const Str
     mRenderOp.vertexData = NULL;
     this->setFontName(mFontName);
     this->_setupGeometry();
+
+    //setRenderQueueGroup(RENDER_QUEUE_OVERLAY);
 }
 
 MovableText::~MovableText()

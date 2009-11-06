@@ -1,0 +1,82 @@
+fragment_program blur_h_fp glsl
+{
+	source blur_h_fp.glsl
+	default_params
+	{
+		param_named tex0 int 0
+
+	}
+}
+
+fragment_program blur_v_fp glsl
+{
+	source blur_v_fp.glsl
+	default_params
+	{
+		param_named tex0 int 0
+	}
+}
+
+vertex_program blur_vp glsl
+{
+	source blur_vp.glsl
+
+}
+
+
+material blur_h
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_check off
+			depth_write off
+
+			vertex_program_ref blur_vp
+			{
+			}
+			fragment_program_ref blur_h_fp
+			{
+			}
+
+			// Input
+			texture_unit
+			{
+                tex_coord_set 0
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material blur_v
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_check off
+
+			vertex_program_ref blur_vp
+			{
+			}
+			fragment_program_ref blur_v_fp
+			{
+			}
+
+			// Input
+			texture_unit
+			{
+                tex_coord_set 0
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
