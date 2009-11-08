@@ -64,7 +64,7 @@ void PlayState::enter( void ) {
     //-----------------------------------------
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 
 
     Light *light = mSceneMgr->createLight("Light1");
@@ -282,7 +282,7 @@ void PlayState::pause( void ) {
 void PlayState::resume( void ) {
 
     nextFramePause = false;
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
     mOverlay->show();
 }
 

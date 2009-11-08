@@ -21,10 +21,13 @@
 #define MENU_PAGE_AUDIO_OPTIONS         6
 #define MENU_PAGE_GAME_MODE             7
 
+
+
 using namespace Ogre;
 
 
 MenuState* MenuState::mMenuState;
+
 
 
 void MenuState::enter( void )
@@ -73,7 +76,7 @@ void MenuState::enter( void )
 
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(0.1);
@@ -108,10 +111,11 @@ void MenuState::enter( void )
     SceneNode* foregorund_node = mSceneMgr->getRootSceneNode()->createChildSceneNode("foreground_node");
     foregorund_node->attachObject(toprect);*/
 
-
-    CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
-    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
-
+    if(ConfigManager::getSingleton().getInt("compositors"))
+    {
+        CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
+        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
+    }
 
     mPanel = static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
@@ -219,7 +223,10 @@ void MenuState::enter( void )
 
 void MenuState::exit( void )
 {
-    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
+    if(ConfigManager::getSingleton().getInt("compositors"))
+    {
+        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
+    }
 
     delete arrows;
 
@@ -784,24 +791,24 @@ void MenuState::changePage(unsigned int page)
 
             buttons.push_back(new MenuButton(_("Play Game")));
 
-            buttons[0]->setPosition(0,1,0);
+            buttons[0]->setPosition(0,-0.1);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(0,1,0));
+
 
             buttons.push_back(new MenuButton(_("Options")));
 
-            buttons[1]->setPosition(0,0,0);
-            buttons[1]->setDest(Vector3(0,0,0));
+            buttons[1]->setPosition(0,0);
+
 
             buttons.push_back(new MenuButton(_("Credits")));
 
-            buttons[2]->setPosition(0,-1,0);
-            buttons[2]->setDest(Vector3(0,-1,0));
+            buttons[2]->setPosition(0,0.1);
+
 
             buttons.push_back(new MenuButton(_("Exit")));
 
-            buttons[3]->setPosition(0,-2,0);
-            buttons[3]->setDest(Vector3(0,-2,0));
+            buttons[3]->setPosition(0,0.2);
+
 
             menuCursor = 0;
 
@@ -814,28 +821,28 @@ void MenuState::changePage(unsigned int page)
         {
             //mOverlay->add2D(mLogoXDriller);
             titleButton = new MenuButton(_("Audio Options"));
-            titleButton->setPosition(0,3.5,0);
-            titleButton->setDest(Vector3(0,3.5,0));
+            titleButton->setPosition(0,-0.45);
+
             titleButton->setColor(ColourValue(1,0,0));
 
             buttons.push_back(new MenuButton(_("Music Volume"),ALIGN_LEFT,true));
 
-            buttons[0]->setPosition(-4,1,0);
+            buttons[0]->setPosition(-0.4,-0.1);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(-4,1,0));
+
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("music_volume"));
 
             buttons.push_back(new MenuButton(_("FX Volume"),ALIGN_LEFT,true));
 
-            buttons[1]->setPosition(-4,0,0);
-            buttons[1]->setDest(Vector3(-4,0,0));
+            buttons[1]->setPosition(-0.4,0);
+
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("sound_volume"));
 
 
             buttons.push_back(new MenuButton(_("Back"),ALIGN_LEFT));
 
-            buttons[2]->setPosition(-4,-1,0);
-            buttons[2]->setDest(Vector3(-4,-1,0));
+            buttons[2]->setPosition(-0.4,0.1);
+
 
             menuCursor = 0;
 
@@ -848,33 +855,33 @@ void MenuState::changePage(unsigned int page)
         {
             //mOverlay->add2D(mLogoXDriller);
             titleButton = new MenuButton(_("Graphic Options"));
-            titleButton->setPosition(0,3.5,0);
-            titleButton->setDest(Vector3(0,3.5,0));
+            titleButton->setPosition(0,-0.45);
+
             titleButton->setColor(ColourValue(1,0,0));
 
             buttons.push_back(new MenuButton(_("Resolution"),ALIGN_LEFT,true));
 
-            buttons[0]->setPosition(-4,1,0);
+            buttons[0]->setPosition(-0.4,-0.1);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(-4,1,0));
+
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
 
             buttons.push_back(new MenuButton(_("Anti-aliasing"),ALIGN_LEFT,true));
 
-            buttons[1]->setPosition(-4,0,0);
-            buttons[1]->setDest(Vector3(-4,0,0));
+            buttons[1]->setPosition(-0.4,0);
+
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("FSAA"));
 
             buttons.push_back(new MenuButton(_("Fullscreen"),ALIGN_LEFT,true));
 
-            buttons[2]->setPosition(-4,-1,0);
-            buttons[2]->setDest(Vector3(-4,-1,0));
+            buttons[2]->setPosition(-0.4,0.1);
+
             buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
 
             buttons.push_back(new MenuButton(_("Back"),ALIGN_LEFT));
 
-            buttons[3]->setPosition(-4,-2,0);
-            buttons[3]->setDest(Vector3(-4,-2,0));
+            buttons[3]->setPosition(-0.4,0.2);
+
 
             menuCursor = 0;
 
@@ -889,33 +896,32 @@ void MenuState::changePage(unsigned int page)
             //mOverlay->add2D(mLogoXDriller);
 
             titleButton = new MenuButton(_("Options"));
-            titleButton->setPosition(0,3.5,0);
-            titleButton->setDest(Vector3(0,3.5,0));
+            titleButton->setPosition(0,-0.45);
             titleButton->setColor(ColourValue(1,0,0));
 
             buttons.push_back(new MenuButton(_("Graphic Options")));
 
-            buttons[0]->setPosition(0,1,0);
+            buttons[0]->setPosition(0,-0.1);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(0,1,0));
+
 
 
             buttons.push_back(new MenuButton(_("Audio Options")));
 
-            buttons[1]->setPosition(0,0,0);
-            buttons[1]->setDest(Vector3(0,0,0));
+            buttons[1]->setPosition(0,0);
+
 
 
             buttons.push_back(new MenuButton(_("Controls")));
 
-            buttons[2]->setPosition(0,-1,0);
-            buttons[2]->setDest(Vector3(0,-1,0));
+            buttons[2]->setPosition(0,0.1);
+
 
 
             buttons.push_back(new MenuButton(_("Back")));
 
-            buttons[3]->setPosition(0,-2,0);
-            buttons[3]->setDest(Vector3(0,-2,0));
+            buttons[3]->setPosition(0,0.2);
+
 
             menuCursor = 0;
 
@@ -936,9 +942,8 @@ void MenuState::changePage(unsigned int page)
 
             buttons.push_back(new MenuButton(ringSwitcher->getCurrentName()));
 
-            buttons[0]->setPosition(0,4.5,0);
+            buttons[0]->setPosition(0,-0.45);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(0,3.5,0));
             buttons[0]->setArrows(true);
 
             menuCursor = 0;
@@ -955,9 +960,9 @@ void MenuState::changePage(unsigned int page)
         {
             buttons.push_back(new MenuButton(LevelLoader::getSingleton().getLongName()));
 
-            buttons[0]->setPosition(0,4.5,0);
+            buttons[0]->setPosition(0,-0.45);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(0,3.5,0));
+
             buttons[0]->setArrows(true);
 
 
@@ -977,20 +982,20 @@ void MenuState::changePage(unsigned int page)
         case MENU_PAGE_QUIT:
         {
             titleButton = new MenuButton(_("Are you sure you want to quit?"));
-            titleButton->setPosition(0,3.5,0);
-            titleButton->setDest(Vector3(0,3.5,0));
+            titleButton->setPosition(0,-0.45);
+
             titleButton->setColor(ColourValue(1,0,0));
 
             buttons.push_back(new MenuButton(_("No!")));
 
-            buttons[0]->setPosition(0,0.5,0);
+            buttons[0]->setPosition(0,0.0);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setDest(Vector3(0,0.5,0));
+
 
             buttons.push_back(new MenuButton(_("Yes, quit!")));
 
-            buttons[1]->setPosition(0,-0.5,0);
-            buttons[1]->setDest(Vector3(0,-0.5,0));
+            buttons[1]->setPosition(0,0.1);
+
 
             menuCursor = 0;
 
@@ -1010,8 +1015,8 @@ void MenuState::_updateLevelSelect()
 {
 
             buttons[0]->setCaption(LevelLoader::getSingleton().getLongName());
-            buttons[0]->setPosition(0,4.5,0);
-            buttons[0]->setDest(Vector3(0,3.5,0));
+            buttons[0]->setPosition(0,4.5);
+
 
             Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("level_screenshot");
             Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
@@ -1060,11 +1065,7 @@ void MenuState::_updateArrows(bool jump)
 {
     if(buttons[menuCursor]->hasOption())
     {
-
         Vector2 pos = buttons[menuCursor]->getOptionScreenPosition();
-
-        /*Ogre::LogManager::getSingleton().logMessage("ARROWS_POS X = " + StringConverter::toString(pos.x)
-                                                    + " Y = " + StringConverter::toString(pos.y));*/
 
         if(jump || !arrows->isVisible()) arrows->setPosition(pos.x,pos.y);
         else arrows->setDest(pos.x,pos.y);
@@ -1073,7 +1074,6 @@ void MenuState::_updateArrows(bool jump)
         else arrows->setDestSize(buttons[menuCursor]->getOptionWidth());
 
         //Ogre::LogManager::getSingleton().logMessage("ARROWS_SIZE = " + StringConverter::toString(buttons[menuCursor]->getOptionWidth()));
-
 
         arrows->show();
     }

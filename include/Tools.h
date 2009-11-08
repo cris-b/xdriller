@@ -24,4 +24,6 @@ std::string findAndReplace(std::string str, const std::string& findStr, const st
 
 Ogre::UTFString ConvertToUTF(Ogre::String String);
 
+Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real charHeight);
+
 #endif

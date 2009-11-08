@@ -7,6 +7,8 @@
 
 #include "Tools.h"
 
+#include "OgreFontManager.h"
+
 #include <iostream>
 #include <cstddef>
 
@@ -159,4 +161,25 @@ Ogre::UTFString ConvertToUTF(Ogre::String String)
       UTFString.append(1, cp);
    }
    return UTFString;
+}
+
+Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real charHeight)
+{
+    Ogre::Real textWidth = 0;
+
+    Ogre::Font *font = (Font *)FontManager::getSingleton().getByName(fontName).getPointer();
+
+    font->load();
+
+    for(unsigned int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == 0x0020)
+            textWidth += font->getGlyphAspectRatio(0x0030) * 0.75;
+        else
+            textWidth += font->getGlyphAspectRatio(s[i]) *0.75;
+    }
+
+    textWidth *= charHeight;
+
+    return textWidth;
 }

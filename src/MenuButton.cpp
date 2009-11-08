@@ -1,184 +1,161 @@
 #include "MenuButton.h"
+#include "Tools.h"
+
 
 int menuButtonCount = 0;
 
 using namespace Ogre;
+
+#define CHAR_HEIGHT 0.07
 
 MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArrows)
 {
     this->_hasOption = hasOption;
     this->_hasArrows = hasArrows;
     this->align = align;
+    this->caption = caption;
 
-    String name = "MenuButton_" + StringConverter::toString(menuButtonCount);
+    name = "MenuButton_" + StringConverter::toString(menuButtonCount);
     menuButtonCount++;
 
-    mNode = Root::getSingleton().getSceneManager( "ST_GENERIC" )->getRootSceneNode()->createChildSceneNode(name + "_Node");
-    mTextNode = mNode->createChildSceneNode();
+    mOverlayMgr   = OverlayManager::getSingletonPtr();
 
-    text = new MovableText(name,caption);
-
-
-
-
-    mTextNode->attachObject(text);
-
-    mTextNode->scale(0.5,0.5,0.5);
-
-    text->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    text->setCastShadows(false);
-
-
-    if(hasOption)
+    if(mOverlayMgr->getByName("MenuButtonsOverlay") == 0)
     {
-        optionText = new MovableText(name + "_option",".");
+        mOverlay = mOverlayMgr->create("MenuButtonsOverlay");
+    }
+    else
+    {
+        mOverlay = mOverlayMgr->getByName("MenuButtonsOverlay");
+    }
 
-        mOptionNode = mNode->createChildSceneNode();
+    mPanel = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", name + "_panel"));
+    mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
 
-        mOptionNode->attachObject(optionText);
+    mPanel->setVerticalAlignment(Ogre::GVA_CENTER);
+    mPanel->setPosition(0, 0);
+    mPanel->setDimensions(1, 0.2);
+    mPanel->setTransparent(true);
 
-        AxisAlignedBox aabb = optionText->GetAABB();
+    mText = static_cast<TextAreaOverlayElement*>(
+        mOverlayMgr->createOverlayElement("TextArea", name + "_text"));
+    mText->setMetricsMode(Ogre::GMM_RELATIVE);
+    mText->setHorizontalAlignment(Ogre::GHA_CENTER);
+    mText->setVerticalAlignment(Ogre::GVA_CENTER);
+    mText->setPosition(0, 0);
+    mText->setDimensions(1, 0.2);
+    mText->setCharHeight(CHAR_HEIGHT);
+    mText->setFontName("CoolFont");
+    mText->setColour(ColourValue(1,1,1));
+    if(align == ALIGN_CENTER) mText->setAlignment(TextAreaOverlayElement::Center);
+    else if(align == ALIGN_LEFT) mText->setAlignment(TextAreaOverlayElement::Left);
+    else if(align == ALIGN_RIGHT) mText->setAlignment(TextAreaOverlayElement::Right);
 
-        mOptionNode->scale(0.5,0.5,0.5);
+    setCaption(caption);
 
-        mOptionNode->setPosition(8 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
+    mPanel->addChild(mText);
 
+    if(_hasOption)
+    {
+        mOptionText = static_cast<TextAreaOverlayElement*>(
+            mOverlayMgr->createOverlayElement("TextArea", name + "_optionText"));
+        mOptionText->setMetricsMode(Ogre::GMM_RELATIVE);
+        mOptionText->setHorizontalAlignment(Ogre::GHA_CENTER);
+        mOptionText->setVerticalAlignment(Ogre::GVA_CENTER);
+        mOptionText->setPosition(0.8, 0);
+        mOptionText->setDimensions(0.5, 0.2);
+        mOptionText->setCharHeight(CHAR_HEIGHT);
+        mOptionText->setFontName("CoolFont");
+        mOptionText->setColour(ColourValue(1,0,0));
+        mOptionText->setAlignment(TextAreaOverlayElement::Right);
 
+        mPanel->addChild(mOptionText);
     }
 
 
-    AxisAlignedBox aabb = text->GetAABB();
+    mOverlay->add2D(mPanel);
 
-    if(align == ALIGN_CENTER)
-        mTextNode->setPosition(-(aabb.getMinimum().x+aabb.getMaximum().x)/4.0,0,0);
-    //else
-
-        //mTextNode->translate(-(aabb.getMinimum().x+aabb.getMaximum().x)/3.0,0,0);
-
-    //LogManager::getSingleton().logMessage(StringConverter::toString(this->text->getWidth()));
-
-    //mTextNode->needUpdate();
-
-    //mNode->needUpdate();
-
-
-
-    //mNode->showBoundingBox(true);
-    //mTextNode->showBoundingBox(true);
+    mOverlay->show();
 
     state = BSTATE_INACTIVE;
     dest_reached = false;
 
-    speed = Vector3(0,0,0);
+    speed = Vector2(0,0);
 
 }
 
 float MenuButton::getWidth()
 {
-    AxisAlignedBox aabb = text->GetAABB();
 
-    return (aabb.getMinimum().x+aabb.getMaximum().x)/45.0+0.06;
+    return textWidth;
 }
 
 float MenuButton::getOptionWidth()
 {
-    //return 0;
-    if(!_hasOption) return 0.0;
+    return optionTextWidth;
 
-    AxisAlignedBox aabb = optionText->GetAABB();
-
-    return (aabb.getMinimum().x+aabb.getMaximum().x)/45.0+0.06;
 }
 
 Ogre::Vector2 MenuButton::getScreenPosition()
 {
-
-    Vector2 pos;
-
-    pos.y = dest.y*-0.118 + 0.003;
-
-    pos.x = 0;
-
-    return pos;
-
-
-
-    //return aabb.getCenter();
+    return Vector2(pos.x,pos.y+CHAR_HEIGHT/2.0);
 }
 
 Ogre::Vector2 MenuButton::getOptionScreenPosition()
 {
 
-    if(!_hasOption) return Vector2(0,0);
-
-    //AxisAlignedBox aabb = optionText->GetAABB();
-
-    Vector2 pos;
-
-    pos.y = dest.y*-0.118 + 0.003;
-
-    pos.x = 0.41-getOptionWidth();
-
-    return pos;
-
-
-
-    //return aabb.getCenter();
-}
-
-void MenuButton::setOptionCaption(String caption)
-{
-    mOptionNode->detachObject(optionText);
-
-    delete optionText;
-
-    optionText = new MovableText("MenuButton_" + StringConverter::toString(menuButtonCount) + "_option",caption);
-
-    optionText->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    text->setCastShadows(false);
-
-    optionText->setColor(ColourValue(1.0,0.3,0.0));
-
-    mOptionNode->attachObject(optionText);
-
-    AxisAlignedBox aabb = optionText->GetAABB();
-
-    mOptionNode->setPosition(0,0,0);
-
-    mOptionNode->setScale(1,1,1);
-
-    mOptionNode->scale(0.5,0.5,0.5);
-
-    mOptionNode->setPosition(8 -(aabb.getMinimum().x+aabb.getMaximum().x)/2,0,0);
-
+    return Vector2(0.4-optionTextWidth/2.0,pos.y+CHAR_HEIGHT/2.0);
 }
 
 void MenuButton::setCaption(String caption)
 {
-    text->setCaption(caption);
+    this->caption = caption;
+    mText->setCaption(caption);
+
+    textWidth = getStringWidth(caption,"CoolFont",CHAR_HEIGHT);
+}
 
 
-    AxisAlignedBox aabb = text->GetAABB();
+void MenuButton::setOptionCaption(String caption)
+{
+    this->optionCaption = caption;
+    mOptionText->setCaption(caption);
 
+    optionTextWidth = getStringWidth(optionCaption,"CoolFont",CHAR_HEIGHT);
+}
 
-    if(align == ALIGN_CENTER)
-        mTextNode->setPosition(-(aabb.getMinimum().x+aabb.getMaximum().x)/4.0,0,0);
+void MenuButton::setPosition(Ogre::Vector2 pos)
+{
+    this->pos = pos;
+}
 
+void MenuButton::setPosition(Ogre::Real x, Ogre::Real y)
+{
+
+    pos.x = x;
+    pos.y = y;
+
+    mPanel->setPosition(x,y-0.1);
+
+}
+
+void MenuButton::setColor(Ogre::ColourValue col)
+{
+    mText->setColour(col);
 }
 
 MenuButton::~MenuButton()
 {
+    mPanel->removeChild(name + "_text");
+    if(_hasOption) mPanel->removeChild(name + "_optionText");
+    mOverlay->remove2D(mPanel);
 
-    mTextNode->detachAllObjects();
-    mNode->detachAllObjects();
-    delete text;
-    if(_hasOption) delete optionText;
-
-    mNode->removeAndDestroyAllChildren();
-    mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
+    mOverlayMgr->destroyOverlayElement(name + "_text");
+    if(_hasOption) mOverlayMgr->destroyOverlayElement(name + "_optionText");
+    mOverlayMgr->destroyOverlayElement(name + "_panel");
 
     menuButtonCount--;
-
 }
 
 void MenuButton::setState(int state)
@@ -187,11 +164,11 @@ void MenuButton::setState(int state)
 
     if(state == BSTATE_ACTIVE)
     {
-        text->setColor(ColourValue(1,1,0));
+        mText->setColour(ColourValue(1,1,0));
     }
     else if(state == BSTATE_INACTIVE)
     {
-        text->setColor(ColourValue::White);
+        mText->setColour(ColourValue(1,1,1));
     }
 
 }
@@ -200,7 +177,7 @@ void MenuButton::update(unsigned long lTimeElapsed)
 {
     if(dest_reached == false)
     {
-        Vector3 pos = mNode->getPosition();
+        /*Vector3 pos = mNode->getPosition();
         Vector3 dir = dest-pos;
 
         dir.normalise();
@@ -211,33 +188,29 @@ void MenuButton::update(unsigned long lTimeElapsed)
         {
             speed = Vector3(0,0,0);
             dest_reached = true;
-            mNode->setPosition(dest);
+            //mNode->setPosition(dest);
         }
         else
         {
-            mNode->setPosition(pos+speed);
+            //mNode->setPosition(pos+speed);
         }
-
+        */
     }
 
 }
 
-void MenuButton::setDest(Vector3 dest)
+void MenuButton::setDest(Vector2 dest)
 {
     this->dest = dest;
     dest_reached = false;
 }
 
-void MenuButton::setDest(Real x,Real y ,Real z)
+void MenuButton::setDest(Real x,Real y)
 {
-    Vector3 dest(x,y,z);
+    Vector2 dest(x,y);
     this->dest = dest;
     dest_reached = false;
 }
-
-
-
-
 
 
 

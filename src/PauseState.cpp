@@ -1,5 +1,6 @@
 #include "PauseState.h"
 #include "Gettext.h"
+#include "ConfigManager.h"
 
 using namespace Ogre;
 
@@ -59,17 +60,20 @@ void PauseState::enter( void ) {
     backgroundNode->attachObject(backgroundRect);
 
 
-
-    CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
-    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
+    if(ConfigManager::getSingleton().getInt("compositors"))
+    {
+        CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
+        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
+    }
 
 }
 
 void PauseState::exit( void )
 {
-
-    CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
-
+    if(ConfigManager::getSingleton().getInt("compositors"))
+    {
+        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
+    }
     backgroundNode->detachAllObjects();
 
     mSceneMgr->destroySceneNode(backgroundNode);

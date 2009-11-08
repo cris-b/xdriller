@@ -90,8 +90,8 @@ void Arrows::setDestSize(float s)
 
 void Arrows::update(unsigned long lTimeElapsed)
 {
-    arrowLeft->setPosition(x-(w/2.0)-s,y-(h/2.0));
-    arrowRight->setPosition(x-(w/2.0)+s,y-(h/2.0));
+    arrowLeft->setPosition (x-(s/2.0)-w-(w/2.0),y-(h/2.0));
+    arrowRight->setPosition(x+(s/2.0)+(w/2.0),y-(h/2.0));
 
     s += (s2-s)*(lTimeElapsed/100.0);
     x += (x2-x)*(lTimeElapsed/100.0);
@@ -125,7 +125,7 @@ void Arrows::show()
 {
     //mOverlay->show();
 
-    min_alpha = 0.2;
+    min_alpha = 0.3;
     visible = true;
 }
 

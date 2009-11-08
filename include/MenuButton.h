@@ -1,13 +1,16 @@
 #ifndef MenuButton_H
 #define MenuButton_H
 
-#include "MovableText.h"
+#include <Ogre.h>
+#include <OgrePanelOverlayElement.h>
+#include <OgreTextAreaOverlayElement.h>
 
 #define BSTATE_INACTIVE     0
 #define BSTATE_ACTIVE       1
 
 #define ALIGN_LEFT          0
 #define ALIGN_CENTER        1
+#define ALIGN_RIGHT         2
 
 
 class MenuButton
@@ -16,20 +19,19 @@ class MenuButton
         MenuButton(Ogre::UTFString caption, int align = ALIGN_CENTER, bool hasOption = false, bool hasArrows = false);
         ~MenuButton();
 
-        void setPosition(Ogre::Vector3 pos) {mNode->setPosition(pos);}
-        void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z) {mNode->setPosition(x,y,z);}
-        void setDest(Ogre::Vector3 dest);
-        void setDest(Ogre::Real x,Ogre::Real y ,Ogre::Real z);
+        void setPosition(Ogre::Vector2 pos);
+        void setPosition(Ogre::Real x, Ogre::Real y);
+        void setDest(Ogre::Vector2 dest);
+        void setDest(Ogre::Real x,Ogre::Real y);
 
         void setState(int state);
-        void setColor(Ogre::ColourValue col) {text->setColor(col);}
+        void setColor(Ogre::ColourValue col);
 
         void setOptionCaption(Ogre::String caption);
-        Ogre::String getOptionCaption() {return optionText->getCaption();}
+        Ogre::String getOptionCaption() {return optionCaption;}
 
         void setCaption(Ogre::String caption);
 
-        Ogre::Vector3 getPosition() {return mNode->getPosition();}
         Ogre::Vector2 getScreenPosition();
         Ogre::Vector2 getOptionScreenPosition();
 
@@ -50,18 +52,32 @@ class MenuButton
         bool _hasArrows;
         int align;
 
-        Ogre::ManualObject *frame;
+        Ogre::String name;
+
+        /*Ogre::ManualObject *frame;
         MovableText *text;
         MovableText *optionText;
 
         Ogre::SceneNode *mTextNode;
         Ogre::SceneNode *mOptionNode;
         Ogre::SceneNode *mNode;
+        */
 
+        Ogre::OverlayManager    *mOverlayMgr;
+        Ogre::Overlay           *mOverlay;
+
+        Ogre::PanelOverlayElement     *mPanel;
+        Ogre::TextAreaOverlayElement  *mText;
+        Ogre::TextAreaOverlayElement  *mOptionText;
+
+        Ogre::String caption;
         Ogre::String optionCaption;
 
+        Ogre::Real textWidth;
+        Ogre::Real optionTextWidth;
 
-        Ogre::Vector3 dest,speed;
+
+        Ogre::Vector2 pos,dest,speed;
         bool dest_reached;
 
         int state;

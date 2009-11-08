@@ -60,13 +60,13 @@ private:
     Ogre::OverlayManager    *mOverlayMgr;
     Ogre::Overlay           *mOverlay;
     Ogre::OverlayContainer  *mLogoXDriller;
-    PanelOverlayElement     *mPanel;
+    Ogre::PanelOverlayElement     *mPanel;
 
-    TextAreaOverlayElement  *mInfoTextArea;
+    Ogre::TextAreaOverlayElement  *mInfoTextArea;
 
-    PanelOverlayElement     *mLevelScreenshot;
-    PanelOverlayElement     *mLevelScreenshot_shadow;
-    TextAreaOverlayElement  *mLevelInfo;
+    Ogre::PanelOverlayElement     *mLevelScreenshot;
+    Ogre::PanelOverlayElement     *mLevelScreenshot_shadow;
+    Ogre::TextAreaOverlayElement  *mLevelInfo;
 
     static MenuState    *mMenuState;
 

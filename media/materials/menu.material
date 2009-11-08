@@ -18,7 +18,7 @@ material LogoXDriller
 		lighting off
 
 
-		vertex_program_ref wave_vertex
+		/*vertex_program_ref wave_vertex
 		{
 			param_named_auto scale_x sintime_0_X 6.283185308
 			param_named_auto scale_y costime_0_X 6.283185308
@@ -27,7 +27,7 @@ material LogoXDriller
 		fragment_program_ref textured_fragment
 		{
 		    param_named tex0 int 0
-		}
+		}*/
 
 
 		texture_unit
