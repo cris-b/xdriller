@@ -74,8 +74,6 @@ Player::Player(Board *mBoard)
     mNode->attachObject(plus20Particle);
     mNode->attachObject(heartsParticle);
 
-
-
 }
 
 Player::~Player()
@@ -393,8 +391,8 @@ void Player::update(unsigned long lTimeElapsed)
 
     if(scale < 1)
     {
-        mScaleNode->setScale(1,1,scale);
-        mScaleNode->setPosition(0,0,-(1-scale)/2.0);
+        mScaleNode->setScale(1,scale,1);
+        mScaleNode->setPosition(0,-(1-scale)/2.0,0);
     }
 
     if(!alive && mAnimationState->getAnimationName() != "Dye")
