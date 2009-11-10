@@ -32,7 +32,7 @@ MenuState* MenuState::mMenuState;
 
 void MenuState::enter( void )
 {
-    menuPage = MENU_PAGE_GAME_MODE;
+    menuPage = MENU_PAGE_MAIN;
     menuCursor = 0;
 
 
@@ -608,7 +608,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     fadeState( CreditsState::getSingletonPtr() );
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
-                if(menuCursor == 3)
+                if(menuCursor == 4)
                 {
                     changePage(MENU_PAGE_QUIT);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
@@ -640,7 +640,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     changePage(MENU_PAGE_AUDIO_OPTIONS);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
-                if(menuCursor == 3)
+                if(menuCursor == 4)
                 {
                     changePage(MENU_PAGE_MAIN);
                     SoundManager::getSingleton().playSound(SOUND_MENU4);
@@ -823,23 +823,28 @@ void MenuState::changePage(unsigned int page)
 
             buttons.push_back(new MenuButton(_("Play Game")));
 
-            buttons[0]->setPosition(0,-0.1);
+            buttons[0]->setPosition(0,-0.15);
             buttons[0]->setState(BSTATE_ACTIVE);
 
 
             buttons.push_back(new MenuButton(_("Options")));
 
-            buttons[1]->setPosition(0,0);
+            buttons[1]->setPosition(0,-0.05);
 
 
             buttons.push_back(new MenuButton(_("Credits")));
 
-            buttons[2]->setPosition(0,0.1);
+            buttons[2]->setPosition(0,0.05);
+
+            buttons.push_back(new MenuButton(_("High Scores")));
+
+            buttons[3]->setPosition(0,0.15);
+            buttons[3]->setBlocked(true);
 
 
             buttons.push_back(new MenuButton(_("Exit")));
 
-            buttons[3]->setPosition(0,0.2);
+            buttons[4]->setPosition(0,0.25);
 
 
             menuCursor = 0;
@@ -939,27 +944,32 @@ void MenuState::changePage(unsigned int page)
 
             buttons.push_back(new MenuButton(_("Graphic Options")));
 
-            buttons[0]->setPosition(0,-0.1);
+            buttons[0]->setPosition(0,-0.2);
             buttons[0]->setState(BSTATE_ACTIVE);
 
 
 
             buttons.push_back(new MenuButton(_("Audio Options")));
 
-            buttons[1]->setPosition(0,0);
+            buttons[1]->setPosition(0,-0.1);
 
 
 
             buttons.push_back(new MenuButton(_("Controls")));
 
-            buttons[2]->setPosition(0,0.1);
+            buttons[2]->setPosition(0,0);
             buttons[2]->setBlocked(true);
+
+            buttons.push_back(new MenuButton(_("Player")));
+
+            buttons[3]->setPosition(0,0.1);
+            buttons[3]->setBlocked(true);
 
 
 
             buttons.push_back(new MenuButton(_("Back")));
 
-            buttons[3]->setPosition(0,0.2);
+            buttons[4]->setPosition(0,0.2);
 
 
             menuCursor = 0;
@@ -1056,7 +1066,7 @@ void MenuState::_updateLevelSelect()
 {
 
             buttons[0]->setCaption(LevelLoader::getSingleton().getLongName());
-            buttons[0]->setPosition(0,4.5);
+            buttons[0]->setPosition(0,-0.45);
 
 
             Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("level_screenshot");
