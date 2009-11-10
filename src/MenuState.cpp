@@ -32,7 +32,7 @@ MenuState* MenuState::mMenuState;
 
 void MenuState::enter( void )
 {
-    menuPage = MENU_PAGE_MAIN;
+    menuPage = MENU_PAGE_GAME_MODE;
     menuCursor = 0;
 
 
@@ -76,7 +76,8 @@ void MenuState::enter( void )
 
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+    if(ConfigManager::getSingleton().getString("shadows") == "On")
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(0.1);
@@ -389,15 +390,30 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "Yes")
+                    if(buttons[2]->getOptionCaption() == "On")
+                    {
+                        ConfigManager::getSingleton().setValue("shadows","Off");
+                        buttons[2]->setOptionCaption(_("Off"));
+                    }
+                    else if(buttons[2]->getOptionCaption() == "Off")
+                    {
+                        ConfigManager::getSingleton().setValue("shadows","On");
+                        buttons[2]->setOptionCaption(_("On"));
+                    }
+
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
+                if(menuCursor == 3)
+                {
+                    if(buttons[3]->getOptionCaption() == "Yes")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","No");
-                        buttons[2]->setOptionCaption(_("No"));
+                        buttons[3]->setOptionCaption(_("No"));
                     }
-                    else if(buttons[2]->getOptionCaption() == "No")
+                    else if(buttons[3]->getOptionCaption() == "No")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
-                        buttons[2]->setOptionCaption(_("Yes"));
+                        buttons[3]->setOptionCaption(_("Yes"));
                     }
 
 
@@ -486,15 +502,31 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "Yes")
+                    if(buttons[2]->getOptionCaption() == "On")
+                    {
+                        ConfigManager::getSingleton().setValue("shadows","Off");
+                        buttons[2]->setOptionCaption(_("Off"));
+                    }
+                    else if(buttons[2]->getOptionCaption() == "Off")
+                    {
+                        ConfigManager::getSingleton().setValue("shadows","On");
+                        buttons[2]->setOptionCaption(_("On"));
+                    }
+
+
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
+                if(menuCursor == 3)
+                {
+                    if(buttons[3]->getOptionCaption() == "Yes")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","No");
-                        buttons[2]->setOptionCaption(_("No"));
+                        buttons[3]->setOptionCaption(_("No"));
                     }
-                    else if(buttons[2]->getOptionCaption() == "No")
+                    else if(buttons[3]->getOptionCaption() == "No")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
-                        buttons[2]->setOptionCaption(_("Yes"));
+                        buttons[3]->setOptionCaption(_("Yes"));
                     }
 
 
@@ -619,7 +651,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             case MENU_PAGE_GRAPHIC_OPTIONS:
             {
 
-                if(menuCursor == 3)
+                if(menuCursor == 4)
                 {
                     changePage(MENU_PAGE_OPTIONS);
                     SoundManager::getSingleton().playSound(SOUND_MENU4);
@@ -861,26 +893,32 @@ void MenuState::changePage(unsigned int page)
 
             buttons.push_back(new MenuButton(_("Resolution"),ALIGN_LEFT,true));
 
-            buttons[0]->setPosition(-0.4,-0.1);
+            buttons[0]->setPosition(-0.4,-0.2);
             buttons[0]->setState(BSTATE_ACTIVE);
 
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
 
             buttons.push_back(new MenuButton(_("Anti-aliasing"),ALIGN_LEFT,true));
 
-            buttons[1]->setPosition(-0.4,0);
+            buttons[1]->setPosition(-0.4,-0.1);
 
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("FSAA"));
 
+            buttons.push_back(new MenuButton(_("Shadows"),ALIGN_LEFT,true));
+
+            buttons[2]->setPosition(-0.4,0);
+
+            buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("shadows"));
+
             buttons.push_back(new MenuButton(_("Fullscreen"),ALIGN_LEFT,true));
 
-            buttons[2]->setPosition(-0.4,0.1);
+            buttons[3]->setPosition(-0.4,0.1);
 
-            buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
+            buttons[3]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
 
             buttons.push_back(new MenuButton(_("Back"),ALIGN_LEFT));
 
-            buttons[3]->setPosition(-0.4,0.2);
+            buttons[4]->setPosition(-0.4,0.2);
 
 
             menuCursor = 0;
@@ -915,6 +953,7 @@ void MenuState::changePage(unsigned int page)
             buttons.push_back(new MenuButton(_("Controls")));
 
             buttons[2]->setPosition(0,0.1);
+            buttons[2]->setBlocked(true);
 
 
 
@@ -936,7 +975,9 @@ void MenuState::changePage(unsigned int page)
 
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
             ringSwitcher->addObject(_("Adventure"),"O2.mesh");
+            ringSwitcher->setBlocked(_("Adventure"),true);
             ringSwitcher->addObject(_("Pressure Driller"),"corazon.mesh");
+            ringSwitcher->setBlocked(_("Pressure Driller"),true);
 
             ringSwitcher->setPosition(0,-1,0);
 

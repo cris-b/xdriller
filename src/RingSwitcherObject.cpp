@@ -6,6 +6,8 @@ RingSwitcherObject::RingSwitcherObject(const Ogre::String &name,const Ogre::Stri
 {
     this->name=name;
 
+    blocked = false;
+
     mEnt = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->createEntity(name + "_RingSwicherObjectEntity", mesh);
 
     mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
@@ -14,6 +16,10 @@ RingSwitcherObject::RingSwitcherObject(const Ogre::String &name,const Ogre::Stri
 
     mNode = parent->createChildSceneNode(name + "_RingSwicherObjectSceneNode");
     mNode->attachObject(mEnt);
+
+    mEmi = new EntityMaterialInstance (mEnt);
+
+    mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
 }
 
 RingSwitcherObject::~RingSwitcherObject()
@@ -29,4 +35,17 @@ RingSwitcherObject::~RingSwitcherObject()
 void RingSwitcherObject::setPosition(const Ogre::Vector3 &pos)
 {
     mNode->setPosition(pos);
+}
+
+void RingSwitcherObject::setBlocked(bool _blocked)
+{
+    blocked = _blocked;
+
+    if(blocked) mEmi->setTransparency (0.7f);
+    else mEmi->setTransparency (0.0f);
+}
+
+bool RingSwitcherObject::isBlocked()
+{
+    return blocked;
 }

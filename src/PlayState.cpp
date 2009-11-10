@@ -6,6 +6,7 @@
 #include "LevelLoader.h"
 #include "DotScene.h"
 #include "Globals.h"
+#include "ConfigManager.h"
 
 #include <string>
 #include <vector>
@@ -64,7 +65,8 @@ void PlayState::enter( void ) {
     //-----------------------------------------
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+    if(ConfigManager::getSingleton().getString("shadows") == "On")
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 
 
     Light *light = mSceneMgr->createLight("Light1");

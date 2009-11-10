@@ -24,6 +24,9 @@ class RingSwitcher
 
         void setPosition(Ogre::Real x,Ogre::Real y,Ogre::Real z) {mNode->setPosition(x,y,z);}
 
+        void setBlocked(const Ogre::String &name,bool _blocked);
+        bool isBlocked(const Ogre::String &name);
+
     private:
 
         float radius;

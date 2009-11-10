@@ -30,6 +30,27 @@ void RingSwitcher::addObject(const Ogre::String &name,const Ogre::String &mesh)
     objects.push_back(new RingSwitcherObject(name,mesh,mNode));
 }
 
+
+void RingSwitcher::setBlocked(const Ogre::String &name,bool _blocked)
+{
+
+    for(unsigned int i=0; i<objects.size();i++)
+    {
+        if(objects[i]->getName() == name) objects[i]->setBlocked(_blocked);
+    }
+}
+
+bool RingSwitcher::isBlocked(const Ogre::String &name)
+{
+
+    for(unsigned int i=0; i<objects.size();i++)
+    {
+        if(objects[i]->getName() == name) return objects[i]->isBlocked();
+    }
+
+    return false;
+}
+
 void RingSwitcher::update( unsigned long lTimeElapsed )
 {
     int num_objects = objects.size();

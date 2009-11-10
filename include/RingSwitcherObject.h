@@ -3,6 +3,8 @@
 
 #include <Ogre.h>
 
+#include "EntityMaterialInstance.h"
+
 class RingSwitcherObject
 {
     public:
@@ -14,13 +16,21 @@ class RingSwitcherObject
         Ogre::String getName() {return name;}
 
         void setScale(Ogre::Real s) {mNode->setScale(s,s,s);}
+
+        void setBlocked(bool _blocked);
+        bool isBlocked();
+
+
     private:
+
+        bool blocked;
 
         Ogre::String name;
 
         Ogre::Entity *mEnt;
         Ogre::SceneNode *mNode;
 
+        EntityMaterialInstance *mEmi;
 };
 
 #endif // RINGSWITCHEROBJECT_H

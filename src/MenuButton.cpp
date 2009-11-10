@@ -14,6 +14,7 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArr
     this->_hasArrows = hasArrows;
     this->align = align;
     this->caption = caption;
+    this->_isBlocked = false;
 
     name = "MenuButton_" + StringConverter::toString(menuButtonCount);
     menuButtonCount++;
@@ -142,6 +143,9 @@ void MenuButton::setPosition(Ogre::Real x, Ogre::Real y)
 
 void MenuButton::setColor(Ogre::ColourValue col)
 {
+    if(_isBlocked) col.a = 0.3;
+    else col.a = 1.0;
+
     mText->setColour(col);
 }
 
@@ -164,11 +168,11 @@ void MenuButton::setState(int state)
 
     if(state == BSTATE_ACTIVE)
     {
-        mText->setColour(ColourValue(1,1,0));
+        setColor(ColourValue(1,1,0));
     }
     else if(state == BSTATE_INACTIVE)
     {
-        mText->setColour(ColourValue(1,1,1));
+        setColor(ColourValue(1,1,1));
     }
 
 }
@@ -211,6 +215,52 @@ void MenuButton::setDest(Real x,Real y)
     this->dest = dest;
     dest_reached = false;
 }
+
+
+void MenuButton::setBlocked(bool _blocked)
+{
+    _isBlocked = _blocked;
+
+    if(_isBlocked)
+    {
+        ColourValue c = mText->getColour();
+        c.a = 0.3;
+
+        mText->setColour(c);
+
+        if(_hasOption)
+        {
+            ColourValue c = mOptionText->getColour();
+            c.a = 0.3;
+
+            mOptionText->setColour(c);
+        }
+    }
+    else
+    {
+        ColourValue c = mText->getColour();
+        c.a = 1.0;
+
+        mText->setColour(c);
+
+        if(_hasOption)
+        {
+            ColourValue c = mOptionText->getColour();
+            c.a = 1.0;
+
+            mOptionText->setColour(c);
+        }
+    }
+
+}
+bool MenuButton::isBlocked()
+{
+    return _isBlocked;
+}
+
+
+
+
 
 
 

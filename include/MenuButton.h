@@ -43,6 +43,9 @@ class MenuButton
         void setArrows(bool trueOrFalse) {_hasArrows = trueOrFalse;}
         bool hasArrows() {return _hasArrows;}
 
+        void setBlocked(bool _blocked);
+        bool isBlocked();
+
 
         void update(unsigned long lTimeElapsed);
 
@@ -50,6 +53,7 @@ class MenuButton
 
         bool _hasOption;
         bool _hasArrows;
+        bool _isBlocked;
         int align;
 
         Ogre::String name;
