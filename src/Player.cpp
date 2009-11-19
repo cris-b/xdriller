@@ -40,7 +40,7 @@ Player::Player(Board *mBoard)
     orientationAngle = 0;
 
     mEnt = mSceneMgr->createEntity("Player", "tux.mesh");
-    mEnt->setMaterialName("tux");
+    //mEnt->setMaterialName("tux");
 
 
     mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "Player" , startPos);
@@ -527,7 +527,7 @@ void Player::moveLeft()
     {
         _moveLeft = true;
         orientation = LOOK_LEFT;
-        mEnt->setMaterialName("tux");
+        //mEnt->setMaterialName("tux");
     }
 }
 
@@ -537,7 +537,7 @@ void Player::moveRight()
     {
     _moveRight = true;
     orientation = LOOK_RIGHT;
-    mEnt->setMaterialName("tux");
+    //mEnt->setMaterialName("tux");
     }
 }
 
@@ -546,7 +546,7 @@ void Player::moveUp()
     if(alive && !finished)
     {
     orientation = LOOK_UP;
-    mEnt->setMaterialName("tux_look_up");
+    //mEnt->setMaterialName("tux_look_up");
     }
 }
 
@@ -555,7 +555,7 @@ void Player::moveDown()
     if(alive && !finished)
     {
     orientation = LOOK_DOWN;
-    mEnt->setMaterialName("tux");
+    //mEnt->setMaterialName("tux");
     }
 }
 
@@ -690,3 +690,13 @@ void Player::livesUp(int n)
 
     heartsParticle->getEmitter(0)->setEnabled(true);
 }
+
+void Player::setAnimation(const String& anim)
+{
+
+}
+
+String Player::getAnimationName()
+{
+
+};

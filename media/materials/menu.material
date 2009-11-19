@@ -8,6 +8,37 @@ fragment_program textured_fragment glsl
         source textured_fp.glsl
 }
 
+vertex_program simple_vp glsl
+{
+    source simple_vp.glsl
+}
+
+fragment_program simple_fp glsl
+{
+    source simple_fp.glsl
+}
+
+
+/*material Ogre/StencilShadowVolumes
+{
+    technique
+    {
+        pass
+        {
+
+            vertex_program_ref simple_vp
+            {
+            }
+
+            fragment_program_ref simple_fp
+            {
+            }
+
+        }
+
+    }
+}*/
+
 material LogoXDriller
 {
     technique

@@ -210,6 +210,8 @@ void GameManager::startGame( GameState *gameState )
                 tmpRenderSystem->setConfigOption("Anti aliasing","Level 4");
         }
 
+        tmpRenderSystem->setConfigOption("RTT Preferred Mode","FBO");
+
     }
 
     //LogManager::getSingleton().setLogDetail(LL_LOW);

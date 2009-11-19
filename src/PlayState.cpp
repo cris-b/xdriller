@@ -66,7 +66,11 @@ void PlayState::enter( void ) {
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
     if(ConfigManager::getSingleton().getString("shadows") == "On")
+    {
         mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+        mSceneMgr->setShadowDirectionalLightExtrusionDistance(10);
+        mSceneMgr->setShadowFarDistance(100);
+    }
 
 
     Light *light = mSceneMgr->createLight("Light1");

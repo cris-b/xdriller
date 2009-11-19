@@ -11,12 +11,15 @@ compositor gaussian_blur
         {
             // Render output from previous compositor (or original scene)
             input previous
+
+
         }
 
         target rt1
         {
             // Blur horizontally
             input none
+
 			pass render_quad
 			{
 				material blur_h
@@ -30,6 +33,7 @@ compositor gaussian_blur
             // Start with clear output
             input none
             // Blur vertically
+
             pass render_quad
             {
                 // Renders a fullscreen quad with a material
@@ -43,8 +47,10 @@ compositor gaussian_blur
                 first_render_queue 99
                 last_render_queue 100
             }
+
         }
     }
+
     technique
     {
 		target_output
@@ -60,3 +66,4 @@ compositor gaussian_blur
     }
 
 }
+

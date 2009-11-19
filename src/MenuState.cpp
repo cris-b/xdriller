@@ -77,11 +77,16 @@ void MenuState::enter( void )
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
     if(ConfigManager::getSingleton().getString("shadows") == "On")
+    {
         mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+        mSceneMgr->setShadowDirectionalLightExtrusionDistance(10);
+        mSceneMgr->setShadowFarDistance(100);
+        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1,0.1));
+    }
 
     mCamera->setPosition(0,0,10);
-    mCamera->setNearClipDistance(0.1);
-    mCamera->setFarClipDistance(100);
+    mCamera->setNearClipDistance(1);
+    mCamera->setFarClipDistance(10000);
 
     Light *light = mSceneMgr->createLight("MenuLight1");
     light->setType(Light::LT_DIRECTIONAL);
@@ -101,6 +106,8 @@ void MenuState::enter( void )
     light2->setDiffuseColour(0.1, 0.1, 0.1);
     light2->setSpecularColour(0.2, 0.2, 0.2);
     light2->setAttenuation(200,1.0,0.022,0.0019);
+
+    light2->setCastShadows(false);
 
     //mSceneMgr->setFog(FOG_LINEAR, ColourValue(1,1,1), 0.0, 20, 50);
 
@@ -987,7 +994,7 @@ void MenuState::changePage(unsigned int page)
             ringSwitcher->addObject(_("Adventure"),"O2.mesh");
             ringSwitcher->setBlocked(_("Adventure"),true);
             ringSwitcher->addObject(_("Pressure Driller"),"corazon.mesh");
-            ringSwitcher->setBlocked(_("Pressure Driller"),true);
+            ringSwitcher->setBlocked(_("Pressure Driller"),false);
 
             ringSwitcher->setPosition(0,-1,0);
 

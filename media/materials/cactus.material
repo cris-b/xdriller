@@ -2,6 +2,7 @@ material SOLID/TEX/cactus.png
 {
 	technique
 	{
+
 		pass
 		{
 			texture_unit

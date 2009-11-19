@@ -48,7 +48,6 @@ material ScreenShot
 			texture_unit
 			{
 				texture ScreenShot_texture
-				colour_op none
 			}
 			//texture_unit
 			//{
