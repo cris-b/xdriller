@@ -39,8 +39,10 @@ Player::Player(Board *mBoard)
     speed = Vector3(0,0,0);
     orientationAngle = 0;
 
-    mEnt = mSceneMgr->createEntity("Player", "tux.mesh");
+    mEnt = mSceneMgr->createEntity("Player", "tom.mesh");
     //mEnt->setMaterialName("tux");
+
+
 
 
     mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "Player" , startPos);
@@ -55,11 +57,14 @@ Player::Player(Board *mBoard)
                           Vector3(pos.x+0.5,pos.y+0.5,pos.z+0.5));
 
 
+    _isAnimated = mEnt->hasSkeleton();
 
-
-    mAnimationState = mEnt->getAnimationState("Idle");
-    mAnimationState->setLoop(true);
-    mAnimationState->setEnabled(true);
+    if(_isAnimated)
+    {
+        mAnimationState = mEnt->getAnimationState("Idle");
+        mAnimationState->setLoop(true);
+        mAnimationState->setEnabled(true);
+    }
 
     starsParticle = mSceneMgr->createParticleSystem("Stars", "Stars");
     starsParticle->getEmitter(0)->setEnabled(false);
@@ -395,52 +400,37 @@ void Player::update(unsigned long lTimeElapsed)
         mScaleNode->setPosition(0,-(1-scale)/2.0,0);
     }
 
-    if(!alive && mAnimationState->getAnimationName() != "Dye")
+    if(!alive && getAnimationName() != "Dye")
     {
-        mAnimationState->setEnabled(false);
+        if(_isAnimated) mAnimationState->setEnabled(false);
     }
-    else if(mAnimationState->getAnimationName() == "Walk")
+    else if(getAnimationName() == "Walk")
     {
         if(fabs(speed.x) < 0.001)
         {
-
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Idle");
-            mAnimationState->setLoop(true);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
-
+            setAnimationState("Idle");
         }
 
     }
-    else if(mAnimationState->getAnimationName() == "Break_up" ||
-            mAnimationState->getAnimationName() == "Break_down" ||
-            mAnimationState->getAnimationName() == "Front_break" ||
-            mAnimationState->getAnimationName() == "Bored_1" ||
-            mAnimationState->getAnimationName() == "Bored_2" ||
-            mAnimationState->getAnimationName() == "Bored_3")
+    else if(getAnimationName() == "Break_up" ||
+            getAnimationName() == "Break_down" ||
+            getAnimationName() == "Front_break" ||
+            getAnimationName() == "Bored_1" ||
+            getAnimationName() == "Bored_2" ||
+            getAnimationName() == "Bored_3")
     {
-        if(mAnimationState->hasEnded())
+        if(getAnimationEnded())
         {
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Idle");
-            mAnimationState->setLoop(true);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
-
+            setAnimationState("Idle");
         }
     }
-    else if(mAnimationState->getAnimationName() == "Idle" && fallTime > 700)
+    else if(getAnimationName() == "Idle" && fallTime > 700)
     {
-        mAnimationState->setEnabled(false);
-        mAnimationState = mEnt->getAnimationState("Falling");
-        mAnimationState->setLoop(true);
-        mAnimationState->setEnabled(true);
-        mAnimationState->setTimePosition(0);
+        setAnimationState("Falling");
 
         SoundManager::getSingleton().playSound(SOUND_FALLING);
     }
-    else if(mAnimationState->getAnimationName() == "Idle")
+    else if(getAnimationName() == "Idle")
     {
         idleTime += lTimeElapsed;
 
@@ -448,35 +438,24 @@ void Player::update(unsigned long lTimeElapsed)
         {
             int oneOfThree = rand() % 3;
 
-            mAnimationState->setEnabled(false);
-            if(oneOfThree == 0) mAnimationState = mEnt->getAnimationState("Bored_1");
-            if(oneOfThree == 1) mAnimationState = mEnt->getAnimationState("Bored_2");
-            if(oneOfThree == 2) mAnimationState = mEnt->getAnimationState("Bored_3");
-            mAnimationState->setLoop(false);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
+
+            if(oneOfThree == 0) setAnimationState("Bored_1");
+            if(oneOfThree == 1) setAnimationState("Bored_2");
+            if(oneOfThree == 2) setAnimationState("Bored_3");
+
 
             idleTime = 0;
         }
         if(fabs(speed.x) > 0 && !_falling)
         {
 
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Walk");
-            mAnimationState->setLoop(true);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
-            idleTime = 0;
+            setAnimationState("Walk");
 
         }
     }
-    else if(mAnimationState->getAnimationName() == "Falling" && !_falling)
+    else if(getAnimationName() == "Falling" && !_falling)
     {
-        mAnimationState->setEnabled(false);
-        mAnimationState = mEnt->getAnimationState("Idle");
-        mAnimationState->setLoop(true);
-        mAnimationState->setEnabled(true);
-        mAnimationState->setTimePosition(0);
+        setAnimationState("Idle");
     }
 
     mNode->setPosition(getPosition()+speed*lTimeElapsed);
@@ -490,7 +469,7 @@ void Player::update(unsigned long lTimeElapsed)
     _moveRight = false;
     _moveJump = false;
 
-    mAnimationState->addTime(0.001*lTimeElapsed);
+    if(_isAnimated) mAnimationState->addTime(0.001*lTimeElapsed);
 
     if(!finished)
     {
@@ -510,11 +489,7 @@ void Player::update(unsigned long lTimeElapsed)
 
         orientation = LOOK_DOWN;
 
-        mAnimationState->setEnabled(false);
-        mAnimationState = mEnt->getAnimationState("Dye");
-        mAnimationState->setLoop(false);
-        mAnimationState->setEnabled(true);
-        mAnimationState->setTimePosition(0);
+        setAnimationState("Dye");
 
     }
 
@@ -573,11 +548,9 @@ void  Player::breakBlock()
                 else if( t == BRICK_HEART ) livesUp(1);
 
             }
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Front_break");
-            mAnimationState->setLoop(false);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
+
+            setAnimationState("Front_break");
+
             idleTime = 0;
 
         }
@@ -591,11 +564,9 @@ void  Player::breakBlock()
                 else if( t == BRICK_HEART ) livesUp(1);
 
             }
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Front_break");
-            mAnimationState->setLoop(false);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
+
+            setAnimationState("Front_break");
+
             idleTime = 0;
         }
         else if(orientation==LOOK_UP)
@@ -606,11 +577,9 @@ void  Player::breakBlock()
                 else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
                 else if( t == BRICK_HEART ) livesUp(1);
             }
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Break_up");
-            mAnimationState->setLoop(false);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
+
+            setAnimationState("Break_up");
+
             idleTime = 0;
         }
         else if(orientation==LOOK_DOWN)
@@ -621,11 +590,9 @@ void  Player::breakBlock()
                 else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
                 else if( t == BRICK_HEART ) livesUp(1);
             }
-            mAnimationState->setEnabled(false);
-            mAnimationState = mEnt->getAnimationState("Break_down");
-            mAnimationState->setLoop(false);
-            mAnimationState->setEnabled(true);
-            mAnimationState->setTimePosition(0);
+
+            setAnimationState("Break_down");
+
             idleTime = 0;
         }
     }
@@ -669,11 +636,9 @@ void Player::resurrect()
 
     SoundManager::getSingleton().playSound(SOUND_RESURRECT);
 
-    mAnimationState->setEnabled(false);
-    mAnimationState = mEnt->getAnimationState("Idle");
-    mAnimationState->setLoop(true);
-    mAnimationState->setEnabled(true);
-    mAnimationState->setTimePosition(0);
+
+    setAnimationState("Idle");
+
 
 }
 
@@ -691,12 +656,35 @@ void Player::livesUp(int n)
     heartsParticle->getEmitter(0)->setEnabled(true);
 }
 
-void Player::setAnimation(const String& anim)
+void Player::setAnimationState(const String& anim)
 {
+    if(!_isAnimated) return;
 
+    mAnimationState->setEnabled(false);
+    mAnimationState = mEnt->getAnimationState(anim);
+    mAnimationState->setEnabled(true);
+    mAnimationState->setTimePosition(0);
+
+    if(anim == "Idle" || anim == "Falling" || anim == "Walk")
+    {
+        mAnimationState->setLoop(true);
+    }
+    else
+    {
+        mAnimationState->setLoop(false);
+    }
 }
 
 String Player::getAnimationName()
 {
+    if(!_isAnimated) return "Idle";
 
-};
+    return mAnimationState->getAnimationName();
+}
+
+bool Player::getAnimationEnded()
+{
+    if(!_isAnimated) return 0;
+
+    return mAnimationState->hasEnded();
+}

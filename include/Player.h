@@ -62,6 +62,8 @@ class Player
     Vector3 speed;
     Real orientationAngle;
 
+
+
     Real air;
     Real idleTime;
     int lives;
@@ -76,6 +78,8 @@ class Player
     bool _moveJump;
 
     bool _falling;
+
+    bool _isAnimated;
 
     int fallTime;
 
@@ -98,6 +102,9 @@ class Player
 
 	Board *mBoard;
 
+    void setAnimationState(const String& anim);
+    String getAnimationName();
+    bool getAnimationEnded();
 };
 
 #endif
