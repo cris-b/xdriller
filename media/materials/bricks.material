@@ -8,7 +8,7 @@ material rojo
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuborojo.png
+				texture cuborojo.png 2d 2
 			}
 		}
 	}
@@ -23,7 +23,7 @@ material verde
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboverde.png
+				texture cuboverde.png 2d 2
 			}
 		}
 	}
@@ -39,7 +39,7 @@ material azul
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboazul.png
+				texture cuboazul.png 2d 2
 			}
 		}
 	}
@@ -54,7 +54,7 @@ material amarillo
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cuboamarillo.png
+				texture cuboamarillo.png 2d 2
 			}
 		}
 	}
@@ -70,7 +70,7 @@ material gris
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture cubogris.png
+				texture cubogris.png 2d 2
 			}
 		}
 	}
@@ -86,7 +86,7 @@ material roca
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca.png
+				texture roca.png 2d 2
 			}
 		}
 	}
@@ -102,7 +102,7 @@ material roca2
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca2.png
+				texture roca2.png 2d 2
 			}
 		}
 	}
@@ -117,7 +117,7 @@ material roca3
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca3.png
+				texture roca3.png 2d 2
 			}
 		}
 	}
@@ -132,7 +132,7 @@ material roca4
 			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
-				texture roca4.png
+				texture roca4.png 2d 2
 			}
 		}
 	}
@@ -146,7 +146,7 @@ material O2
 		{
 			texture_unit
 			{
-				texture O2.png
+				texture O2.png 2d 2 none PF_R8G8B8
 			}
 		}
 	}
@@ -162,7 +162,7 @@ material corazon
 			specular 0.500000 0.500000 0.500000 12.500000
 			texture_unit
 			{
-				texture corazon.png
+				texture corazon.png 2d 2 none PF_R8G8B8
 			}
 		}
 	}
@@ -181,7 +181,7 @@ material fijo
 
 			texture_unit
 			{
-				texture cubofijo.png 2d 1
+				texture cubofijo.png 2d 1 none PF_R8G8B8
 			}
 		}
 	}

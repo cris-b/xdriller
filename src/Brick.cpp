@@ -54,6 +54,7 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     predyeTime = 0;
     dyeTime = 0;
     lives = 1;
+    mEmi = NULL;
 
     speed = Vector3(0,0,0);
 
@@ -94,18 +95,17 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     mBox = AxisAlignedBox(position.x-0.5,position.y-0.5,position.z-0.5,
                           position.x+0.5,position.y+0.5,position.z+0.5);
 
-    mEmi = new EntityMaterialInstance (mEnt);
-    mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
 
 
-    if(type == BRICK_GREEN) mEmi->setMaterialName("verde");
-    else if(type == BRICK_RED) mEmi->setMaterialName("rojo");
-    else if(type == BRICK_BLUE) mEmi->setMaterialName("azul");
-    else if(type == BRICK_ROCK) mEmi->setMaterialName("roca");
-    else if(type == BRICK_YELLOW) mEmi->setMaterialName("amarillo");
-    else if(type == BRICK_HEART) mEmi->setMaterialName("corazon");
-    else if(type == BRICK_AIR) mEmi->setMaterialName("O2");
-    else if(type == BRICK_FIXED) mEmi->setMaterialName("fijo");
+
+    if(type == BRICK_GREEN) mEnt->setMaterialName("verde");
+    else if(type == BRICK_RED) mEnt->setMaterialName("rojo");
+    else if(type == BRICK_BLUE) mEnt->setMaterialName("azul");
+    else if(type == BRICK_ROCK) mEnt->setMaterialName("roca");
+    else if(type == BRICK_YELLOW) mEnt->setMaterialName("amarillo");
+    else if(type == BRICK_HEART) mEnt->setMaterialName("corazon");
+    else if(type == BRICK_AIR) mEnt->setMaterialName("O2");
+    else if(type == BRICK_FIXED) mEnt->setMaterialName("fijo");
     else kill();
 
     if(mEnt->hasSkeleton())
@@ -223,6 +223,12 @@ void Brick::update(unsigned long lTimeElapsed)
 
         dyeTime -= lTimeElapsed;
 
+        if(mEmi == NULL)
+        {
+            mEmi = new EntityMaterialInstance (mEnt);
+            mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
+        }
+
         mEmi->setTransparency (1-scale);
 
         if(dyeTime <= 0)
@@ -234,7 +240,15 @@ void Brick::update(unsigned long lTimeElapsed)
 
     if(predyeTime>0)
     {
-        mEmi->setTransparency(0.8);
+        /*
+        if(mEmi == NULL)
+        {
+            mEmi = new EntityMaterialInstance (mEnt);
+            mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
+        }
+
+        mEmi->setTransparency(0.8);*/
+
         predyeTime -= lTimeElapsed;
         if(predyeTime <= 0) kill();
     }
@@ -256,15 +270,15 @@ void Brick::kick()
     {
         if(lives == 3)
         {
-            mEmi->setMaterialName("roca2");
+            mEnt->setMaterialName("roca2");
         }
         if(lives == 2)
         {
-            mEmi->setMaterialName("roca3");
+            mEnt->setMaterialName("roca3");
         }
         if(lives == 1)
         {
-            mEmi->setMaterialName("roca4");
+            mEnt->setMaterialName("roca4");
         }
 
     }

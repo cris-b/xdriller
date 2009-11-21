@@ -78,11 +78,17 @@ void MenuState::enter( void )
 
     if(ConfigManager::getSingleton().getString("shadows") == "On")
     {
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
-        mSceneMgr->setShadowDirectionalLightExtrusionDistance(10);
-        mSceneMgr->setShadowFarDistance(100);
-        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1,0.1));
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+        //mSceneMgr->setShadowDirectionalLightExtrusionDistance(2000);
+        //mSceneMgr->setShadowFarDistance(100);
+        mSceneMgr->setShadowTextureSize(1024);
+        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1));
+        //mSceneMgr->setShadowTextureReceiverMaterial("shadow_blur");
     }
+
+
+
+
 
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(1);
@@ -90,7 +96,7 @@ void MenuState::enter( void )
 
     Light *light = mSceneMgr->createLight("MenuLight1");
     light->setType(Light::LT_DIRECTIONAL);
-    light->setDirection(Vector3(0.5, -1, -0.5));
+    light->setDirection(Vector3(0.5, -0.8, -0.5));
 
 
     light->setDiffuseColour(0.9,0.9,0.9);

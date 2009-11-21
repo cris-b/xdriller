@@ -5,7 +5,6 @@
 #include "SoundManager.h"
 #include "LevelLoader.h"
 #include "DotScene.h"
-#include "Globals.h"
 #include "ConfigManager.h"
 
 #include <string>
@@ -67,10 +66,11 @@ void PlayState::enter( void ) {
 
     if(ConfigManager::getSingleton().getString("shadows") == "On")
     {
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
-        mSceneMgr->setShadowDirectionalLightExtrusionDistance(10);
-        mSceneMgr->setShadowFarDistance(100);
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+        mSceneMgr->setShadowTextureSize(1024);
+        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1));
     }
+
 
 
     Light *light = mSceneMgr->createLight("Light1");
@@ -227,6 +227,9 @@ void PlayState::enter( void ) {
     //mBottle->setUV(0,0,mPlayer->getLives(),1);
     mBottle->setMaterialName("bottle");
 
+
+
+
     mOverlay = mOverlayMgr->create("PlayStateOverlay");
 
 
@@ -237,6 +240,22 @@ void PlayState::enter( void ) {
     mOverlay->add2D(mLivesPanel);
     mOverlay->add2D(mBottleAir);
     mOverlay->add2D(mBottle);
+
+    ///////////////////////////////////////////////////////
+    #ifdef XDRILLER_DEBUG
+    mTextAreaDebug = static_cast<TextAreaOverlayElement*>(
+        mOverlayMgr->createOverlayElement("TextArea", "TextAreaDebug"));
+    mTextAreaDebug->setMetricsMode(Ogre::GMM_RELATIVE);
+    mTextAreaDebug->setPosition(0.01, 0.1);
+    mTextAreaDebug->setDimensions(0.2, 0.2);
+    mTextAreaDebug->setCaption(" ");
+    mTextAreaDebug->setCharHeight(0.03);
+    mTextAreaDebug->setFontName("SmallFont");
+    mTextAreaDebug->setColour(ColourValue(1,1,1,0.5));
+
+    mPanel->addChild(mTextAreaDebug);
+    #endif
+    /////////////////////////////////////////////////////////
 
     mPanel->addChild(mTextAreaDepth);
     mPanel->addChild(mTextAreaPoints);
@@ -264,6 +283,10 @@ void PlayState::exit( void ) {
     delete mPlayer;
 
     destroyOverlayElements();
+
+    #ifdef XDRILLER_DEBUG
+    if(mTextAreaDebug != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaDebug);     mTextAreaDebug = NULL;
+    #endif
 
     mOverlayMgr->destroy(mOverlay);
 
@@ -621,6 +644,25 @@ void PlayState::update( unsigned long lTimeElapsed )
     }
     else count = 0;
 
+    #ifdef XDRILLER_DEBUG
+
+    if(mTextAreaDebug != NULL)
+    {
+        RenderWindow *mRenderWindow = mRoot->getAutoCreatedWindow();
+
+        String debugText = "FPS:   " + StringConverter::toString(mRenderWindow->getLastFPS()) +
+                           "\nAvFPS  " + StringConverter::toString(mRenderWindow->getAverageFPS()) +
+                           "\nTris:  " + StringConverter::toString(mRenderWindow->getTriangleCount()) +
+                           "\nBatch: " + StringConverter::toString(mRenderWindow->getBatchCount()) +
+                           "\nFSAA:   " + StringConverter::toString(mRenderWindow->getFSAA());
+
+
+
+        mTextAreaDebug->setCaption(debugText);
+    }
+
+    #endif
+
 }
 
 void PlayState::nextBoard()
@@ -788,5 +830,7 @@ void PlayState::destroyOverlayElements()
     if(mBottle != NULL)         mOverlayMgr->destroyOverlayElement(mBottle);            mBottle = NULL;
     if(mBottleAir != NULL)      mOverlayMgr->destroyOverlayElement(mBottleAir);         mBottleAir = NULL;
     if(mPanel != NULL)          mOverlayMgr->destroyOverlayElement(mPanel);             mPanel = NULL;
+
+
 
 }

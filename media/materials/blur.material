@@ -80,3 +80,26 @@ material blur_v
 		}
 	}
 }
+
+material shadow_blur
+{
+    technique
+    {
+        pass
+        {
+            /*vertex_program_ref blur_vp
+            {
+            }
+            fragment_program_ref blur_v_fp
+            {
+            }*/
+
+            texture_unit
+            {
+                texture Ogre/ShadowTexture0
+                tex_address_mode clamp
+                content_type shadow
+            }
+        }
+    }
+}
