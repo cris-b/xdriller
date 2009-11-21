@@ -3,12 +3,11 @@
 # Header: $
 
 EAPI=2
-inherit games bzr
+inherit games git
 
 DESCRIPTION="3D arcade-puzzle based on Mr.Driller"
 HOMEPAGE="http://xdriller.sourceforge.net/"
-EBZR_REPO_URI="bzr://xdriller.bzr.sourceforge.net/bzrroot/xdriller"
-EBZR_BRANCH=""
+EGIT_REPO_URI="bzr://xdriller.bzr.sourceforge.net/bzrroot/xdriller"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -20,10 +19,10 @@ RDEPEND="dev-games/ogre
 	dev-games/ois"
 DEPEND="${RDEPEND}
     dev-util/pkgconfig
-	dev-util/bzr"
+	dev-util/git"
 
 src_unpack() {
-	bzr_src_unpack
+	git_src_unpack
 }
 
 src_compile() {
