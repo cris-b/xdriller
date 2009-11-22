@@ -1,17 +1,47 @@
+material fondo_roka/SOLID/TEX/cactus.png
+{
+	technique
+	{
+		pass
+		{
+			specular 0.000000 0.000000 0.000000 12.500000
+			texture_unit
+			{
+				texture cactus.png
+				tex_coord_set 0
+			}
+
+            texture_unit
+            {
+                texture fondo_desierto_lightmap.png
+                tex_coord_set 1
+                colour_op modulate
+                tex_address_mode clamp
+            }
+
+		}
+	}
+}
 material fondo_roka/SOLID/TEX/arena.png
 {
 	technique
 	{
 		pass
 		{
-			diffuse 1.000000 1.000000 1.000000
-			//specular 0.500000 0.500000 0.500000 12.500000
-
-
+			specular 0.000000 0.000000 0.000000 12.500000
 			texture_unit
 			{
 				texture arena.png
+				tex_coord_set 0
 			}
+
+            texture_unit
+            {
+                texture fondo_desierto_lightmap.png
+                tex_coord_set 1
+                colour_op modulate
+                tex_address_mode clamp
+            }
 		}
 	}
 }

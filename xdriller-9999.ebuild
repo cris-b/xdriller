@@ -7,7 +7,7 @@ inherit games git
 
 DESCRIPTION="3D arcade-puzzle based on Mr.Driller"
 HOMEPAGE="http://xdriller.sourceforge.net/"
-EGIT_REPO_URI="bzr://xdriller.bzr.sourceforge.net/bzrroot/xdriller"
+EGIT_REPO_URI="git://xdriller.git.sourceforge.net/gitroot/xdriller/xdriller"
 
 LICENSE="GPL-3"
 SLOT="0"

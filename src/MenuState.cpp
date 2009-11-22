@@ -87,9 +87,6 @@ void MenuState::enter( void )
     }
 
 
-
-
-
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(1);
     mCamera->setFarClipDistance(10000);

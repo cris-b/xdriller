@@ -88,9 +88,11 @@ void PlayState::enter( void ) {
     light2->setPosition(Vector3(10, 0, 5));
 
 
-    light2->setDiffuseColour(0.1, 0.1, 0.1);
+    light2->setDiffuseColour(0.2, 0.2, 0.2);
     light2->setSpecularColour(0.2, 0.2, 0.2);
-    light2->setAttenuation(200,1.0,0.022,0.0019);
+
+    //TODO:
+    //light2->setAttenuation(200,1.0,0.022,0.0019);
 
     mCam->getSceneNode()->attachObject(light2);
 
@@ -311,7 +313,12 @@ void PlayState::pause( void ) {
 void PlayState::resume( void ) {
 
     nextFramePause = false;
-    mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+    if(ConfigManager::getSingleton().getString("shadows") == "On")
+    {
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+        mSceneMgr->setShadowTextureSize(1024);
+        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1));
+    }
     mOverlay->show();
 }
 

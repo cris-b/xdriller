@@ -70,16 +70,27 @@ static Light* LoadLight( TiXmlElement *XMLLight, SceneManager *mSceneMgr )
 	}
 
 	XMLPosition = XMLLight->FirstChildElement("position");
-	if( XMLPosition ) {
-		Vector3 p = Vector3(0,0,0);
-		if( XMLPosition->Attribute("x") )
-			p.x = StringConverter::parseReal( XMLPosition->Attribute("x") );
-		if( XMLPosition->Attribute("y") )
-			p.y = StringConverter::parseReal( XMLPosition->Attribute("y") );
-		if( XMLPosition->Attribute("z") )
-			p.z = StringConverter::parseReal( XMLPosition->Attribute("z") );
+	if( XMLPosition )
+	{
+        Vector3 p = Vector3(0,0,0);
+        if( XMLPosition->Attribute("x") )
+            p.x = StringConverter::parseReal( XMLPosition->Attribute("x") );
+        if( XMLPosition->Attribute("y") )
+            p.y = StringConverter::parseReal( XMLPosition->Attribute("y") );
+        if( XMLPosition->Attribute("z") )
+            p.z = StringConverter::parseReal( XMLPosition->Attribute("z") );
 
-		l->setPosition( p );
+
+        //NOTA:: esto no funciona porque se pone primero la posicion antes que el tipo, ver desert.xml
+
+	    if(l->getType() == Light::LT_DIRECTIONAL)
+	    {
+	        l->setDirection( p );
+	    }
+	    else
+	    {
+            l->setPosition( p );
+	    }
 	}
 
 	//castShadows      (true | false) "true"

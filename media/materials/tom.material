@@ -1,13 +1,12 @@
-material SOLID/TEX/cactus.png
+material SOLID/TEX/tom.png
 {
 	technique
 	{
-
 		pass
 		{
 			texture_unit
 			{
-				texture cactus.png
+				texture tom.png
 			}
 		}
 	}

@@ -166,10 +166,10 @@ void Brick::update(unsigned long lTimeElapsed)
 
     static Vector3 pos;
 
-    if(type == 6)
+    if(type == BRICK_AIR)
     {
 
-        mNode->roll(Radian(0.001*lTimeElapsed));
+        mNode->yaw(Radian(0.001*lTimeElapsed));
     }
 
     if(isAlive())
