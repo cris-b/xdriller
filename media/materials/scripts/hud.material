@@ -107,7 +107,7 @@ material clock
 
             texture_unit
             {
-                texture reloj.png
+                texture reloj_hud.png
                 tex_address_mode clamp
             }
             scene_blend alpha_blend
