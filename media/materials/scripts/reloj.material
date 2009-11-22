@@ -1,0 +1,13 @@
+material SOLID/TEX/reloj.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture reloj.png 2d 2
+			}
+		}
+	}
+}

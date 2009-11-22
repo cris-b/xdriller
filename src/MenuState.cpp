@@ -19,7 +19,8 @@
 #define MENU_PAGE_LEVELSELECT           4
 #define MENU_PAGE_GRAPHIC_OPTIONS       5
 #define MENU_PAGE_AUDIO_OPTIONS         6
-#define MENU_PAGE_GAME_MODE             7
+#define MENU_PAGE_PLAYER_OPTIONS        7
+#define MENU_PAGE_GAME_MODE             8
 
 
 
@@ -142,9 +143,9 @@ void MenuState::enter( void )
     mInfoTextArea->setCaption("{ Fixi Studios }");
     mInfoTextArea->setCharHeight(0.035);
     mInfoTextArea->setFontName("SmallFont");
-    mInfoTextArea->setColourBottom(ColourValue(1.0, 1, 1.0));
-    mInfoTextArea->setColourTop(ColourValue(0, 0, 0));
-    //mInfoTextArea->setColour(ColourValue(0,0,0));
+    //mInfoTextArea->setColourBottom(ColourValue(1.0, 1, 1.0));
+    //mInfoTextArea->setColourTop(ColourValue(0, 0, 0));
+    mInfoTextArea->setColour(ColourValue(0,0,0));
     mInfoTextArea->setAlignment(TextAreaOverlayElement::Right);
 
 
@@ -650,6 +651,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     changePage(MENU_PAGE_AUDIO_OPTIONS);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
+                if(menuCursor == 3)
+                {
+                    changePage(MENU_PAGE_PLAYER_OPTIONS);
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
                 if(menuCursor == 4)
                 {
                     changePage(MENU_PAGE_MAIN);
@@ -692,6 +698,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+
             case MENU_PAGE_LEVELSELECT:
             {
 
@@ -750,6 +757,12 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
             case MENU_PAGE_AUDIO_OPTIONS:
+            {
+                changePage(MENU_PAGE_OPTIONS);
+                SoundManager::getSingleton().playSound(SOUND_MENU4);
+                break;
+            }
+            case MENU_PAGE_PLAYER_OPTIONS:
             {
                 changePage(MENU_PAGE_OPTIONS);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
@@ -973,8 +986,6 @@ void MenuState::changePage(unsigned int page)
             buttons.push_back(new MenuButton(_("Player")));
 
             buttons[3]->setPosition(0,0.1);
-            buttons[3]->setBlocked(true);
-
 
 
             buttons.push_back(new MenuButton(_("Back")));
@@ -985,6 +996,28 @@ void MenuState::changePage(unsigned int page)
             menuCursor = 0;
 
             mInfoTextArea->setCaption(_("It's good to have options"));
+
+            break;
+        }
+
+        case MENU_PAGE_PLAYER_OPTIONS:
+        {
+            //mOverlay->add2D(mLogoXDriller);
+
+            titleButton = new MenuButton(_("Player Options"));
+            titleButton->setPosition(0,-0.45);
+            titleButton->setColor(ColourValue(1,0,0));
+
+            buttons.push_back(new MenuButton("Tux"));
+
+            buttons[0]->setPosition(0,-0.25);
+            buttons[0]->setState(BSTATE_ACTIVE);
+            buttons[0]->setArrows(true);
+
+
+            menuCursor = 0;
+
+            mInfoTextArea->setCaption(_("Customize your player"));
 
             break;
         }
@@ -1124,6 +1157,7 @@ void MenuState::_updateLevelSelect()
 
 void MenuState::_updateArrows(bool jump)
 {
+
     if(buttons[menuCursor]->hasOption())
     {
         Vector2 pos = buttons[menuCursor]->getOptionScreenPosition();
