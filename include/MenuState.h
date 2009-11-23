@@ -15,6 +15,7 @@
 #include "Arrows.h"
 
 #include "RingSwitcher.h"
+#include "PlayerModelSelector.h"
 
 #include <vector>
 
@@ -78,11 +79,10 @@ private:
 
     Arrows *arrows;
     RingSwitcher *ringSwitcher;
+    PlayerModelSelector *playerModelSelector;
 
     unsigned int menuPage;
     int menuCursor;
-
-    int changingState;
 
 };
 #endif

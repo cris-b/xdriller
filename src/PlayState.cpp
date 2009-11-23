@@ -37,18 +37,12 @@ void PlayState::enter( void ) {
     gameSeconds = 0;
     finished = false;
 
-    mCamera           = mSceneMgr->createCamera( "Camera" );
+    mCamera = mSceneMgr->createCamera( "Camera" );
     mCamera->setNearClipDistance(0.1);
     mCamera->setFarClipDistance(1000);
 
 
     mViewport   = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
-
-
-
-
-
-
 
 
     mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "CameraNode" , Vector3(0,2,0));
@@ -108,6 +102,8 @@ void PlayState::enter( void ) {
     //dotScene = new CDotScene();
 
     String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
+
+    ConfigManager::getSingleton().setValue("last_bg_scene",LevelLoader::getSingleton().getValue("background_scene"));
 
     dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
@@ -262,10 +258,6 @@ void PlayState::enter( void ) {
     mPanel->addChild(mTextAreaDepth);
     mPanel->addChild(mTextAreaPoints);
     mPanel->addChild(mTextAreaClock);
-
-
-
-
 
     mOverlay->setZOrder(100);
 

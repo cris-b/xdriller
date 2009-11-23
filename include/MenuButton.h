@@ -31,6 +31,7 @@ class MenuButton
         Ogre::String getOptionCaption() {return optionCaption;}
 
         void setCaption(Ogre::String caption);
+        Ogre::String getCaption() {return caption;}
 
         Ogre::Vector2 getScreenPosition();
         Ogre::Vector2 getOptionScreenPosition();

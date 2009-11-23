@@ -24,6 +24,8 @@
 
 
 
+
+
 using namespace Ogre;
 
 
@@ -35,6 +37,7 @@ void MenuState::enter( void )
 {
     menuPage = MENU_PAGE_MAIN;
     menuCursor = 0;
+
 
 
     mRoot         = Root::getSingletonPtr();
@@ -56,7 +59,7 @@ void MenuState::enter( void )
     CDotScene dotScene;
     //dotScene = new CDotScene();
 
-    String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
+    String sceneFilename = ConfigManager::getSingleton().getString("last_bg_scene") + ".xml";
 
     dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
@@ -185,7 +188,7 @@ void MenuState::enter( void )
     mLevelInfo->setMetricsMode(Ogre::GMM_RELATIVE);
     mLevelInfo->setPosition(0.05, 0.3);
     mLevelInfo->setDimensions(0.5, 0.5);
-    mLevelInfo->setCaption("Test text 213 enj afj ajfdsajfoajs pofj asjfd iaJSF IJASPOFJIJADSFJPOIGJ POJPAJGPOIAG FA PIGJ");
+    mLevelInfo->setCaption("...");
     mLevelInfo->setCharHeight(0.035);
     mLevelInfo->setFontName("SmallFont");
     //mLevelInfo->setColourBottom(ColourValue(1.0, 1, 1.0));
@@ -285,6 +288,10 @@ void MenuState::update( unsigned long lTimeElapsed )
     {
         ringSwitcher->update(lTimeElapsed);
     }
+    if(playerModelSelector != NULL)
+    {
+        playerModelSelector->update(lTimeElapsed);
+    }
 
 
 
@@ -348,7 +355,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         }
         buttons[menuCursor]->setState(BSTATE_ACTIVE);
 
-        SoundManager::getSingleton().playSound(SOUND_MENU1);
+        if(buttons.size() > 1)SoundManager::getSingleton().playSound(SOUND_MENU1);
 
         _updateArrows();
 
@@ -366,7 +373,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         }
         buttons[menuCursor]->setState(BSTATE_ACTIVE);
 
-        SoundManager::getSingleton().playSound(SOUND_MENU1);
+        if(buttons.size() > 1)SoundManager::getSingleton().playSound(SOUND_MENU1);
 
         _updateArrows();
 
@@ -480,6 +487,16 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+            case MENU_PAGE_PLAYER_OPTIONS:
+            {
+
+                playerModelSelector->prev();
+
+                buttons[0]->setCaption(playerModelSelector->getName());
+                SoundManager::getSingleton().playSound(SOUND_MENU3);
+
+                break;
+            }
         }
         _updateArrows();
     }
@@ -589,6 +606,16 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 ringSwitcher->next();
 
                 buttons[0]->setCaption(ringSwitcher->getCurrentName());
+                SoundManager::getSingleton().playSound(SOUND_MENU3);
+
+                break;
+            }
+            case MENU_PAGE_PLAYER_OPTIONS:
+            {
+
+                playerModelSelector->next();
+
+                buttons[0]->setCaption(playerModelSelector->getName());
                 SoundManager::getSingleton().playSound(SOUND_MENU3);
 
                 break;
@@ -835,6 +862,11 @@ void MenuState::changePage(unsigned int page)
         delete ringSwitcher;
         ringSwitcher = NULL;
     }
+    if(playerModelSelector != NULL)
+    {
+        delete playerModelSelector;
+        playerModelSelector = NULL;
+    }
 
     mOverlay->remove2D(mLogoXDriller);
 
@@ -1002,17 +1034,22 @@ void MenuState::changePage(unsigned int page)
 
         case MENU_PAGE_PLAYER_OPTIONS:
         {
-            //mOverlay->add2D(mLogoXDriller);
+            playerModelSelector = new PlayerModelSelector();
+
+            playerModelSelector->setPosition(0,0,0);
 
             titleButton = new MenuButton(_("Player Options"));
             titleButton->setPosition(0,-0.45);
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton("Tux"));
+
+            buttons.push_back(new MenuButton("Model"));
 
             buttons[0]->setPosition(0,-0.25);
             buttons[0]->setState(BSTATE_ACTIVE);
             buttons[0]->setArrows(true);
+            buttons[0]->setCaption(playerModelSelector->getName());
+
 
 
             menuCursor = 0;

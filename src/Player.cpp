@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Tools.h"
 #include "SoundManager.h"
+#include "ConfigManager.h"
 
 
 #define FALL_SPEED  -0.004
@@ -39,7 +40,9 @@ Player::Player(Board *mBoard)
     speed = Vector3(0,0,0);
     orientationAngle = 0;
 
-    mEnt = mSceneMgr->createEntity("Player", "tom.mesh");
+    String mesh_name = ConfigManager::getSingleton().getString("player_model") + ".mesh";
+
+    mEnt = mSceneMgr->createEntity("Player", mesh_name);
     //mEnt->setMaterialName("tux");
 
 
