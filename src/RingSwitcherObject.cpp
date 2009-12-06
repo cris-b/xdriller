@@ -24,11 +24,14 @@ RingSwitcherObject::RingSwitcherObject(const Ogre::String &name,const Ogre::Stri
 
 RingSwitcherObject::~RingSwitcherObject()
 {
+    delete mEmi;
 
     mNode->detachObject(mEnt);
     Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->destroyEntity(mEnt);
 
     mNode->getParentSceneNode()->removeAndDestroyChild(mNode->getName());
+
+
 
 }
 

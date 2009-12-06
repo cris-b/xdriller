@@ -1,4 +1,4 @@
-material tux
+material tux/SOLID/TEX/tux_texture.png
 {
 	technique
 	{

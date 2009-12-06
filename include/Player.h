@@ -75,6 +75,8 @@ class Player
     bool _moveLeft;
     bool _moveRight;
 
+    Real _jumpCharger;
+
     bool _moveJump;
 
     bool _falling;

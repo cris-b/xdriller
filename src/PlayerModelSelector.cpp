@@ -26,21 +26,48 @@ PlayerModelSelector::PlayerModelSelector()
 
     String mesh_name = ConfigManager::getSingleton().getString("player_model") + ".mesh";
 
-    mEnt = mSceneMgr->createEntity("ModelSelectorEnt", mesh_name);
-
-    mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-
     mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ModelSelectorNode");
 
+    mNode->pitch(Degree(10));
+
+    mEnt = mSceneMgr->createEntity("ModelSelectorEnt", mesh_name);
+    mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+    mEnt->setCastShadows(false);
+
+    mAnimationState = mEnt->getAnimationState("Idle");
+    mAnimationState->setLoop(true);
+    mAnimationState->setEnabled(true);
+
     mNode->attachObject(mEnt);
+
+    mNode->setScale(3,3,3);
+
+
+    //setup base
+    mBaseNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ModelSelectorBaseNode");
+
+    mBaseNode->pitch(Degree(10));
+
+    mBaseEnt = mSceneMgr->createEntity("ModelSelectorBaseEnt", "plane_1.5.mesh");
+    mBaseEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+    mBaseEnt->setCastShadows(false);
+
+    mBaseNode->attachObject(mBaseEnt);
+    mBaseNode->setScale(2,2,2);
+    mBaseNode->translate(0,-1.5,0);
 
 }
 
 PlayerModelSelector::~PlayerModelSelector()
 {
+
     mNode->detachObject(mEnt);
     mSceneMgr->destroyEntity(mEnt);
     mSceneMgr->destroySceneNode(mNode);
+
+    mBaseNode->detachObject(mBaseEnt);
+    mSceneMgr->destroyEntity(mBaseEnt);
+    mSceneMgr->destroySceneNode(mBaseNode);
 }
 
 void PlayerModelSelector::setPosition(Real x, Real y, Real z)
@@ -50,7 +77,55 @@ void PlayerModelSelector::setPosition(Real x, Real y, Real z)
 
 void PlayerModelSelector::update( unsigned long lTimeElapsed )
 {
+    static float base_a = 0;
+    static Real time_idle = 0;
+
+    time_idle += lTimeElapsed * 0.001;
+
+    base_a += lTimeElapsed * 0.001;
+    if(base_a > M_PI*2) base_a -= M_PI*2;
+
+    float base_scale = 2.5+sin(base_a)/2.0;
+    mBaseNode->setScale(base_scale,base_scale,base_scale);
+
+
     mNode->yaw(Radian(lTimeElapsed * 0.001));
+
+    if(time_idle > 3.0)
+    {
+        int oneOfThree = rand() % 3;
+
+        mAnimationState->setEnabled(false);
+        if(oneOfThree == 0) mAnimationState = mEnt->getAnimationState("Bored_1");
+        if(oneOfThree == 1) mAnimationState = mEnt->getAnimationState("Bored_2");
+        if(oneOfThree == 2) mAnimationState = mEnt->getAnimationState("Bored_3");
+        mAnimationState->setLoop(false);
+        mAnimationState->setEnabled(true);
+
+
+    }
+
+
+    if(mAnimationState->getAnimationName() == "Bored_1" ||
+       mAnimationState->getAnimationName() == "Bored_2" ||
+       mAnimationState->getAnimationName() == "Bored_3")
+    {
+        time_idle = 0;
+
+        if(mAnimationState->hasEnded())
+        {
+            mAnimationState->setEnabled(false);
+            mAnimationState = mEnt->getAnimationState("Idle");
+            time_idle = 0;
+            mAnimationState->setLoop(true);
+            mAnimationState->setEnabled(true);
+        }
+
+    }
+
+    mAnimationState->addTime(lTimeElapsed*0.001);
+
+
 };
 
 void PlayerModelSelector::prev()
@@ -82,11 +157,27 @@ void PlayerModelSelector::updateModel()
     mNode->detachObject(mEnt);
     mSceneMgr->destroyEntity(mEnt);
 
+    /*mMirrorNode->detachObject(mMirrorEnt);
+    mSceneMgr->destroyEntity(mMirrorEnt);*/
+
     String mesh_name = ConfigManager::getSingleton().getString("player_model") + ".mesh";
 
     mEnt = mSceneMgr->createEntity("ModelSelectorEnt", mesh_name);
-
     mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+    mEnt->setCastShadows(false);
 
     mNode->attachObject(mEnt);
+
+    mAnimationState->setEnabled(false);
+    mAnimationState = mEnt->getAnimationState("Idle");
+    mAnimationState->setLoop(true);
+
+    /*mMirrorEnt = mSceneMgr->createEntity("ModelSelectorMirrorEnt", mesh_name);
+    mMirrorEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+    mMirrorEnt->setCastShadows(false);
+
+    mMirrorNode->attachObject(mMirrorEnt);*/
+
+
+
 }

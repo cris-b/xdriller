@@ -24,10 +24,18 @@ class PlayerModelSelector
 
         Ogre::SceneManager *mSceneMgr;
 
+        int playerModelIndex;
+
         Ogre::SceneNode *mNode;
         Ogre::Entity    *mEnt;
-        int playerModelIndex;
+        Ogre::SceneNode *mBaseNode;
+        Ogre::Entity    *mBaseEnt;
+
+
+
+
         Ogre::AnimationState *mAnimationState;
+
 };
 
 #endif // PLAYERMODELSELECTOR_H

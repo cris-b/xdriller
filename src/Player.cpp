@@ -11,6 +11,7 @@
 #define H_ACC        0.0005
 #define H_FRICTION   0.0001
 #define BORED_TIME   6000
+#define JUMP_CHARGE  0.5
 
 #define MAX_LIVES    10
 #define ROCK_BREAK_AIR 0.05
@@ -35,6 +36,7 @@ Player::Player(Board *mBoard)
     scale = 1;
     endFloor = false;
     points = 0;
+    _jumpCharger = 0;
 
     Vector3 startPos(0,2,0);
     speed = Vector3(0,0,0);
@@ -271,6 +273,45 @@ void Player::update(unsigned long lTimeElapsed)
             if(speed.x < -H_SPEED &&  _falling) speed.x=-H_SPEED_FALL;
 
         }
+        //cubo para colisionar arriba
+        tmpBox.setExtents(getPosition().x-0.4,getPosition().y+0.0+speed.y*lTimeElapsed,getPosition().z-0.5,
+                          getPosition().x+0.4,getPosition().y+0.2+speed.y*lTimeElapsed,getPosition().z+0.5);
+
+        colBrick = mBoard->detectCollision(tmpBox);
+
+        if(colBrick != NULL && colBrick->getType() == BRICK_AIR)
+        {
+            colBrick->kill();
+            setAir(getAir()+0.2);
+            if(_falling == false)
+            {
+                _falling = true;
+
+            }
+        }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_HEART)
+        {
+            colBrick->kill();
+            livesUp(1);
+            if(_falling == false)
+            {
+                _falling = true;
+
+            }
+        }
+        else if(colBrick != NULL)
+        {
+
+            if(_falling == true)
+            {
+                _falling = false;
+                if(fallTime > 700) SoundManager::getSingleton().stopSound(SOUND_FALLING);
+                fallTime = 0;
+            }
+            speed.y = 0;
+            mNode->setPosition(Vector3(getPosition().x,colBrick->getPosition().y-1.0001,0));
+        }
+
         //cubo para colisionar izquierda
         tmpBox.setExtents(getPosition().x-0.4+speed.x*lTimeElapsed,getPosition().y-0.5,getPosition().z-0.5,
                           getPosition().x+0.0+speed.x*lTimeElapsed,getPosition().y+0.1,getPosition().z+0.5);
@@ -291,6 +332,11 @@ void Player::update(unsigned long lTimeElapsed)
         {
             speed.x = 0;
             mNode->setPosition(Vector3(colBrick->getPosition().x+0.9001,getPosition().y,0));
+            if(!_falling) _jumpCharger-=lTimeElapsed*0.001;
+        }
+        else if(_jumpCharger < 0)
+        {
+            _jumpCharger = 0;
         }
 
         if(getPosition().x+speed.x<-4)
@@ -330,7 +376,13 @@ void Player::update(unsigned long lTimeElapsed)
         {
             speed.x = 0;
             mNode->setPosition(Vector3(colBrick->getPosition().x-0.9001,getPosition().y,0));
+            if(!_falling) _jumpCharger+=lTimeElapsed*0.001;
         }
+        else if(_jumpCharger > 0)
+        {
+            _jumpCharger = 0;
+        }
+
         if(getPosition().x+speed.x>mBoard->getWidth()-5)
         {
             speed.x=0;
@@ -341,6 +393,23 @@ void Player::update(unsigned long lTimeElapsed)
         {
             fallTime+=lTimeElapsed;
         }
+
+
+        if(fabs(_jumpCharger) > JUMP_CHARGE)
+        {
+            //cubo para ver si hay algo arriba
+            tmpBox.setExtents(getPosition().x-0.0+speed.x*lTimeElapsed,getPosition().y-0.0,getPosition().z-0.5,
+                              getPosition().x+0.4+speed.x*lTimeElapsed,getPosition().y+0.9,getPosition().z+0.5);
+
+            colBrick = mBoard->detectCollision(tmpBox);
+
+
+            if(colBrick == NULL) speed.y = 0.015;
+            _jumpCharger = 0;
+            //Jump es feo, descomentar cuando este arreglao
+            //setAnimationState("Jump");
+        }
+
     }
     else if (!alive && !finished)
     {
@@ -433,9 +502,13 @@ void Player::update(unsigned long lTimeElapsed)
 
         SoundManager::getSingleton().playSound(SOUND_FALLING);
     }
-    else if(getAnimationName() == "Idle")
+    else if(getAnimationName() == "Idle" ||
+            getAnimationName() == "Jump" ||
+            getAnimationName() == "Bored_1" ||
+            getAnimationName() == "Bored_2" ||
+            getAnimationName() == "Bored_3")
     {
-        idleTime += lTimeElapsed;
+        if(getAnimationName() == "Idle") idleTime += lTimeElapsed;
 
         if(idleTime > BORED_TIME)
         {
@@ -449,6 +522,7 @@ void Player::update(unsigned long lTimeElapsed)
 
             idleTime = 0;
         }
+
         if(fabs(speed.x) > 0 && !_falling)
         {
 
@@ -457,6 +531,11 @@ void Player::update(unsigned long lTimeElapsed)
         }
     }
     else if(getAnimationName() == "Falling" && !_falling)
+    {
+        setAnimationState("Idle");
+    }
+
+    if(getAnimationName() == "Jump" && speed.y <= 0.0)
     {
         setAnimationState("Idle");
     }
