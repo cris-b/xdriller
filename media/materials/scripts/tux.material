@@ -13,18 +13,3 @@ material tux/SOLID/TEX/tux_texture.png
 		}
 	}
 }
-material tux_look_up
-{
-	technique
-	{
-		pass
-		{
-			diffuse 1.000000 1.000000 1.000000
-			specular 0.500000 0.500000 0.500000 12.500000
-			texture_unit
-			{
-				texture tux_texture_look_up.png
-			}
-		}
-	}
-}

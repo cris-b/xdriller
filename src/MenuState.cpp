@@ -103,6 +103,7 @@ void MenuState::enter( void )
     light->setDiffuseColour(0.9,0.9,0.9);
     light->setSpecularColour(0.5, 0.5, 0.5);
     //light->setAttenuation(200,1.0,0.022,0.0019);
+    light->setCastShadows(false);
 
 
     Light *light2 = mSceneMgr->createLight("MenuLight2");
@@ -255,10 +256,27 @@ void MenuState::exit( void )
 
     mOverlayMgr->destroy(mOverlay);
 
+    if(titleButton != NULL)
+    {
+        delete titleButton;
+        titleButton = NULL;
+    }
+
     while (!buttons.empty())
     {
         delete buttons.back();
         buttons.pop_back();
+    }
+
+    if(ringSwitcher != NULL)
+    {
+        delete ringSwitcher;
+        ringSwitcher = NULL;
+    }
+    if(playerModelSelector != NULL)
+    {
+        delete playerModelSelector;
+        playerModelSelector = NULL;
     }
 
     mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);

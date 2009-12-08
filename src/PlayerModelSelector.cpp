@@ -32,7 +32,7 @@ PlayerModelSelector::PlayerModelSelector()
 
     mEnt = mSceneMgr->createEntity("ModelSelectorEnt", mesh_name);
     mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    mEnt->setCastShadows(false);
+    mEnt->setCastShadows(true);
 
     mAnimationState = mEnt->getAnimationState("Idle");
     mAnimationState->setLoop(true);
@@ -48,13 +48,22 @@ PlayerModelSelector::PlayerModelSelector()
 
     mBaseNode->pitch(Degree(10));
 
-    mBaseEnt = mSceneMgr->createEntity("ModelSelectorBaseEnt", "plane_1.5.mesh");
+    mBaseEnt = mSceneMgr->createEntity("ModelSelectorBaseEnt", "basecool.mesh");
     mBaseEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
     mBaseEnt->setCastShadows(false);
 
     mBaseNode->attachObject(mBaseEnt);
-    mBaseNode->setScale(2,2,2);
+    //mBaseNode->setScale(2,2,2);
     mBaseNode->translate(0,-1.5,0);
+
+    Light *light = mSceneMgr->createLight("PlayerModelSelectorLight");
+    light->setType(Light::LT_SPOTLIGHT);
+    light->setPosition(Vector3(0, 10, 0));
+    light->setDirection(Vector3(0,-1,0));
+    light->setDiffuseColour(0,0,0);
+
+
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
 
 }
 
@@ -68,6 +77,10 @@ PlayerModelSelector::~PlayerModelSelector()
     mBaseNode->detachObject(mBaseEnt);
     mSceneMgr->destroyEntity(mBaseEnt);
     mSceneMgr->destroySceneNode(mBaseNode);
+
+    mSceneMgr->destroyLight("PlayerModelSelectorLight");
+
+    mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 }
 
 void PlayerModelSelector::setPosition(Real x, Real y, Real z)
@@ -77,19 +90,20 @@ void PlayerModelSelector::setPosition(Real x, Real y, Real z)
 
 void PlayerModelSelector::update( unsigned long lTimeElapsed )
 {
-    static float base_a = 0;
+    //static float base_a = 0;
     static Real time_idle = 0;
 
     time_idle += lTimeElapsed * 0.001;
 
-    base_a += lTimeElapsed * 0.001;
-    if(base_a > M_PI*2) base_a -= M_PI*2;
+    //base_a += lTimeElapsed * 0.001;
+    //if(base_a > M_PI*2) base_a -= M_PI*2;
 
-    float base_scale = 2.5+sin(base_a)/2.0;
-    mBaseNode->setScale(base_scale,base_scale,base_scale);
+    //float base_scale = 1+sin(base_a)/4.0;
+    //mBaseNode->setScale(base_scale,base_scale,base_scale);
 
 
-    mNode->yaw(Radian(lTimeElapsed * 0.001));
+    mBaseNode->yaw(Radian(lTimeElapsed * -0.0001));
+    mNode->yaw(Radian(lTimeElapsed * -0.0001));
 
     if(time_idle > 3.0)
     {
@@ -152,6 +166,8 @@ String PlayerModelSelector::getName()
 
 void PlayerModelSelector::updateModel()
 {
+    mAnimationState->setEnabled(false);
+
     ConfigManager::getSingleton().setValue("player_model",model_filenames[playerModelIndex]);
 
     mNode->detachObject(mEnt);
@@ -164,11 +180,11 @@ void PlayerModelSelector::updateModel()
 
     mEnt = mSceneMgr->createEntity("ModelSelectorEnt", mesh_name);
     mEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
-    mEnt->setCastShadows(false);
+    mEnt->setCastShadows(true);
 
     mNode->attachObject(mEnt);
 
-    mAnimationState->setEnabled(false);
+
     mAnimationState = mEnt->getAnimationState("Idle");
     mAnimationState->setLoop(true);
 

@@ -169,21 +169,3 @@ material level_screenshot_shadow
     }
 }
 
-material aura_de_pies
-{
-	technique
-	{
-		pass
-		{
-            scene_blend alpha_blend
-            depth_write off
-
-            texture_unit
-            {
-                texture aura_de_pies.png 2d 0
-                rotate_anim 0.02
-                tex_address_mode clamp
-            }
-		}
-	}
-}

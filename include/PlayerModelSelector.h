@@ -32,8 +32,6 @@ class PlayerModelSelector
         Ogre::Entity    *mBaseEnt;
 
 
-
-
         Ogre::AnimationState *mAnimationState;
 
 };
