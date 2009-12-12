@@ -58,15 +58,6 @@ void PlayState::enter( void ) {
     //-----------------------------------------
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-    if(ConfigManager::getSingleton().getString("shadows") == "On")
-    {
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
-        mSceneMgr->setShadowTextureSize(1024);
-        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1));
-    }
-
-
-
     Light *light = mSceneMgr->createLight("Light1");
     light->setType(Light::LT_DIRECTIONAL);
     light->setDirection(Vector3(0.5, -1, -0.5));
@@ -118,10 +109,20 @@ void PlayState::enter( void ) {
         0.0, 10, 40);
     }
     else mSceneMgr->setFog(FOG_NONE);
-
-
     //-----------------------------------------------------------------------
+    //Setup particle_effect
+    if(LevelLoader::getSingleton().getValue("particle_effect") != "")
+    {
+        ParticleSystem* mParticleEffect = mSceneMgr->createParticleSystem("sceneParticleEffect", "snow");
+        //SceneNode* mParticleEffectNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("sceneParticleEffectNode");
+        //mParticleEffectNode->attachObject(mParticleEffect);
 
+        //attach particle system to camera node
+
+        mCam->getSceneNode()->attachObject(mParticleEffect);
+
+    }
+    //-----------------------------------------------------------------------
 
     mBoard = new Board();
 
@@ -305,12 +306,6 @@ void PlayState::pause( void ) {
 void PlayState::resume( void ) {
 
     nextFramePause = false;
-    if(ConfigManager::getSingleton().getString("shadows") == "On")
-    {
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
-        mSceneMgr->setShadowTextureSize(1024);
-        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1));
-    }
     mOverlay->show();
 }
 

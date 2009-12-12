@@ -12,6 +12,7 @@
 #define H_FRICTION   0.0001
 #define BORED_TIME   6000
 #define JUMP_CHARGE  0.5
+#define JUMP_SPEED   0.015
 
 #define MAX_LIVES    10
 #define ROCK_BREAK_AIR 0.05
@@ -398,14 +399,39 @@ void Player::update(unsigned long lTimeElapsed)
         if(fabs(_jumpCharger) > JUMP_CHARGE)
         {
             //cubo para ver si hay algo arriba
-            tmpBox.setExtents(getPosition().x-0.0+speed.x*lTimeElapsed,getPosition().y-0.0,getPosition().z-0.5,
-                              getPosition().x+0.4+speed.x*lTimeElapsed,getPosition().y+0.9,getPosition().z+0.5);
+            tmpBox.setExtents(getPosition().x-0.0+speed.x*lTimeElapsed,getPosition().y+0.9,getPosition().z-0.5,
+                              getPosition().x+0.4+speed.x*lTimeElapsed,getPosition().y+1.1,getPosition().z+0.5);
 
             colBrick = mBoard->detectCollision(tmpBox);
 
+            //si no hay cubo arriba mira a ver si tampoco hay cubos arriba a la derecha o izkierda
 
-            if(colBrick == NULL) speed.y = 0.015;
+            if(colBrick == NULL)
+            {
+                if(_jumpCharger > 0)
+                {
+                    //cubo para ver si hay algo arriba a la derecha
+                    tmpBox.setExtents(getPosition().x+1.0+speed.x*lTimeElapsed,getPosition().y+0.9,getPosition().z-0.5,
+                                      getPosition().x+1.4+speed.x*lTimeElapsed,getPosition().y+1.1,getPosition().z+0.5);
+
+                    colBrick = mBoard->detectCollision(tmpBox);
+                }
+                else if(_jumpCharger < 0)
+                {
+                    //cubo para ver si hay algo arriba a la derecha
+                    tmpBox.setExtents(getPosition().x-1.4+speed.x*lTimeElapsed,getPosition().y+0.9,getPosition().z-0.5,
+                                      getPosition().x-1.0+speed.x*lTimeElapsed,getPosition().y+1.1,getPosition().z+0.5);
+
+                    colBrick = mBoard->detectCollision(tmpBox);
+                }
+
+            }
+
+            //salta
+            if(colBrick == NULL) speed.y = JUMP_SPEED;
             _jumpCharger = 0;
+
+            SoundManager::getSingleton().playSound(SOUND_JUMP);
             //Jump es feo, descomentar cuando este arreglao
             //setAnimationState("Jump");
         }
@@ -734,6 +760,8 @@ void Player::livesUp(int n)
 {
     lives += n;
     if(lives >= MAX_LIVES) lives = MAX_LIVES;
+
+    SoundManager::getSingleton().playSound(SOUND_LIFEUP);
 
     heartsParticle->getEmitter(0)->setEnabled(true);
 }

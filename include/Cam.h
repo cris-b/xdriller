@@ -30,6 +30,12 @@ class Cam
 	{
 		parentNode = newNode;
 	};
+
+	SceneNode *getParentSceneNode()
+	{
+		return parentNode;
+	};
+
 	SceneNode *getSceneNode()
 	{
 		return mCamNode;
@@ -69,6 +75,7 @@ class Cam
 	Camera* mCamera;
 	SceneNode *mCamNode;
 	SceneNode *parentNode;
+
     float rx,ry;
     float z;
 	int camMode;

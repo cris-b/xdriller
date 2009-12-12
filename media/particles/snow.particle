@@ -1,0 +1,61 @@
+particle_system snow
+{
+	quota	500
+	emit_emitter_quota	3
+	material	copo_de_nieve
+	particle_width	0.15
+	particle_height	0.15
+	cull_each	true
+	renderer	billboard
+	sorted	true
+	local_space	false
+	iteration_interval	0
+	nonvisible_update_timeout	0
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 -1 0
+		emission_rate	50
+		position	0 0 -10
+		velocity	0.5
+		velocity_min	0.5
+		velocity_max	0.5
+		time_to_live	5
+		time_to_live_min	5
+		time_to_live_max	30
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+		name
+		emit_emitter
+		width	20
+		height	10
+		depth	15
+	}
+
+
+	affector DirectionRandomiser
+	{
+		randomness	0.5
+		scope	1
+		keep_velocity	false
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-30
+		rotation_speed_range_end	30
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+}
+
+

@@ -18,9 +18,10 @@
 #define SOUND_MENU2         8
 #define SOUND_MENU3         9
 #define SOUND_MENU4         10
+#define SOUND_JUMP          11
+#define SOUND_LIFEUP        12
 
-
-#define NUM_SOUNDS          11
+#define NUM_SOUNDS          13
 
 #define MAX_CHANNELS        10
 #define MAX_EQUAL_SOUNDS    3

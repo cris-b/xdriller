@@ -10,10 +10,7 @@
 
 #include "math.h"
 #include "time.h"
-
-
-
-
+#include "Globals.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -33,7 +30,11 @@ int main( int argc, char **argv ) {
 
     try {
         // Initialise the game and switch to the first state
+        #if XDRILLER_DEBUG == 1
         gameManager->startGame( MenuState::getSingletonPtr() );
+        #else
+        gameManager->startGame( IntroState::getSingletonPtr() );
+        #endif
     }
     catch ( Ogre::Exception& ex ) {
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -46,5 +47,9 @@ int main( int argc, char **argv ) {
 
 
     delete gameManager;
+
+
+
+
     return 0;
 }

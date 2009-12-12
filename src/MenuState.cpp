@@ -23,9 +23,6 @@
 #define MENU_PAGE_GAME_MODE             8
 
 
-
-
-
 using namespace Ogre;
 
 
@@ -47,11 +44,10 @@ void MenuState::enter( void )
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
 
-
-    //mCamera->setPolygonMode(PM_WIREFRAME);
-
     //load scene
     //--------------------------------------------
+
+    LevelLoader::getSingleton().setLevelName(ConfigManager::getSingleton().getString("last_bg_scene"));
 
     SceneNode *backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
 
@@ -75,21 +71,23 @@ void MenuState::enter( void )
     }
     else mSceneMgr->setFog(FOG_NONE);
     //-----------------------------------------------------------------------
+    //Setup particle_effect
+    if(LevelLoader::getSingleton().getValue("particle_effect") != "")
+    {
+     ParticleSystem* mParticleEffect = mSceneMgr->createParticleSystem("sceneParticleEffect", "snow");
+     SceneNode* mParticleEffectNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("sceneParticleEffectNode");
+     mParticleEffectNode->attachObject(mParticleEffect);
+
+     //set particle node to camera pos
+
+     mParticleEffectNode->setPosition(0,0,10);
+
+    }
+    //-----------------------------------------------------------------------
 
 
 
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
-
-    if(ConfigManager::getSingleton().getString("shadows") == "On")
-    {
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
-        //mSceneMgr->setShadowDirectionalLightExtrusionDistance(2000);
-        //mSceneMgr->setShadowFarDistance(100);
-        mSceneMgr->setShadowTextureSize(1024);
-        mSceneMgr->setShadowColour(ColourValue(0.1,0.1,0.1));
-        //mSceneMgr->setShadowTextureReceiverMaterial("shadow_blur");
-    }
-
 
     mCamera->setPosition(0,0,10);
     mCamera->setNearClipDistance(1);
@@ -409,8 +407,9 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 if(menuCursor == 0)
                 {
                     if(buttons[0]->getOptionCaption() == "1024 x 768") ConfigManager::getSingleton().setValue("resolution","800 x 600");
-                    if(buttons[0]->getOptionCaption() == "800 x 600") ConfigManager::getSingleton().setValue("resolution","640 x 480");
-                    if(buttons[0]->getOptionCaption() == "640 x 480") ConfigManager::getSingleton().setValue("resolution","1024 x 768");
+                    else if(buttons[0]->getOptionCaption() == "800 x 600") ConfigManager::getSingleton().setValue("resolution","640 x 480");
+                    else if(buttons[0]->getOptionCaption() == "640 x 480") ConfigManager::getSingleton().setValue("resolution","1024 x 768");
+                    else ConfigManager::getSingleton().setValue("resolution","1024 x 768");
 
                     buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
@@ -426,35 +425,21 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "On")
-                    {
-                        ConfigManager::getSingleton().setValue("shadows","Off");
-                        buttons[2]->setOptionCaption(_("Off"));
-                    }
-                    else if(buttons[2]->getOptionCaption() == "Off")
-                    {
-                        ConfigManager::getSingleton().setValue("shadows","On");
-                        buttons[2]->setOptionCaption(_("On"));
-                    }
-
-                    SoundManager::getSingleton().playSound(SOUND_MENU3);
-                }
-                if(menuCursor == 3)
-                {
-                    if(buttons[3]->getOptionCaption() == "Yes")
+                    if(buttons[2]->getOptionCaption() == "Yes")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","No");
-                        buttons[3]->setOptionCaption(_("No"));
+                        buttons[2]->setOptionCaption(_("No"));
                     }
-                    else if(buttons[3]->getOptionCaption() == "No")
+                    else if(buttons[2]->getOptionCaption() == "No")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
-                        buttons[3]->setOptionCaption(_("Yes"));
+                        buttons[2]->setOptionCaption(_("Yes"));
                     }
 
 
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
+
 
                 break;
             }
@@ -548,31 +533,15 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "On")
-                    {
-                        ConfigManager::getSingleton().setValue("shadows","Off");
-                        buttons[2]->setOptionCaption(_("Off"));
-                    }
-                    else if(buttons[2]->getOptionCaption() == "Off")
-                    {
-                        ConfigManager::getSingleton().setValue("shadows","On");
-                        buttons[2]->setOptionCaption(_("On"));
-                    }
-
-
-                    SoundManager::getSingleton().playSound(SOUND_MENU3);
-                }
-                if(menuCursor == 3)
-                {
-                    if(buttons[3]->getOptionCaption() == "Yes")
+                    if(buttons[2]->getOptionCaption() == "Yes")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","No");
-                        buttons[3]->setOptionCaption(_("No"));
+                        buttons[2]->setOptionCaption(_("No"));
                     }
-                    else if(buttons[3]->getOptionCaption() == "No")
+                    else if(buttons[2]->getOptionCaption() == "No")
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
-                        buttons[3]->setOptionCaption(_("Yes"));
+                        buttons[2]->setOptionCaption(_("Yes"));
                     }
 
 
@@ -711,7 +680,40 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_GRAPHIC_OPTIONS:
             {
+                if(menuCursor == 3)
+                {
+                    bool _fs;
+                    unsigned int _w, _h;
 
+                    if(ConfigManager::getSingleton().getString("fullscreen") == "Yes")
+                    {
+                        _fs = true;
+                    }
+                    else
+                    {
+                        _fs = false;
+                    }
+
+                    //extrae la W y H de de cadena tipo "640 x 480"
+                    std::stringstream strm;
+                    String word;
+
+                    strm << ConfigManager::getSingleton().getString("resolution");
+
+                    strm >> word;
+
+                    _w = StringConverter::parseUnsignedInt(word);
+
+                    strm >> word; //extrae la "x"
+
+                    strm >> word;
+
+                    _h = StringConverter::parseUnsignedInt(word);
+
+                    mRoot->getAutoCreatedWindow()->setFullscreen(_fs,_w,_h);
+
+                    //SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
                 if(menuCursor == 4)
                 {
                     changePage(MENU_PAGE_OPTIONS);
@@ -979,20 +981,17 @@ void MenuState::changePage(unsigned int page)
             buttons.push_back(new MenuButton(_("Anti-aliasing"),ALIGN_LEFT,true));
 
             buttons[1]->setPosition(-0.4,-0.1);
-
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("FSAA"));
-
-            buttons.push_back(new MenuButton(_("Shadows"),ALIGN_LEFT,true));
-
-            buttons[2]->setPosition(-0.4,0);
-
-            buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("shadows"));
 
             buttons.push_back(new MenuButton(_("Fullscreen"),ALIGN_LEFT,true));
 
-            buttons[3]->setPosition(-0.4,0.1);
+            buttons[2]->setPosition(-0.4,0);
+            buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
 
-            buttons[3]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
+
+            buttons.push_back(new MenuButton(_("Apply"),ALIGN_LEFT));
+
+            buttons[3]->setPosition(-0.4,0.1);
 
             buttons.push_back(new MenuButton(_("Back"),ALIGN_LEFT));
 
@@ -1001,7 +1000,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("ATENTION: restart the game for new settings to apply"));
+            mInfoTextArea->setCaption(_("ATENTION: restart the game for new settings to apply correctly"));
 
 
 

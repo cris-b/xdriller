@@ -46,7 +46,7 @@ std::string ConfigManager::getString(std::string key)
 		std::string s = config[ key ];
 		return s;
 	}
-	else return NULL;
+	else return "";
 }
 
 int ConfigManager::getInt(std::string key)

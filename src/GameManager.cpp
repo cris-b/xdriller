@@ -80,6 +80,8 @@ GameManager::~GameManager( void ) {
         delete mRoot;
         mRoot = 0;
     }
+
+    delete LogManager::getSingletonPtr();
 }
 
 void GameManager::startGame( GameState *gameState )

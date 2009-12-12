@@ -88,10 +88,12 @@ void SoundManager::loadSounds()
     mSound[SOUND_SQUASH]    = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "squash.ogg");
     mSound[SOUND_RESURRECT] = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "resurrect.ogg");
     mSound[SOUND_FALLING]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "falling.ogg");
-    mSound[SOUND_MENU1]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_1.ogg");
-    mSound[SOUND_MENU2]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_2.ogg");
-    mSound[SOUND_MENU3]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_3.ogg");
-    mSound[SOUND_MENU4]   = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_4.ogg");
+    mSound[SOUND_MENU1]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_1.ogg");
+    mSound[SOUND_MENU2]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_2.ogg");
+    mSound[SOUND_MENU3]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_3.ogg");
+    mSound[SOUND_MENU4]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "menu_4.ogg");
+    mSound[SOUND_JUMP]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "jump.ogg");
+    mSound[SOUND_LIFEUP]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "lifeup.ogg");
 }
 
 void SoundManager::playSound(int type)

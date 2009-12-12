@@ -9,7 +9,7 @@ material heart_particle
 
             texture_unit
             {
-                texture corazon.png
+                texture corazon.png 2d 1
                 //tex_address_mode clamp
             }
             scene_blend alpha_blend
@@ -28,7 +28,7 @@ material star
 
             texture_unit
             {
-                texture estrella.png
+                texture estrella.png 2d 1
                 //tex_address_mode clamp
             }
             scene_blend alpha_blend
@@ -47,7 +47,26 @@ material plus20
 
             texture_unit
             {
-                texture 20.png
+                texture 20.png 2d 1
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
+material copo_de_nieve
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture copodenieve.png 2d 1
                 tex_address_mode clamp
             }
             scene_blend alpha_blend

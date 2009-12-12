@@ -127,7 +127,7 @@ Ogre::String LevelLoader::getValue(Ogre::String opt)
        }
    }
 
-   return "error";
+   return "";
 
 }
 
