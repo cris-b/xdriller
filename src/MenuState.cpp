@@ -43,7 +43,6 @@ void MenuState::enter( void )
     mCamera       = mSceneMgr->createCamera( "MenuCamera" );
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
-
     //load scene
     //--------------------------------------------
 
@@ -55,12 +54,14 @@ void MenuState::enter( void )
     CDotScene dotScene;
     //dotScene = new CDotScene();
 
-    String sceneFilename = ConfigManager::getSingleton().getString("last_bg_scene") + ".xml";
+    String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
 
     dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
     //Setup fog and bg color
     //--------------------------------------------------------------------
+    ColourValue c = StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color"));
+    String s = LevelLoader::getSingleton().getValue("background_color");
     mViewport->setBackgroundColour(StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")));
 
     if(LevelLoader::getSingleton().getValue("fog") == "on")
@@ -1114,11 +1115,13 @@ void MenuState::changePage(unsigned int page)
             buttons[0]->setArrows(true);
 
 
+
+            _updateLevelSelect();
             mLevelScreenshot->show();
             mLevelScreenshot_shadow->show();
             mLevelInfo->show();
 
-            _updateLevelSelect();
+
 
             menuCursor = 0;
 

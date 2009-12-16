@@ -69,6 +69,10 @@ class Board
 
     int points;
 
+    /*ParticleSystem *spiralsParticle;
+
+    void emitOneParticle(Real x, Real y);*/
+
 
 };
 

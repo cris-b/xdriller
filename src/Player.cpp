@@ -432,7 +432,7 @@ void Player::update(unsigned long lTimeElapsed)
             _jumpCharger = 0;
 
             SoundManager::getSingleton().playSound(SOUND_JUMP);
-            //Jump es feo, descomentar cuando este arreglao
+            //La animacion Jump es fea, descomentar cuando este arreglao
             //setAnimationState("Jump");
         }
 

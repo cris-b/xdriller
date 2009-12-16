@@ -67,6 +67,13 @@ Board::Board()
     firstToCheck = 0;
     points = 0;
 
+    /*spiralsParticle = mSceneMgr->createParticleSystem("Spirals", "Spirals");
+    spiralsParticle->getEmitter(0)->setEnabled(false);
+
+    mSceneMgr->getRootSceneNode()->attachObject(spiralsParticle);
+
+    spiralsParticle->_update(0);*/
+
 
 }
 
@@ -77,6 +84,10 @@ Board::~Board()
     delete [] mBricksPtr;
 
     delete mSuperBrick;
+
+    /*mSceneMgr->getRootSceneNode()->detachObject(spiralsParticle);
+
+    mSceneMgr->destroyParticleSystem(spiralsParticle);*/
 }
 
 void Board::rKill(int x,int y)
@@ -107,6 +118,8 @@ void Board::_rKill(int x,int y, int type)
 
     mBricksPtr[x+y*width]->kill();
     mBricksPtr[x+y*width] = NULL;
+
+    /*emitOneParticle(x-4,-y);*/
 
     if(x > 0)
         if(mBricksPtr[x-1+y*width] != NULL && mBricksPtr[x-1+y*width]->isAlive())
@@ -604,6 +617,7 @@ int Board::rKillDown(Vector3 pos)
         else if(t==BRICK_AIR)
         {
             mBricksPtr[column+row*width]->kill();
+
             return t;
 
         }
@@ -616,6 +630,8 @@ int Board::rKillDown(Vector3 pos)
         else
         {
             rKill(column,row);
+
+
             return t;
         }
     }
@@ -656,6 +672,7 @@ int Board::rKillLeft(Vector3 pos)
         else
         {
             rKill(column,row);
+
             return t;
         }
     }
@@ -763,3 +780,22 @@ void Board::killUpwards(Vector3 pos)
     }
 
 }
+
+/*void Board::emitOneParticle(Real x, Real y)
+{
+    ParticleSystemRenderer* pRenderer = spiralsParticle->getRenderer();
+    Ogre::Particle* p   = spiralsParticle->createParticle();
+
+    if(p != NULL)
+    {
+        spiralsParticle->getEmitter(0)->_initParticle(p);
+
+        p->position  = Vector3(x,y,0.51);
+        //p->direction = (sysQuat * p->direction);
+
+        int numAffectors = spiralsParticle->getNumAffectors();
+
+        for ( int i=0; i<numAffectors; i++ ) spiralsParticle->getAffector(i)->_initParticle(p);
+        //pRenderer->_notifyParticleEmitted(p);
+    }
+}*/

@@ -94,7 +94,7 @@ void PlayState::enter( void ) {
 
     String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
 
-    ConfigManager::getSingleton().setValue("last_bg_scene",LevelLoader::getSingleton().getValue("background_scene"));
+    ConfigManager::getSingleton().setValue("last_bg_scene",LevelLoader::getSingleton().getLevelName());
 
     dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
