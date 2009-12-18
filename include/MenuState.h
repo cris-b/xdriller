@@ -65,9 +65,11 @@ private:
 
     Ogre::TextAreaOverlayElement  *mInfoTextArea;
 
-    Ogre::PanelOverlayElement     *mLevelScreenshot;
-    Ogre::PanelOverlayElement     *mLevelScreenshot_shadow;
+    Ogre::OverlayContainer     *mLevelScreenshot;
+    Ogre::OverlayContainer     *mLevelScreenshot_shadow;
     Ogre::TextAreaOverlayElement  *mLevelInfo;
+
+    Ogre::OverlayContainer     *mBigImage;
 
     static MenuState    *mMenuState;
 

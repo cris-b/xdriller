@@ -21,6 +21,7 @@
 #define MENU_PAGE_AUDIO_OPTIONS         6
 #define MENU_PAGE_PLAYER_OPTIONS        7
 #define MENU_PAGE_GAME_MODE             8
+#define MENU_PAGE_CONTROLS              9
 
 
 using namespace Ogre;
@@ -42,6 +43,9 @@ void MenuState::enter( void )
     mSceneMgr     = mRoot->getSceneManager( "ST_GENERIC" );
     mCamera       = mSceneMgr->createCamera( "MenuCamera" );
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
+
+    mCamera->setNearClipDistance(0.1);
+    mCamera->setFarClipDistance(1000);
 
     //load scene
     //--------------------------------------------
@@ -183,6 +187,16 @@ void MenuState::enter( void )
     mLevelScreenshot->setDimensions(0.4, 0.4);
     mLevelScreenshot->setMaterialName("level_screenshot");
 
+    mBigImage = static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "mBigImage"));
+    mBigImage->setMetricsMode(Ogre::GMM_RELATIVE);
+    mBigImage->setHorizontalAlignment(Ogre::GHA_CENTER);
+    mBigImage->setVerticalAlignment(Ogre::GVA_CENTER);
+    mBigImage->setPosition(-0.3, 0.2);
+    mBigImage->setDimensions(0.6, 0.2);
+    mBigImage->setMaterialName("keyboard_layout");
+
+
     mLevelInfo = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "LevelInfoTextArea"));
     mLevelInfo->setMetricsMode(Ogre::GMM_RELATIVE);
@@ -202,6 +216,7 @@ void MenuState::enter( void )
 
     mOverlay->add2D(mLevelScreenshot_shadow);
     mOverlay->add2D(mLevelScreenshot);
+    mOverlay->add2D(mBigImage);
 
     mPanel->addChild(mInfoTextArea);
     mPanel->addChild(mLevelInfo);
@@ -248,6 +263,7 @@ void MenuState::exit( void )
     mOverlayMgr->destroyOverlayElement(mLogoXDriller);
     mOverlayMgr->destroyOverlayElement(mLevelScreenshot);
     mOverlayMgr->destroyOverlayElement(mLevelScreenshot_shadow);
+    mOverlayMgr->destroyOverlayElement(mBigImage);
     mOverlayMgr->destroyOverlayElement(mLevelInfo);
     mOverlayMgr->destroyOverlayElement(mInfoTextArea);
     mOverlayMgr->destroyOverlayElement(mPanel);
@@ -666,6 +682,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     changePage(MENU_PAGE_AUDIO_OPTIONS);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
+                if(menuCursor == 2)
+                {
+                    changePage(MENU_PAGE_CONTROLS);
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
                 if(menuCursor == 3)
                 {
                     changePage(MENU_PAGE_PLAYER_OPTIONS);
@@ -810,6 +831,12 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
+            case MENU_PAGE_CONTROLS:
+            {
+                changePage(MENU_PAGE_OPTIONS);
+                SoundManager::getSingleton().playSound(SOUND_MENU4);
+                break;
+            }
             case MENU_PAGE_PLAYER_OPTIONS:
             {
                 changePage(MENU_PAGE_OPTIONS);
@@ -867,6 +894,7 @@ void MenuState::changePage(unsigned int page)
     mLevelScreenshot->hide();
     mLevelScreenshot_shadow->hide();
     mLevelInfo->hide();
+    mBigImage->hide();
 
     while (!buttons.empty())
     {
@@ -1031,7 +1059,7 @@ void MenuState::changePage(unsigned int page)
             buttons.push_back(new MenuButton(_("Controls")));
 
             buttons[2]->setPosition(0,0);
-            buttons[2]->setBlocked(true);
+            //buttons[2]->setBlocked(true);
 
             buttons.push_back(new MenuButton(_("Player")));
 
@@ -1126,6 +1154,33 @@ void MenuState::changePage(unsigned int page)
             menuCursor = 0;
 
             mInfoTextArea->setCaption(_("Select Level & Press ENTER"));
+
+            break;
+        }
+
+        case MENU_PAGE_CONTROLS:
+        {
+
+            titleButton = new MenuButton(_("Controls"));
+            titleButton->setPosition(0,-0.45);
+            titleButton->setColor(ColourValue(1,0,0));
+
+            buttons.push_back(new MenuButton(_("Not configurable")));
+
+            buttons[0]->setPosition(0,-0.05);
+            buttons[0]->setState(BSTATE_ACTIVE);
+
+            buttons[0]->setArrows(false);
+
+            mBigImage->setMaterialName("keyboard_layout");
+            mBigImage->show();
+
+
+            menuCursor = 0;
+
+
+
+            mInfoTextArea->setCaption("");
 
             break;
         }
