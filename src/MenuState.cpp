@@ -760,7 +760,10 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 if(menuCursor == 0)
                 {
-                    changePage(MENU_PAGE_LEVELSELECT);
+                    if(ringSwitcher->getCurrentName() == _("Time Attack"))
+                    {
+                        changePage(MENU_PAGE_LEVELSELECT);
+                    }
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                     return;
                 }
