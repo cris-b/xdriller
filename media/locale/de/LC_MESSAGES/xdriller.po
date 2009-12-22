@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xdriller 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-03 21:48+0100\n"
+"POT-Creation-Date: 2009-12-22 22:22+0100\n"
 "PO-Revision-Date: 2009-11-01 14:47+0100\n"
 "Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
 "Language-Team: Fixi Studios\n"
@@ -15,140 +15,167 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/MenuState.cpp:877
-msgid "ATENTION: restart the game for new settings to apply"
+#: src/MenuState.cpp:1061
+#, fuzzy
+msgid "ATENTION: restart the game for new settings to apply correctly"
 msgstr ""
 "Bitte beachten Sie: das Spiel neu starten, um die Änderungen zu übernehmen"
 
-#: src/MenuState.cpp:928
+#: src/MenuState.cpp:1145 src/MenuState.cpp:1146
 msgid "Adventure"
 msgstr ""
 
-#: src/MenuState.cpp:858
+#: src/MenuState.cpp:1039
 msgid "Anti-aliasing"
 msgstr "Kantenglättung"
 
-#: src/MenuState.cpp:973
+#: src/MenuState.cpp:1050
+msgid "Apply"
+msgstr ""
+
+#: src/MenuState.cpp:1221
 msgid "Are you sure you want to quit?"
 msgstr "Bist Du sicher, daß Du beenden willst?"
 
-#: src/MenuState.cpp:812 src/MenuState.cpp:899
+#: src/MenuState.cpp:993 src/MenuState.cpp:1082
 msgid "Audio Options"
 msgstr "Audio-Einstellungen"
 
-#: src/MenuState.cpp:831 src/MenuState.cpp:870 src/MenuState.cpp:911
+#: src/MenuState.cpp:1012 src/MenuState.cpp:1054 src/MenuState.cpp:1098
 msgid "Back"
 msgstr "Zurück"
 
-#: src/MenuState.cpp:991
+#: src/MenuState.cpp:1239
 msgid "C'mon! One more game can't hurt..."
 msgstr "Noch ein Spiel?"
 
-#: src/MenuState.cpp:905
+#: src/MenuState.cpp:1088 src/MenuState.cpp:1195
 msgid "Controls"
 msgstr "Steuerung"
 
-#: src/MenuState.cpp:792
+#: src/MenuState.cpp:968
 msgid "Credits"
 msgstr "Mitwirkende"
 
-#: src/MenuState.cpp:1035
+#: src/MenuState.cpp:1132
+msgid "Customize your player"
+msgstr ""
+
+#: src/MenuState.cpp:1283
 msgid "Difficulty"
 msgstr "Schwierigkeit"
 
-#: src/MenuState.cpp:1041
+#: src/MenuState.cpp:1289
 msgid "Easy"
 msgstr "Leicht"
 
-#: src/MenuState.cpp:797
+#: src/MenuState.cpp:978
 msgid "Exit"
 msgstr "Beenden"
 
-#: src/MenuState.cpp:824
+#: src/MenuState.cpp:1005
 msgid "FX Volume"
 msgstr "FX Lautstärke"
 
-#: src/MenuState.cpp:804
+#: src/MenuState.cpp:985
 msgid "Fixi Studios makes cool games for you"
 msgstr "Fixi Studios"
 
-#: src/MenuState.cpp:864
+#: src/MenuState.cpp:1044
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: src/MenuState.cpp:846 src/MenuState.cpp:892
+#: src/MenuState.cpp:1027 src/MenuState.cpp:1075
 msgid "Graphic Options"
 msgstr "Video-Einstellungen"
 
-#: src/MenuState.cpp:1043
+#: src/MenuState.cpp:1291
 msgid "Hard"
 msgstr "Schwer"
 
-#: src/MenuState.cpp:918
+#: src/MenuState.cpp:972
+msgid "High Scores"
+msgstr ""
+
+#: src/MenuState.cpp:1105
 msgid "It's good to have options"
 msgstr "Einstellungen"
 
-#: src/MenuState.cpp:817
+#: src/MenuState.cpp:998
 msgid "Music Volume"
 msgstr "Musik Lautstärke"
 
-#: src/MenuState.cpp:388 src/MenuState.cpp:483
+#: src/MenuState.cpp:474 src/MenuState.cpp:582
 msgid "No"
 msgstr "Nein"
 
-#: src/MenuState.cpp:978
+#: src/MenuState.cpp:1226
 msgid "No!"
 msgstr "Nein!"
 
-#: src/MenuState.cpp:1042
+#: src/MenuState.cpp:1290
 msgid "Normal"
 msgstr "Normal"
 
-#: src/MenuState.cpp:1027
+#: src/MenuState.cpp:1199
+msgid "Not configurable"
+msgstr ""
+
+#: src/MenuState.cpp:1275
 msgid "Number of boards"
 msgstr "Anzahl der Runden"
 
-#: src/MenuState.cpp:787 src/MenuState.cpp:887
+#: src/MenuState.cpp:963 src/MenuState.cpp:1071
 msgid "Options"
 msgstr "Einstellungen"
 
-#: src/PauseState.cpp:26
+#: src/PauseState.cpp:27
 msgid "PAUSE"
 msgstr "PAUSE"
 
-#: src/MenuState.cpp:781
+#: src/MenuState.cpp:957
 msgid "Play Game"
 msgstr "Spiel Starten"
 
-#: src/MenuState.cpp:929
-msgid "Pressure Driller"
-msgstr ""
+#: src/MenuState.cpp:1093
+#, fuzzy
+msgid "Player"
+msgstr "Spiel Starten"
 
-#: src/MenuState.cpp:851
+#: src/MenuState.cpp:1116
+#, fuzzy
+msgid "Player Options"
+msgstr "Einstellungen"
+
+#: src/MenuState.cpp:1032
 msgid "Resolution"
 msgstr "Auflösung"
 
-#: src/MenuState.cpp:940
+#: src/MenuState.cpp:1159
 #, fuzzy
 msgid "Select Game Mode & Press ENTER"
 msgstr "Wählen Sie ein Spiel und drücken Sie ENTER"
 
-#: src/MenuState.cpp:966
+#: src/MenuState.cpp:1187
 msgid "Select Level & Press ENTER"
 msgstr "Wählen Sie ein Spiel und drücken Sie ENTER"
 
-#: src/MenuState.cpp:927
+#: src/MenuState.cpp:789 src/MenuState.cpp:1141 src/MenuState.cpp:1142
+msgid "Survivor"
+msgstr ""
+
+#: src/MenuState.cpp:1143 src/MenuState.cpp:1144
 msgid "Time Attack"
 msgstr ""
 
-#: src/MenuState.cpp:838
+#: src/MenuState.cpp:1019
 msgid "We are electric..."
 msgstr "We are electric..."
 
-#: src/MenuState.cpp:393 src/MenuState.cpp:488
+#: src/MenuState.cpp:479 src/MenuState.cpp:587
 msgid "Yes"
 msgstr "Ja"
 
-#: src/MenuState.cpp:984
+#: src/MenuState.cpp:1232
 msgid "Yes, quit!"
 msgstr "Beenden!"

@@ -786,7 +786,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 if(menuCursor == 0)
                 {
-                    if(ringSwitcher->getCurrentName() == _("Time Attack"))
+                    if(ringSwitcher->getCurrentName() == _("Survivor"))
                     {
                         changePage(MENU_PAGE_LEVELSELECT);
                     }
