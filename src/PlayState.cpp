@@ -96,7 +96,7 @@ void PlayState::enter( void ) {
 
     ConfigManager::getSingleton().setValue("last_bg_scene",LevelLoader::getSingleton().getLevelName());
 
-    //dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
+    dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
     //Setup fog and bg color
     //--------------------------------------------------------------------
