@@ -39,7 +39,7 @@ void PlayState::enter( void ) {
 
     mCamera = mSceneMgr->createCamera( "Camera" );
     mCamera->setNearClipDistance(0.1);
-    mCamera->setFarClipDistance(1000);
+    mCamera->setFarClipDistance(2000);
 
 
     mViewport   = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
@@ -96,7 +96,7 @@ void PlayState::enter( void ) {
 
     ConfigManager::getSingleton().setValue("last_bg_scene",LevelLoader::getSingleton().getLevelName());
 
-    dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
+    //dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
     //Setup fog and bg color
     //--------------------------------------------------------------------
@@ -109,6 +109,20 @@ void PlayState::enter( void ) {
         0.0, 10, 40);
     }
     else mSceneMgr->setFog(FOG_NONE);
+
+
+    //Setup skybox
+    //--------------------------------------------------------------------
+
+    if(LevelLoader::getSingleton().getValue("skybox") != "")
+    {
+        //rota el cielo 180 grados
+        //Quaternion q = Quaternion(Radian(M_PI),Vector3(0,0,1));
+        //mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true,q);
+
+        mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true);
+    }
+
     //-----------------------------------------------------------------------
     //Setup particle_effect
     if(LevelLoader::getSingleton().getValue("particle_effect") != "")

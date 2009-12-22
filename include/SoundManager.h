@@ -71,6 +71,8 @@ int *channelMap;
     Music *mMusic;
     Sound *mSound[NUM_SOUNDS];
 
+    bool _audioOpen;
+
 };
 
 

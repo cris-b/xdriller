@@ -1,0 +1,26 @@
+material SOLID/TEX/metalrust.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture metalrust.png
+			}
+		}
+	}
+}
+material SOLID/TEX/joya_azul.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture joya_azul.png
+			}
+		}
+	}
+}

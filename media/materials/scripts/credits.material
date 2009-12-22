@@ -72,3 +72,24 @@ material fixi_studios
     }
 }
 
+material fondo_nubes
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            depth_write off
+            lighting off
+
+            texture_unit
+            {
+                texture fondonubes.png
+
+                scroll_x -0.01
+
+            }
+        }
+    }
+}
+

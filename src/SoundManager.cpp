@@ -16,6 +16,8 @@ SoundManager& SoundManager::getSingleton(void)
 SoundManager::SoundManager()
 {
 
+    _audioOpen = false;
+
     int audio_rate = ConfigManager::getSingleton().getInt("audio_rate");
     Uint16 audio_format = AUDIO_S16; /* 16-bit stereo */
     int audio_channels = ConfigManager::getSingleton().getInt("audio_channels");
@@ -32,28 +34,37 @@ SoundManager::SoundManager()
         Mix_CloseAudio(); //necesario, bueno?
         SDL_Quit();
     }
-
-    numChannels = Mix_AllocateChannels(MAX_CHANNELS);
-
-    channelMap = new int[numChannels];
-
-    for (int i=0; i<numChannels; i++)
+    else
     {
-        channelMap[i] = -1;
+        _audioOpen = true;
+
+        numChannels = Mix_AllocateChannels(MAX_CHANNELS);
+
+        channelMap = new int[numChannels];
+
+        for (int i=0; i<numChannels; i++)
+        {
+            channelMap[i] = -1;
+        }
+
+
+        Ogre::LogManager::getSingleton().logMessage(
+                "SoundManager: " + Ogre::StringConverter::toString(numChannels) + " channels allocated");
+
+        mMusic = NULL;
+
+        setMusicVolume(ConfigManager::getSingleton().getInt("music_volume"));
+        setSoundVolume(ConfigManager::getSingleton().getInt("sound_volume"));
+
     }
 
 
-    Ogre::LogManager::getSingleton().logMessage(
-            "SoundManager: " + Ogre::StringConverter::toString(numChannels) + " channels allocated");
-
-    mMusic = NULL;
-
-    setMusicVolume(ConfigManager::getSingleton().getInt("music_volume"));
-    setSoundVolume(ConfigManager::getSingleton().getInt("sound_volume"));
 
 }
 SoundManager::~SoundManager()
 {
+    if(!_audioOpen) return;
+
     delete [] channelMap;
 
     for(int i = 0; i < NUM_SOUNDS; i++)
@@ -64,6 +75,8 @@ SoundManager::~SoundManager()
 
 void SoundManager::loadMusic(std::string filename)
 {
+    if(!_audioOpen) return;
+
     filename = ConfigManager::getSingleton().getString("resource_path") + "/sounds/" + filename;
     if(mMusic != NULL) delete mMusic;
     mMusic = new Music(filename);
@@ -71,16 +84,22 @@ void SoundManager::loadMusic(std::string filename)
 
 void SoundManager::playMusic(bool loop)
 {
+    if(!_audioOpen) return;
+
     if(loop) mMusic->play(true);
     else mMusic->play(false);
 }
 void SoundManager::stopMusic()
 {
+    if(!_audioOpen) return;
+
     mMusic->stop();
 }
 
 void SoundManager::loadSounds()
 {
+    if(!_audioOpen) return;
+
     mSound[SOUND_BREAK]     = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "break.ogg");
     mSound[SOUND_JOIN]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "join.ogg");
     mSound[SOUND_KICK]      = new Sound(ConfigManager::getSingleton().getString("resource_path") + "/sounds/" +  "kick.ogg");
@@ -98,6 +117,8 @@ void SoundManager::loadSounds()
 
 void SoundManager::playSound(int type)
 {
+    if(!_audioOpen) return;
+
     int chan;
     int numEqualSounds;
 
@@ -115,6 +136,8 @@ void SoundManager::playSound(int type)
 
 void SoundManager::stopSound(int type)
 {
+    if(!_audioOpen) return;
+
     for (int i=0; i<numChannels; i++)
     {
         if(channelMap[i] == type)
@@ -128,6 +151,8 @@ void SoundManager::stopSound(int type)
 
 void SoundManager::stopAllSounds()
 {
+    if(!_audioOpen) return;
+
     for (int i=0; i<numChannels; i++)
     {
         if(channelMap[i] != -1)
@@ -141,6 +166,8 @@ void SoundManager::stopAllSounds()
 
 void SoundManager::setMusicVolume(int vol)
 {
+    if(!_audioOpen) return;
+
 		if( vol > 100 )
 		{
 			vol = 100;
@@ -158,22 +185,26 @@ void SoundManager::setMusicVolume(int vol)
 }
 
 void SoundManager::setSoundVolume(int vol)
-	{
-		if( vol > 100 )
-		{
-			vol = 100;
-		}
-		if( vol < 0 )
-		{
-			vol = 0;
-		}
+{
+	if(!_audioOpen) return;
 
-		Mix_Volume( -1, int((128.0*vol)/100.0));
-		soundVolume = vol;
+    if( vol > 100 )
+    {
+        vol = 100;
+    }
+    if( vol < 0 )
+    {
+        vol = 0;
+    }
+
+    Mix_Volume( -1, int((128.0*vol)/100.0));
+    soundVolume = vol;
 }
 
 void SoundManager::mapChannel(int type,int chan)
 {
+    if(!_audioOpen) return;
+
     if(chan >= 0 && chan < numChannels)
     {
         channelMap[chan] = type;
@@ -186,6 +217,8 @@ void SoundManager::mapChannel(int type,int chan)
 
 int SoundManager::getNumEqualSounds(int type)
 {
+    if(!_audioOpen) return 0;
+
     int num = 0;
 
     for (int i=0; i<numChannels; i++)

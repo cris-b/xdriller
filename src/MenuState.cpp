@@ -45,7 +45,7 @@ void MenuState::enter( void )
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
     mCamera->setNearClipDistance(0.1);
-    mCamera->setFarClipDistance(1000);
+    mCamera->setFarClipDistance(2000);
 
     //load scene
     //--------------------------------------------
@@ -75,6 +75,14 @@ void MenuState::enter( void )
         0.0, 10, 40);
     }
     else mSceneMgr->setFog(FOG_NONE);
+
+    //Setup skybox
+    //--------------------------------------------------------------------
+
+    if(LevelLoader::getSingleton().getValue("skybox") != "")
+    {
+        mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000);
+    }
     //-----------------------------------------------------------------------
     //Setup particle_effect
     if(LevelLoader::getSingleton().getValue("particle_effect") != "")
