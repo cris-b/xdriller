@@ -104,9 +104,17 @@ void PlayState::enter( void ) {
 
     if(LevelLoader::getSingleton().getValue("fog") == "on")
     {
+        Real fog_start = 10;
+        Real fog_end = 40;
+
+        if(LevelLoader::getSingleton().getValue("fog_start") != "")
+            fog_start = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_start"));
+        if(LevelLoader::getSingleton().getValue("fog_end") != "")
+            fog_end = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_end"));
+
         mSceneMgr->setFog(FOG_LINEAR,
         StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
-        0.0, 10, 40);
+        0.0, fog_start, fog_end);
     }
     else mSceneMgr->setFog(FOG_NONE);
 
@@ -117,10 +125,15 @@ void PlayState::enter( void ) {
     if(LevelLoader::getSingleton().getValue("skybox") != "")
     {
         //rota el cielo 180 grados
-        //Quaternion q = Quaternion(Radian(M_PI),Vector3(0,0,1));
-        //mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true,q);
-
-        mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true);
+        if(LevelLoader::getSingleton().getValue("skybox_quaternion") != "")
+        {
+            Quaternion q = StringConverter::parseQuaternion(LevelLoader::getSingleton().getValue("skybox_quaternion"));
+            mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true,q);
+        }
+        else
+        {
+            mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true);
+        }
     }
 
     //-----------------------------------------------------------------------

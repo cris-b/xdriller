@@ -70,18 +70,36 @@ void MenuState::enter( void )
 
     if(LevelLoader::getSingleton().getValue("fog") == "on")
     {
+        Real fog_start = 10;
+        Real fog_end = 40;
+
+        if(LevelLoader::getSingleton().getValue("fog_start") != "")
+            fog_start = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_start"));
+        if(LevelLoader::getSingleton().getValue("fog_end") != "")
+            fog_end = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_end"));
+
         mSceneMgr->setFog(FOG_LINEAR,
         StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
-        0.0, 10, 40);
+        0.0, fog_start, fog_end);
     }
     else mSceneMgr->setFog(FOG_NONE);
+
 
     //Setup skybox
     //--------------------------------------------------------------------
 
     if(LevelLoader::getSingleton().getValue("skybox") != "")
     {
-        mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000);
+
+        if(LevelLoader::getSingleton().getValue("skybox_quaternion") != "")
+        {
+            Quaternion q = StringConverter::parseQuaternion(LevelLoader::getSingleton().getValue("skybox_quaternion"));
+            mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true,q);
+        }
+        else
+        {
+            mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true);
+        }
     }
     //-----------------------------------------------------------------------
     //Setup particle_effect
@@ -1120,11 +1138,13 @@ void MenuState::changePage(unsigned int page)
         {
             ringSwitcher = new RingSwitcher(2);
 
+            ringSwitcher->addObject(_("Survivor"),"corazon.mesh");
+            ringSwitcher->setBlocked(_("Survivor"),false);
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
+            ringSwitcher->setBlocked(_("Time Attack"),true);
             ringSwitcher->addObject(_("Adventure"),"O2.mesh");
             ringSwitcher->setBlocked(_("Adventure"),true);
-            ringSwitcher->addObject(_("Pressure Driller"),"corazon.mesh");
-            ringSwitcher->setBlocked(_("Pressure Driller"),false);
+
 
             ringSwitcher->setPosition(0,-1,0);
 
