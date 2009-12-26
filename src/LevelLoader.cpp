@@ -86,10 +86,29 @@ void LevelLoader::setLevelNum(int levelNum)
                 //Ogre::LogManager::getSingleton().logMessage("SET LEVELNAME TO: " + secName + " " + StringConverter::toString(levelNum));
            }
        }
+   }
+}
 
+Ogre::String LevelLoader::getLevelName(int level_num)
+{
 
+   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+   Ogre::String secName;
+
+   int n = -2;
+   while (seci.hasMoreElements())
+   {
+
+       secName = seci.peekNextKey();
+       seci.getNext();
+
+       n++;
+
+       if(n == level_num) return secName;
    }
 
+   return "";
 
 }
 
@@ -161,6 +180,36 @@ void LevelLoader::setLevelName(String levelName)
    }
 
 }
+
+int LevelLoader::getLevelNum(Ogre::String name)
+{
+
+
+    ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+    Ogre::String secName;
+
+    int i = -2;
+
+    while (seci.hasMoreElements())
+    {
+
+        secName = seci.peekNextKey();
+        seci.getNext();
+
+
+        i++;
+
+
+        if(secName == name)
+        {
+        return i;
+        }
+    }
+
+    return -1;
+
+};
 
 int LevelLoader::loadBoard()
 {

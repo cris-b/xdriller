@@ -86,7 +86,7 @@ material fondo_nubes
             {
                 texture fondonubes.png
 
-                scroll_x -0.01
+                scroll -0.01 0
 
             }
         }

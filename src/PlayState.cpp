@@ -7,6 +7,8 @@
 #include "DotScene.h"
 #include "ConfigManager.h"
 
+#include "HighScoreManager.h"
+
 #include <string>
 #include <vector>
 
@@ -480,14 +482,28 @@ void PlayState::update( unsigned long lTimeElapsed )
         const float countTime = 1000;
 
 
-        if(mTextAreaLives == NULL && mPlayer->isAlive())
+        if(mPlayer->isAlive() && count==0)
         {
 
-            //mOverlayMgr->destroyAllOverlayElements();
+            count += lTimeElapsed;
 
             destroyOverlayElements();
 
-            mPanel = static_cast<PanelOverlayElement*>(
+            HighScoreManager::getSingleton().addScore("Survive",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,points,mPlayer->getLives(),depth);
+        }
+        else if(count<countTime && mPlayer->isAlive())
+        {
+
+            count += lTimeElapsed;
+
+        }
+        else if(count>=countTime)
+        {
+            this->fadeState( MenuState::getSingletonPtr());
+        }
+
+            //mOverlayMgr->destroyAllOverlayElements();
+            /*mPanel = static_cast<PanelOverlayElement*>(
                 mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
             mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
             mPanel->setPosition(0, 0);
@@ -576,9 +592,11 @@ void PlayState::update( unsigned long lTimeElapsed )
             mPanel->addChild(mTextAreaDepth);
             mPanel->addChild(mTextAreaPoints);
             mPanel->addChild(mTextAreaClock);
-            mPanel->addChild(mTextAreaLives);
+            mPanel->addChild(mTextAreaLives);*/
 
-        }
+        //}
+
+        /*
         else if(mSkull == NULL && !mPlayer->isAlive())
         {
             //mOverlayMgr->destroyAllOverlayElements();
@@ -657,13 +675,13 @@ void PlayState::update( unsigned long lTimeElapsed )
             }
 
 
-        }
+        }*/
 
 
 
 
     }
-    else count = 0;
+    //else count = 0;
 
     #ifdef XDRILLER_DEBUG
 
@@ -794,7 +812,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
 }
 
 void PlayState::keyReleased( const OIS::KeyEvent &e ) {
-    if( e.key == OIS::KC_P)
+    if( e.key == OIS::KC_P || e.key == OIS::KC_ESCAPE)
     {
 
         //actualiza la textura de escrinchot
@@ -811,9 +829,9 @@ void PlayState::keyReleased( const OIS::KeyEvent &e ) {
 
         nextFramePause = true;
     }
-    else if( e.key == OIS::KC_ESCAPE ) {
+    /*else if( e.key == OIS::KC_ESCAPE ) {
         this->fadeState( MenuState::getSingletonPtr());
-    }
+    }*/
 }
 
 void PlayState::mouseMoved( const OIS::MouseEvent &e )

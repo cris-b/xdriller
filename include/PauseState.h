@@ -8,6 +8,8 @@
 #include "GameState.h"
 #endif
 
+#include "MenuButton.h"
+
 class PauseState : public GameState {
 public:
     ~PauseState( void ) { }
@@ -37,14 +39,14 @@ private:
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
 
-    Ogre::OverlayManager    *mOverlayMgr;
-    Ogre::Overlay                 *mOverlay;
-    Ogre::OverlayContainer        *mPanel;
-    Ogre::TextAreaOverlayElement  *mTextAreaDepth;
-
     Ogre::Rectangle2D* backgroundRect;
     Ogre::SceneNode* backgroundNode;
 
+    std::vector<MenuButton*> buttons;
+
+    MenuButton *titleButton;
+
+    int menuCursor;
 
     static PauseState    *mPauseState;
 };

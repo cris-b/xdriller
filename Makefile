@@ -11,9 +11,11 @@ LIBS = OGRE OIS sdl
 CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include
 LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer
 SOURCES = Arrows.cpp Board.cpp Brick.cpp Cam.cpp ConfigManager.cpp CreditsState.cpp DotScene.cpp \
-EntityMaterialInstance.cpp Fader.cpp GameManager.cpp GameState.cpp InputManager.cpp IntroState.cpp LevelLoader.cpp Main.cpp \
-MaterialInstance.cpp MenuButton.cpp MenuState.cpp Music.cpp PauseState.cpp Player.cpp PlayerModelSelector.cpp PlayState.cpp RingSwitcher.cpp RingSwitcherObject.cpp Sound.cpp \
-SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp Tools.cpp
+EntityMaterialInstance.cpp Fader.cpp GameManager.cpp GameState.cpp HighScoreManager.cpp InputManager.cpp \
+IntroState.cpp LevelLoader.cpp Main.cpp MaterialInstance.cpp MenuButton.cpp MenuState.cpp Music.cpp \
+PauseState.cpp Player.cpp PlayerModelSelector.cpp PlayState.cpp RingSwitcher.cpp RingSwitcherObject.cpp Sound.cpp \
+SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp \
+Tools.cpp
 
 SOURCES_DIR = src
 OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))

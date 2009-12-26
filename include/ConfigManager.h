@@ -32,11 +32,10 @@ class ConfigManager : public Ogre::Singleton<ConfigManager>
     static ConfigManager& getSingleton(void);
     static ConfigManager* getSingletonPtr(void);
 
-    private:
-
 	private:
-		ConfMap config;
-		std::string filename;
+
+    ConfMap config;
+    std::string filename;
 
 
 

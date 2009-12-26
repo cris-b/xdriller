@@ -19,6 +19,10 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         void setLevelName(Ogre::String levelName);
 
 
+        int getNumLevels() {return numLevels;}
+
+
+
 
         void setBoardNum(int num) {boardNum = num;}
         int loadBoard();
@@ -26,7 +30,12 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         int getNumBoards() {return numBoards;}
         int getHeight() {return height;}
         int getWidth() {return width;}
+
         Ogre::String getLevelName(void) {return levelName;}
+        Ogre::String getLevelName(int level_num);
+
+        int getLevelNum(Ogre::String name);
+
         Ogre::String getLongName(void);
         Ogre::String getValue(Ogre::String opt);
 

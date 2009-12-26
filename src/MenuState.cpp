@@ -786,7 +786,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 if(menuCursor == 0)
                 {
-                    if(ringSwitcher->getCurrentName() == _("Survivor"))
+                    if(ringSwitcher->getCurrentName() == _("Survive"))
                     {
                         changePage(MENU_PAGE_LEVELSELECT);
                     }
@@ -1138,8 +1138,8 @@ void MenuState::changePage(unsigned int page)
         {
             ringSwitcher = new RingSwitcher(2);
 
-            ringSwitcher->addObject(_("Survivor"),"corazon.mesh");
-            ringSwitcher->setBlocked(_("Survivor"),false);
+            ringSwitcher->addObject(_("Survive"),"corazon.mesh");
+            ringSwitcher->setBlocked(_("Survive"),false);
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
             ringSwitcher->setBlocked(_("Time Attack"),true);
             ringSwitcher->addObject(_("Adventure"),"O2.mesh");

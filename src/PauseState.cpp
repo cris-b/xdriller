@@ -1,6 +1,7 @@
 #include "PauseState.h"
 #include "Gettext.h"
 #include "ConfigManager.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 
@@ -8,38 +9,12 @@ PauseState* PauseState::mPauseState;
 
 void PauseState::enter( void ) {
     mRoot            = Root::getSingletonPtr();
-    mOverlayMgr      = OverlayManager::getSingletonPtr();
+    //mOverlayMgr      = OverlayManager::getSingletonPtr();
     mViewport        = mRoot->getAutoCreatedWindow()->getViewport( 0 );
     mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
 
 
-    mPanel = static_cast<OverlayContainer*>(
-        mOverlayMgr->createOverlayElement("Panel", "PauseStateOverlayPanel"));
-    mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
-    mPanel->setPosition(0, 0);
-    mPanel->setDimensions(1, 1);
 
-    mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
-        mOverlayMgr->createOverlayElement("TextArea", "PauseText"));
-    mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
-    mTextAreaDepth->setPosition(0.5, 0.35);
-    mTextAreaDepth->setDimensions(0.6, 0.3);
-    mTextAreaDepth->setCaption(_("PAUSE"));
-    mTextAreaDepth->setCharHeight(0.3);
-    mTextAreaDepth->setFontName("CoolFont");
-    mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
-    //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
-    //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
-    mTextAreaDepth->setColour(ColourValue(0,0,0,0.5));
-
-    mOverlay = mOverlayMgr->create("PauseStateOverlay");
-    mOverlay->add2D(mPanel);
-
-
-    mPanel->addChild(mTextAreaDepth);
-
-    // Show the overlay
-    mOverlay->show();
 
 
     // Create background rectangle covering the whole screen
@@ -66,6 +41,25 @@ void PauseState::enter( void ) {
         CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
     }
 
+    titleButton = new MenuButton(_("Pause"));
+    titleButton->setPosition(0,-0.45);
+    titleButton->setColor(ColourValue(1,0,0));
+
+
+    buttons.push_back(new MenuButton(_("Continue")));
+
+    buttons[0]->setPosition(0,-0.10);
+    buttons[0]->setState(BSTATE_ACTIVE);
+
+    buttons.push_back(new MenuButton(_("Quit")));
+
+    buttons[1]->setPosition(0,0);
+
+    menuCursor = 0;
+
+    SoundManager::getSingleton().setMusicVolume(SoundManager::getSingleton().getMusicVolume() / 3);
+
+
 }
 
 void PauseState::exit( void )
@@ -80,14 +74,18 @@ void PauseState::exit( void )
 
     delete backgroundRect;
 
-    mPanel->removeChild("PauseText");
-    mOverlayMgr->destroyOverlayElement(mTextAreaDepth);
+    while (!buttons.empty())
+    {
+        delete buttons.back();  buttons.pop_back();
+    }
+    if(titleButton != NULL)
+    {
+        delete titleButton;
+        titleButton = NULL;
+    }
 
-    mOverlay->remove2D(mPanel);
-    mOverlayMgr->destroyOverlayElement(mPanel);
+    SoundManager::getSingleton().setMusicVolume(SoundManager::getSingleton().getMusicVolume() * 3);
 
-
-    mOverlayMgr->destroy(mOverlay);
 
 }
 
@@ -105,15 +103,60 @@ void PauseState::update( unsigned long lTimeElapsed )
     #if defined OIS_WIN32_PLATFORM
     // como se sleepea en windows???
     #elif defined OIS_LINUX_PLATFORM
-    sleep(10);
+    //sleep(10);
     #endif
 
 }
 
-void PauseState::keyPressed( const OIS::KeyEvent &e ) {
+void PauseState::keyPressed( const OIS::KeyEvent &e )
+{
+
+    if(e.key == OIS::KC_DOWN)
+    {
+
+        buttons[menuCursor]->setState(BSTATE_INACTIVE);
+        menuCursor++;
+        if(menuCursor >= (int)buttons.size())
+        {
+            menuCursor = 0;
+
+        }
+        buttons[menuCursor]->setState(BSTATE_ACTIVE);
+
+        if(buttons.size() > 1)SoundManager::getSingleton().playSound(SOUND_MENU1);
+
+
+
+    }
+    if(e.key == OIS::KC_UP)
+    {
+
+        buttons[menuCursor]->setState(BSTATE_INACTIVE);
+        menuCursor--;
+        if(menuCursor < 0)
+        {
+            menuCursor = buttons.size()-1;
+
+        }
+        buttons[menuCursor]->setState(BSTATE_ACTIVE);
+
+        if(buttons.size() > 1)SoundManager::getSingleton().playSound(SOUND_MENU1);
+
+    }
+
+    if(e.key == OIS::KC_RETURN)
+    {
+        if(menuCursor == 0) this->popState();
+        if(menuCursor == 1)
+        {
+            this->popState();
+            this->fadeState( MenuState::getSingletonPtr() );
+        }
+    }
 }
 
-void PauseState::keyReleased( const OIS::KeyEvent &e ) {
+void PauseState::keyReleased( const OIS::KeyEvent &e )
+{
     if( e.key == OIS::KC_P ) {
         this->popState();
     }

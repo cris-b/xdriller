@@ -13,6 +13,7 @@
 #include "SoundManager.h"
 #include "ConfigManager.h"
 #include "LevelLoader.h"
+#include "HighScoreManager.h"
 
 #include "Tools.h"
 #include "Globals.h"
@@ -73,6 +74,8 @@ GameManager::~GameManager( void ) {
     }
 
     ConfigManager::getSingleton().save();
+
+    HighScoreManager::getSingleton().save();
 
     LogManager::getSingleton().logMessage("Everage FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS()));
 
@@ -261,6 +264,15 @@ void GameManager::startGame( GameState *gameState )
 
 
     new LevelLoader;
+
+    LevelLoader::getSingleton(); ///????
+
+    new HighScoreManager(configPath + "/highscores.xml");
+
+    HighScoreManager::getSingleton().load();
+
+
+
     new Fader;
 
 
