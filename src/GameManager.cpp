@@ -153,6 +153,14 @@ void GameManager::startGame( GameState *gameState )
         LogManager::getSingleton().logMessage("Error: could not load config.cfg");
     }
 
+    if(ConfigManager::getSingleton().getString("player_name") == "")
+    {
+        #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
+        //averiguar el nombre de usuario en windowws???
+        #else  //Linux, etc...
+        ConfigManager::getSingleton().setValue("player_name",getenv("USER"));
+        #endif
+    }
 
     // For gettext support
     //----------------------------------------------------------------

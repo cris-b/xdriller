@@ -120,6 +120,8 @@ void MenuButton::setCaption(String caption)
 
 void MenuButton::setOptionCaption(String caption)
 {
+    if(!_hasOption) return;
+
     this->optionCaption = caption;
     mOptionText->setCaption(caption);
 

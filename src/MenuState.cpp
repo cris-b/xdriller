@@ -535,12 +535,16 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_PLAYER_OPTIONS:
             {
+                if(menuCursor == 0)
+                {
+                }
+                if(menuCursor == 1)
+                {
+                    playerModelSelector->prev();
 
-                playerModelSelector->prev();
-
-                buttons[0]->setCaption(playerModelSelector->getName());
-                SoundManager::getSingleton().playSound(SOUND_MENU3);
-
+                    buttons[1]->setOptionCaption(playerModelSelector->getName());
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
                 break;
             }
         }
@@ -642,11 +646,16 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_PLAYER_OPTIONS:
             {
+                if(menuCursor == 0)
+                {
+                }
+                if(menuCursor == 1)
+                {
+                    playerModelSelector->next();
 
-                playerModelSelector->next();
-
-                buttons[0]->setCaption(playerModelSelector->getName());
-                SoundManager::getSingleton().playSound(SOUND_MENU3);
+                    buttons[1]->setOptionCaption(playerModelSelector->getName());
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
 
                 break;
             }
@@ -995,14 +1004,14 @@ void MenuState::changePage(unsigned int page)
 
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton(_("Music Volume"),ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Music Volume"),ALIGN_LEFT,true,true));
 
             buttons[0]->setPosition(-0.4,-0.1);
             buttons[0]->setState(BSTATE_ACTIVE);
 
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("music_volume"));
 
-            buttons.push_back(new MenuButton(_("FX Volume"),ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("FX Volume"),ALIGN_LEFT,true,true));
 
             buttons[1]->setPosition(-0.4,0);
 
@@ -1029,19 +1038,19 @@ void MenuState::changePage(unsigned int page)
 
             titleButton->setColor(ColourValue(1,0,0));
 
-            buttons.push_back(new MenuButton(_("Resolution"),ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Resolution"),ALIGN_LEFT,true,true));
 
             buttons[0]->setPosition(-0.4,-0.2);
             buttons[0]->setState(BSTATE_ACTIVE);
 
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
 
-            buttons.push_back(new MenuButton(_("Anti-aliasing"),ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Anti-aliasing"),ALIGN_LEFT,true,true));
 
             buttons[1]->setPosition(-0.4,-0.1);
             buttons[1]->setOptionCaption(ConfigManager::getSingleton().getString("FSAA"));
 
-            buttons.push_back(new MenuButton(_("Fullscreen"),ALIGN_LEFT,true));
+            buttons.push_back(new MenuButton(_("Fullscreen"),ALIGN_LEFT,true,true));
 
             buttons[2]->setPosition(-0.4,0);
             buttons[2]->setOptionCaption(ConfigManager::getSingleton().getString("fullscreen"));
@@ -1117,14 +1126,19 @@ void MenuState::changePage(unsigned int page)
             titleButton->setPosition(0,-0.45);
             titleButton->setColor(ColourValue(1,0,0));
 
+            buttons.push_back(new MenuButton(_("Player name"),ALIGN_LEFT,true,false));
 
-            buttons.push_back(new MenuButton("Model"));
-
-            buttons[0]->setPosition(0,-0.25);
+            buttons[0]->setPosition(-0.4,-0.35);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setArrows(true);
-            buttons[0]->setCaption(playerModelSelector->getName());
 
+            buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("player_name"));
+
+
+            buttons.push_back(new MenuButton(_("Model"),ALIGN_LEFT,true,true));
+
+            buttons[1]->setPosition(-0.4,-0.25);
+
+            buttons[1]->setOptionCaption(playerModelSelector->getName());
 
 
             menuCursor = 0;
@@ -1301,7 +1315,7 @@ void MenuState::_updateLevelSelect()
 void MenuState::_updateArrows(bool jump)
 {
 
-    if(buttons[menuCursor]->hasOption())
+    if(buttons[menuCursor]->hasOption() && buttons[menuCursor]->hasArrows())
     {
         Vector2 pos = buttons[menuCursor]->getOptionScreenPosition();
 
