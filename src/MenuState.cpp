@@ -22,6 +22,7 @@
 #define MENU_PAGE_PLAYER_OPTIONS        7
 #define MENU_PAGE_GAME_MODE             8
 #define MENU_PAGE_CONTROLS              9
+#define MENU_PAGE_HIGHSCORES           10
 
 
 using namespace Ogre;
