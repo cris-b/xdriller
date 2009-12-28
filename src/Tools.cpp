@@ -183,3 +183,25 @@ Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real char
 
     return textWidth;
 }
+
+Ogre::String secsToClockString(int s)
+{
+
+
+        Ogre::String clock;
+
+        int minutes = int(s/60);
+        int seconds = s - minutes*60;
+
+        if(minutes < 10 && seconds < 10)
+            clock = String("0") + StringConverter::toString(minutes) + ":0" +  StringConverter::toString(seconds);
+        else if(minutes < 10)
+            clock = String("0") + StringConverter::toString(minutes) + ":" +  StringConverter::toString(seconds);
+        else if(seconds < 10)
+            clock = StringConverter::toString(minutes) + ":0" +  StringConverter::toString(seconds);
+        else clock = StringConverter::toString(minutes) + ":" +  StringConverter::toString(seconds);
+
+
+
+        return clock;
+}

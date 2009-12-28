@@ -1,10 +1,12 @@
 #include "HighScoreManager.h"
 #include "LevelLoader.h"
+#include "Globals.h"
 
 #include "tinyxml.h"
 
-#define SCORES_PER_PAGE     10
-#define NUM_MODES            3
+
+
+
 
 using namespace Ogre;
 
@@ -25,7 +27,7 @@ HighScoreManager::HighScoreManager(Ogre::String filename)
 
     int num_levels = LevelLoader::getSingleton().getNumLevels();
 
-    scores = new HighScore[NUM_MODES*num_levels*SCORES_PER_PAGE];
+    scores = new HighScore[NUM_GAME_MODES*num_levels*SCORES_PER_PAGE];
 
     last_highscore_index = 0;
 
@@ -73,9 +75,9 @@ int HighScoreManager::load()
         const char *mode_name= mode->Attribute("name");
         int mode_num = 0;
 
-        if(strcmp(mode_name,"Survive") == 0) mode_num = 0;
-        if(strcmp(mode_name,"Time Attack") == 0) mode_num = 1;
-        if(strcmp(mode_name,"Adventure") == 0) mode_num = 1;
+        if(strcmp(mode_name,GAME_MODE_0) == 0) mode_num = 0;
+        if(strcmp(mode_name,GAME_MODE_1) == 0) mode_num = 1;
+        if(strcmp(mode_name,GAME_MODE_2) == 0) mode_num = 2;
 
         TiXmlElement* level = TiXmlHandle(mode).FirstChild("level").Element();
 
@@ -135,14 +137,14 @@ int HighScoreManager::save()
 	comment->SetValue(" DO NOT EDIT. AUTOMATICALLY GENERATED " );
 	root->LinkEndChild( comment );
 
-    for(int k = 0; k<NUM_MODES; k++)
+    for(int k = 0; k<NUM_GAME_MODES; k++)
     {
         TiXmlElement *mode = new TiXmlElement( "mode" );
         root->LinkEndChild( mode );
 
-        if(k == 0) mode->SetAttribute("name","Survive");
-        if(k == 1) mode->SetAttribute("name","Time Attack");
-        if(k == 2) mode->SetAttribute("name","Adventure");
+        if(k == 0) mode->SetAttribute("name",GAME_MODE_0);
+        if(k == 1) mode->SetAttribute("name",GAME_MODE_1);
+        if(k == 2) mode->SetAttribute("name",GAME_MODE_2);
 
         for(int i = 0; i<num_levels; i++)
         {
@@ -185,9 +187,9 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
     int num_levels = LevelLoader::getSingleton().getNumLevels();
 
 
-    if(mode == "Survive") mode_num = 0;
-    if(mode == "Time Attack") mode_num = 1;
-    if(mode == "Adventure") mode_num = 2;
+    if(mode == GAME_MODE_0) mode_num = 0;
+    if(mode == GAME_MODE_1) mode_num = 1;
+    if(mode == GAME_MODE_2) mode_num = 2;
 
     int level_num = LevelLoader::getSingleton().getLevelNum(level);
 
@@ -234,4 +236,23 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
     }
 
     return 0;
+}
+
+HighScore* HighScoreManager::getScore(Ogre::String mode, Ogre::String level, int num)
+{
+    int mode_num = 0;
+
+    int num_levels = LevelLoader::getSingleton().getNumLevels();
+
+
+    if(mode == GAME_MODE_0) mode_num = 0;
+    if(mode == GAME_MODE_1) mode_num = 1;
+    if(mode == GAME_MODE_2) mode_num = 2;
+
+    int level_num = LevelLoader::getSingleton().getLevelNum(level);
+
+    int score_index = mode_num*(SCORES_PER_PAGE*num_levels)+level_num*SCORES_PER_PAGE+num;
+
+    return &scores[score_index];
+
 }

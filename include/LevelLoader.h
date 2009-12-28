@@ -35,6 +35,7 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         Ogre::String getLevelName(int level_num);
 
         int getLevelNum(Ogre::String name);
+        int getLevelNum(void) {return levelNum;}
 
         Ogre::String getLongName(void);
         Ogre::String getValue(Ogre::String opt);

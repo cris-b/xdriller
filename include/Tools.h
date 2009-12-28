@@ -26,4 +26,6 @@ Ogre::UTFString ConvertToUTF(Ogre::String String);
 
 Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real charHeight);
 
+Ogre::String secsToClockString(int s);
+
 #endif

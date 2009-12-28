@@ -9,3 +9,15 @@ SmallFont
 	code_points 33-126 191-255
 
 }
+
+Monospace
+{
+	type	truetype
+	source  LiberationMono-Bold.ttf
+
+	size 96
+	resolution 21
+
+	code_points 33-126 191-255
+
+}

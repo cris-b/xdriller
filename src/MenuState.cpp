@@ -548,6 +548,42 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 break;
             }
+            case MENU_PAGE_HIGHSCORES:
+            {
+                if(menuCursor == 0)
+                {
+                    if(buttons[0]->getOptionCaption() == _("Survive")) buttons[0]->setOptionCaption(_("Adventure"));
+                    else if(buttons[0]->getOptionCaption() == _("Adventure")) buttons[0]->setOptionCaption(_("Time Attack"));
+                    else if(buttons[0]->getOptionCaption() == _("Time Attack")) buttons[0]->setOptionCaption(_("Survive"));
+
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
+                if(menuCursor == 1)
+                {
+                    int level_num = LevelLoader::getSingleton().getLevelNum();
+                    int num_levels = LevelLoader::getSingleton().getNumLevels();
+
+                    level_num--;
+
+                    if(level_num < 0) level_num = num_levels-1;
+
+                    LevelLoader::getSingleton().setLevelNum(level_num);
+
+
+
+                    buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
+
+                if(buttons[0]->getOptionCaption() == _("Survive"))
+                    highScoreTable->updateTable("Survive", LevelLoader::getSingleton().getLevelName());
+                else if(buttons[0]->getOptionCaption() == _("Adventure"))
+                    highScoreTable->updateTable("Adventure", LevelLoader::getSingleton().getLevelName());
+                else if(buttons[0]->getOptionCaption() == _("Time Attack"))
+                    highScoreTable->updateTable("Time Attack", LevelLoader::getSingleton().getLevelName());
+
+                break;
+            }
         }
         _updateArrows();
     }
@@ -660,6 +696,43 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
+            case MENU_PAGE_HIGHSCORES:
+            {
+                if(menuCursor == 0)
+                {
+                    if(buttons[0]->getOptionCaption() == _("Survive")) buttons[0]->setOptionCaption(_("Adventure"));
+                    else if(buttons[0]->getOptionCaption() == _("Adventure")) buttons[0]->setOptionCaption(_("Time Attack"));
+                    else if(buttons[0]->getOptionCaption() == _("Time Attack")) buttons[0]->setOptionCaption(_("Survive"));
+
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
+                if(menuCursor == 1)
+                {
+                    int level_num = LevelLoader::getSingleton().getLevelNum();
+                    int num_levels = LevelLoader::getSingleton().getNumLevels();
+
+                    level_num++;
+
+                    if(level_num > num_levels-1) level_num = 0;
+
+                    LevelLoader::getSingleton().setLevelNum(level_num);
+
+
+
+                    buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    SoundManager::getSingleton().playSound(SOUND_MENU3);
+                }
+
+                if(buttons[0]->getOptionCaption() == _("Survive"))
+                    highScoreTable->updateTable("Survive", LevelLoader::getSingleton().getLevelName());
+                else if(buttons[0]->getOptionCaption() == _("Adventure"))
+                    highScoreTable->updateTable("Adventure", LevelLoader::getSingleton().getLevelName());
+                else if(buttons[0]->getOptionCaption() == _("Time Attack"))
+                    highScoreTable->updateTable("Time Attack", LevelLoader::getSingleton().getLevelName());
+
+
+                break;
+            }
         }
         _updateArrows();
     }
@@ -684,6 +757,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 if(menuCursor == 2)
                 {
                     fadeState( CreditsState::getSingletonPtr() );
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
+                if(menuCursor == 3)
+                {
+                    changePage(MENU_PAGE_HIGHSCORES);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
                 if(menuCursor == 4)
@@ -840,6 +918,8 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
             case MENU_PAGE_GAME_MODE:
+            case MENU_PAGE_OPTIONS:
+            case MENU_PAGE_HIGHSCORES:
             {
                 changePage(MENU_PAGE_MAIN);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
@@ -851,12 +931,9 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
-            case MENU_PAGE_OPTIONS:
-            {
-                changePage(MENU_PAGE_MAIN);
-                SoundManager::getSingleton().playSound(SOUND_MENU4);
-                break;
-            }
+            case MENU_PAGE_AUDIO_OPTIONS:
+            case MENU_PAGE_CONTROLS:
+            case MENU_PAGE_PLAYER_OPTIONS:
             case MENU_PAGE_GRAPHIC_OPTIONS:
             {
 
@@ -864,24 +941,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
-            case MENU_PAGE_AUDIO_OPTIONS:
-            {
-                changePage(MENU_PAGE_OPTIONS);
-                SoundManager::getSingleton().playSound(SOUND_MENU4);
-                break;
-            }
-            case MENU_PAGE_CONTROLS:
-            {
-                changePage(MENU_PAGE_OPTIONS);
-                SoundManager::getSingleton().playSound(SOUND_MENU4);
-                break;
-            }
-            case MENU_PAGE_PLAYER_OPTIONS:
-            {
-                changePage(MENU_PAGE_OPTIONS);
-                SoundManager::getSingleton().playSound(SOUND_MENU4);
-                break;
-            }
+
         }
 
     }
@@ -950,10 +1010,17 @@ void MenuState::changePage(unsigned int page)
         delete ringSwitcher;
         ringSwitcher = NULL;
     }
+
     if(playerModelSelector != NULL)
     {
         delete playerModelSelector;
         playerModelSelector = NULL;
+    }
+
+    if(highScoreTable != NULL)
+    {
+        delete highScoreTable;
+        highScoreTable = NULL;
     }
 
     mOverlay->remove2D(mLogoXDriller);
@@ -982,7 +1049,7 @@ void MenuState::changePage(unsigned int page)
             buttons.push_back(new MenuButton(_("High Scores")));
 
             buttons[3]->setPosition(0,0.15);
-            buttons[3]->setBlocked(true);
+            //buttons[3]->setBlocked(true);
 
 
             buttons.push_back(new MenuButton(_("Exit")));
@@ -1153,6 +1220,11 @@ void MenuState::changePage(unsigned int page)
         {
             ringSwitcher = new RingSwitcher(2);
 
+
+            //Los nombres de los modos deberian ser las variables que estan
+            //en Globals.h (GAME_MODE_1...) pero si lo pongo asi
+            //el Gettext no las traduce
+
             ringSwitcher->addObject(_("Survive"),"corazon.mesh");
             ringSwitcher->setBlocked(_("Survive"),false);
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
@@ -1175,7 +1247,7 @@ void MenuState::changePage(unsigned int page)
 
             break;
 
-            break;
+
 
         }
 
@@ -1189,7 +1261,6 @@ void MenuState::changePage(unsigned int page)
             buttons[0]->setArrows(true);
 
 
-
             _updateLevelSelect();
             mLevelScreenshot->show();
             mLevelScreenshot_shadow->show();
@@ -1200,6 +1271,43 @@ void MenuState::changePage(unsigned int page)
             menuCursor = 0;
 
             mInfoTextArea->setCaption(_("Select Level & Press ENTER"));
+
+            break;
+        }
+
+        case MENU_PAGE_HIGHSCORES:
+        {
+
+            titleButton = new MenuButton(_("HighScores"));
+            titleButton->setPosition(0,-0.45);
+            titleButton->setColor(ColourValue(1,0,0));
+
+            buttons.push_back(new MenuButton(_("Mode"),ALIGN_LEFT,true,true));
+
+            buttons[0]->setPosition(-0.4,-0.35);
+            buttons[0]->setState(BSTATE_ACTIVE);
+
+            buttons[0]->setOptionCaption(_("Survive"));
+
+
+            buttons.push_back(new MenuButton(_("Level"),ALIGN_LEFT,true,true));
+
+            buttons[1]->setPosition(-0.4,-0.25);
+
+            LevelLoader::getSingleton().setLevelNum(0);
+
+            buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+
+
+
+            menuCursor = 0;
+
+            mInfoTextArea->setCaption("");
+
+
+            highScoreTable = new HighScoreTable();
+
+            highScoreTable->updateTable("Survive", LevelLoader::getSingleton().getLevelName());
 
             break;
         }
@@ -1230,6 +1338,7 @@ void MenuState::changePage(unsigned int page)
 
             break;
         }
+
 
         case MENU_PAGE_QUIT:
         {

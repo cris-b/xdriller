@@ -4,7 +4,7 @@
 #include <Ogre.h>
 #include <OgreSingleton.h>
 
-
+#define SCORES_PER_PAGE     10
 
 class HighScore
 {
@@ -32,6 +32,7 @@ class HighScoreManager : public Ogre::Singleton<HighScoreManager>
 
     int addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time = 0, int points = 0, int lives = 0, int depth = 0);
 
+    HighScore *getScore(Ogre::String mode, Ogre::String level, int num);
 
     static HighScoreManager& getSingleton(void);
     static HighScoreManager* getSingletonPtr(void);

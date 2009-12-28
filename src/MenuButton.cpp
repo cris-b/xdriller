@@ -68,7 +68,7 @@ MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArr
         mOptionText->setDimensions(0.5, 0.2);
         mOptionText->setCharHeight(CHAR_HEIGHT);
         mOptionText->setFontName("CoolFont");
-        mOptionText->setColour(ColourValue(1,0,0));
+        mOptionText->setColour(ColourValue(1,0.5,0));
         mOptionText->setAlignment(TextAreaOverlayElement::Right);
 
         mPanel->addChild(mOptionText);

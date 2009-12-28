@@ -16,6 +16,7 @@
 
 #include "RingSwitcher.h"
 #include "PlayerModelSelector.h"
+#include "HighScoreTable.h"
 
 #include <vector>
 
@@ -82,6 +83,7 @@ private:
     Arrows *arrows;
     RingSwitcher *ringSwitcher;
     PlayerModelSelector *playerModelSelector;
+    HighScoreTable *highScoreTable;
 
     unsigned int menuPage;
     int menuCursor;

@@ -75,6 +75,7 @@ class MenuButton
         Ogre::TextAreaOverlayElement  *mText;
         Ogre::TextAreaOverlayElement  *mOptionText;
 
+
         Ogre::String caption;
         Ogre::String optionCaption;
 
