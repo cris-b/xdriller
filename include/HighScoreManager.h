@@ -17,6 +17,9 @@ class HighScore
         int points;
         int lives;
         int depth;
+
+        HighScore& operator = (HighScore &p);
+
 };
 
 
@@ -38,6 +41,8 @@ class HighScoreManager : public Ogre::Singleton<HighScoreManager>
     static HighScoreManager* getSingletonPtr(void);
 
     private:
+
+    void sortPage(int index);
 
     HighScore *scores;
 

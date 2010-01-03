@@ -5,10 +5,27 @@
 #include "tinyxml.h"
 
 
-
+#include <algorithm> //para std::sort()
 
 
 using namespace Ogre;
+
+//HighScore
+
+HighScore& HighScore::operator = (HighScore &p)
+{
+    this->name   =  p.name;
+    this->time   =  p.time;
+    this->points =  p.points;
+    this->lives  =  p.lives;
+    this->depth  =  p.depth;
+
+    return *this;
+}
+
+
+//HighScoreManager
+
 
 template<> HighScoreManager* Ogre::Singleton<HighScoreManager>::ms_Singleton = 0;
 HighScoreManager* HighScoreManager::getSingletonPtr(void)
@@ -180,6 +197,53 @@ int HighScoreManager::save()
     return 0;
 }
 
+void HighScoreManager::sortPage(int index)
+{
+
+
+    //Gnome sort: http://en.wikibooks.org/wiki/Algorithm_Implementation/Sorting/Gnome_sort
+
+    for ( int i = 1; i < SCORES_PER_PAGE; )
+    {
+
+        if ( scores[index+i-1].time <= scores[index+i].time)
+        {
+            ++i;
+        }
+        else
+        {
+            std::swap( scores[index+i-1] , scores[index+i] );
+            --i;
+            if ( i == 0 )
+            {
+                i = 1;
+            }
+        }
+    }
+
+    //repite el algoritmo para poner al final todos los sin nombre.
+    //TO-DO: ¿se podria hacer metiendo un if en el enterior? no se me ocurre como
+
+    for ( int i = 1; i < SCORES_PER_PAGE; )
+    {
+
+        if ( scores[index+i-1].name == "" && scores[index+i].name != "")
+        {
+            std::swap( scores[index+i-1] , scores[index+i] );
+            --i;
+            if ( i == 0 )
+            {
+                i = 1;
+            }
+        }
+        else
+        {
+            ++i;
+        }
+    }
+
+}
+
 int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time, int points, int lives, int depth)
 {
     int mode_num = 0;
@@ -230,6 +294,8 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
             scores[highest_time_index].points = points;
             scores[highest_time_index].lives = lives;
             scores[highest_time_index].depth = depth;
+
+            sortPage(score_index);
 
             return 1;
         }
