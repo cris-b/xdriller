@@ -226,7 +226,7 @@ void HighScoreManager::sortPage(int index)
 
     for ( int i = 1; i < SCORES_PER_PAGE; )
     {
-
+        //si A no tiene nombre y B si, los cambia
         if ( scores[index+i-1].name == "" && scores[index+i].name != "")
         {
             std::swap( scores[index+i-1] , scores[index+i] );

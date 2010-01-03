@@ -19,6 +19,8 @@
 
 #define AIR_FULL_USE_TIME   100000.0
 
+using namespace Ogre;
+
 Player::Player(Board *mBoard)
 {
     this->mBoard = mBoard;

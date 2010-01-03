@@ -9,7 +9,6 @@
 #define LOOK_LEFT   2
 #define LOOK_RIGHT  3
 
-using namespace Ogre;
 
 class Player
 {
@@ -20,8 +19,8 @@ class Player
 
     void update(unsigned long lTimeElapsed);
 
-    void setPosition(Real x, Real y, Real z) {mNode->setPosition(x,y,z);}
-    Vector3 getPosition()
+    void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z) {mNode->setPosition(x,y,z);}
+    Ogre::Vector3 getPosition()
     {
         return mNode->getPosition();
     }
@@ -39,9 +38,9 @@ class Player
 
     void breakBlock();
 
-    Real getAir() {return air;};
-    void setAir(Real air);
-    Real getLives() {return lives;};
+    Ogre::Real getAir() {return air;};
+    void setAir(Ogre::Real air);
+    Ogre::Real getLives() {return lives;};
     void setLives(int lives);
     int getDepth() {return depth;}
     int getLastDepth() {return lastDepth;}
@@ -58,24 +57,24 @@ class Player
 
     private:
 
-    SceneManager *mSceneMgr;
-    Vector3 speed;
-    Real orientationAngle;
+    Ogre::SceneManager *mSceneMgr;
+    Ogre::Vector3 speed;
+    Ogre::Real orientationAngle;
 
 
 
-    Real air;
-    Real idleTime;
+    Ogre::Real air;
+    Ogre::Real idleTime;
     int lives;
     int depth;
     int points;
     int lastDepth;
-    Real scale;
+    Ogre::Real scale;
 
     bool _moveLeft;
     bool _moveRight;
 
-    Real _jumpCharger;
+    Ogre::Real _jumpCharger;
 
     bool _moveJump;
 
@@ -89,23 +88,23 @@ class Player
     bool finished;
 
     bool endFloor;
-    Real endFloorPosY;
+    Ogre::Real endFloorPosY;
 
-	Entity *mEnt;
-	SceneNode *mNode;
-	SceneNode *mScaleNode;
-	ParticleSystem *starsParticle;
-	ParticleSystem *heartsParticle;
-	ParticleSystem *plus20Particle;
+	Ogre::Entity *mEnt;
+	Ogre::SceneNode *mNode;
+	Ogre::SceneNode *mScaleNode;
+	Ogre::ParticleSystem *starsParticle;
+	Ogre::ParticleSystem *heartsParticle;
+	Ogre::ParticleSystem *plus20Particle;
 
-    AnimationState *mAnimationState;
+    Ogre::AnimationState *mAnimationState;
 
-	AxisAlignedBox mBox;
+	Ogre::AxisAlignedBox mBox;
 
 	Board *mBoard;
 
-    void setAnimationState(const String& anim);
-    String getAnimationName();
+    void setAnimationState(const Ogre::String& anim);
+    Ogre::String getAnimationName();
     bool getAnimationEnded();
 };
 

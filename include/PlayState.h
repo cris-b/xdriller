@@ -7,6 +7,7 @@
 #include "Cam.h"
 #include "Board.h"
 #include "Player.h"
+#include "Globals.h"
 
 
 #ifndef GameState_H
@@ -56,25 +57,28 @@ private:
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
 
-    SceneNode *backgroundSceneNode;
+    Ogre::SceneNode *backgroundSceneNode;
 
 
     Ogre::OverlayManager    *mOverlayMgr;
-    Overlay                 *mOverlay;
-    PanelOverlayElement     *mPanel;
-    TextAreaOverlayElement  *mTextAreaDepth;
-    TextAreaOverlayElement  *mTextAreaPoints;
-    TextAreaOverlayElement  *mTextAreaClock;
-    TextAreaOverlayElement  *mTextAreaLives;
-    TextAreaOverlayElement  *mTextAreaTotal;
-    PanelOverlayElement     *mArrow;
-    PanelOverlayElement     *mSkull;
-    PanelOverlayElement     *mScore;
-    PanelOverlayElement     *mClock;
-    PanelOverlayElement     *mLivesPanel;
-    PanelOverlayElement     *mBottle;
-    PanelOverlayElement     *mBottleAir;
+    Ogre::Overlay                 *mOverlay;
+    Ogre::PanelOverlayElement     *mPanel;
+    Ogre::TextAreaOverlayElement  *mTextAreaDepth;
+    Ogre::TextAreaOverlayElement  *mTextAreaPoints;
+    Ogre::TextAreaOverlayElement  *mTextAreaClock;
+    Ogre::TextAreaOverlayElement  *mTextAreaLives;
+    Ogre::TextAreaOverlayElement  *mTextAreaTotal;
+    Ogre::PanelOverlayElement     *mArrow;
+    Ogre::PanelOverlayElement     *mSkull;
+    Ogre::PanelOverlayElement     *mScore;
+    Ogre::PanelOverlayElement     *mClock;
+    Ogre::PanelOverlayElement     *mLivesPanel;
+    Ogre::PanelOverlayElement     *mBottle;
+    Ogre::PanelOverlayElement     *mBottleAir;
 
+    #ifdef XDRILLER_DEBUG
+    Ogre::TextAreaOverlayElement  *mTextAreaDebug;
+    #endif
 
     int boardNum;
     bool tiempoBala;

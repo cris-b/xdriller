@@ -6,13 +6,13 @@
 #include "EntityMaterialInstance.h"
 
 
-using namespace Ogre;
+
 
 class SuperBrick
 {
     public:
 
-    SuperBrick(const Vector3& position);
+    SuperBrick(const Ogre::Vector3& position);
     ~SuperBrick();
 
     void update(unsigned long lTimeElapsed);
@@ -20,22 +20,22 @@ class SuperBrick
 
     bool isAlive() { return alive; }
 
-    Vector3 getPosition() {return mNode->getPosition();}
+    Ogre::Vector3 getPosition() {return mNode->getPosition();}
 
-    AxisAlignedBox mBox;
+    Ogre::AxisAlignedBox mBox;
 
     private:
 
-    Real alpha;
+    Ogre::Real alpha;
 
     bool alive;
 
-    SceneManager *mSceneMgr;
+    Ogre::SceneManager *mSceneMgr;
 
 
 
-	Entity *mEnt;
-	SceneNode *mNode;
+	Ogre::Entity *mEnt;
+	Ogre::SceneNode *mNode;
 
 	EntityMaterialInstance *mEmi;
 

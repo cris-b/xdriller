@@ -21,24 +21,17 @@
 #define BRICK_HEART         7
 #define BRICK_FIXED         8
 
-
-
-
-
-
-using namespace Ogre;
-
 class Brick
 {
     public:
 
     Brick();
     ~Brick();
-    void create (const String&  name, SceneManager *mSceneMgr, int type, const Vector3& position);
+    void create (const Ogre::String&  name, Ogre::SceneManager *mSceneMgr, int type, const Ogre::Vector3& position);
 
     int getType() {return type;}
 
-    Vector3 getPosition()
+    Ogre::Vector3 getPosition()
     {
         return mNode->getPosition();
     }
@@ -52,7 +45,7 @@ class Brick
     float getX() {return mNode->getPosition().x+4.0;}
     float getY() {return -(mNode->getPosition().y);}
 
-    void setY(Real pos) { mNode->setPosition(mNode->getPosition().x,pos,0);}
+    void setY(Ogre::Real pos) { mNode->setPosition(mNode->getPosition().x,pos,0);}
 
     bool isFalling()
     {
@@ -90,7 +83,7 @@ class Brick
 
     long prefallTime;
 
-    AxisAlignedBox mBox;
+    Ogre::AxisAlignedBox mBox;
 
     private:
 
@@ -105,16 +98,16 @@ class Brick
     long dyeTime;
     long predyeTime;
 
-    Vector3 speed;
+    Ogre::Vector3 speed;
 
-    SceneManager *mSceneMgr;
+    Ogre::SceneManager *mSceneMgr;
 
-	Entity *mEnt;
-	SceneNode *mNode;
+	Ogre::Entity *mEnt;
+	Ogre::SceneNode *mNode;
 
 	EntityMaterialInstance *mEmi;
 
-	AnimationState *mAnimationState;
+	Ogre::AnimationState *mAnimationState;
 
 
 

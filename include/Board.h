@@ -7,7 +7,7 @@
 
 
 
-using namespace Ogre;
+
 
 
 class Board
@@ -35,14 +35,14 @@ class Board
 
 
 
-    int  rKillUp(Vector3 pos);
-    int  rKillDown(Vector3 pos);
-    int  rKillLeft(Vector3 pos);
-    int  rKillRight(Vector3 pos);
+    int  rKillUp(Ogre::Vector3 pos);
+    int  rKillDown(Ogre::Vector3 pos);
+    int  rKillLeft(Ogre::Vector3 pos);
+    int  rKillRight(Ogre::Vector3 pos);
 
-    void killUpwards(Vector3 pos);
+    void killUpwards(Ogre::Vector3 pos);
 
-    Brick *detectCollision(AxisAlignedBox &b2);
+    Brick *detectCollision(Ogre::AxisAlignedBox &b2);
 
     void update(unsigned long lTimeElapsed);
 
@@ -52,7 +52,7 @@ class Board
 
     private:
 
-    SceneManager *mSceneMgr;
+    Ogre::SceneManager *mSceneMgr;
     int height, width;
 
     int firstToCheck;

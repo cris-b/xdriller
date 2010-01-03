@@ -11,12 +11,11 @@
 
 
 
-using namespace Ogre;
 
 class Cam
 {
 	public:
-	Cam(Camera *camera, SceneNode *_mCamNode,SceneNode *_parentNode);
+	Cam(Ogre::Camera *camera, Ogre::SceneNode *_mCamNode,Ogre::SceneNode *_parentNode);
 
     void update( unsigned long lTimeElapsed );
 	void setMode(int num);
@@ -24,38 +23,38 @@ class Cam
 
 
 
-	void move(Vector3 v);
+	void move(Ogre::Vector3 v);
 
-	void setParentSceneNode(SceneNode *newNode)
+	void setParentSceneNode(Ogre::SceneNode *newNode)
 	{
 		parentNode = newNode;
 	};
 
-	SceneNode *getParentSceneNode()
+	Ogre::SceneNode *getParentSceneNode()
 	{
 		return parentNode;
 	};
 
-	SceneNode *getSceneNode()
+	Ogre::SceneNode *getSceneNode()
 	{
 		return mCamNode;
 	};
 
-	void setPosition(Vector3 pos)
+	void setPosition(Ogre::Vector3 pos)
 	{
 		mCamNode->setPosition(pos);
 	};
-	void setPosition(Real x, Real y, Real z)
+	void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 	{
 		mCamNode->setPosition(x,y,z);
 	};
 
-    Vector3 getPosition()
+    Ogre::Vector3 getPosition()
     {
         return mCamNode->getPosition();
     }
 
-	void setParentPos(Vector3 pos)
+	void setParentPos(Ogre::Vector3 pos)
 	{
 		parentNode->setPosition(pos);
 	};
@@ -72,9 +71,9 @@ class Cam
     };
 
 	private:
-	Camera* mCamera;
-	SceneNode *mCamNode;
-	SceneNode *parentNode;
+	Ogre::Camera* mCamera;
+	Ogre::SceneNode *mCamNode;
+	Ogre::SceneNode *parentNode;
 
     float rx,ry;
     float z;

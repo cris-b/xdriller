@@ -1229,8 +1229,8 @@ void MenuState::changePage(unsigned int page)
             ringSwitcher->setBlocked(_("Survive"),false);
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
             ringSwitcher->setBlocked(_("Time Attack"),true);
-            ringSwitcher->addObject(_("Adventure"),"O2.mesh");
-            ringSwitcher->setBlocked(_("Adventure"),true);
+            ringSwitcher->addObject(_("Infinite"),"infinito.mesh");
+            ringSwitcher->setBlocked(_("Infinite"),false);
 
 
             ringSwitcher->setPosition(0,-1,0);
