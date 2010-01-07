@@ -100,10 +100,10 @@ void PauseState::resume( void ) {
 void PauseState::update( unsigned long lTimeElapsed )
 {
 
-    #if defined OIS_WIN32_PLATFORM
+    #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
     // como se sleepea en windows???
-    #elif defined OIS_LINUX_PLATFORM
-    //sleep(10);
+    #else
+    //usleep(100);
     #endif
 
 }

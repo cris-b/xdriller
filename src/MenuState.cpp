@@ -157,6 +157,8 @@ void MenuState::enter( void )
     SceneNode* foregorund_node = mSceneMgr->getRootSceneNode()->createChildSceneNode("foreground_node");
     foregorund_node->attachObject(toprect);*/
 
+
+
     if(ConfigManager::getSingleton().getInt("compositors"))
     {
         CompositorManager::getSingleton().addCompositor(mViewport, "gaussian_blur");
@@ -193,7 +195,6 @@ void MenuState::enter( void )
     mLogoXDriller->setPosition(-0.24375, -0.48);
     mLogoXDriller->setDimensions(0.4875, 0.254166667);
     mLogoXDriller->setMaterialName("LogoXDriller");
-
 
 
     mLevelScreenshot_shadow = static_cast<PanelOverlayElement*>(
@@ -1208,7 +1209,6 @@ void MenuState::changePage(unsigned int page)
 
             buttons[1]->setOptionCaption(playerModelSelector->getName());
 
-
             menuCursor = 0;
 
             mInfoTextArea->setCaption(_("Customize your player"));
@@ -1228,7 +1228,7 @@ void MenuState::changePage(unsigned int page)
             ringSwitcher->addObject(_("Survive"),"corazon.mesh");
             ringSwitcher->setBlocked(_("Survive"),false);
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
-            ringSwitcher->setBlocked(_("Time Attack"),true);
+            ringSwitcher->setBlocked(_("Time Attack"),false);
             ringSwitcher->addObject(_("Infinite"),"infinito.mesh");
             ringSwitcher->setBlocked(_("Infinite"),false);
 

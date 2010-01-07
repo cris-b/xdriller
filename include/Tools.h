@@ -40,4 +40,6 @@ Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real char
 //Por ejemplo, convierte 61 a "1:01"
 Ogre::String secsToClockString(int s);
 
+
+
 #endif
