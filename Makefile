@@ -15,7 +15,7 @@ EntityMaterialInstance.cpp Fader.cpp GameManager.cpp GameState.cpp HighScoreMana
 IntroState.cpp LevelLoader.cpp Main.cpp MaterialInstance.cpp MenuButton.cpp MenuState.cpp MovableText.cpp Music.cpp \
 PauseState.cpp Player.cpp PlayerModelSelector.cpp PlayState.cpp RingSwitcher.cpp RingSwitcherObject.cpp Sound.cpp \
 SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp \
-Tools.cpp
+TextEffector.cpp TextEffectorBigMessage.cpp Tools.cpp
 
 SOURCES_DIR = src
 OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))

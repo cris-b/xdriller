@@ -10,6 +10,7 @@
 #include "Ogre.h"
 #include "OgreFontManager.h"
 #include "MovableText.h"
+#include "Tools.h"
 
 
 using namespace Ogre;
@@ -32,8 +33,8 @@ MovableText::MovableText(const String &name, const UTFString &caption, const Str
     mSpaceWidth = 0;
     mUpdateColors = true;
     mOnTop = true;
-    mHorizontalAlignment = H_LEFT;
-    mVerticalAlignment = V_BELOW;
+    mHorizontalAlignment = H_CENTER;
+    mVerticalAlignment = V_CENTER;
     mGlobalTranslation = 0.0;
     mLocalTranslation = 0.0;
 
@@ -227,7 +228,10 @@ void MovableText::_setupGeometry()
     float *pPCBuff = static_cast<float*>(ptbuf->lock(HardwareBuffer::HBL_DISCARD));
 
     float largestWidth = 0;
-    float left = 0 * 2.0 - 1.0;
+
+    //durmieu: cambiado esto porque no centraba bien, ahora centra regular
+    //float left = 0 * 2.0 - 1.0;
+    float left = 0;
     float top = -((0 * 2.0) - 1.0);
 
     Real spaceWidth = mSpaceWidth;
@@ -255,7 +259,7 @@ void MovableText::_setupGeometry()
         verticalOffset = mCharHeight;
         break;
     case MovableText::V_CENTER:
-        verticalOffset = 0.5*mCharHeight;
+        verticalOffset = 0.0*mCharHeight;
         break;
     case MovableText::V_BELOW:
         verticalOffset = 0;
@@ -281,8 +285,10 @@ void MovableText::_setupGeometry()
             {
                 if (*j == ' ')
                     len += spaceWidth;
+
                 else
                     len += mpFont->getGlyphAspectRatio(*j) * mCharHeight * 2.0;
+
             }
             newLine = false;
         }

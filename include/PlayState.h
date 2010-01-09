@@ -8,6 +8,7 @@
 #include "Board.h"
 #include "Player.h"
 #include "Globals.h"
+#include "TextEffector.h"
 
 
 #ifndef GameState_H
@@ -100,6 +101,8 @@ private:
 
     Board *mBoard;
     Player *mPlayer;
+
+    TextEffector *textEffector;
 
     static PlayState *mPlayState;
 

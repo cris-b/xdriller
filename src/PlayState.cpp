@@ -51,6 +51,8 @@ void PlayState::enter( void ) {
     mCameraNode->attachObject(mCamera);
     mCameraDestNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "CameraDestNode" , Vector3(0,0,0));
 
+    textEffector = new TextEffector(mCameraNode);
+
     mCam = new Cam(mCamera, mCameraNode,mCameraDestNode);
 
     mCam->setDistance(10);
@@ -306,6 +308,8 @@ void PlayState::exit( void ) {
     delete mBoard;
     delete mPlayer;
 
+    delete textEffector;
+
     destroyOverlayElements();
 
     #ifdef XDRILLER_DEBUG
@@ -356,6 +360,8 @@ void PlayState::update( unsigned long lTimeElapsed )
     mInputDevice->capture();
 
     mBoard->update(lTimeElapsed);
+
+    textEffector->update(lTimeElapsed);
 
     if(!finished)
     {
@@ -758,7 +764,26 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
     mInputDevice->capture();
 
 
-
+    if( e.key == OIS::KC_1)
+    {
+        textEffector->addBigMessage("start!");
+    }
+    if( e.key == OIS::KC_2)
+    {
+        textEffector->addBigMessage("new high score!");
+    }
+    if( e.key == OIS::KC_3)
+    {
+        textEffector->addBigMessage("¡me molo!");
+    }
+    if( e.key == OIS::KC_4)
+    {
+        textEffector->addBigMessage("0");
+    }
+    if( e.key == OIS::KC_5)
+    {
+        textEffector->addBigMessage("a la mierda");
+    }
 
     if ( e.key == OIS::KC_SPACE)
     {
