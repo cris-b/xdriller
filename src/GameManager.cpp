@@ -8,6 +8,7 @@
 #include "PauseState.h"
 #include "MenuState.h"
 #include "CreditsState.h"
+#include "HighScoreState.h"
 
 
 #include "SoundManager.h"
@@ -234,6 +235,8 @@ void GameManager::startGame( GameState *gameState )
     mPlayState  = PlayState::getSingletonPtr();
     mPauseState = PauseState::getSingletonPtr();
     mMenuState  = MenuState::getSingletonPtr();
+    mCreditsState  = CreditsState::getSingletonPtr();
+    mHighScoreState  = HighScoreState::getSingletonPtr();
 
     // Setup and configure game
     this->setupResources();
@@ -245,15 +248,23 @@ void GameManager::startGame( GameState *gameState )
         return;
     }
 
+    LogManager::getSingleton().logMessage("Initializing Input Manager...");
+
     // Setup input //yys
     mInputMgr = InputManager::getSingletonPtr();//mInputMgr = new InputManager();//
 	//mRenderWindow = mRoot->getAutoCreatedWindow();
     mInputMgr->initialise( mRenderWindow );
 	WindowEventUtilities::addWindowEventListener( mRenderWindow, this );//yys
 
+    LogManager::getSingleton().logMessage("Initializing keyboard listener...");
     mInputMgr->addKeyListener( this, "GameManager" );
+    LogManager::getSingleton().logMessage("Initializing mouse listener...");
     mInputMgr->addMouseListener( this, "GameManager" );
-//    mInputMgr->getJoystick( 1 );//yys
+    LogManager::getSingleton().logMessage("Initializing joystick listener...");
+    mInputMgr->addJoystickListener( this, "GameManager" );
+    LogManager::getSingleton().logMessage("Number of joysticks = " + StringConverter::toString(mInputMgr->getNumOfJoysticks()));
+    //mInputMgr->getJoystick( 1 );//yys
+
 
     new SoundManager();
 
@@ -455,6 +466,58 @@ bool GameManager::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id 
 bool GameManager::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {
     // Call mouseReleased of current state
     mStates.back()->mouseReleased( e, id );
+
+    return true;
+}
+
+bool GameManager::buttonPressed( const OIS::JoyStickEvent &arg, int button )
+{
+    OIS::KeyCode kc;
+
+    switch(button)
+    {
+
+        case 0:
+            kc = OIS::KC_SPACE;
+            break;
+        case 1:
+            kc = OIS::KC_RETURN;
+            break;
+        case 2:
+            kc = OIS::KC_ESCAPE;
+            break;
+        default:
+            return true;
+
+    }
+
+    OIS::KeyEvent e(NULL, kc, 1);
+
+    mStates.back()->keyPressed( e );
+
+    return true;
+}
+bool GameManager::buttonReleased( const OIS::JoyStickEvent &arg, int button )
+{
+
+    return true;
+}
+bool GameManager::axisMoved( const OIS::JoyStickEvent &arg, int axis )
+{
+
+    OIS::KeyCode kc;
+
+    LogManager::getSingleton().logMessage("Axis = " + StringConverter::toString(axis) + " - " + StringConverter::toString(arg.state.mAxes[axis].abs));
+
+    if(axis == 0 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_LEFT;
+    else if(axis == 0 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_RIGHT;
+    else if(axis == 1 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_DOWN;
+    else if(axis == 1 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_UP;
+    else return true;
+
+    OIS::KeyEvent e(NULL, kc, 1);
+
+    mStates.back()->keyPressed( e );
 
     return true;
 }

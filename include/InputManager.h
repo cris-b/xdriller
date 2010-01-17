@@ -1,18 +1,14 @@
 #ifndef InputManager_H
 #define InputManager_H
 
-#include <Ogre.h>//#include <OgreRenderWindow.h>
-#define OIS_DYNAMIC_LIB
-#include <OIS/OIS.h>
-/*
-#include <OISMouse.h>
-#include <OISKeyboard.h>
-#include <OISJoyStick.h>
-#include <OISInputManager.h>
-*/
+#include <OIS/OISMouse.h>
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISJoyStick.h>
+#include <OIS/OISInputManager.h>
 
+#include <OgreRenderWindow.h>
 
-class InputManager : public OIS::KeyListener, OIS::MouseListener, OIS::JoyStickListener {
+class InputManager : public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener {
 public:
     virtual ~InputManager( void );
 
@@ -63,7 +59,6 @@ private:
     bool buttonPressed( const OIS::JoyStickEvent &e, int button );
     bool buttonReleased( const OIS::JoyStickEvent &e, int button );
 
-
     OIS::Mouse        *mMouse;
     OIS::Keyboard     *mKeyboard;
     OIS::InputManager *mInputSystem;
@@ -87,5 +82,3 @@ private:
     static InputManager *mInputManager;
 };
 #endif
-
-

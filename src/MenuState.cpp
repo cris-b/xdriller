@@ -12,6 +12,18 @@
 #include "Gettext.h"
 
 
+#ifndef PlayState_H
+#include "PlayState.h"
+#endif
+#ifndef CreditsState_H
+#include "CreditsState.h"
+#endif
+
+//BORRAR cuando no se acaben las pruebas
+#ifndef HighScoreState_H
+#include "HighScoreState.h"
+#endif
+
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1
 #define MENU_PAGE_CREDITS               2
@@ -381,6 +393,13 @@ void MenuState::update( unsigned long lTimeElapsed )
 void MenuState::keyPressed( const OIS::KeyEvent &e )
 {
 
+    if( e.key == OIS::KC_2)
+    {
+        //prueba
+        fadeState(HighScoreState::getSingletonPtr());
+    }
+
+    //captura de pantalla
     if(e.key == OIS::KC_S)
     {
 

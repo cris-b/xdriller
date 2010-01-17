@@ -3,6 +3,10 @@
 #include "ConfigManager.h"
 #include "SoundManager.h"
 
+#ifndef PlayState_H
+#include "PlayState.h"
+#endif
+
 using namespace Ogre;
 
 PauseState* PauseState::mPauseState;

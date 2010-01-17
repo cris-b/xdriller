@@ -2,6 +2,9 @@
 #include "SoundManager.h"
 #include "Tools.h"
 
+#ifndef MenuState_H
+#include "MenuState.h"
+#endif
 
 using namespace Ogre;
 

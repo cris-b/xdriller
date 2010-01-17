@@ -1,7 +1,6 @@
 #include "InputManager.h"
-#include "Globals.h"
 
-InputManager *InputManager::mInputManager=NULL;
+InputManager *InputManager::mInputManager;
 
 InputManager::InputManager( void ) :
     mMouse( 0 ),
@@ -31,10 +30,10 @@ InputManager::~InputManager( void ) {
             mJoysticks.clear();
         }
 
-		//yys
-		//mInputSystem->destroyInputSystem();
-        OIS::InputManager::destroyInputSystem(mInputSystem);//
-
+        // If you use OIS1.0RC1 or above, uncomment this line
+        // and comment the line below it
+        mInputSystem->destroyInputSystem( mInputSystem );
+        //mInputSystem->destroyInputSystem();
         mInputSystem = 0;
 
         // Clear Listeners
@@ -52,47 +51,39 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
         std::ostringstream windowHndStr;
 
         // Get window handle
-//#if defined OIS_WIN32_PLATFORM
         renderWindow->getCustomAttribute( "WINDOW", &windowHnd );
-//#elif defined OIS_LINUX_PLATFORM
-//        renderWindow->getCustomAttribute( "GLXWINDOW", &windowHnd );
-//#endif
-
-        //para que no se coma el raton
-        //if(XDRILLER_DEBUG == 1)
-        {
-            #if defined OIS_WIN32_PLATFORM
-            //paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
-            //paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
-            //paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
-            //paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
-            #elif defined OIS_LINUX_PLATFORM
-            paramList.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
-            paramList.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("true")));
-            paramList.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
-            paramList.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("false")));
-            #endif
-        }
-
 
         // Fill parameter list
-        windowHndStr << windowHnd;//windowHndStr << (unsigned int) windowHnd;
+        windowHndStr << (unsigned int) windowHnd;
         paramList.insert( std::make_pair( std::string( "WINDOW" ), windowHndStr.str() ) );
 
-        // Create inputsystem
-        mInputSystem = OIS::
-			InputManager::
-			createInputSystem( paramList );
+        #if defined OIS_WIN32_PLATFORM
+        paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
+        paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
+        paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+        paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
+        #elif defined OIS_LINUX_PLATFORM
+        paramList.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+        paramList.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
+        paramList.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+        paramList.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+        #endif
 
-//-----------------------
+        // Create inputsystem
+        mInputSystem = OIS::InputManager::createInputSystem( paramList );
+
         // If possible create a buffered keyboard
-//        if( mInputSystem->numKeyBoards() > 0 ) {
+        // (note: if below line doesn't compile, try:  if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0) {
+        //if( mInputSystem->numKeyboards() > 0 ) {
+        if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0) {
             mKeyboard = static_cast<OIS::Keyboard*>( mInputSystem->createInputObject( OIS::OISKeyboard, true ) );
             mKeyboard->setEventCallback( this );
-//        }
-//-----------------------
+        }
+
         // If possible create a buffered mouse
-//        if( mInputSystem->numMice() > 0 ) {
+        // (note: if below line doesn't compile, try:  if (mInputSystem->getNumberOfDevices(OIS::OISMouse) > 0) {
+        //if( mInputSystem->numMice() > 0 ) {
+        if (mInputSystem->getNumberOfDevices(OIS::OISMouse) > 0) {
             mMouse = static_cast<OIS::Mouse*>( mInputSystem->createInputObject( OIS::OISMouse, true ) );
             mMouse->setEventCallback( this );
 
@@ -103,11 +94,14 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
 
             // Set mouse region
             this->setWindowExtents( width, height );
- //       }
-//-----------------------
- /*       // If possible create all joysticks in buffered mode
-        if( mInputSystem->numJoysticks() > 0 ) {
-            mJoysticks.resize( mInputSystem->numJoysticks() );
+        }
+
+        // If possible create all joysticks in buffered mode
+        // (note: if below line doesn't compile, try:  if (mInputSystem->getNumberOfDevices(OIS::OISJoyStick) > 0) {
+        //if( mInputSystem->numJoySticks() > 0 ) {
+        if (mInputSystem->getNumberOfDevices(OIS::OISJoyStick) > 0) {
+            //mJoysticks.resize( mInputSystem->numJoySticks() );
+            mJoysticks.resize( mInputSystem->getNumberOfDevices(OIS::OISJoyStick) );
 
             itJoystick    = mJoysticks.begin();
             itJoystickEnd = mJoysticks.end();
@@ -116,8 +110,6 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
                 (*itJoystick)->setEventCallback( this );
             }
         }
-*/
-
     }
 }
 
@@ -170,7 +162,7 @@ void InputManager::addJoystickListener( OIS::JoyStickListener *joystickListener,
     if( mJoysticks.size() > 0 ) {
         // Check for duplicate items
         itJoystickListener = mJoystickListeners.find( instanceName );
-        if( itJoystickListener != mJoystickListeners.end() ) {
+        if( itJoystickListener == mJoystickListeners.end() ) {
             mJoystickListeners[ instanceName ] = joystickListener;
         }
         else {
@@ -296,7 +288,8 @@ bool InputManager::keyPressed( const OIS::KeyEvent &e ) {
     itKeyListener    = mKeyListeners.begin();
     itKeyListenerEnd = mKeyListeners.end();
     for(; itKeyListener != itKeyListenerEnd; ++itKeyListener ) {
-        itKeyListener->second->keyPressed( e );
+        if(!itKeyListener->second->keyPressed( e ))
+			break;
     }
 
     return true;
@@ -306,7 +299,8 @@ bool InputManager::keyReleased( const OIS::KeyEvent &e ) {
     itKeyListener    = mKeyListeners.begin();
     itKeyListenerEnd = mKeyListeners.end();
     for(; itKeyListener != itKeyListenerEnd; ++itKeyListener ) {
-        itKeyListener->second->keyReleased( e );
+        if(!itKeyListener->second->keyReleased( e ))
+			break;
     }
 
     return true;
@@ -316,7 +310,8 @@ bool InputManager::mouseMoved( const OIS::MouseEvent &e ) {
     itMouseListener    = mMouseListeners.begin();
     itMouseListenerEnd = mMouseListeners.end();
     for(; itMouseListener != itMouseListenerEnd; ++itMouseListener ) {
-        itMouseListener->second->mouseMoved( e );
+        if(!itMouseListener->second->mouseMoved( e ))
+			break;
     }
 
     return true;
@@ -326,7 +321,8 @@ bool InputManager::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id
     itMouseListener    = mMouseListeners.begin();
     itMouseListenerEnd = mMouseListeners.end();
     for(; itMouseListener != itMouseListenerEnd; ++itMouseListener ) {
-        itMouseListener->second->mousePressed( e, id );
+        if(!itMouseListener->second->mousePressed( e, id ))
+			break;
     }
 
     return true;
@@ -336,7 +332,8 @@ bool InputManager::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID i
     itMouseListener    = mMouseListeners.begin();
     itMouseListenerEnd = mMouseListeners.end();
     for(; itMouseListener != itMouseListenerEnd; ++itMouseListener ) {
-        itMouseListener->second->mouseReleased( e, id );
+        if(!itMouseListener->second->mouseReleased( e, id ))
+			break;
     }
 
     return true;
@@ -346,7 +343,8 @@ bool InputManager::povMoved( const OIS::JoyStickEvent &e, int pov ) {
     itJoystickListener    = mJoystickListeners.begin();
     itJoystickListenerEnd = mJoystickListeners.end();
     for(; itJoystickListener != itJoystickListenerEnd; ++itJoystickListener ) {
-        itJoystickListener->second->povMoved( e, pov );
+        if(!itJoystickListener->second->povMoved( e, pov ))
+			break;
     }
 
     return true;
@@ -356,7 +354,8 @@ bool InputManager::axisMoved( const OIS::JoyStickEvent &e, int axis ) {
     itJoystickListener    = mJoystickListeners.begin();
     itJoystickListenerEnd = mJoystickListeners.end();
     for(; itJoystickListener != itJoystickListenerEnd; ++itJoystickListener ) {
-        itJoystickListener->second->axisMoved( e, axis );
+        if(!itJoystickListener->second->axisMoved( e, axis ))
+			break;
     }
 
     return true;
@@ -366,7 +365,8 @@ bool InputManager::sliderMoved( const OIS::JoyStickEvent &e, int sliderID ) {
     itJoystickListener    = mJoystickListeners.begin();
     itJoystickListenerEnd = mJoystickListeners.end();
     for(; itJoystickListener != itJoystickListenerEnd; ++itJoystickListener ) {
-        itJoystickListener->second->sliderMoved( e, sliderID );
+        if(!itJoystickListener->second->sliderMoved( e, sliderID ))
+			break;
     }
 
     return true;
@@ -376,7 +376,8 @@ bool InputManager::buttonPressed( const OIS::JoyStickEvent &e, int button ) {
     itJoystickListener    = mJoystickListeners.begin();
     itJoystickListenerEnd = mJoystickListeners.end();
     for(; itJoystickListener != itJoystickListenerEnd; ++itJoystickListener ) {
-        itJoystickListener->second->buttonPressed( e, button );
+        if(!itJoystickListener->second->buttonPressed( e, button ))
+			break;
     }
 
     return true;
@@ -386,7 +387,8 @@ bool InputManager::buttonReleased( const OIS::JoyStickEvent &e, int button ) {
     itJoystickListener    = mJoystickListeners.begin();
     itJoystickListenerEnd = mJoystickListeners.end();
     for(; itJoystickListener != itJoystickListenerEnd; ++itJoystickListener ) {
-        itJoystickListener->second->buttonReleased( e, button );
+        if(!itJoystickListener->second->buttonReleased( e, button ))
+			break;
     }
 
     return true;
@@ -399,5 +401,3 @@ InputManager* InputManager::getSingletonPtr( void ) {
 
     return mInputManager;
 }
-
-

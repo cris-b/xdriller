@@ -2,7 +2,7 @@
 
 #include <Ogre.h>
 
-#define DYE_TIME 1
+#define DYE_TIME 1.5
 #define FONT_NAME "CoolFont"
 #define CHAR_HEIGHT 0.5
 #define START_SCALE 1.0

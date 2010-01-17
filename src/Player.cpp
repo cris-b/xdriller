@@ -430,10 +430,15 @@ void Player::update(unsigned long lTimeElapsed)
             }
 
             //salta
-            if(colBrick == NULL) speed.y = JUMP_SPEED;
+            if(colBrick == NULL)
+            {
+                speed.y = JUMP_SPEED;
+                SoundManager::getSingleton().playSound(SOUND_JUMP);
+            }
             _jumpCharger = 0;
 
-            SoundManager::getSingleton().playSound(SOUND_JUMP);
+
+
             //La animacion Jump es fea, descomentar cuando este arreglao
             //setAnimationState("Jump");
         }

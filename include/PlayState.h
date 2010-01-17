@@ -14,13 +14,9 @@
 #ifndef GameState_H
 #include "GameState.h"
 #endif
-#ifndef PauseState_H
-#include "PauseState.h"
-#endif
 #ifndef MenuState_H
 #include "MenuState.h"
 #endif
-
 
 
 

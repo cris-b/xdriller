@@ -7,6 +7,8 @@
 #include "DotScene.h"
 #include "ConfigManager.h"
 
+#include "Gettext.h"
+
 #include "HighScoreManager.h"
 
 #include <string>
@@ -15,6 +17,15 @@
 #define HEARTS_SCALE 1.0
 
 
+#ifndef PauseState_H
+#include "PauseState.h"
+#endif
+#ifndef MenuState_H
+#include "MenuState.h"
+#endif
+#ifndef HighScoreState_H
+#include "HighScoreState.h"
+#endif
 
 using namespace Ogre;
 
@@ -301,6 +312,8 @@ void PlayState::enter( void ) {
 
     //LogManager::getSingleton().logMessage(DumpNodes(mSceneMgr->getRootSceneNode()).c_str());
 
+    textEffector->addBigMessage(_("Start"));
+
 }
 
 void PlayState::exit( void ) {
@@ -495,7 +508,10 @@ void PlayState::update( unsigned long lTimeElapsed )
 
             destroyOverlayElements();
 
-            HighScoreManager::getSingleton().addScore("Survive",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,points,mPlayer->getLives(),depth);
+            int is_high_score = HighScoreManager::getSingleton().addScore(
+            "Survive",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,points,mPlayer->getLives(),depth);
+
+            if(is_high_score) textEffector->addBigMessage(_("New record!"));
         }
         else if(count<countTime && mPlayer->isAlive())
         {
@@ -766,24 +782,10 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
 
     if( e.key == OIS::KC_1)
     {
-        textEffector->addBigMessage("start!");
+        //prueba
+        textEffector->addBigMessage("¡hello world!");
     }
-    if( e.key == OIS::KC_2)
-    {
-        textEffector->addBigMessage("new high score!");
-    }
-    if( e.key == OIS::KC_3)
-    {
-        textEffector->addBigMessage("¡me molo!");
-    }
-    if( e.key == OIS::KC_4)
-    {
-        textEffector->addBigMessage("0");
-    }
-    if( e.key == OIS::KC_5)
-    {
-        textEffector->addBigMessage("a la mierda");
-    }
+
 
     if ( e.key == OIS::KC_SPACE)
     {

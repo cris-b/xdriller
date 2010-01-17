@@ -21,7 +21,7 @@
 
 class GameState;
 
-class GameManager : public OIS::KeyListener, OIS::MouseListener ,  public Ogre::WindowEventListener {
+class GameManager : public OIS::KeyListener, OIS::MouseListener, OIS::JoyStickListener,  public Ogre::WindowEventListener {
 public:
     ~GameManager( void );
 
@@ -50,6 +50,10 @@ private:
     bool mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id );
 
+    bool buttonPressed( const OIS::JoyStickEvent &arg, int button );
+    bool buttonReleased( const OIS::JoyStickEvent &arg, int button );
+    bool axisMoved( const OIS::JoyStickEvent &arg, int axis );
+
     Ogre::Root         *mRoot;
     Ogre::RenderWindow *mRenderWindow;
     InputManager       *mInputMgr;
@@ -62,6 +66,7 @@ private:
     GameState          *mPauseState;
     GameState          *mMenuState;
     GameState          *mCreditsState;
+    GameState          *mHighScoreState;
 
     bool bShutdown;
     std::vector<GameState*> mStates;
