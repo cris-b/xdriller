@@ -36,7 +36,8 @@ PlayState* PlayState::mPlayState;
 void PlayState::enter( void ) {
     mRoot             = Root::getSingletonPtr();
     mOverlayMgr       = OverlayManager::getSingletonPtr();
-    mInputDevice      = InputManager::getSingletonPtr()->getKeyboard();
+    mKeyboard         = InputManager::getSingletonPtr()->getKeyboard();
+    mJoystick         = InputManager::getSingletonPtr()->getJoystick(0);
     mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
 
     tiempoBala = false;
@@ -370,7 +371,9 @@ void PlayState::update( unsigned long lTimeElapsed )
 
     gameTime += lTimeElapsed;
 
-    mInputDevice->capture();
+    mKeyboard->capture();
+
+    OIS::JoyStickState js = mJoystick->getJoyStickState();
 
     mBoard->update(lTimeElapsed);
 
@@ -380,22 +383,22 @@ void PlayState::update( unsigned long lTimeElapsed )
     {
 
 
-        if (mInputDevice->isKeyDown(OIS::KC_LEFT))
+        if (mKeyboard->isKeyDown(OIS::KC_LEFT) || js.mAxes[0].abs <= -1000)
         {
 
             mPlayer->moveLeft();
         }
-        else if (mInputDevice->isKeyDown(OIS::KC_RIGHT))
+        else if (mKeyboard->isKeyDown(OIS::KC_RIGHT) || js.mAxes[0].abs >= 1000)
         {
 
             mPlayer->moveRight();
         }
-        else if (mInputDevice->isKeyDown(OIS::KC_UP))
+        else if (mKeyboard->isKeyDown(OIS::KC_UP) || js.mAxes[1].abs <= -1000)
         {
 
             mPlayer->moveUp();
         }
-        else if (mInputDevice->isKeyDown(OIS::KC_DOWN))
+        else if (mKeyboard->isKeyDown(OIS::KC_DOWN) || js.mAxes[1].abs >= 1000)
         {
 
             mPlayer->moveDown();
@@ -524,181 +527,6 @@ void PlayState::update( unsigned long lTimeElapsed )
             this->fadeState( MenuState::getSingletonPtr());
         }
 
-            //mOverlayMgr->destroyAllOverlayElements();
-            /*mPanel = static_cast<PanelOverlayElement*>(
-                mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
-            mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
-            mPanel->setPosition(0, 0);
-            mPanel->setDimensions(1, 1);
-
-            mArrow =  static_cast<PanelOverlayElement*>(
-                mOverlayMgr->createOverlayElement("Panel", "Arrow"));
-            mArrow->setMetricsMode(Ogre::GMM_RELATIVE);
-            mArrow->setPosition(0.1,0.05);
-            mArrow->setDimensions(0.0375,0.05);
-            mArrow->setMaterialName("arrow");
-
-            mScore =  static_cast<PanelOverlayElement*>(
-                mOverlayMgr->createOverlayElement("Panel", "Score"));
-            mScore->setMetricsMode(Ogre::GMM_RELATIVE);
-            mScore->setPosition(0.1,0.15);
-            mScore->setDimensions(0.0375,0.05);
-            mScore->setMaterialName("score");
-
-            mClock =  static_cast<PanelOverlayElement*>(
-                mOverlayMgr->createOverlayElement("Panel", "Clock"));
-            mClock->setMetricsMode(Ogre::GMM_RELATIVE);
-            mClock->setPosition(0.1,0.25);
-            mClock->setDimensions(0.0375,0.05);
-            mClock->setMaterialName("clock");
-
-            mLivesPanel =  static_cast<PanelOverlayElement*>(
-            mOverlayMgr->createOverlayElement("Panel", "LivesPanel"));
-            mLivesPanel->setMetricsMode(Ogre::GMM_RELATIVE);
-            mLivesPanel->setPosition(0.1,0.35);
-            mLivesPanel->setDimensions(0.0375,0.05);
-            mLivesPanel->setMaterialName("heart");
-
-            mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
-                mOverlayMgr->createOverlayElement("TextArea", "TextAreaDepth"));
-            mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
-            mTextAreaDepth->setPosition(0.15, 0.035);
-            mTextAreaDepth->setDimensions(0.1, 0.1);
-            mTextAreaDepth->setCaption("x = ");
-            mTextAreaDepth->setCharHeight(0.07);
-            mTextAreaDepth->setFontName("CoolFont");
-            mTextAreaDepth->setColour(ColourValue(1,1,1));
-            mTextAreaDepth->setAlignment(TextAreaOverlayElement::Left);
-
-            mTextAreaPoints = static_cast<TextAreaOverlayElement*>(
-                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaPoints"));
-            mTextAreaPoints->setMetricsMode(Ogre::GMM_RELATIVE);
-            mTextAreaPoints->setPosition(0.15, 0.135);
-            mTextAreaPoints->setDimensions(0.1, 0.1);
-            mTextAreaPoints->setCaption("x = ");
-            mTextAreaPoints->setCharHeight(0.07);
-            mTextAreaPoints->setFontName("CoolFont");
-            mTextAreaPoints->setColour(ColourValue(1,1,1));
-            mTextAreaPoints->setAlignment(TextAreaOverlayElement::Left);
-
-            mTextAreaClock = static_cast<TextAreaOverlayElement*>(
-                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaClock"));
-            mTextAreaClock->setMetricsMode(Ogre::GMM_RELATIVE);
-            mTextAreaClock->setPosition(0.15, 0.235);
-            mTextAreaClock->setDimensions(0.1, 0.1);
-            mTextAreaClock->setCaption("x = ");
-            mTextAreaClock->setCharHeight(0.07);
-            mTextAreaClock->setFontName("CoolFont");
-            mTextAreaClock->setColour(ColourValue(1,1,1));
-            mTextAreaClock->setAlignment(TextAreaOverlayElement::Left);
-
-            mTextAreaLives = static_cast<TextAreaOverlayElement*>(
-                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaLives"));
-            mTextAreaLives->setMetricsMode(Ogre::GMM_RELATIVE);
-            mTextAreaLives->setPosition(0.15, 0.335);
-            mTextAreaLives->setDimensions(0.1, 0.1);
-            mTextAreaLives->setCaption("x = ");
-            mTextAreaLives->setCharHeight(0.07);
-            mTextAreaLives->setFontName("CoolFont");
-            mTextAreaLives->setColour(ColourValue(1,1,1));
-            mTextAreaLives->setAlignment(TextAreaOverlayElement::Left);
-
-
-
-            mOverlay->add2D(mArrow);
-            mOverlay->add2D(mScore);
-            mOverlay->add2D(mClock);
-            mOverlay->add2D(mPanel);
-            mOverlay->add2D(mLivesPanel);
-
-            mPanel->addChild(mTextAreaDepth);
-            mPanel->addChild(mTextAreaPoints);
-            mPanel->addChild(mTextAreaClock);
-            mPanel->addChild(mTextAreaLives);*/
-
-        //}
-
-        /*
-        else if(mSkull == NULL && !mPlayer->isAlive())
-        {
-            //mOverlayMgr->destroyAllOverlayElements();
-
-            destroyOverlayElements();
-
-            mPanel = static_cast<PanelOverlayElement*>(
-                mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
-            mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
-            mPanel->setPosition(0, 0);
-            mPanel->setDimensions(1, 1);
-
-            mSkull =  static_cast<PanelOverlayElement*>(
-                mOverlayMgr->createOverlayElement("Panel", "Arrow"));
-            mSkull->setMetricsMode(Ogre::GMM_RELATIVE);
-            mSkull->setPosition(0.425,0.2);
-            mSkull->setDimensions(0.150,0.2);
-            mSkull->setMaterialName("skull");
-
-            mTextAreaTotal = static_cast<TextAreaOverlayElement*>(
-                mOverlayMgr->createOverlayElement("TextArea", "mTextAreaTotal"));
-            mTextAreaTotal->setMetricsMode(Ogre::GMM_RELATIVE);
-            mTextAreaTotal->setPosition(0.5, 0.45);
-            mTextAreaTotal->setDimensions(1.0, 0.1);
-            mTextAreaTotal->setCaption("Press ESC");
-            mTextAreaTotal->setCharHeight(0.07);
-            mTextAreaTotal->setFontName("CoolFont");
-            mTextAreaTotal->setColour(ColourValue(1,1,1));
-            mTextAreaTotal->setAlignment(TextAreaOverlayElement::Center);
-
-            mPanel->addChild(mTextAreaTotal);
-            mOverlay->add2D(mPanel);
-
-            mOverlay->add2D(mSkull);
-
-
-
-
-
-
-        }
-
-        if(count<countTime && mPlayer->isAlive())
-        {
-
-            count += lTimeElapsed;
-            if(count>countTime) count = countTime;
-
-            mTextAreaDepth->setCaption(String("+ ") + StringConverter::toString((int)(depth*(count/countTime))));
-            mTextAreaPoints->setCaption(String("+ ") + StringConverter::toString((int)(points*(count/countTime))));
-            mTextAreaClock->setCaption(String("- ") + StringConverter::toString((int)(gameSeconds*(count/countTime))));
-            mTextAreaLives->setCaption(String("x ") + StringConverter::toString((int)(mPlayer->getLives()*(count/countTime))));
-
-
-        }
-        else if (mPlayer->isAlive())
-        {
-
-            if(mTextAreaTotal == NULL)
-            {
-                int total = (depth + points - gameSeconds) * mPlayer->getLives();
-
-                mTextAreaTotal = static_cast<TextAreaOverlayElement*>(
-                    mOverlayMgr->createOverlayElement("TextArea", "mTextAreaTotal"));
-                mTextAreaTotal->setMetricsMode(Ogre::GMM_RELATIVE);
-                mTextAreaTotal->setPosition(0.15, 0.435);
-                mTextAreaTotal->setDimensions(0.1, 0.1);
-                mTextAreaTotal->setCaption("= " + StringConverter::toString(total) + "");
-                mTextAreaTotal->setCharHeight(0.07);
-                mTextAreaTotal->setFontName("CoolFont");
-                mTextAreaTotal->setColour(ColourValue(1,1,1));
-                mTextAreaTotal->setAlignment(TextAreaOverlayElement::Left);
-
-
-                mPanel->addChild(mTextAreaTotal);
-            }
-
-
-        }*/
-
 
 
 
@@ -777,7 +605,7 @@ void PlayState::nextBoard()
 
 void PlayState::keyPressed( const OIS::KeyEvent &e )
 {
-    mInputDevice->capture();
+
 
 
     if( e.key == OIS::KC_1)

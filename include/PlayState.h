@@ -91,7 +91,8 @@ private:
 
     int finished;
 
-    OIS::Keyboard        *mInputDevice;
+    OIS::Keyboard        *mKeyboard;
+    OIS::JoyStick        *mJoystick;
 
     Cam *mCam;
 

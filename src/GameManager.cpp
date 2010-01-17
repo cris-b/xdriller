@@ -499,6 +499,28 @@ bool GameManager::buttonPressed( const OIS::JoyStickEvent &arg, int button )
 }
 bool GameManager::buttonReleased( const OIS::JoyStickEvent &arg, int button )
 {
+    OIS::KeyCode kc;
+
+    switch(button)
+    {
+
+        case 0:
+            kc = OIS::KC_SPACE;
+            break;
+        case 1:
+            kc = OIS::KC_RETURN;
+            break;
+        case 2:
+            kc = OIS::KC_ESCAPE;
+            break;
+        default:
+            return true;
+
+    }
+
+    OIS::KeyEvent e(NULL, kc, 1);
+
+    mStates.back()->keyReleased( e );
 
     return true;
 }
@@ -509,8 +531,8 @@ bool GameManager::axisMoved( const OIS::JoyStickEvent &arg, int axis )
 
     LogManager::getSingleton().logMessage("Axis = " + StringConverter::toString(axis) + " - " + StringConverter::toString(arg.state.mAxes[axis].abs));
 
-    if(axis == 0 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_LEFT;
-    else if(axis == 0 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_RIGHT;
+    if(axis == 0 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_LEFT;
+    else if(axis == 0 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_RIGHT;
     else if(axis == 1 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_DOWN;
     else if(axis == 1 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_UP;
     else return true;
