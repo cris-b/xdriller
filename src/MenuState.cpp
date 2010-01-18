@@ -6,6 +6,7 @@
 #include "Tools.h"
 #include "LevelLoader.h"
 #include "SoundManager.h"
+#include "RumbleManager.h"
 #include "Arrows.h"
 #include "DotScene.h"
 
@@ -393,11 +394,18 @@ void MenuState::update( unsigned long lTimeElapsed )
 void MenuState::keyPressed( const OIS::KeyEvent &e )
 {
 
+    if( e.key == OIS::KC_1)
+    {
+        //prueba
+        RumbleManager::getSingleton().playEffect(0);
+    }
+
     if( e.key == OIS::KC_2)
     {
         //prueba
         fadeState(HighScoreState::getSingletonPtr());
     }
+
 
     //captura de pantalla
     if(e.key == OIS::KC_S)

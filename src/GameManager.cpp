@@ -15,6 +15,7 @@
 #include "ConfigManager.h"
 #include "LevelLoader.h"
 #include "HighScoreManager.h"
+#include "RumbleManager.h"
 
 #include "Tools.h"
 #include "Globals.h"
@@ -294,6 +295,8 @@ void GameManager::startGame( GameState *gameState )
 
     new Fader;
 
+    new RumbleManager;
+
 
 
 
@@ -529,7 +532,7 @@ bool GameManager::axisMoved( const OIS::JoyStickEvent &arg, int axis )
 
     OIS::KeyCode kc;
 
-    LogManager::getSingleton().logMessage("Axis = " + StringConverter::toString(axis) + " - " + StringConverter::toString(arg.state.mAxes[axis].abs));
+    //LogManager::getSingleton().logMessage("Axis = " + StringConverter::toString(axis) + " - " + StringConverter::toString(arg.state.mAxes[axis].abs));
 
     if(axis == 0 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_LEFT;
     else if(axis == 0 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_RIGHT;

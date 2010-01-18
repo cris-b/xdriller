@@ -17,9 +17,13 @@
 
 //si se cambia cambiar tambien los nombres del ringswitcher
 //en la pagina de seleccionar modo del menu y en el menu de highscores
+
+//terrible: arreglar
 #define GAME_MODE_0 "Survive"
 #define GAME_MODE_1 "Time Attack"
 #define GAME_MODE_2 "Adventure"
 
+//define si compila con vibracion o sin
+#define RUMBLE 1
 
 #endif
