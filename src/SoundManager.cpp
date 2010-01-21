@@ -1,6 +1,6 @@
 #include "SoundManager.h"
 #include "ConfigManager.h"
-
+#include "RumbleManager.h"
 
 
 template<> SoundManager* Ogre::Singleton<SoundManager>::ms_Singleton = 0;
@@ -132,6 +132,20 @@ void SoundManager::playSound(int type)
     mapChannel(type,chan);
 
     if(chan >= 0) Mix_ChannelFinished(SoundManager::getSingleton().channelFinishCallback);
+
+    //hace temblar el mando segun el effecto de sonido
+    if(type == SOUND_KICK)
+    {
+        RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_STRONG);
+    }
+    else if(type == SOUND_AIR || type == SOUND_LIFEUP)
+    {
+        RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_WEAK);
+    }
+    else if(type == SOUND_SQUASH)
+    {
+        RumbleManager::getSingleton().playEffect(RumbleManager::LONG_STRONG);
+    }
 }
 
 void SoundManager::stopSound(int type)

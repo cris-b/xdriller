@@ -10,6 +10,9 @@
 class RumbleManager : public Ogre::Singleton<RumbleManager>
 {
     public:
+
+        enum Effects {SHORT_WEAK,SHORT_STRONG,LONG_WEAK,LONG_STRONG};
+
         RumbleManager();
         ~RumbleManager();
 
@@ -22,7 +25,9 @@ class RumbleManager : public Ogre::Singleton<RumbleManager>
 
         int fd;
 
-        struct ff_effect effects[1];
+        bool _initialized;
+
+        struct ff_effect effects[4];
         struct input_event play, stop;
 
 };

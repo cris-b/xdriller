@@ -397,7 +397,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
     if( e.key == OIS::KC_1)
     {
         //prueba
-        RumbleManager::getSingleton().playEffect(0);
+        //RumbleManager::getSingleton().playEffect(RumbleManager::WEAK);
     }
 
     if( e.key == OIS::KC_2)

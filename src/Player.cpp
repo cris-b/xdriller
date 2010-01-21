@@ -4,6 +4,8 @@
 #include "ConfigManager.h"
 
 
+
+
 #define FALL_SPEED  -0.004
 #define FALL_ACC    -0.0001
 #define H_SPEED      0.004
@@ -141,6 +143,8 @@ void Player::update(unsigned long lTimeElapsed)
         speed.x=0;
 
         SoundManager::getSingleton().playSound(SOUND_SQUASH);
+
+
     }
 
 
@@ -302,7 +306,7 @@ void Player::update(unsigned long lTimeElapsed)
 
             }
         }
-        else if(colBrick != NULL)
+        /*else if(colBrick != NULL)
         {
 
             if(_falling == true)
@@ -313,7 +317,7 @@ void Player::update(unsigned long lTimeElapsed)
             }
             speed.y = 0;
             mNode->setPosition(Vector3(getPosition().x,colBrick->getPosition().y-1.0001,0));
-        }
+        }*/
 
         //cubo para colisionar izquierda
         tmpBox.setExtents(getPosition().x-0.4+speed.x*lTimeElapsed,getPosition().y-0.5,getPosition().z-0.5,
@@ -606,6 +610,8 @@ void Player::update(unsigned long lTimeElapsed)
 
         setAnimationState("Dye");
 
+
+
     }
 
 }
@@ -659,7 +665,11 @@ void  Player::breakBlock()
             {
                 int t = mBoard->rKillLeft(getPosition());
                 if( t == BRICK_AIR ) setAir(getAir()+0.2);
-                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_ROCK )
+                {
+                    setAir(getAir()-ROCK_BREAK_AIR);
+
+                }
                 else if( t == BRICK_HEART ) livesUp(1);
 
             }
@@ -675,7 +685,11 @@ void  Player::breakBlock()
             {
                 int t = mBoard->rKillRight(getPosition());
                 if( t == BRICK_AIR ) setAir(getAir()+0.2);
-                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_ROCK )
+                {
+                    setAir(getAir()-ROCK_BREAK_AIR);
+
+                }
                 else if( t == BRICK_HEART ) livesUp(1);
 
             }
@@ -689,7 +703,11 @@ void  Player::breakBlock()
             {
                 int t = mBoard->rKillUp(getPosition());
                 if( t == BRICK_AIR ) setAir(getAir()+0.2);
-                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_ROCK )
+                {
+                    setAir(getAir()-ROCK_BREAK_AIR);
+
+                }
                 else if( t == BRICK_HEART ) livesUp(1);
             }
 
@@ -702,7 +720,11 @@ void  Player::breakBlock()
             {
                 int t = mBoard->rKillDown(getPosition());
                 if( t == BRICK_AIR ) setAir(getAir()+0.2);
-                else if( t == BRICK_ROCK ) setAir(getAir()-ROCK_BREAK_AIR);
+                else if( t == BRICK_ROCK )
+                {
+                    setAir(getAir()-ROCK_BREAK_AIR);
+
+                }
                 else if( t == BRICK_HEART ) livesUp(1);
             }
 
@@ -719,12 +741,15 @@ void Player::setAir(Real air)
     {
         plus20Particle->getEmitter(0)->setEnabled(true);
         points++;
+
     }
 
     this->air = air;
 
     if(this->air<0) this->air = 0;
     if(this->air>1) this->air = 1;
+
+
 
 
 }
@@ -755,6 +780,7 @@ void Player::resurrect()
     setAnimationState("Idle");
 
 
+
 }
 
 void Player::setEndFloor()
@@ -771,6 +797,8 @@ void Player::livesUp(int n)
     SoundManager::getSingleton().playSound(SOUND_LIFEUP);
 
     heartsParticle->getEmitter(0)->setEnabled(true);
+
+
 }
 
 void Player::setAnimationState(const String& anim)
