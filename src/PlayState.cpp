@@ -6,6 +6,7 @@
 #include "LevelLoader.h"
 #include "DotScene.h"
 #include "ConfigManager.h"
+#include "InputManager.h"
 
 #include "Gettext.h"
 
@@ -15,7 +16,6 @@
 #include <vector>
 
 #define HEARTS_SCALE 1.0
-
 
 #ifndef PauseState_H
 #include "PauseState.h"
@@ -37,7 +37,13 @@ void PlayState::enter( void ) {
     mRoot             = Root::getSingletonPtr();
     mOverlayMgr       = OverlayManager::getSingletonPtr();
     mKeyboard         = InputManager::getSingletonPtr()->getKeyboard();
-    mJoystick         = InputManager::getSingletonPtr()->getJoystick(0);
+    if(InputManager::getSingletonPtr()->getNumOfJoysticks() > 0)
+    {
+        mJoystick = InputManager::getSingletonPtr()->getJoystick(0);
+    }
+    else mJoystick = NULL;
+
+
     mSceneMgr         = mRoot->getSceneManager( "ST_GENERIC" );
 
     tiempoBala = false;
@@ -373,7 +379,7 @@ void PlayState::update( unsigned long lTimeElapsed )
 
     mKeyboard->capture();
 
-    OIS::JoyStickState js = mJoystick->getJoyStickState();
+
 
     mBoard->update(lTimeElapsed);
 
@@ -381,27 +387,54 @@ void PlayState::update( unsigned long lTimeElapsed )
 
     if(!finished)
     {
-
-
-        if (mKeyboard->isKeyDown(OIS::KC_LEFT) || js.mAxes[0].abs <= -1000)
+        //teclas de direccion
+        if (mKeyboard->isKeyDown(OIS::KC_LEFT))
         {
 
             mPlayer->moveLeft();
         }
-        else if (mKeyboard->isKeyDown(OIS::KC_RIGHT) || js.mAxes[0].abs >= 1000)
+        else if (mKeyboard->isKeyDown(OIS::KC_RIGHT))
         {
 
             mPlayer->moveRight();
         }
-        else if (mKeyboard->isKeyDown(OIS::KC_UP) || js.mAxes[1].abs <= -1000)
+        else if (mKeyboard->isKeyDown(OIS::KC_UP))
         {
 
             mPlayer->moveUp();
         }
-        else if (mKeyboard->isKeyDown(OIS::KC_DOWN) || js.mAxes[1].abs >= 1000)
+        else if (mKeyboard->isKeyDown(OIS::KC_DOWN))
         {
 
             mPlayer->moveDown();
+        }
+
+        if(mJoystick)
+        {
+            OIS::JoyStickState js = mJoystick->getJoyStickState();
+
+            if (js.mAxes[0].abs <= -(float)JOYSTICK_MAX_AXIS/3.0)
+            {
+
+                mPlayer->moveLeft((float)js.mAxes[0].abs/(float)JOYSTICK_MAX_AXIS);
+            }
+            else if (js.mAxes[0].abs >= (float)JOYSTICK_MAX_AXIS/3.0)
+            {
+
+                mPlayer->moveRight((float)js.mAxes[0].abs/(float)JOYSTICK_MAX_AXIS);
+            }
+            else if (js.mAxes[1].abs <= -(float)JOYSTICK_MAX_AXIS/3.0)
+            {
+
+                mPlayer->moveUp();
+            }
+            else if (js.mAxes[1].abs >= (float)JOYSTICK_MAX_AXIS/3.0)
+            {
+
+                mPlayer->moveDown();
+            }
+
+
         }
     }
 

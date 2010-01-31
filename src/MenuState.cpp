@@ -7,6 +7,7 @@
 #include "LevelLoader.h"
 #include "SoundManager.h"
 #include "RumbleManager.h"
+#include "InputManager.h"
 #include "Arrows.h"
 #include "DotScene.h"
 

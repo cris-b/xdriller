@@ -530,20 +530,81 @@ bool GameManager::buttonReleased( const OIS::JoyStickEvent &arg, int button )
 bool GameManager::axisMoved( const OIS::JoyStickEvent &arg, int axis )
 {
 
-    OIS::KeyCode kc;
+    OIS::KeyCode kc = OIS::KC_A;
 
-    //LogManager::getSingleton().logMessage("Axis = " + StringConverter::toString(axis) + " - " + StringConverter::toString(arg.state.mAxes[axis].abs));
+    static bool axisRight = false;
+    static bool axisLeft = false;
+    static bool axisDown = false;
+    static bool axisUp = false;
 
-    if(axis == 0 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_LEFT;
-    else if(axis == 0 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_RIGHT;
-    else if(axis == 1 && arg.state.mAxes[axis].abs >= 1000) kc = OIS::KC_DOWN;
-    else if(axis == 1 && arg.state.mAxes[axis].abs <= -1000) kc = OIS::KC_UP;
-    else return true;
+    if(axis == 0 && arg.state.mAxes[axis].abs < 0)
+    {
+        if(arg.state.mAxes[axis].abs <= -JOYSTICK_MAX_AXIS*0.6)
+        {
+            if(axisLeft == false)
+            {
+                axisLeft = true;
+                kc = OIS::KC_LEFT;
+            }
+        }
 
-    OIS::KeyEvent e(NULL, kc, 1);
+    }
+    if(axis == 0 && arg.state.mAxes[axis].abs > 0)
+    {
+        if(arg.state.mAxes[axis].abs >= JOYSTICK_MAX_AXIS*0.6)
+        {
+            if(axisRight == false)
+            {
+                axisRight = true;
+                kc = OIS::KC_RIGHT;
+            }
+        }
 
-    mStates.back()->keyPressed( e );
+    }
+    if(axis == 1 && arg.state.mAxes[axis].abs < 0)
+    {
+        if(arg.state.mAxes[axis].abs <= -JOYSTICK_MAX_AXIS*0.6)
+        {
+            if(axisUp == false)
+            {
+                axisUp = true;
+                kc = OIS::KC_UP;
+            }
+        }
 
+    }
+    if(axis == 1 && arg.state.mAxes[axis].abs > 0)
+    {
+        if(arg.state.mAxes[axis].abs >= JOYSTICK_MAX_AXIS*0.6)
+        {
+            if(axisDown == false)
+            {
+                axisDown = true;
+                kc = OIS::KC_DOWN;
+            }
+        }
+
+    }
+
+    if(axis == 0 && abs(arg.state.mAxes[axis].abs) <= JOYSTICK_MAX_AXIS*0.3)
+    {
+        axisLeft = false;
+        axisRight = false;
+    }
+    if(axis == 1 && abs(arg.state.mAxes[axis].abs) <= JOYSTICK_MAX_AXIS*0.3)
+    {
+        axisUp = false;
+        axisDown = false;
+    }
+
+
+
+    if(kc == OIS::KC_LEFT || kc == OIS::KC_RIGHT || kc == OIS::KC_UP || kc == OIS::KC_DOWN)
+    {
+        OIS::KeyEvent e(NULL, kc, 1);
+
+        mStates.back()->keyPressed( e );
+    }
     return true;
 }
 

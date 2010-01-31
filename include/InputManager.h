@@ -8,6 +8,8 @@
 
 #include <OgreRenderWindow.h>
 
+#define JOYSTICK_MAX_AXIS 32767
+
 class InputManager : public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener {
 public:
     virtual ~InputManager( void );

@@ -26,8 +26,8 @@ class Player
     }
 
 
-    void moveLeft();
-    void moveRight();
+    void moveLeft(Ogre::Real speed = 1);
+    void moveRight(Ogre::Real speed = 1);
     void moveUp();
     void moveDown();
 
@@ -73,6 +73,8 @@ class Player
 
     bool _moveLeft;
     bool _moveRight;
+
+    Ogre::Real _moveSpeed;
 
     Ogre::Real _jumpCharger;
 

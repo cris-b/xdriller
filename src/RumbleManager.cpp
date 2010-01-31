@@ -32,6 +32,8 @@ RumbleManager& RumbleManager::getSingleton(void)
 
 RumbleManager::RumbleManager()
 {
+    _initialized = false;
+
     LogManager::getSingleton().logMessage("RubbleManager: Searching input devices for Force Feedback support");
 
 
@@ -63,8 +65,13 @@ RumbleManager::RumbleManager()
                 if (test_bit(FF_RUMBLE, features))
                 {
                     _initialized = true;
-                    LogManager::getSingleton().logMessage("RubbleManager: Force Feedback device found on " + device);
+                    LogManager::getSingleton().logMessage("RubbleManager: Force Feedback device with rumble support found on " + device);
                     break;
+                }
+                else
+                {
+                    LogManager::getSingleton().logMessage("RubbleManager: " + device + " has no rumble support");
+                    close(fd);
                 }
 
                 /*#if XDRILLER_DEBUG == 1

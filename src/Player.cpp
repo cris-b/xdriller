@@ -276,8 +276,8 @@ void Player::update(unsigned long lTimeElapsed)
         {
             speed.x += -H_ACC*lTimeElapsed;
 
-            if(speed.x < -H_SPEED && !_falling) speed.x=-H_SPEED;
-            if(speed.x < -H_SPEED &&  _falling) speed.x=-H_SPEED_FALL;
+            if(speed.x < -H_SPEED*fabs(_moveSpeed) && !_falling) speed.x=-H_SPEED*fabs(_moveSpeed);
+            if(speed.x < -H_SPEED*fabs(_moveSpeed) &&  _falling) speed.x=-H_SPEED_FALL*fabs(_moveSpeed);
 
         }
         //cubo para colisionar arriba
@@ -356,8 +356,8 @@ void Player::update(unsigned long lTimeElapsed)
         {
             speed.x += +H_ACC*lTimeElapsed;
 
-            if(speed.x > +H_SPEED && !_falling) speed.x=+H_SPEED;
-            if(speed.x > +H_SPEED &&  _falling) speed.x=+H_SPEED_FALL;
+            if(speed.x > +H_SPEED*fabs(_moveSpeed) && !_falling) speed.x=+H_SPEED*fabs(_moveSpeed);
+            if(speed.x > +H_SPEED*fabs(_moveSpeed) &&  _falling) speed.x=+H_SPEED_FALL*fabs(_moveSpeed);
 
 
         }
@@ -617,22 +617,24 @@ void Player::update(unsigned long lTimeElapsed)
 }
 
 
-void Player::moveLeft()
+void Player::moveLeft(Real speed)
 {
     if(alive && !finished)
     {
         _moveLeft = true;
         orientation = LOOK_LEFT;
+        _moveSpeed = speed;
         //mEnt->setMaterialName("tux");
     }
 }
 
-void Player::moveRight()
+void Player::moveRight(Real speed)
 {
     if(alive && !finished)
     {
     _moveRight = true;
     orientation = LOOK_RIGHT;
+    _moveSpeed = speed;
     //mEnt->setMaterialName("tux");
     }
 }

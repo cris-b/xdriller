@@ -9,7 +9,7 @@ material tux/SOLID/TEX/tux_texture.png
 			texture_unit
 			{
 				texture tux_texture.png
-			}
+            }
 		}
 	}
 }
