@@ -2,6 +2,7 @@
 #include "ConfigManager.h"
 #include "Brick.h"
 #include "Tools.h"
+#include "Globals.h"
 
 using namespace Ogre;
 
@@ -17,6 +18,9 @@ LevelLoader& LevelLoader::getSingleton(void)
 
 LevelLoader::LevelLoader()
 {
+    gameMode = GAME_MODE_ADVENTURE;
+    levelDifficulty = EASY;
+
     numLevels = -1;
 
     cf.loadFromResourceSystem("levels.cfg","General");
@@ -27,7 +31,6 @@ LevelLoader::LevelLoader()
    {
         numLevels++;
         seci.getNext();
-
    }
 
    Ogre::LogManager::getSingleton().logMessage("LevelLoader: Loaded levels.cfg. Number of Levels: "

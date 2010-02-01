@@ -145,7 +145,7 @@ RumbleManager::RumbleManager()
 
 RumbleManager::~RumbleManager()
 {
-    //dtor
+    close(fd);
 }
 
 

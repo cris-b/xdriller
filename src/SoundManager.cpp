@@ -134,18 +134,22 @@ void SoundManager::playSound(int type)
     if(chan >= 0) Mix_ChannelFinished(SoundManager::getSingleton().channelFinishCallback);
 
     //hace temblar el mando segun el effecto de sonido
-    if(type == SOUND_KICK)
+        //Sonidos del juego:
     {
-        RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_STRONG);
+        if(type == SOUND_KICK)
+        {
+            RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_STRONG);
+        }
+        else if(type == SOUND_AIR || type == SOUND_LIFEUP)
+        {
+            RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_WEAK);
+        }
+        else if(type == SOUND_SQUASH)
+        {
+            RumbleManager::getSingleton().playEffect(RumbleManager::LONG_STRONG);
+        }
     }
-    else if(type == SOUND_AIR || type == SOUND_LIFEUP)
-    {
-        RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_WEAK);
-    }
-    else if(type == SOUND_SQUASH)
-    {
-        RumbleManager::getSingleton().playEffect(RumbleManager::LONG_STRONG);
-    }
+
 }
 
 void SoundManager::stopSound(int type)

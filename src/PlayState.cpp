@@ -545,7 +545,7 @@ void PlayState::update( unsigned long lTimeElapsed )
             destroyOverlayElements();
 
             int is_high_score = HighScoreManager::getSingleton().addScore(
-            "Survive",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,points,mPlayer->getLives(),depth);
+            "Adventure",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,points,mPlayer->getLives(),depth);
 
             if(is_high_score) textEffector->addBigMessage(_("New record!"));
         }
@@ -559,8 +559,6 @@ void PlayState::update( unsigned long lTimeElapsed )
         {
             this->fadeState( MenuState::getSingletonPtr());
         }
-
-
 
 
     }

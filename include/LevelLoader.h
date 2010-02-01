@@ -6,9 +6,14 @@
 
 #include <vector>
 
+
+
 class LevelLoader : public Ogre::Singleton<LevelLoader>
 {
     public:
+
+        enum Difficulty {EASY, MEDIUM,HARD};
+
         LevelLoader();
 
         ~LevelLoader();
@@ -45,7 +50,11 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         void nextLevel();
         void prevLevel();
 
+        int getGameMode() {return gameMode;}
+        void setGameMode(int gameMode) {this->gameMode = gameMode;}
 
+        int getDifficulty() {return levelDifficulty;}
+        void setDifficulty(int diff) {levelDifficulty = diff;}
 
         static LevelLoader& getSingleton(void);
         static LevelLoader* getSingletonPtr(void);
@@ -55,6 +64,7 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         Ogre::String levelName,longName;
         int boardNum, numBoards;
         int levelNum, numLevels;
+        int gameMode, levelDifficulty;
 
         Ogre::ConfigFile cf;
 

@@ -19,9 +19,13 @@
 //en la pagina de seleccionar modo del menu y en el menu de highscores
 
 //terrible: arreglar
-#define GAME_MODE_0 "Survive"
-#define GAME_MODE_1 "Time Attack"
-#define GAME_MODE_2 "Adventure"
+#define GAME_MODE_ADVENTURE     0
+#define GAME_MODE_INFINITE      1
+#define GAME_MODE_TIME_ATTACK   2
+
+#define GAME_MODE_0     "Adventure"
+#define GAME_MODE_1     "Infinite"
+#define GAME_MODE_2     "Time Attack"
 
 //define si compila con vibracion o sin
 #define RUMBLE 1
