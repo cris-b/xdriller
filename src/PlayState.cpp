@@ -534,7 +534,7 @@ void PlayState::update( unsigned long lTimeElapsed )
     {
 
 
-        const float countTime = 1000;
+        const float countTime = 2000;
 
 
         if(mPlayer->isAlive() && count==0)
@@ -559,6 +559,39 @@ void PlayState::update( unsigned long lTimeElapsed )
         {
             this->fadeState( MenuState::getSingletonPtr());
         }
+
+        if(!mPlayer->isAlive() && count==0)
+        {
+
+            count += lTimeElapsed;
+
+            destroyOverlayElements();
+
+            mSkull =  static_cast<PanelOverlayElement*>(
+                mOverlayMgr->createOverlayElement("Panel", "Skull"));
+            mSkull->setMetricsMode(Ogre::GMM_RELATIVE);
+            mSkull->setPosition(0.425,0.4);
+            mSkull->setDimensions(0.150,0.2);
+            mSkull->setMaterialName("skull");
+
+            mOverlay->add2D(mSkull);
+
+
+        }
+        else if(count<countTime && !mPlayer->isAlive())
+        {
+
+            count += lTimeElapsed;
+
+        }
+        else if(count>=countTime && !mPlayer->isAlive())
+        {
+            this->fadeState( MenuState::getSingletonPtr());
+        }
+
+
+
+
 
 
     }
