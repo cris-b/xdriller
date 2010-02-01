@@ -10,7 +10,7 @@
 
 #define XDRILLER_VERSION_STRING "0.6"
 
-#define XDRILLER_DEBUG 1
+#define XDRILLER_DEBUG 0
 
 #define NUM_GAME_MODES 3
 
