@@ -18,6 +18,11 @@ using namespace Ogre;
 Brick::Brick()
 {
     type = BRICK_NONE;
+    mNode = NULL;
+    mEnt = NULL;
+    mEmi = NULL;
+    mAnimationState = NULL;
+
 }
 
 Brick::~Brick()

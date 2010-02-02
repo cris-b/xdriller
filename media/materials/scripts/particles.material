@@ -74,22 +74,4 @@ material copo_de_nieve
     }
 }
 
-material espiral
-{
-    technique
-    {
-        pass
-        {
-            depth_check off
-            lighting off
-
-            texture_unit
-            {
-                texture espiral.png 2d 1
-                tex_address_mode clamp
-            }
-            scene_blend alpha_blend
-        }
-    }
-}
 

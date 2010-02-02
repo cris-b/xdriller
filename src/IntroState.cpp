@@ -169,7 +169,7 @@ void IntroState::keyPressed( const OIS::KeyEvent &e ) {
 }
 
 void IntroState::keyReleased( const OIS::KeyEvent &e ) {
-    if( e.key == OIS::KC_ESCAPE || e.key == OIS::KC_RETURN)
+    if( e.key == OIS::KC_ESCAPE)
     {
         //this->requestShutdown();
 

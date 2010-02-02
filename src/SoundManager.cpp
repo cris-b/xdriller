@@ -148,6 +148,10 @@ void SoundManager::playSound(int type)
         {
             RumbleManager::getSingleton().playEffect(RumbleManager::LONG_STRONG);
         }
+        else if(type == SOUND_RESURRECT)
+        {
+            RumbleManager::getSingleton().playEffect(RumbleManager::LONG_WEAK);
+        }
     }
 
 }

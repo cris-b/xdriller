@@ -424,7 +424,7 @@ void Player::update(unsigned long lTimeElapsed)
                 }
                 else if(_jumpCharger < 0)
                 {
-                    //cubo para ver si hay algo arriba a la derecha
+                    //cubo para ver si hay algo arriba a la izquierda
                     tmpBox.setExtents(getPosition().x-1.4+speed.x*lTimeElapsed,getPosition().y+0.9,getPosition().z-0.5,
                                       getPosition().x-1.0+speed.x*lTimeElapsed,getPosition().y+1.1,getPosition().z+0.5);
 
@@ -433,8 +433,8 @@ void Player::update(unsigned long lTimeElapsed)
 
             }
 
-            //salta
-            if(colBrick == NULL)
+            //salta si no hay nada encima o item
+            if(colBrick == NULL || colBrick->getType() == BRICK_HEART || colBrick->getType() == BRICK_AIR )
             {
                 speed.y = JUMP_SPEED;
                 SoundManager::getSingleton().playSound(SOUND_JUMP);

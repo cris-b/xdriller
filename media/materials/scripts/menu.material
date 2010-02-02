@@ -19,26 +19,6 @@ fragment_program simple_fp glsl
 }
 
 
-/*material Ogre/StencilShadowVolumes
-{
-    technique
-    {
-        pass
-        {
-
-            vertex_program_ref simple_vp
-            {
-            }
-
-            fragment_program_ref simple_fp
-            {
-            }
-
-        }
-
-    }
-}*/
-
 material LogoXDriller
 {
     technique

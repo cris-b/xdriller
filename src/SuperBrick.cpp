@@ -14,6 +14,8 @@ SuperBrick::SuperBrick (const Vector3& position )
 
     mEnt = mSceneMgr->createEntity("SuperBrick", "endsupercube.mesh");
 
+    //mEnt->setMaterialName("supercubo");
+
     mEnt->setCastShadows(false);
 
     if(mSceneMgr->hasSceneNode("BoardSceneNode") == false)
@@ -24,7 +26,7 @@ SuperBrick::SuperBrick (const Vector3& position )
     mNode = mSceneMgr->getSceneNode("BoardSceneNode")->createChildSceneNode( "SuperBrick" , position);
     mNode->attachObject(mEnt);
 
-    mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
+    //mNode->rotate(Quaternion(Degree(-90),Vector3::UNIT_X));
 
     mBox = AxisAlignedBox(position.x-4.5,position.y-0.5,position.z-0.5,
                           position.x+4.5,position.y+0.5,position.z+0.5);
@@ -32,7 +34,9 @@ SuperBrick::SuperBrick (const Vector3& position )
     mEmi = new EntityMaterialInstance (mEnt);
     mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
 
-    alpha = 0.0;
+    alpha = 0.1;
+
+    mEmi->setTransparency (alpha);
 }
 
 
