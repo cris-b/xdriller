@@ -34,7 +34,7 @@ SuperBrick::SuperBrick (const Vector3& position )
     mEmi = new EntityMaterialInstance (mEnt);
     mEmi->setSceneBlending (SBT_TRANSPARENT_ALPHA);
 
-    alpha = 0.1;
+    alpha = 0.0;
 
     mEmi->setTransparency (alpha);
 }

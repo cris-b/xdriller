@@ -90,6 +90,8 @@ Board::~Board()
     mSceneMgr->destroyParticleSystem(spiralsParticle);*/
 }
 
+//mata recursivamente
+
 void Board::rKill(int x,int y)
 {
     int type;
@@ -237,7 +239,7 @@ void Board::_rSetFallState(int x,int y, int state, int type)
 
 }
 
-
+//devuelve true si las fichas que estan juntas pueden caer
 
 bool Board::checkFall(int x, int y)
 {
@@ -323,7 +325,7 @@ bool Board::_checkFall(int x,int y, int type)
 
 
 }
-
+//devuelve el numero de fichas del mismo tipo que estan juntas
 int Board::checkNum(int x, int y)
 {
 
@@ -419,7 +421,7 @@ void Board::_rClearDone(int x,int y, int type)
 
 
 
-
+//consume mucha cpu si se llama muchas veces
 void Board::clearDone()
 {
     for(int i = 0; i < height*width; i++)
@@ -431,13 +433,16 @@ void Board::clearDone()
 void Board::update(unsigned long lTimeElapsed)
 {
 
+    //llama a update() a todos los bloques
     for(int i = 0; i < height*width; i++)
     {
         mBricks[i].update(lTimeElapsed);
     }
 
+    //vacia la tabla de punteros a bloques
     for(int i = 0; i < height*width; i++) mBricksPtr[i] = NULL;
 
+    //mete cada bloque en una celda de la tabla de punteros segun su posicion
     for(int i = 0; i < height*width; i++)
     {
         if(mBricks[i].isAlive())
@@ -446,27 +451,28 @@ void Board::update(unsigned long lTimeElapsed)
         }
     }
 
+    //recorre todas las columnas hacia arriba
     for(int i = 0; i < width; i++)
     {
         bool fall = false;
 
         for(int j = height-2; j >= 0; j--)
         {
+            //si hay un hueco todas las siguientes deben caer
             if( mBricksPtr[i+j*width] == NULL)
             {
                 fall = true;
-
             }
-
             else if(mBricksPtr[i+j*width] != NULL &&
                     !mBricksPtr[i+j*width]->isPreOrFalling() && fall == true)
             {
                 mBricksPtr[i+j*width]->setFalling(FSTATE_PREFALL);
-                if(j > firstToCheck) firstToCheck = j;
+                if(j > firstToCheck) firstToCheck = j; //la primera ficha a comprobar desde abajo.
             }
         }
     }
 
+    //recorre todas las files de abajo a arriba
     for(int j = firstToCheck; j >= 0; j--)
     {
         for(int i = 0; i < width; i++)
@@ -523,6 +529,8 @@ void Board::update(unsigned long lTimeElapsed)
 
 }
 
+//imprime el tablero en el log
+
 void Board::printLog()
 {
 
@@ -546,6 +554,9 @@ void Board::printLog()
 
 }
 
+//detecta una colision entre la caja especificada y el tablero
+//devuelve un puntero al bloque con el que colisiona
+
 Brick *Board::detectCollision(AxisAlignedBox &b2)
 {
     //metodo bestia
@@ -561,6 +572,8 @@ Brick *Board::detectCollision(AxisAlignedBox &b2)
     //metodo alternativo
     //( en principio no se nota gran subida en FPS )
 
+    //solo los bloques que esten cerca
+
     int j1 = (int)-b2.getCenter().y-2;
     int i1 = (int)b2.getCenter().x+4-2;
     int j2 = j1+4;
@@ -573,14 +586,16 @@ Brick *Board::detectCollision(AxisAlignedBox &b2)
 
 
 
-
+    //comprueba los blockes uno a uno
     for(int j = j1; j <= j2; j++)
         for(int i = i1; i <= i2; i++)
         {
+            //si hay un bloque en la celda
             if( mBricksPtr[i+j*width] != NULL)
             {
+                //mira a ver si intersecta y si lo hace devuelve el puntero
                 if(mBricksPtr[i+j*width]->mBox.intersects(b2))
-                return mBricksPtr[i+j*width];
+                    return mBricksPtr[i+j*width];
             }
         }
 
@@ -588,6 +603,8 @@ Brick *Board::detectCollision(AxisAlignedBox &b2)
 
     return NULL;
 }
+
+//borra bloques recursivamente hacia abajo
 
 int Board::rKillDown(Vector3 pos)
 {
@@ -638,6 +655,9 @@ int Board::rKillDown(Vector3 pos)
 
     return -2;
 }
+
+//borra bloques recursivamente hacia la izquierda
+
 int Board::rKillLeft(Vector3 pos)
 {
 
@@ -679,6 +699,9 @@ int Board::rKillLeft(Vector3 pos)
 
     return -2;
 }
+
+//borra bloques recursivamente hacia la derecha
+
 int Board::rKillRight(Vector3 pos)
 {
 
@@ -719,6 +742,9 @@ int Board::rKillRight(Vector3 pos)
 
     return -2;
 }
+
+//borra bloques recursivamente hacia arriba
+
 int Board::rKillUp(Vector3 pos)
 {
 
@@ -760,6 +786,9 @@ int Board::rKillUp(Vector3 pos)
     return -2;
 }
 
+//borra todos los blockes hacia arriba, menos los fijos
+//util para resucitar
+
 void Board::killUpwards(Vector3 pos)
 {
 
@@ -780,6 +809,9 @@ void Board::killUpwards(Vector3 pos)
     }
 
 }
+
+//esta funcion emitia una particula por cada bloke roto
+//NO BORRAR me costo averiguar como se hacia (codigo valioso)
 
 /*void Board::emitOneParticle(Real x, Real y)
 {
