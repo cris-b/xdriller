@@ -436,7 +436,6 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
                 lowest_depth = scores[score_index+i].depth;
                 lowest_depth_index = score_index+i;
 
-
             }
 
         }
