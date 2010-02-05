@@ -564,10 +564,18 @@ void PlayState::update( unsigned long lTimeElapsed )
 
             destroyOverlayElements();
 
-            int is_high_score = HighScoreManager::getSingleton().addScore(
-            "Adventure",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,mPlayer->getLives(),depth);
+            if(LevelLoader::getSingleton().getGameMode() == GAME_MODE_ADVENTURE)
+            {
+                int is_high_score = HighScoreManager::getSingleton().addScore(
+                "Adventure",
+                LevelLoader::getSingleton().getLevelName(),
+                ConfigManager::getSingleton().getString("player_name"),
+                gameSeconds,mPlayer->getLives(),depth);
 
-            if(is_high_score) textEffector->addBigMessage(_("New record!"));
+                if(is_high_score) textEffector->addBigMessage(_("New record!"));
+            }
+
+
         }
         else if(count<countTime && mPlayer->isAlive())
         {
@@ -597,6 +605,22 @@ void PlayState::update( unsigned long lTimeElapsed )
             mSkull->setMaterialName("skull");
 
             mOverlay->add2D(mSkull);
+
+            //la unica forma de acabar el modo infinito es morir
+            if(LevelLoader::getSingleton().getGameMode() == GAME_MODE_INFINITE)
+            {
+                String levelName;
+
+                if(LevelLoader::getSingleton().getDifficulty() == LevelLoader::EASY) levelName = "Easy";
+                if(LevelLoader::getSingleton().getDifficulty() == LevelLoader::MEDIUM) levelName = "Medium";
+                if(LevelLoader::getSingleton().getDifficulty() == LevelLoader::HARD) levelName = "Hard";
+
+                int is_high_score = HighScoreManager::getSingleton().addScore(
+                "Infinite",levelName,ConfigManager::getSingleton().getString("player_name"),
+                gameSeconds,mPlayer->getLives(),depth);
+
+                if(is_high_score) textEffector->addBigMessage(_("New record!"));
+            }
 
 
         }

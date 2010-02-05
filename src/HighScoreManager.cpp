@@ -344,7 +344,7 @@ void HighScoreManager::sortPage(Ogre::String mode, Ogre::String level)
 int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time, int lives, int depth)
 {
 
-
+    //LogManager::getSingleton().logMessage("HighScoreManager::addScore = " + mode + " " + level);
 
     HighScore *scores;
 
