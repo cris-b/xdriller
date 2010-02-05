@@ -349,7 +349,7 @@ int LevelLoader::loadBoard()
                                                     StringConverter::toString(j) + ". Value = " +
                                                     StringConverter::toString(var));
 
-                    levelData.push_back(BRICK_NONE);
+                    levelData.push_back(BRICK_RED);
                 }
 
             }

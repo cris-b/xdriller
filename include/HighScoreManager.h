@@ -33,7 +33,7 @@ class HighScoreManager : public Ogre::Singleton<HighScoreManager>
     int load();
     int save();
 
-    int addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time = 0, int points = 0, int lives = 0, int depth = 0);
+    int addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time = 0, int lives = 0, int depth = 0);
 
     HighScore *getScore(Ogre::String mode, Ogre::String level, int num);
 
@@ -42,9 +42,11 @@ class HighScoreManager : public Ogre::Singleton<HighScoreManager>
 
     private:
 
-    void sortPage(int index);
+    void sortPage(Ogre::String mode, Ogre::String level);
 
-    HighScore *scores;
+    HighScore *adventureScores;
+    HighScore *infiniteScores;
+    HighScore *timeAttackScores;
 
     int last_highscore_index;
 

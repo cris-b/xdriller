@@ -61,6 +61,15 @@ Board::Board()
             mBricks[j*width+i].create(n,mSceneMgr,t,v);
         }
 
+    //mata a los BRICK_NONE
+    for(int i = 0; i < height*width; i++)
+    {
+        if( mBricks[i].getType() == BRICK_NONE)
+        {
+            mBricks[i].kill();
+        }
+    }
+
 
     mSuperBrick = new SuperBrick(Vector3(0,-height,0));
 

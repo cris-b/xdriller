@@ -13,6 +13,9 @@
 
 #include "Gettext.h"
 
+//para pruebas. BORRAR /////////////
+#include "HighScoreManager.h"
+/////////////////////////////////////
 
 #ifndef PlayState_H
 #include "PlayState.h"
@@ -21,10 +24,11 @@
 #include "CreditsState.h"
 #endif
 
-//BORRAR cuando no se acaben las pruebas
+//BORRAR cuando se acaben las pruebas
 #ifndef HighScoreState_H
 #include "HighScoreState.h"
 #endif
+/////////////////////////////////////
 
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1
@@ -409,11 +413,14 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
     }
     if( e.key == OIS::KC_3)
     {
-        //prueba modo infinito
-        LevelLoader::getSingleton().setGameMode(GAME_MODE_INFINITE);
-        LevelLoader::getSingleton().setDifficulty(LevelLoader::EASY);
+        //prueba modo highscore
+        HighScoreManager::getSingleton().addScore("Infinite","Easy","pepito",rand() % 100, 1 , rand() % 100);
 
-        fadeState( PlayState::getSingletonPtr() );
+    }
+    if( e.key == OIS::KC_4)
+    {
+        //prueba modo highscore
+        HighScoreManager::getSingleton().addScore("Adventure","antarctica","pepito",rand() % 100, 1 , rand() % 100);
 
     }
 
@@ -600,35 +607,58 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_HIGHSCORES:
             {
-                /*if(menuCursor == 0)
+                if(menuCursor == 0)
                 {
-                    if(buttons[0]->getOptionCaption() == _("Adventure")) buttons[0]->setOptionCaption(_("Infinite"));
-                    else if(buttons[0]->getOptionCaption() == _("Infinite")) buttons[0]->setOptionCaption(_("Time Attack"));
-                    else if(buttons[0]->getOptionCaption() == _("Time Attack")) buttons[0]->setOptionCaption(_("Adventure"));
+                    if(buttons[0]->getOptionCaption() == _("Time Attack"))
+                    {
+                        buttons[0]->setOptionCaption(_("Infinite"));
+                        buttons[1]->setOptionCaption(_("Easy"));
+                    }
+                    else if(buttons[0]->getOptionCaption() == _("Adventure"))
+                    {
+                        buttons[0]->setOptionCaption(_("Time Attack"));
+                        buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    }
+                    else if(buttons[0]->getOptionCaption() == _("Infinite"))
+                    {
+                        buttons[0]->setOptionCaption(_("Adventure"));
+                        buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    }
 
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
-                }*/
+                }
                 if(menuCursor == 1)
                 {
-                    int level_num = LevelLoader::getSingleton().getLevelNum();
-                    int num_levels = LevelLoader::getSingleton().getNumLevels();
+                    if(buttons[0]->getOptionCaption() == _("Infinite"))
+                    {
+                        if(buttons[1]->getOptionCaption() == _("Hard")) buttons[1]->setOptionCaption(_("Medium"));
+                        else if(buttons[1]->getOptionCaption() == _("Medium")) buttons[1]->setOptionCaption(_("Easy"));
+                        else if(buttons[1]->getOptionCaption() == _("Easy")) buttons[1]->setOptionCaption(_("Hard"));
+                    }
+                    else
+                    {
+                        int level_num = LevelLoader::getSingleton().getLevelNum();
+                        int num_levels = LevelLoader::getSingleton().getNumLevels();
 
-                    level_num--;
+                        level_num--;
 
-                    if(level_num < 0) level_num = num_levels-1;
+                        if(level_num < 0) level_num = num_levels-1;
 
-                    LevelLoader::getSingleton().setLevelNum(level_num);
+                        LevelLoader::getSingleton().setLevelNum(level_num);
 
-
-
-                    buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                        buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    }
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
 
                 if(buttons[0]->getOptionCaption() == _("Adventure"))
                     highScoreTable->updateTable("Adventure", LevelLoader::getSingleton().getLevelName());
                 else if(buttons[0]->getOptionCaption() == _("Infinite"))
-                    highScoreTable->updateTable("Infinite", LevelLoader::getSingleton().getLevelName());
+                {
+                        if(buttons[1]->getOptionCaption() == _("Hard")) highScoreTable->updateTable("Infinite","Hard");
+                        else if(buttons[1]->getOptionCaption() == _("Medium")) highScoreTable->updateTable("Infinite","Medium");
+                        else if(buttons[1]->getOptionCaption() == _("Easy")) highScoreTable->updateTable("Infinite","Easy");
+                }
                 else if(buttons[0]->getOptionCaption() == _("Time Attack"))
                     highScoreTable->updateTable("Time Attack", LevelLoader::getSingleton().getLevelName());
 
@@ -758,35 +788,60 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_HIGHSCORES:
             {
-                /*if(menuCursor == 0)
+                if(menuCursor == 0)
                 {
-                    if(buttons[0]->getOptionCaption() == _("Adventure")) buttons[0]->setOptionCaption(_("Infinite"));
-                    else if(buttons[0]->getOptionCaption() == _("Infinite")) buttons[0]->setOptionCaption(_("Time Attack"));
-                    else if(buttons[0]->getOptionCaption() == _("Time Attack")) buttons[0]->setOptionCaption(_("Adventure"));
+                    if(buttons[0]->getOptionCaption() == _("Adventure"))
+                    {
+                        buttons[0]->setOptionCaption(_("Infinite"));
+                        buttons[1]->setOptionCaption(_("Easy"));
+                    }
+                    else if(buttons[0]->getOptionCaption() == _("Infinite"))
+                    {
+                        buttons[0]->setOptionCaption(_("Time Attack"));
+                        buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    }
+                    else if(buttons[0]->getOptionCaption() == _("Time Attack"))
+                    {
+                        buttons[0]->setOptionCaption(_("Adventure"));
+                        buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    }
 
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
-                }*/
+                }
                 if(menuCursor == 1)
                 {
-                    int level_num = LevelLoader::getSingleton().getLevelNum();
-                    int num_levels = LevelLoader::getSingleton().getNumLevels();
+                    if(buttons[0]->getOptionCaption() == _("Infinite"))
+                    {
+                        if(buttons[1]->getOptionCaption() == _("Hard")) buttons[1]->setOptionCaption(_("Easy"));
+                        else if(buttons[1]->getOptionCaption() == _("Medium")) buttons[1]->setOptionCaption(_("Hard"));
+                        else if(buttons[1]->getOptionCaption() == _("Easy")) buttons[1]->setOptionCaption(_("Medium"));
+                    }
+                    else
+                    {
+                        int level_num = LevelLoader::getSingleton().getLevelNum();
+                        int num_levels = LevelLoader::getSingleton().getNumLevels();
 
-                    level_num++;
+                        level_num++;
 
-                    if(level_num > num_levels-1) level_num = 0;
+                        if(level_num > num_levels-1) level_num = 0;
 
-                    LevelLoader::getSingleton().setLevelNum(level_num);
+                        LevelLoader::getSingleton().setLevelNum(level_num);
 
 
 
-                    buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                        buttons[1]->setOptionCaption(LevelLoader::getSingleton().getLongName());
+                    }
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
 
                 if(buttons[0]->getOptionCaption() == _("Adventure"))
                     highScoreTable->updateTable("Adventure", LevelLoader::getSingleton().getLevelName());
                 else if(buttons[0]->getOptionCaption() == _("Infinite"))
-                    highScoreTable->updateTable("Infinite", LevelLoader::getSingleton().getLevelName());
+                {
+                        if(buttons[1]->getOptionCaption() == _("Hard")) highScoreTable->updateTable("Infinite","Hard");
+                        else if(buttons[1]->getOptionCaption() == _("Medium")) highScoreTable->updateTable("Infinite","Medium");
+                        else if(buttons[1]->getOptionCaption() == _("Easy")) highScoreTable->updateTable("Infinite","Easy");
+                }
                 else if(buttons[0]->getOptionCaption() == _("Time Attack"))
                     highScoreTable->updateTable("Time Attack", LevelLoader::getSingleton().getLevelName());
 
@@ -956,7 +1011,6 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
-
             case MENU_PAGE_LEVELSELECT:
             {
 
@@ -1400,7 +1454,7 @@ void MenuState::changePage(unsigned int page)
 
             buttons[0]->setPosition(-0.4,-0.35);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setBlocked(true);
+
 
             buttons[0]->setOptionCaption(_("Adventure"));
 

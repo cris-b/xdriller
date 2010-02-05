@@ -44,7 +44,9 @@ HighScoreManager::HighScoreManager(Ogre::String filename)
 
     int num_levels = LevelLoader::getSingleton().getNumLevels();
 
-    scores = new HighScore[NUM_GAME_MODES*num_levels*SCORES_PER_PAGE];
+    adventureScores = new HighScore[num_levels*SCORES_PER_PAGE];
+    infiniteScores = new HighScore[3*SCORES_PER_PAGE]; //3 = EASY+MEDIUM+HARD
+    timeAttackScores = new HighScore[num_levels*SCORES_PER_PAGE];
 
     last_highscore_index = 0;
 
@@ -52,13 +54,15 @@ HighScoreManager::HighScoreManager(Ogre::String filename)
 
 HighScoreManager::~HighScoreManager()
 {
-    delete scores;
+    delete adventureScores;
+    delete infiniteScores;
+    delete timeAttackScores;
 }
 
 
 int HighScoreManager::load()
 {
-    int num_levels = LevelLoader::getSingleton().getNumLevels();
+
 
 	TiXmlDocument doc(filename.c_str());
 	bool loadOkay = doc.LoadFile();
@@ -90,11 +94,22 @@ int HighScoreManager::load()
     for( ; mode; mode=mode->NextSiblingElement())
     {
         const char *mode_name= mode->Attribute("name");
-        int mode_num = 0;
+        HighScore *scores;
 
-        if(strcmp(mode_name,GAME_MODE_0) == 0) mode_num = 0;
-        if(strcmp(mode_name,GAME_MODE_1) == 0) mode_num = 1;
-        if(strcmp(mode_name,GAME_MODE_2) == 0) mode_num = 2;
+        if(strcmp(mode_name,"Adventure") == 0) scores = adventureScores;
+        if(strcmp(mode_name,"Infinite") == 0) scores = infiniteScores;
+        if(strcmp(mode_name,"Time Attack") == 0) scores = timeAttackScores;
+
+        int num_levels = 0;
+
+        if(strcmp(mode_name,"Infinite") == 0)
+        {
+            num_levels = 3;
+        }
+        else
+        {
+            num_levels = LevelLoader::getSingleton().getNumLevels();
+        }
 
         TiXmlElement* level = TiXmlHandle(mode).FirstChild("level").Element();
 
@@ -102,7 +117,18 @@ int HighScoreManager::load()
         {
             const char *level_name = level->Attribute("name");
 
-            int level_num = LevelLoader::getSingleton().getLevelNum(level_name);
+            int level_num = 0;
+
+            if(strcmp(mode_name,"Infinite") == 0)
+            {
+                if(strcmp(level_name,"Easy") == 0)  level_num = 0;
+                if(strcmp(level_name,"Medium") == 0) level_num = 1;
+                if(strcmp(level_name,"Hard") == 0)   level_num = 2;
+            }
+            else
+            {
+                level_num = LevelLoader::getSingleton().getLevelNum(level_name);
+            }
 
             int score_num = 0;
 
@@ -116,7 +142,7 @@ int HighScoreManager::load()
                 int lives; score->QueryIntAttribute("lives",&lives);
                 int depth; score->QueryIntAttribute("depth",&depth);
 
-                int score_index = mode_num*(SCORES_PER_PAGE*num_levels)+level_num*SCORES_PER_PAGE+score_num;
+                int score_index = level_num*SCORES_PER_PAGE+score_num;
 
                 scores[score_index].name = name;
                 scores[score_index].time = time;
@@ -140,7 +166,7 @@ int HighScoreManager::load()
 
 int HighScoreManager::save()
 {
-    int num_levels = LevelLoader::getSingleton().getNumLevels();
+
 
 	TiXmlDocument doc;
 
@@ -159,15 +185,43 @@ int HighScoreManager::save()
         TiXmlElement *mode = new TiXmlElement( "mode" );
         root->LinkEndChild( mode );
 
-        if(k == 0) mode->SetAttribute("name",GAME_MODE_0);
-        if(k == 1) mode->SetAttribute("name",GAME_MODE_1);
-        if(k == 2) mode->SetAttribute("name",GAME_MODE_2);
+        HighScore *scores;
+
+        if(k == 0) scores = adventureScores;
+        if(k == 1) scores = infiniteScores;
+        if(k == 2) scores = timeAttackScores;
+
+        if(k == 0) mode->SetAttribute("name","Adventure");
+        if(k == 1) mode->SetAttribute("name","Infinite");
+        if(k == 2) mode->SetAttribute("name","Time Attack");
+
+        int num_levels = 0;
+
+        if(k == 1)
+        {
+            num_levels = 3;
+        }
+        else
+        {
+            num_levels = LevelLoader::getSingleton().getNumLevels();
+        }
 
         for(int i = 0; i<num_levels; i++)
         {
             const char *level_name;
 
-            level_name = LevelLoader::getSingleton().getLevelName(i).c_str();
+            if(k == 1)
+            {
+                if(i == 0)  level_name = "Easy";
+                if(i == 1)  level_name = "Medium";
+                if(i == 2)  level_name = "Hard";
+            }
+            else
+            {
+                level_name = LevelLoader::getSingleton().getLevelName(i).c_str();
+            }
+
+
 
             TiXmlElement *level = new TiXmlElement( "level" );
             mode->LinkEndChild( level );
@@ -175,7 +229,7 @@ int HighScoreManager::save()
 
             for(int j = 0; j<SCORES_PER_PAGE; j++)
             {
-                int score_index = k*(SCORES_PER_PAGE*num_levels)+i*SCORES_PER_PAGE+j;
+                int score_index = i*SCORES_PER_PAGE+j;
 
                 TiXmlElement *scoreElm = new TiXmlElement( "score" );
 
@@ -197,32 +251,75 @@ int HighScoreManager::save()
     return 0;
 }
 
-void HighScoreManager::sortPage(int index)
+void HighScoreManager::sortPage(Ogre::String mode, Ogre::String level)
 {
-
-
     //Gnome sort: http://en.wikibooks.org/wiki/Algorithm_Implementation/Sorting/Gnome_sort
 
-    for ( int i = 1; i < SCORES_PER_PAGE; )
-    {
+    HighScore *scores;
 
-        if ( scores[index+i-1].time <= scores[index+i].time)
+    if(mode == "Adventure") scores = adventureScores;
+    if(mode == "Infinite") scores = infiniteScores;
+    if(mode == "Time Attack") scores = timeAttackScores;
+
+    int level_num = 0;
+
+    if(mode == "Infinite")
+    {
+        if(level == "Easy")   level_num = 0;
+        if(level == "Medium") level_num = 1;
+        if(level == "Hard")   level_num = 2;
+    }
+    else
+    {
+        level_num = LevelLoader::getSingleton().getLevelNum(level);
+    }
+
+    int index = level_num*SCORES_PER_PAGE;
+
+    //el modo aventura ordena de menor a mayor tiempo
+    if(mode == "Adventure")
+    {
+        for ( int i = 1; i < SCORES_PER_PAGE; )
         {
-            ++i;
-        }
-        else
-        {
-            std::swap( scores[index+i-1] , scores[index+i] );
-            --i;
-            if ( i == 0 )
+
+            if ( scores[index+i-1].time <= scores[index+i].time)
             {
-                i = 1;
+                ++i;
+            }
+            else
+            {
+                std::swap( scores[index+i-1] , scores[index+i] );
+                --i;
+                if ( i == 0 )
+                {
+                    i = 1;
+                }
+            }
+        }
+    } //el infinito de mayor a menor profundidad
+    else if(mode == "Infinite")
+    {
+        for ( int i = 1; i < SCORES_PER_PAGE; )
+        {
+
+            if ( scores[index+i-1].depth >= scores[index+i].depth)
+            {
+                ++i;
+            }
+            else
+            {
+                std::swap( scores[index+i-1] , scores[index+i] );
+                --i;
+                if ( i == 0 )
+                {
+                    i = 1;
+                }
             }
         }
     }
 
     //repite el algoritmo para poner al final todos los sin nombre.
-    //TO-DO: ¿se podria hacer metiendo un if en el enterior? no se me ocurre como
+    //TODO: ¿se podria hacer metiendo un if en el enterior? no se me ocurre como
 
     for ( int i = 1; i < SCORES_PER_PAGE; )
     {
@@ -244,22 +341,34 @@ void HighScoreManager::sortPage(int index)
 
 }
 
-int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time, int points, int lives, int depth)
+int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::String name, int time, int lives, int depth)
 {
-    int mode_num = 0;
-
-    int num_levels = LevelLoader::getSingleton().getNumLevels();
 
 
-    if(mode == GAME_MODE_0) mode_num = 0;
-    if(mode == GAME_MODE_1) mode_num = 1;
-    if(mode == GAME_MODE_2) mode_num = 2;
 
-    int level_num = LevelLoader::getSingleton().getLevelNum(level);
+    HighScore *scores;
 
-    int score_index = mode_num*(SCORES_PER_PAGE*num_levels)+level_num*SCORES_PER_PAGE;
+    if(mode == "Adventure") scores = adventureScores;
+    if(mode == "Infinite") scores = infiniteScores;
+    if(mode == "Time Attack") scores = timeAttackScores;
 
-    if(mode_num == 0)
+    int level_num = 0;
+
+    if(mode == "Infinite")
+    {
+        if(level == "Easy")   level_num = 0;
+        if(level == "Medium") level_num = 1;
+        if(level == "Hard")   level_num = 2;
+    }
+    else
+    {
+        level_num = LevelLoader::getSingleton().getLevelNum(level);
+    }
+
+
+    int score_index = level_num*SCORES_PER_PAGE;
+
+    if(mode == "Adventure")
     {
         bool _isHighScore = false;
 
@@ -277,12 +386,14 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
 
                 break;
             }
-            else if(scores[score_index+i].time > highest_time)
+            else if(scores[score_index+i].time > time)
             {
                 _isHighScore = true;
 
                 highest_time = scores[score_index+i].time;
                 highest_time_index = score_index+i;
+
+
             }
 
         }
@@ -295,29 +406,79 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
             scores[highest_time_index].lives = lives;
             scores[highest_time_index].depth = depth;
 
-            sortPage(score_index);
+            sortPage(mode,level);
 
             return 1;
         }
     }
+    else if(mode == "Infinite")
+    {
+        bool _isHighScore = false;
 
+        int lowest_depth = scores[score_index].depth;
+        int lowest_depth_index = score_index;
+
+        for(int i = 0; i<10; i++)
+        {
+            if(scores[score_index+i].name == "")
+            {
+                lowest_depth = scores[score_index+i].depth;
+                lowest_depth_index = score_index+i;
+
+                _isHighScore = true;
+
+                break;
+            }
+            else if(scores[score_index+i].depth < depth)
+            {
+                _isHighScore = true;
+
+                lowest_depth = scores[score_index+i].depth;
+                lowest_depth_index = score_index+i;
+
+
+            }
+
+        }
+
+        if(_isHighScore)
+        {
+            scores[lowest_depth_index].name = name;
+            scores[lowest_depth_index].time = time;
+            //scores[highest_depth_index].points = points;
+            scores[lowest_depth_index].lives = lives;
+            scores[lowest_depth_index].depth = depth;
+
+            sortPage(mode,level);
+
+            return 1;
+        }
+    }
     return 0;
 }
 
 HighScore* HighScoreManager::getScore(Ogre::String mode, Ogre::String level, int num)
 {
-    int mode_num = 0;
+    HighScore *scores;
 
-    int num_levels = LevelLoader::getSingleton().getNumLevels();
+    if(mode == "Adventure") scores = adventureScores;
+    if(mode == "Infinite") scores = infiniteScores;
+    if(mode == "Time Attack") scores = timeAttackScores;
 
+    int level_num = 0;
 
-    if(mode == GAME_MODE_0) mode_num = 0;
-    if(mode == GAME_MODE_1) mode_num = 1;
-    if(mode == GAME_MODE_2) mode_num = 2;
+    if(mode == "Infinite")
+    {
+        if(level == "Easy")   level_num = 0;
+        if(level == "Medium") level_num = 1;
+        if(level == "Hard")   level_num = 2;
+    }
+    else
+    {
+        level_num = LevelLoader::getSingleton().getLevelNum(level);
+    }
 
-    int level_num = LevelLoader::getSingleton().getLevelNum(level);
-
-    int score_index = mode_num*(SCORES_PER_PAGE*num_levels)+level_num*SCORES_PER_PAGE+num;
+    int score_index = level_num*SCORES_PER_PAGE+num;
 
     return &scores[score_index];
 

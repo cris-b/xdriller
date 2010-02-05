@@ -162,7 +162,7 @@ void HighScoreTable::updateTable(Ogre::String mode, Ogre::String level)
         else
         {
 
-            int spaces = 12-name.size();
+            int spaces = 15-name.size();
 
             tableText += name;
 
@@ -180,7 +180,7 @@ void HighScoreTable::updateTable(Ogre::String mode, Ogre::String level)
 
             tableText += time;
 
-            spaces = 10-depth.size();
+            spaces = 15-depth.size();
 
             for(int j=0;j<spaces; j++)
             {
