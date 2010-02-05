@@ -4,15 +4,21 @@
 
 using namespace Ogre;
 
-RingSwitcher::RingSwitcher(float radius)
+RingSwitcher::RingSwitcher(float size)
 {
-    this->radius = radius;
+    this->size = size;
 
     selected = 0;
-    desired_angle = 0;
-    angle = 0;
 
     mNode = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->getRootSceneNode()->createChildSceneNode("RingSwitcher");
+
+    doubleArrowEnt = Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->createEntity("RingSwicherDoubleArrowent", "doublearrow.mesh");
+
+    doubleArrowEnt->setRenderQueueGroup(RENDER_QUEUE_OVERLAY-1);
+
+    doubleArrowNode = mNode->createChildSceneNode("RingSwicherDoubleArrowNode");
+
+    doubleArrowNode->attachObject(doubleArrowEnt);
 }
 
 RingSwitcher::~RingSwitcher()
@@ -21,6 +27,12 @@ RingSwitcher::~RingSwitcher()
     {
         delete objects.back();  objects.pop_back();
     }
+
+    doubleArrowNode->detachObject(doubleArrowEnt);
+
+    Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->destroyEntity(doubleArrowEnt);
+
+    mNode->removeAndDestroyChild("RingSwicherDoubleArrowNode");
 
     Root::getSingletonPtr()->getSceneManager( "ST_GENERIC" )->getRootSceneNode()->removeAndDestroyChild("RingSwitcher");
 }
@@ -51,46 +63,42 @@ bool RingSwitcher::isBlocked(const Ogre::String &name)
     return false;
 }
 
+void RingSwitcher::setMaterialName(const Ogre::String &name, const Ogre::String &material)
+{
+    for(unsigned int i=0; i<objects.size();i++)
+    {
+        if(objects[i]->getName() == name) objects[i]->setMaterialName(material);
+    }
+}
+
 void RingSwitcher::update( unsigned long lTimeElapsed )
 {
     int num_objects = objects.size();
 
     if(num_objects == 0) return;
-    if(num_objects == 1) return;
+    //if(num_objects == 1) return;
 
-    if(angle < desired_angle)
-    {
-        angle += lTimeElapsed/100.0;
+    angle += lTimeElapsed/500.0;
 
-        if(angle > desired_angle) angle = desired_angle;
-    }
-    else if(angle > desired_angle)
-    {
-        angle -= lTimeElapsed/100.0;
+    if(angle > M_PI*2.0) angle -= M_PI*2.0;
 
-        if(angle < desired_angle) angle = desired_angle;
-    }
+    float scale = 2 + sin(angle)*0.3;
+
+    objects[selected]->setScale(scale);
 
     for(int i=0; i<num_objects;i++)
     {
-        float a = ((M_PI*2.0) / (float) num_objects) * (float) i;
-
-        a += angle;
-
         Vector3 pos;
 
-        pos.x = radius * sin(a);
-        pos.y = radius * cos(a);
+        pos.x = ((size/(num_objects+1))*(i+1))-(size/2.0);
+        pos.y = 0;
         pos.z = 0;
 
         objects[i]->setPosition(pos);
 
-        float scale = 1 + cos(a)*2.0;
+        if(i == selected) doubleArrowNode->setPosition(pos);
 
-        if(scale < 1) scale = 1;
-
-        objects[i]->setScale(scale);
-
+        if(i != selected) objects[i]->setScale(2.0);
     }
 }
 
@@ -100,7 +108,7 @@ void RingSwitcher::next()
 
     selected++;
 
-    desired_angle -= (M_PI*2.0) / (float) num_objects;
+    angle = 0;
 
     if(selected > num_objects-1) selected = 0;
 
@@ -112,7 +120,7 @@ void RingSwitcher::prev()
 
     selected--;
 
-    desired_angle += (M_PI*2.0) / (float) num_objects;
+    angle = 0;
 
     if(selected < 0) selected = num_objects-1;
 }
@@ -121,3 +129,4 @@ Ogre::String RingSwitcher::getCurrentName()
 {
     return objects[selected]->getName();
 }
+

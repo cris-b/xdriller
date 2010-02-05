@@ -111,7 +111,8 @@ float goodRound(float num)
     return (num >= 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
 }
 
-
+// no me acuerdo para que era esto
+// pero parece necesario para leer los colores de la imagen del nivel
 void roundColourValue(ColourValue *col)
 {
     col->r = goodRound(col->r * 10.0)/10.0;

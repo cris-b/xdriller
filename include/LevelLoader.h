@@ -24,7 +24,7 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         void setLevelName(Ogre::String levelName);
 
 
-        int getNumLevels() {return numLevels;}
+        int getNumLevels();
 
 
 
@@ -51,7 +51,7 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         void prevLevel();
 
         int getGameMode() {return gameMode;}
-        void setGameMode(int gameMode) {this->gameMode = gameMode;}
+        void setGameMode(int gameMode);
 
         int getDifficulty() {return levelDifficulty;}
         void setDifficulty(int diff) {levelDifficulty = diff;}

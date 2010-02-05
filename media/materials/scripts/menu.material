@@ -109,6 +109,26 @@ material arrow_left
     }
 }
 
+//tiene que ser diferente pa que no me los trasparente Arrow::
+material blue_arrow
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+
+            texture_unit
+            {
+                texture flecha_derecha.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
+
 material level_screenshot
 {
     technique

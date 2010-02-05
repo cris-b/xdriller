@@ -16,7 +16,7 @@
 #define JUMP_CHARGE  0.5
 #define JUMP_SPEED   0.015
 
-#define MAX_LIVES    10
+#define MAX_LIVES    6
 #define ROCK_BREAK_AIR 0.05
 
 #define AIR_FULL_USE_TIME   100000.0

@@ -59,7 +59,7 @@ private:
     Ogre::OverlayContainer  *mLogoXDriller;
     Ogre::PanelOverlayElement     *mPanel;
 
-    Ogre::TextAreaOverlayElement  *mInfoTextArea;
+    //Ogre::TextAreaOverlayElement  *mInfoTextArea;
 
     Ogre::OverlayContainer     *mLevelScreenshot;
     Ogre::OverlayContainer     *mLevelScreenshot_shadow;

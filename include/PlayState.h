@@ -22,6 +22,7 @@
 
 class PlayState : public GameState {
 public:
+
     ~PlayState( void );
 
     void enter( void );
@@ -61,7 +62,7 @@ private:
     Ogre::Overlay                 *mOverlay;
     Ogre::PanelOverlayElement     *mPanel;
     Ogre::TextAreaOverlayElement  *mTextAreaDepth;
-    Ogre::TextAreaOverlayElement  *mTextAreaPoints;
+    //Ogre::TextAreaOverlayElement  *mTextAreaPoints;
     Ogre::TextAreaOverlayElement  *mTextAreaClock;
     Ogre::TextAreaOverlayElement  *mTextAreaLives;
     Ogre::TextAreaOverlayElement  *mTextAreaTotal;
@@ -73,7 +74,7 @@ private:
     Ogre::PanelOverlayElement     *mBottle;
     Ogre::PanelOverlayElement     *mBottleAir;
 
-    #ifdef XDRILLER_DEBUG
+    #if XDRILLER_DEBUG == 1
     Ogre::TextAreaOverlayElement  *mTextAreaDebug;
     #endif
 
@@ -82,8 +83,8 @@ private:
     bool nextFramePause;
     int depthAccumulation;
     int depth;
-    int pointsAccumulation;
-    int points;
+    //int pointsAccumulation;
+    //int points;
 
     long int gameTime;
 

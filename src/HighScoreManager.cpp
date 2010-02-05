@@ -16,7 +16,7 @@ HighScore& HighScore::operator = (HighScore &p)
 {
     this->name   =  p.name;
     this->time   =  p.time;
-    this->points =  p.points;
+    //this->points =  p.points;
     this->lives  =  p.lives;
     this->depth  =  p.depth;
 
@@ -112,7 +112,7 @@ int HighScoreManager::load()
             {
                 const char *name = score->Attribute("name");
                 int time; score->QueryIntAttribute("time",&time);
-                int points; score->QueryIntAttribute("points",&points);
+                //int points; score->QueryIntAttribute("points",&points);
                 int lives; score->QueryIntAttribute("lives",&lives);
                 int depth; score->QueryIntAttribute("depth",&depth);
 
@@ -120,7 +120,7 @@ int HighScoreManager::load()
 
                 scores[score_index].name = name;
                 scores[score_index].time = time;
-                scores[score_index].points = points;
+                //scores[score_index].points = points;
                 scores[score_index].lives = lives;
                 scores[score_index].depth = depth;
 
@@ -183,7 +183,7 @@ int HighScoreManager::save()
 
                 scoreElm->SetAttribute("name",scores[score_index].name.c_str());
                 scoreElm->SetAttribute("time",scores[score_index].time);
-                scoreElm->SetAttribute("points",scores[score_index].points);
+                //scoreElm->SetAttribute("points",scores[score_index].points);
                 scoreElm->SetAttribute("lives",scores[score_index].lives);
                 scoreElm->SetAttribute("depth",scores[score_index].depth);
             }
@@ -291,7 +291,7 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
         {
             scores[highest_time_index].name = name;
             scores[highest_time_index].time = time;
-            scores[highest_time_index].points = points;
+            //scores[highest_time_index].points = points;
             scores[highest_time_index].lives = lives;
             scores[highest_time_index].depth = depth;
 

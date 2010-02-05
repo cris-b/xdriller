@@ -20,6 +20,8 @@ class RingSwitcherObject
         void setBlocked(bool _blocked);
         bool isBlocked();
 
+        void setMaterialName(const Ogre::String &material);
+
 
     private:
 

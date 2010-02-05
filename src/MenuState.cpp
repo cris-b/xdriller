@@ -186,7 +186,7 @@ void MenuState::enter( void )
     mPanel->setPosition(0, 0);
     mPanel->setDimensions(1, 1);
 
-    mInfoTextArea = static_cast<TextAreaOverlayElement*>(
+    /*mInfoTextArea = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "InfoTextArea"));
     mInfoTextArea->setMetricsMode(Ogre::GMM_RELATIVE);
     mInfoTextArea->setPosition(0.98, 0.95);
@@ -197,7 +197,7 @@ void MenuState::enter( void )
     //mInfoTextArea->setColourBottom(ColourValue(1.0, 1, 1.0));
     //mInfoTextArea->setColourTop(ColourValue(0, 0, 0));
     mInfoTextArea->setColour(ColourValue(0,0,0));
-    mInfoTextArea->setAlignment(TextAreaOverlayElement::Right);
+    mInfoTextArea->setAlignment(TextAreaOverlayElement::Right);*/
 
 
     //mLogoXDriller->setScroll(0,1.5);
@@ -261,7 +261,7 @@ void MenuState::enter( void )
     mOverlay->add2D(mLevelScreenshot);
     mOverlay->add2D(mBigImage);
 
-    mPanel->addChild(mInfoTextArea);
+    //mPanel->addChild(mInfoTextArea);
     mPanel->addChild(mLevelInfo);
 
 
@@ -308,7 +308,7 @@ void MenuState::exit( void )
     mOverlayMgr->destroyOverlayElement(mLevelScreenshot_shadow);
     mOverlayMgr->destroyOverlayElement(mBigImage);
     mOverlayMgr->destroyOverlayElement(mLevelInfo);
-    mOverlayMgr->destroyOverlayElement(mInfoTextArea);
+    //mOverlayMgr->destroyOverlayElement(mInfoTextArea);
     mOverlayMgr->destroyOverlayElement(mPanel);
 
 
@@ -398,14 +398,23 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
     if( e.key == OIS::KC_1)
     {
-        //prueba
+        //prueba tembleque
         //RumbleManager::getSingleton().playEffect(RumbleManager::WEAK);
     }
 
     if( e.key == OIS::KC_2)
     {
-        //prueba
+        //prueba highscorestate
         //fadeState(HighScoreState::getSingletonPtr());
+    }
+    if( e.key == OIS::KC_3)
+    {
+        //prueba modo infinito
+        LevelLoader::getSingleton().setGameMode(GAME_MODE_INFINITE);
+        LevelLoader::getSingleton().setDifficulty(LevelLoader::EASY);
+
+        fadeState( PlayState::getSingletonPtr() );
+
     }
 
 
@@ -517,19 +526,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
-            case MENU_PAGE_LEVELSELECT_INFINITE:
-            {
 
-                if(menuCursor == 0)
-                {
-                    if(buttons[0]->getOptionCaption() == _("Easy")) buttons[0]->setOptionCaption(_("Hard"));
-                    else if(buttons[0]->getOptionCaption() == _("Hard")) buttons[0]->setOptionCaption(_("Medium"));
-                    else if(buttons[0]->getOptionCaption() == _("Medium")) buttons[0]->setOptionCaption(_("Easy"));
-                    SoundManager::getSingleton().playSound(SOUND_MENU3);
-                }
-
-                break;
-            }
             case MENU_PAGE_AUDIO_OPTIONS:
             {
 
@@ -568,6 +565,16 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 break;
             }
             case MENU_PAGE_GAME_MODE:
+            {
+
+                ringSwitcher->prev();
+
+                buttons[0]->setCaption(ringSwitcher->getCurrentName());
+                SoundManager::getSingleton().playSound(SOUND_MENU3);
+
+                break;
+            }
+            case MENU_PAGE_LEVELSELECT_INFINITE:
             {
 
                 ringSwitcher->prev();
@@ -714,20 +721,17 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
-            case MENU_PAGE_LEVELSELECT_INFINITE:
+            case MENU_PAGE_GAME_MODE:
             {
 
-                if(menuCursor == 0)
-                {
-                    if(buttons[0]->getOptionCaption() == _("Easy")) buttons[0]->setOptionCaption(_("Medium"));
-                    else if(buttons[0]->getOptionCaption() == _("Medium")) buttons[0]->setOptionCaption(_("Hard"));
-                    else if(buttons[0]->getOptionCaption() == _("Hard")) buttons[0]->setOptionCaption(_("Easy"));
-                    SoundManager::getSingleton().playSound(SOUND_MENU3);
-                }
+                ringSwitcher->next();
+
+                buttons[0]->setCaption(ringSwitcher->getCurrentName());
+                SoundManager::getSingleton().playSound(SOUND_MENU3);
 
                 break;
             }
-            case MENU_PAGE_GAME_MODE:
+            case MENU_PAGE_LEVELSELECT_INFINITE:
             {
 
                 ringSwitcher->next();
@@ -801,7 +805,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             {
                 if(menuCursor == 0)
                 {
-                    changePage(MENU_PAGE_LEVELSELECT);
+                    changePage(MENU_PAGE_GAME_MODE);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
 
                 }
@@ -934,18 +938,19 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     {
                         LevelLoader::getSingleton().setGameMode(GAME_MODE_ADVENTURE);
                         changePage(MENU_PAGE_LEVELSELECT);
+                        SoundManager::getSingleton().playSound(SOUND_MENU2);
                     }
                     else if(ringSwitcher->getCurrentName() == _("Infinite"))
                     {
                         LevelLoader::getSingleton().setGameMode(GAME_MODE_INFINITE);
                         changePage(MENU_PAGE_LEVELSELECT_INFINITE);
+                        SoundManager::getSingleton().playSound(SOUND_MENU2);
                     }
                     else if(ringSwitcher->getCurrentName() == _("Time Attack"))
                     {
-                        LevelLoader::getSingleton().setGameMode(GAME_MODE_TIME_ATTACK);
-                        //changePage(MENU_PAGE_LEVELSELECT);
+                        SoundManager::getSingleton().playSound(SOUND_MENU4);
                     }
-                    SoundManager::getSingleton().playSound(SOUND_MENU2);
+
                     return;
                 }
 
@@ -969,9 +974,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             case MENU_PAGE_LEVELSELECT_INFINITE:
             {
 
-                if(buttons[0]->getOptionCaption() == _("Easy")) LevelLoader::getSingleton().setDifficulty(LevelLoader::EASY);
-                if(buttons[0]->getOptionCaption() == _("Medium")) LevelLoader::getSingleton().setDifficulty(LevelLoader::MEDIUM);
-                if(buttons[0]->getOptionCaption() == _("Hard")) LevelLoader::getSingleton().setDifficulty(LevelLoader::HARD);
+                if(ringSwitcher->getCurrentName() == _("Easy")) LevelLoader::getSingleton().setDifficulty(LevelLoader::EASY);
+                if(ringSwitcher->getCurrentName() == _("Medium")) LevelLoader::getSingleton().setDifficulty(LevelLoader::MEDIUM);
+                if(ringSwitcher->getCurrentName() == _("Hard")) LevelLoader::getSingleton().setDifficulty(LevelLoader::HARD);
+
+                LevelLoader::getSingleton().setGameMode(GAME_MODE_INFINITE);
 
                 fadeState( PlayState::getSingletonPtr() );
 
@@ -1006,8 +1013,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             case MENU_PAGE_LEVELSELECT:
             case MENU_PAGE_LEVELSELECT_INFINITE:
             {
-                //changePage(MENU_PAGE_GAME_MODE);
-                changePage(MENU_PAGE_MAIN);
+                changePage(MENU_PAGE_GAME_MODE);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
             }
@@ -1132,7 +1138,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("Fixi Studios makes cool games for you"));
+            //mInfoTextArea->setCaption(_("Fixi Studios makes cool games for you"));
 
             break;
         }
@@ -1166,7 +1172,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("We are electric..."));
+            //mInfoTextArea->setCaption(_("We are electric..."));
 
             break;
         }
@@ -1208,7 +1214,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("ATENTION: restart the game for new settings to apply correctly"));
+            //mInfoTextArea->setCaption(_("ATENTION: restart the game for new settings to apply correctly"));
 
 
 
@@ -1252,7 +1258,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("It's good to have options"));
+            //mInfoTextArea->setCaption(_("It's good to have options"));
 
             break;
         }
@@ -1283,14 +1289,14 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("Customize your player"));
+            //mInfoTextArea->setCaption(_("Customize your player"));
 
             break;
         }
 
         case MENU_PAGE_GAME_MODE:
         {
-            ringSwitcher = new RingSwitcher(2);
+            ringSwitcher = new RingSwitcher(14);
 
 
             //Los nombres de los modos deberian ser las variables que estan
@@ -1304,18 +1310,20 @@ void MenuState::changePage(unsigned int page)
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
             ringSwitcher->setBlocked(_("Time Attack"),false);
 
+            ringSwitcher->next();
 
-            ringSwitcher->setPosition(0,-1,0);
+
+            ringSwitcher->setPosition(0,0,0);
 
             buttons.push_back(new MenuButton(ringSwitcher->getCurrentName()));
 
             buttons[0]->setPosition(0,-0.45);
             buttons[0]->setState(BSTATE_ACTIVE);
-            buttons[0]->setArrows(true);
+            buttons[0]->setArrows(false);
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("Select Game Mode & Press ENTER"));
+            //mInfoTextArea->setCaption(_("Select Game Mode & Press ENTER"));
 
             break;
 
@@ -1342,36 +1350,44 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("Select Level & Press ENTER"));
+            //mInfoTextArea->setCaption(_("Select Level & Press ENTER"));
 
             break;
         }
 
         case MENU_PAGE_LEVELSELECT_INFINITE:
         {
-            titleButton = new MenuButton(_("Infinite"));
-            titleButton->setPosition(0,-0.45);
-            titleButton->setColor(ColourValue(1,0,0));
+            ringSwitcher = new RingSwitcher(14);
 
-            buttons.push_back(new MenuButton(_("Difficulty"),ALIGN_LEFT,true,true));
 
-            buttons[0]->setPosition(-0.4,-0.35);
+            ringSwitcher->addObject(_("Easy"),"cube.mesh");
+            ringSwitcher->setBlocked(_("Easy"),false);
+            ringSwitcher->setMaterialName(_("Easy"),"verde");
+
+            ringSwitcher->addObject(_("Medium"),"cube.mesh");
+            ringSwitcher->setBlocked(_("Medium"),false);
+            ringSwitcher->setMaterialName(_("Medium"),"amarillo");
+
+            ringSwitcher->addObject(_("Hard"),"cube.mesh");
+            ringSwitcher->setBlocked(_("Hard"),false);
+            ringSwitcher->setMaterialName(_("Hard"),"rojo");
+
+            ringSwitcher->next();
+
+            ringSwitcher->setPosition(0,0,0);
+
+            buttons.push_back(new MenuButton(ringSwitcher->getCurrentName()));
+
+            buttons[0]->setPosition(0,-0.45);
             buttons[0]->setState(BSTATE_ACTIVE);
-
-            buttons[0]->setOptionCaption(_("Easy"));
+            buttons[0]->setArrows(false);
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("");
-
-            ringSwitcher = new RingSwitcher(2);
-
-            ringSwitcher->addObject(_("Infinite"),"infinito.mesh");
-            ringSwitcher->setBlocked(_("Infinite"),false);
-
-            ringSwitcher->setPosition(0,-3,0);
+            //mInfoTextArea->setCaption(_("Select Game Mode & Press ENTER"));
 
             break;
+
         }
         case MENU_PAGE_HIGHSCORES:
         {
@@ -1401,7 +1417,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption("");
+            //mInfoTextArea->setCaption("");
 
 
             highScoreTable = new HighScoreTable();
@@ -1433,7 +1449,7 @@ void MenuState::changePage(unsigned int page)
 
 
 
-            mInfoTextArea->setCaption("");
+            //mInfoTextArea->setCaption("");
 
             break;
         }
@@ -1459,7 +1475,7 @@ void MenuState::changePage(unsigned int page)
 
             menuCursor = 0;
 
-            mInfoTextArea->setCaption(_("C'mon! One more game can't hurt..."));
+            //mInfoTextArea->setCaption(_("C'mon! One more game can't hurt..."));
 
             break;
 

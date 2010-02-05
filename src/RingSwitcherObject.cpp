@@ -52,3 +52,8 @@ bool RingSwitcherObject::isBlocked()
 {
     return blocked;
 }
+
+void RingSwitcherObject::setMaterialName(const Ogre::String &material)
+{
+    mEnt->setMaterialName(material);
+}

@@ -7,6 +7,7 @@
 #include "DotScene.h"
 #include "ConfigManager.h"
 #include "InputManager.h"
+#include "Globals.h"
 
 #include "Gettext.h"
 
@@ -32,8 +33,9 @@ using namespace Ogre;
 PlayState* PlayState::mPlayState;
 
 
-
 void PlayState::enter( void ) {
+
+
     mRoot             = Root::getSingletonPtr();
     mOverlayMgr       = OverlayManager::getSingletonPtr();
     mKeyboard         = InputManager::getSingletonPtr()->getKeyboard();
@@ -51,8 +53,8 @@ void PlayState::enter( void ) {
     depthAccumulation = 0;
     depth = 0;
     boardNum = 0;
-    points = 0;
-    pointsAccumulation = 0;
+    //points = 0;
+    //pointsAccumulation = 0;
     gameTime = 0;
     gameSeconds = 0;
     finished = false;
@@ -193,16 +195,16 @@ void PlayState::enter( void ) {
     mArrow =  static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "Arrow"));
     mArrow->setMetricsMode(Ogre::GMM_RELATIVE);
-    mArrow->setPosition(0.01,0.88);
-    mArrow->setDimensions(0.075,0.1);
+    mArrow->setPosition(0.01,0.01);
+    mArrow->setDimensions(0.0375,0.05);
     mArrow->setMaterialName("arrow");
 
-    mScore =  static_cast<PanelOverlayElement*>(
+    /*mScore =  static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "Score"));
     mScore->setMetricsMode(Ogre::GMM_RELATIVE);
     mScore->setPosition(0.01,0.01);
     mScore->setDimensions(0.0375,0.05);
-    mScore->setMaterialName("score");
+    mScore->setMaterialName("score");*/
 
     mClock =  static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "Clock"));
@@ -217,17 +219,17 @@ void PlayState::enter( void ) {
     mTextAreaDepth = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaDepth"));
     mTextAreaDepth->setMetricsMode(Ogre::GMM_RELATIVE);
-    mTextAreaDepth->setPosition(0.0475, 0.88);
-    mTextAreaDepth->setDimensions(0.1, 0.1);
+    mTextAreaDepth->setPosition(0.05, 0.0);
+    mTextAreaDepth->setDimensions(0.2, 0.1);
     mTextAreaDepth->setCaption("0");
     mTextAreaDepth->setCharHeight(0.07);
     mTextAreaDepth->setFontName("CoolFont");
     //mTextAreaDepth->setColourBottom(ColourValue(0.0, 0.0, 0.0));
     //mTextAreaDepth->setColourTop(ColourValue(1, 0, 0));
     mTextAreaDepth->setColour(ColourValue(1,1,1));
-    mTextAreaDepth->setAlignment(TextAreaOverlayElement::Center);
+    mTextAreaDepth->setAlignment(TextAreaOverlayElement::Left);
 
-    mTextAreaPoints = static_cast<TextAreaOverlayElement*>(
+    /*mTextAreaPoints = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaPoints"));
     mTextAreaPoints->setMetricsMode(Ogre::GMM_RELATIVE);
     mTextAreaPoints->setPosition(0.05, 0.0);
@@ -236,7 +238,7 @@ void PlayState::enter( void ) {
     mTextAreaPoints->setCharHeight(0.07);
     mTextAreaPoints->setFontName("CoolFont");
     mTextAreaPoints->setColour(ColourValue(1,1,1));
-    mTextAreaPoints->setAlignment(TextAreaOverlayElement::Left);
+    mTextAreaPoints->setAlignment(TextAreaOverlayElement::Left);*/
 
     mTextAreaClock = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaClock"));
@@ -282,7 +284,7 @@ void PlayState::enter( void ) {
 
 
     mOverlay->add2D(mArrow);
-    mOverlay->add2D(mScore);
+    //mOverlay->add2D(mScore);
     mOverlay->add2D(mClock);
     mOverlay->add2D(mPanel);
     mOverlay->add2D(mLivesPanel);
@@ -290,7 +292,7 @@ void PlayState::enter( void ) {
     mOverlay->add2D(mBottle);
 
     ///////////////////////////////////////////////////////
-    #ifdef XDRILLER_DEBUG
+    #if XDRILLER_DEBUG == 1
     mTextAreaDebug = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "TextAreaDebug"));
     mTextAreaDebug->setMetricsMode(Ogre::GMM_RELATIVE);
@@ -299,14 +301,14 @@ void PlayState::enter( void ) {
     mTextAreaDebug->setCaption(" ");
     mTextAreaDebug->setCharHeight(0.03);
     mTextAreaDebug->setFontName("SmallFont");
-    mTextAreaDebug->setColour(ColourValue(1,1,1,0.5));
+    mTextAreaDebug->setColour(ColourValue(0,0,0,0.8));
 
     mPanel->addChild(mTextAreaDebug);
     #endif
     /////////////////////////////////////////////////////////
 
     mPanel->addChild(mTextAreaDepth);
-    mPanel->addChild(mTextAreaPoints);
+    //mPanel->addChild(mTextAreaPoints);
     mPanel->addChild(mTextAreaClock);
 
     mOverlay->setZOrder(100);
@@ -325,19 +327,37 @@ void PlayState::enter( void ) {
 
 void PlayState::exit( void ) {
 
-    delete mBoard;
-    delete mPlayer;
+    if(mBoard !=NULL)
+    {
+        delete mBoard;
+        mBoard = NULL;
+    }
+    if(mPlayer !=NULL)
+    {
+        delete mPlayer;
+        mPlayer = NULL;
+    }
+    if(textEffector !=NULL)
+    {
+        delete textEffector;
+        textEffector = NULL;
+    }
 
-    delete textEffector;
 
     destroyOverlayElements();
 
-    #ifdef XDRILLER_DEBUG
-    if(mTextAreaDebug != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaDebug);     mTextAreaDebug = NULL;
+    #if XDRILLER_DEBUG == 1
+    if(mTextAreaDebug != NULL)
+    {
+        mOverlayMgr->destroyOverlayElement(mTextAreaDebug);
+        mTextAreaDebug = NULL;
+    }
     #endif
-
-    mOverlayMgr->destroy(mOverlay);
-
+    if(mOverlay != NULL)
+    {
+        mOverlayMgr->destroy(mOverlay);
+        mOverlay = NULL;
+    }
     mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 
     mSceneMgr->clearScene();
@@ -492,14 +512,14 @@ void PlayState::update( unsigned long lTimeElapsed )
         if(mPlayer->getLastDepth() != mPlayer->getDepth())
         {
             depth = depthAccumulation+mPlayer->getDepth();
-            mTextAreaDepth->setCaption( StringConverter::toString(depth));
+            mTextAreaDepth->setCaption(StringConverter::toString(depth));
         }
 
-        if(points < pointsAccumulation + mPlayer->getPoints()*5 + mBoard->getPoints())
+        /*if(points < pointsAccumulation + mPlayer->getPoints()*5 + mBoard->getPoints())
         {
             points = pointsAccumulation + mPlayer->getPoints()*5 + mBoard->getPoints();
             mTextAreaPoints->setCaption( String("x") + StringConverter::toString(points) );
-        }
+        }*/
         if(gameSeconds != int(gameTime / 1000))
         {
             gameSeconds = int(gameTime / 1000);
@@ -545,7 +565,7 @@ void PlayState::update( unsigned long lTimeElapsed )
             destroyOverlayElements();
 
             int is_high_score = HighScoreManager::getSingleton().addScore(
-            "Adventure",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,points,mPlayer->getLives(),depth);
+            "Adventure",LevelLoader::getSingleton().getLevelName(),"durmieu",gameSeconds,mPlayer->getLives(),depth);
 
             if(is_high_score) textEffector->addBigMessage(_("New record!"));
         }
@@ -566,6 +586,8 @@ void PlayState::update( unsigned long lTimeElapsed )
             count += lTimeElapsed;
 
             destroyOverlayElements();
+
+            //muestra una calavera al morir
 
             mSkull =  static_cast<PanelOverlayElement*>(
                 mOverlayMgr->createOverlayElement("Panel", "Skull"));
@@ -597,7 +619,7 @@ void PlayState::update( unsigned long lTimeElapsed )
     }
     //else count = 0;
 
-    #ifdef XDRILLER_DEBUG
+    #if XDRILLER_DEBUG == 1
 
     if(mTextAreaDebug != NULL)
     {
@@ -629,9 +651,9 @@ void PlayState::nextBoard()
 
         Real distanceUp = -mPlayer->getPosition().y + 10;
 
-        depthAccumulation += depth;
+        depthAccumulation += mPlayer->getDepth();
 
-        pointsAccumulation += points;
+        //pointsAccumulation += points;
 
         delete mBoard;
         mBoard = new Board();
@@ -643,6 +665,18 @@ void PlayState::nextBoard()
         mCam->update(0);
 
         backgroundSceneNode->translate(0,backgroundSceneNode->getPosition().y + distanceUp,0);
+
+        // display "Board n"
+        if(LevelLoader::getSingleton().getGameMode() == GAME_MODE_INFINITE)
+        {
+            textEffector->addBigMessage(String(_("Board")) + " " + StringConverter::toString(boardNum+1));
+
+        }
+        else //displays boardnum / numboards
+        {
+            textEffector->addBigMessage(StringConverter::toString(boardNum+1) +
+            " / " + StringConverter::toString(LevelLoader::getSingleton().getNumBoards()));
+        }
     }
     else
     {
@@ -659,10 +693,6 @@ void PlayState::nextBoard()
         }
 
     }
-
-    //en los subsiguentes tableros la escena de fondo de sigue dibujando
-    // ¿como hacer que nop se dibujen?
-    //if(boardNum == 1) backgroundSceneNode->detachObject(backgroundSceneEnt);
 
 
 };
@@ -695,7 +725,7 @@ void PlayState::keyPressed( const OIS::KeyEvent &e )
         mCam->setMode(CMODE_FOLLOW);
     }
 
-    #ifdef XDRILLER_DEBUG
+    #if XDRILLER_DEBUG == 1
 
     if (e.key == OIS::KC_F1)
     {
@@ -776,7 +806,7 @@ void PlayState::destroyOverlayElements()
 {
 
     if(mTextAreaDepth != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaDepth);     mTextAreaDepth = NULL;
-    if(mTextAreaPoints != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaPoints);    mTextAreaPoints = NULL;
+    //if(mTextAreaPoints != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaPoints);    mTextAreaPoints = NULL;
     if(mTextAreaClock != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaClock);     mTextAreaClock = NULL;
     if(mTextAreaLives != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaLives);     mTextAreaLives = NULL;
     if(mTextAreaTotal != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaTotal);     mTextAreaTotal = NULL;

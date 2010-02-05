@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xdriller 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-01 12:32+0100\n"
+"POT-Creation-Date: 2010-02-03 01:13+0100\n"
 "PO-Revision-Date: 2010-02-02 17:36+0100\n"
 "Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
 "Language-Team: Fixi Studios\n"
@@ -19,12 +19,8 @@ msgstr ""
 msgid "ATENTION: restart the game for new settings to apply correctly"
 msgstr "ATENCIÓN: reinicia el juego para establecer los nuevos ajustes"
 
-#: src/MenuState.cpp:621
-#: src/MenuState.cpp:782
-#: src/MenuState.cpp:933
-#: src/MenuState.cpp:1300
-#: src/MenuState.cpp:1301
-#: src/MenuState.cpp:1389
+#: src/MenuState.cpp:621 src/MenuState.cpp:782 src/MenuState.cpp:933
+#: src/MenuState.cpp:1300 src/MenuState.cpp:1301 src/MenuState.cpp:1389
 msgid "Adventure"
 msgstr "Aventura"
 
@@ -40,14 +36,11 @@ msgstr "Aplicar"
 msgid "Are you sure you want to quit?"
 msgstr "¿Quieres dejar de jugar?"
 
-#: src/MenuState.cpp:1143
-#: src/MenuState.cpp:1232
+#: src/MenuState.cpp:1143 src/MenuState.cpp:1232
 msgid "Audio Options"
 msgstr "Ajustes de Sonido"
 
-#: src/MenuState.cpp:1162
-#: src/MenuState.cpp:1204
-#: src/MenuState.cpp:1248
+#: src/MenuState.cpp:1162 src/MenuState.cpp:1204 src/MenuState.cpp:1248
 msgid "Back"
 msgstr "Volver"
 
@@ -59,8 +52,7 @@ msgstr "Enga! Una mas!"
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/MenuState.cpp:1238
-#: src/MenuState.cpp:1417
+#: src/MenuState.cpp:1238 src/MenuState.cpp:1417
 msgid "Controls"
 msgstr "Controles"
 
@@ -76,17 +68,12 @@ msgstr "Selecciona modelo"
 msgid "Depth"
 msgstr "Profundidad"
 
-#: src/MenuState.cpp:1356
-#: src/MenuState.cpp:1506
+#: src/MenuState.cpp:1356 src/MenuState.cpp:1506
 msgid "Difficulty"
 msgstr "Dificultad"
 
-#: src/MenuState.cpp:525
-#: src/MenuState.cpp:527
-#: src/MenuState.cpp:722
-#: src/MenuState.cpp:724
-#: src/MenuState.cpp:972
-#: src/MenuState.cpp:1361
+#: src/MenuState.cpp:525 src/MenuState.cpp:527 src/MenuState.cpp:722
+#: src/MenuState.cpp:724 src/MenuState.cpp:972 src/MenuState.cpp:1361
 #: src/MenuState.cpp:1512
 msgid "Easy"
 msgstr "Facil"
@@ -107,17 +94,12 @@ msgstr "Juegos Fixi Studios te hacen mas feliz"
 msgid "Fullscreen"
 msgstr "Pantalla Completa"
 
-#: src/MenuState.cpp:1177
-#: src/MenuState.cpp:1225
+#: src/MenuState.cpp:1177 src/MenuState.cpp:1225
 msgid "Graphic Options"
 msgstr "Ajustes Gráficos"
 
-#: src/MenuState.cpp:525
-#: src/MenuState.cpp:526
-#: src/MenuState.cpp:723
-#: src/MenuState.cpp:724
-#: src/MenuState.cpp:974
-#: src/MenuState.cpp:1514
+#: src/MenuState.cpp:525 src/MenuState.cpp:526 src/MenuState.cpp:723
+#: src/MenuState.cpp:724 src/MenuState.cpp:974 src/MenuState.cpp:1514
 msgid "Hard"
 msgstr "Solo para valientes"
 
@@ -129,14 +111,9 @@ msgstr "Puntuaciones"
 msgid "HighScores"
 msgstr "Puntuaciones"
 
-#: src/MenuState.cpp:623
-#: src/MenuState.cpp:784
-#: src/MenuState.cpp:938
-#: src/MenuState.cpp:1302
-#: src/MenuState.cpp:1303
-#: src/MenuState.cpp:1352
-#: src/MenuState.cpp:1369
-#: src/MenuState.cpp:1370
+#: src/MenuState.cpp:623 src/MenuState.cpp:784 src/MenuState.cpp:938
+#: src/MenuState.cpp:1302 src/MenuState.cpp:1303 src/MenuState.cpp:1352
+#: src/MenuState.cpp:1369 src/MenuState.cpp:1370
 msgid "Infinite"
 msgstr "Infinito"
 
@@ -148,11 +125,8 @@ msgstr "Mola poder elegir"
 msgid "Level"
 msgstr "Nivel"
 
-#: src/MenuState.cpp:526
-#: src/MenuState.cpp:527
-#: src/MenuState.cpp:722
-#: src/MenuState.cpp:723
-#: src/MenuState.cpp:973
+#: src/MenuState.cpp:526 src/MenuState.cpp:527 src/MenuState.cpp:722
+#: src/MenuState.cpp:723 src/MenuState.cpp:973
 msgid "Medium"
 msgstr "Medio"
 
@@ -176,8 +150,7 @@ msgstr "Nombre"
 msgid "New record!"
 msgstr "¡Nuevo Record!"
 
-#: src/MenuState.cpp:505
-#: src/MenuState.cpp:666
+#: src/MenuState.cpp:505 src/MenuState.cpp:666
 msgid "No"
 msgstr "No"
 
@@ -197,8 +170,7 @@ msgstr "No configurable"
 msgid "Number of boards"
 msgstr "Número de tablas"
 
-#: src/MenuState.cpp:1113
-#: src/MenuState.cpp:1221
+#: src/MenuState.cpp:1113 src/MenuState.cpp:1221
 msgid "Options"
 msgstr "Ajustes"
 
@@ -250,11 +222,8 @@ msgstr "Start"
 msgid "Time"
 msgstr "Tiempo"
 
-#: src/MenuState.cpp:625
-#: src/MenuState.cpp:786
-#: src/MenuState.cpp:943
-#: src/MenuState.cpp:1304
-#: src/MenuState.cpp:1305
+#: src/MenuState.cpp:625 src/MenuState.cpp:786 src/MenuState.cpp:943
+#: src/MenuState.cpp:1304 src/MenuState.cpp:1305
 msgid "Time Attack"
 msgstr "Contrareloj"
 
@@ -262,8 +231,7 @@ msgstr "Contrareloj"
 msgid "We are electric..."
 msgstr "Somos elecrticosss..."
 
-#: src/MenuState.cpp:510
-#: src/MenuState.cpp:671
+#: src/MenuState.cpp:510 src/MenuState.cpp:671
 msgid "Yes"
 msgstr "Si"
 
@@ -273,6 +241,6 @@ msgstr "Si, salir!"
 
 #~ msgid "PAUSE"
 #~ msgstr "PAUSA"
+
 #~ msgid "Survivor"
 #~ msgstr "Superviviente"
-

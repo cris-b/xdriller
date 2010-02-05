@@ -41,7 +41,7 @@ HighScoreTable::HighScoreTable()
     mName->setMetricsMode(Ogre::GMM_RELATIVE);
     mName->setHorizontalAlignment(Ogre::GHA_CENTER);
     mName->setVerticalAlignment(Ogre::GVA_CENTER);
-    mName->setPosition(-0.35, -0.15);
+    mName->setPosition(-0.30, -0.15);
     mName->setDimensions(1, 0.2);
     mName->setCharHeight(BIG_CHAR_HEIGHT);
     mName->setFontName("CoolFont");
@@ -54,7 +54,7 @@ HighScoreTable::HighScoreTable()
     mTime->setMetricsMode(Ogre::GMM_RELATIVE);
     mTime->setHorizontalAlignment(Ogre::GHA_CENTER);
     mTime->setVerticalAlignment(Ogre::GVA_CENTER);
-    mTime->setPosition(-0.12, -0.15);
+    mTime->setPosition(0.0, -0.15);
     mTime->setDimensions(1, 0.2);
     mTime->setCharHeight(BIG_CHAR_HEIGHT);
     mTime->setFontName("CoolFont");
@@ -67,7 +67,7 @@ HighScoreTable::HighScoreTable()
     mDepth->setMetricsMode(Ogre::GMM_RELATIVE);
     mDepth->setHorizontalAlignment(Ogre::GHA_CENTER);
     mDepth->setVerticalAlignment(Ogre::GVA_CENTER);
-    mDepth->setPosition(0.12, -0.15);
+    mDepth->setPosition(0.30, -0.15);
     mDepth->setDimensions(1, 0.2);
     mDepth->setCharHeight(BIG_CHAR_HEIGHT);
     mDepth->setFontName("CoolFont");
@@ -75,7 +75,7 @@ HighScoreTable::HighScoreTable()
     mDepth->setAlignment(TextAreaOverlayElement::Center);
     mDepth->setCaption(_("Depth"));
 
-    Ogre::TextAreaOverlayElement *mPoints = static_cast<TextAreaOverlayElement*>(
+    /*Ogre::TextAreaOverlayElement *mPoints = static_cast<TextAreaOverlayElement*>(
         mOverlayMgr->createOverlayElement("TextArea", "HighScoreTable_points"));
     mPoints->setMetricsMode(Ogre::GMM_RELATIVE);
     mPoints->setHorizontalAlignment(Ogre::GHA_CENTER);
@@ -86,7 +86,7 @@ HighScoreTable::HighScoreTable()
     mPoints->setFontName("CoolFont");
     mPoints->setColour(color_1);
     mPoints->setAlignment(TextAreaOverlayElement::Center);
-    mPoints->setCaption(_("Points"));
+    mPoints->setCaption(_("Points"));*/
 
 
     Ogre::TextAreaOverlayElement *mTable = static_cast<TextAreaOverlayElement*>(
@@ -105,7 +105,7 @@ HighScoreTable::HighScoreTable()
     mPanel->addChild(mName);
     mPanel->addChild(mTime);
     mPanel->addChild(mDepth);
-    mPanel->addChild(mPoints);
+    //mPanel->addChild(mPoints);
     mPanel->addChild(mTable);
 
 
@@ -119,7 +119,7 @@ HighScoreTable::~HighScoreTable()
     mPanel->removeChild("HighScoreTable_name");
     mPanel->removeChild("HighScoreTable_time");
     mPanel->removeChild("HighScoreTable_depth");
-    mPanel->removeChild("HighScoreTable_points");
+    //mPanel->removeChild("HighScoreTable_points");
     mPanel->removeChild("HighScoreTable_table");
 
     mOverlay->remove2D(mPanel);
@@ -127,7 +127,7 @@ HighScoreTable::~HighScoreTable()
     mOverlayMgr->destroyOverlayElement("HighScoreTable_name");
     mOverlayMgr->destroyOverlayElement("HighScoreTable_time");
     mOverlayMgr->destroyOverlayElement("HighScoreTable_depth");
-    mOverlayMgr->destroyOverlayElement("HighScoreTable_points");
+    //mOverlayMgr->destroyOverlayElement("HighScoreTable_points");
     mOverlayMgr->destroyOverlayElement("HighScoreTable_table");
     mOverlayMgr->destroyOverlayElement("HighScoreTable_panel");
 
@@ -153,11 +153,11 @@ void HighScoreTable::updateTable(Ogre::String mode, Ogre::String level)
         String name = highScore->name;
         String time = secsToClockString(highScore->time);
         String depth = StringConverter::toString(highScore->depth);
-        String points = StringConverter::toString(highScore->points);
+        //String points = StringConverter::toString(highScore->points);
 
         if(name == "")
         {
-            tableText += "    -           -          -             - \n";
+            tableText += "    -                -               -    \n";
         }
         else
         {
@@ -189,14 +189,14 @@ void HighScoreTable::updateTable(Ogre::String mode, Ogre::String level)
 
             tableText += depth;
 
-            spaces = 14-points.size();
+            /*spaces = 14-points.size();
 
             for(int j=0;j<spaces; j++)
             {
                 tableText += " ";
             }
 
-            tableText += points;
+            tableText += points;*/
 
             tableText += "\n";
         }

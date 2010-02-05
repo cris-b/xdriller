@@ -10,7 +10,7 @@
 class RingSwitcher
 {
     public:
-        RingSwitcher(float radius = 1.7);
+        RingSwitcher(float size = 5);
         ~RingSwitcher();
 
         void addObject(const Ogre::String &name,const Ogre::String &mesh);
@@ -27,18 +27,20 @@ class RingSwitcher
         void setBlocked(const Ogre::String &name,bool _blocked);
         bool isBlocked(const Ogre::String &name);
 
+        void setMaterialName(const Ogre::String &name, const Ogre::String &material);
+
     private:
 
-        float radius;
-
-        int selected;
+        float size;
 
         float angle;
 
-        float desired_angle;
-
+        int selected;
 
         Ogre::SceneNode *mNode;
+
+        Ogre::SceneNode *doubleArrowNode;
+        Ogre::Entity *doubleArrowEnt;
 
         std::vector<RingSwitcherObject*> objects;
 
