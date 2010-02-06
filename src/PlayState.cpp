@@ -129,7 +129,7 @@ void PlayState::enter( void ) {
     if(LevelLoader::getSingleton().getValue("fog") == "on")
     {
         Real fog_start = 10;
-        Real fog_end = 40;
+        Real fog_end = 50;
 
         if(LevelLoader::getSingleton().getValue("fog_start") != "")
             fog_start = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_start"));
@@ -723,14 +723,6 @@ void PlayState::nextBoard()
 
 void PlayState::keyPressed( const OIS::KeyEvent &e )
 {
-
-
-
-    if( e.key == OIS::KC_1)
-    {
-        //prueba
-        textEffector->addBigMessage("¡hello world!");
-    }
 
 
     if ( e.key == OIS::KC_SPACE)
