@@ -20,7 +20,6 @@ fragment_program blur_v_fp glsl
 vertex_program blur_vp glsl
 {
 	source blur_vp.glsl
-
 }
 
 

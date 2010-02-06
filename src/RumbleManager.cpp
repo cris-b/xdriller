@@ -37,7 +37,7 @@ RumbleManager::RumbleManager()
     LogManager::getSingleton().logMessage("RubbleManager: Searching input devices for Force Feedback support");
 
 
-    for(int i=0; i<=9;i++)
+    for(int i=0; i<=20;i++)
     {
         String device;
 
