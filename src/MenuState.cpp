@@ -62,6 +62,7 @@ MenuState::MenuState()
     titleButton = NULL;
     ringSwitcher = NULL;
     playerModelSelector = NULL;
+    highScoreTable = NULL;
 }
 
 void MenuState::enter( void )
