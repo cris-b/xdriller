@@ -1,3 +1,85 @@
 <scene formatVersion="1.0.0">
-
+  <nodes>
+    <node name="flyland.009">
+      <position x="14.097755" y="-3849.738525" z="-30.612946"/>
+      <quaternion x="0.000000" y="0.748497" z="-0.000000" w="0.663139"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="flyland.009" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.008">
+      <position x="-384.863831" y="-3451.737305" z="-1449.339600"/>
+      <quaternion x="0.000000" y="0.085743" z="-0.000000" w="0.996317"/>
+      <scale x="2.913380" y="2.913380" z="2.913380"/>
+      <entity name="flyland.008" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.001">
+      <position x="36.846088" y="-12.870156" z="-77.147476"/>
+      <quaternion x="0.000000" y="-0.988789" z="-0.000000" w="0.149320"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="flyland.001" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.003">
+      <position x="14.222552" y="-289.227875" z="-10.564587"/>
+      <quaternion x="0.000000" y="0.675590" z="-0.000000" w="0.737277"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="flyland.003" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.002">
+      <position x="-311.736176" y="-500.194397" z="-1862.484863"/>
+      <quaternion x="0.000000" y="-0.683514" z="-0.000000" w="0.729937"/>
+      <scale x="3.370216" y="3.370216" z="3.370216"/>
+      <entity name="flyland.002" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.005">
+      <position x="0.783203" y="-1253.921875" z="-594.363464"/>
+      <quaternion x="0.000000" y="-0.683514" z="-0.000000" w="0.729937"/>
+      <scale x="3.370216" y="3.370216" z="3.370216"/>
+      <entity name="flyland.005" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.004">
+      <position x="82.567657" y="-892.793762" z="-329.383667"/>
+      <quaternion x="0.000000" y="-0.683514" z="-0.000000" w="0.729937"/>
+      <scale x="1.390310" y="1.390310" z="1.390310"/>
+      <entity name="flyland.004" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.007">
+      <position x="552.275696" y="-1765.596313" z="-1760.274658"/>
+      <quaternion x="0.000000" y="-0.683514" z="-0.000000" w="0.729937"/>
+      <scale x="3.370216" y="3.370216" z="3.370216"/>
+      <entity name="flyland.007" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.006">
+      <position x="-384.863831" y="-1478.152954" z="-704.210938"/>
+      <quaternion x="0.000000" y="0.085743" z="-0.000000" w="0.996317"/>
+      <scale x="2.913380" y="2.913380" z="2.913380"/>
+      <entity name="flyland.006" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.010">
+      <position x="-384.863831" y="-4841.301758" z="-1670.864380"/>
+      <quaternion x="0.000000" y="-0.711212" z="-0.000000" w="0.702977"/>
+      <scale x="2.913379" y="2.913380" z="2.913379"/>
+      <entity name="flyland.010" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland">
+      <position x="-30.115576" y="0.000000" z="-36.455696"/>
+      <quaternion x="0.000000" y="0.675590" z="-0.000000" w="0.737277"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="flyland" meshFile="flyland.mesh"/>
+    </node>
+    <node name="flyland.011">
+      <position x="-574.174011" y="-2872.393066" z="-1760.274658"/>
+      <quaternion x="0.000000" y="0.957861" z="-0.000000" w="0.287233"/>
+      <scale x="3.370215" y="3.370216" z="3.370215"/>
+      <entity name="flyland.011" meshFile="flyland.mesh"/>
+    </node>
+  </nodes>
+  <externals>
+    <item type="material">
+      <file name="Scene.material"/>
+    </item>
+  </externals>
+  <environment>
+    <colourAmbient r="0.000000" g="0.000000" b="0.000000"/>
+    <colourBackground r="0.056563" g="0.220815" b="0.400000"/>
+  </environment>
 </scene>
