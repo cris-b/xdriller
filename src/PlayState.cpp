@@ -707,7 +707,7 @@ void PlayState::nextBoard()
 
         if(!mSceneMgr->hasSceneNode("EndFloor"))
         {
-            Entity *endFloorEnt = mSceneMgr->createEntity("EndFloor", "endsupercube.mesh");
+            Entity *endFloorEnt = mSceneMgr->createEntity("EndFloor", "finalbase.mesh");
             endFloorEnt->setCastShadows(false);
             SceneNode *endFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "EndFloor" , Vector3(0,mPlayer->getPosition().y-10,0));
             endFloorNode->attachObject(endFloorEnt);
@@ -791,7 +791,7 @@ void PlayState::keyReleased( const OIS::KeyEvent &e ) {
         GameManager::getSingletonPtr()->screenshotRenderTexture->update();
 
 
-
+        //TODO: esto ya no es necesario, creo
         nextFramePause = true;
     }
     /*else if( e.key == OIS::KC_ESCAPE ) {
