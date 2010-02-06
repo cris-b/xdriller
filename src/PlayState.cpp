@@ -718,7 +718,6 @@ void PlayState::nextBoard()
 
     }
 
-
 };
 
 void PlayState::keyPressed( const OIS::KeyEvent &e )
