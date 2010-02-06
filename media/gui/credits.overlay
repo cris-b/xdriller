@@ -31,7 +31,7 @@ CreditsOverlay
                 width 1
                 height 2
 
-                caption Game created by:</br></br></br></br>Powered by:</br></br></br></br></br></br></br>Artwork made with:</br></br></br></br></br>Music with:</br></br></br></br>Thanks to:</br></br></br></br></br>License:
+                caption Coding, music, and artwork:</br></br></br></br>Translators:</br></br></br></br></br>Powered by:</br></br></br></br></br></br></br>Artwork made with:</br></br></br></br></br>Music with:</br></br></br></br>Thanks to:</br></br></br></br></br>License:
 
             }
             element TextArea(CreditsOverlay/Text2)
@@ -46,7 +46,7 @@ CreditsOverlay
                 width 1
                 height 2
 
-                caption </br></br>durmieu</br></br></br></br></br></br>OIS</br>SDL_Mixer</br></br></br></br>Blender</br>The Gimp</br></br></br></br>Acid Pro</br></br></br></br>Futurist</br>ogre3d.org community
+                caption </br></br>durmieu</br></br></br></br>Spanish: Ana</br>Eurkara: Eneko & Maddi</br></br></br></br></br></br>OIS</br>SDL_Mixer</br></br></br></br>Blender</br>The Gimp</br></br></br></br>Acid Pro</br></br></br></br>Futurist</br>ogre3d.org community
 
             }
 
@@ -54,7 +54,7 @@ CreditsOverlay
             {
                 horz_align center
                 left -0.075
-                top 0.27
+                top 0.48
                 width 0.150
                 height 0.075
                 material ogre_logo
@@ -63,7 +63,7 @@ CreditsOverlay
             {
                 horz_align center
                 left -0.075
-                top 1.2
+                top 1.41
                 width 0.150
                 height 0.075
                 material gplv3
@@ -72,7 +72,7 @@ CreditsOverlay
             container Panel(CreditsOverlay/LogoPanel)
             {
                 left 0
-                top 1
+                top 1.21
                 width 1
                 height 1
                 transparent true
