@@ -10,6 +10,15 @@ using namespace Ogre;
 
 CreditsState* CreditsState::mCreditsState;
 
+CreditsState::CreditsState()
+{
+    mKarolaNode = NULL;
+    mKarolaEnt = NULL;
+    mKarolaAnimState = NULL;
+    mCamNode = NULL;
+    mOverlay = NULL;
+}
+
 void CreditsState::enter( void ) {
     mRoot         = Root::getSingletonPtr();
     mOverlayMgr   = OverlayManager::getSingletonPtr();
@@ -106,6 +115,9 @@ void CreditsState::enter( void ) {
 
 void CreditsState::exit( void )
 {
+    //TODO: Hay que destruir los overlays!!!
+
+
     //mOverlayMgr->destroyAllOverlayElements();
 
     //mOverlayMgr->destroy(mOverlay);

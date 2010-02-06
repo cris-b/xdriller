@@ -29,7 +29,7 @@ class CreditsState : public GameState
 
         static CreditsState* getSingletonPtr( void );
     private:
-        CreditsState( void ) { }
+        CreditsState( void );
         CreditsState( const CreditsState& ) { }
         CreditsState & operator = ( const CreditsState& );
 

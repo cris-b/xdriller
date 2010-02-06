@@ -42,7 +42,7 @@ public:
 
 
 private:
-    MenuState( void ) { }
+    MenuState( void );
     MenuState( const MenuState& ) { }
     MenuState & operator = ( const MenuState& );
 

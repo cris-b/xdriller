@@ -43,7 +43,7 @@ public:
 
     static PlayState* getSingletonPtr( void );
 private:
-    PlayState( void ) { }
+    PlayState( void );
     PlayState( const PlayState& ) { }
     PlayState & operator = ( const PlayState& );
 

@@ -49,7 +49,20 @@ using namespace Ogre;
 
 MenuState* MenuState::mMenuState;
 
-
+MenuState::MenuState()
+{
+    arrows = NULL;
+    mLogoXDriller = NULL;
+    mLevelScreenshot = NULL;
+    mLevelScreenshot_shadow = NULL;
+    mBigImage = NULL;
+    mLevelInfo = NULL;
+    mPanel = NULL;
+    mOverlay = NULL;
+    titleButton = NULL;
+    ringSwitcher = NULL;
+    playerModelSelector = NULL;
+}
 
 void MenuState::enter( void )
 {
@@ -305,18 +318,29 @@ void MenuState::exit( void )
         CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", false);
     }
 
-    delete arrows;
 
-    mOverlayMgr->destroyOverlayElement(mLogoXDriller);
-    mOverlayMgr->destroyOverlayElement(mLevelScreenshot);
-    mOverlayMgr->destroyOverlayElement(mLevelScreenshot_shadow);
-    mOverlayMgr->destroyOverlayElement(mBigImage);
-    mOverlayMgr->destroyOverlayElement(mLevelInfo);
+    if(arrows != NULL)
+    {
+        delete arrows;
+        arrows = NULL;
+    }
+
+    if(mLogoXDriller != NULL) { mOverlayMgr->destroyOverlayElement(mLogoXDriller); mLogoXDriller = NULL;}
+    if(mLevelScreenshot != NULL) { mOverlayMgr->destroyOverlayElement(mLevelScreenshot); mLevelScreenshot = NULL;}
+    if(mLevelScreenshot_shadow != NULL) { mOverlayMgr->destroyOverlayElement(mLevelScreenshot_shadow); mLevelScreenshot_shadow = NULL;}
+    if(mBigImage != NULL) { mOverlayMgr->destroyOverlayElement(mBigImage); mBigImage = NULL;}
+    if(mLevelInfo != NULL) { mOverlayMgr->destroyOverlayElement(mLevelInfo); mLevelInfo = NULL;}
     //mOverlayMgr->destroyOverlayElement(mInfoTextArea);
-    mOverlayMgr->destroyOverlayElement(mPanel);
+    if(mPanel != NULL) { mOverlayMgr->destroyOverlayElement(mPanel); mPanel = NULL;}
 
 
-    mOverlayMgr->destroy(mOverlay);
+
+
+    if(mOverlay != NULL)
+    {
+        mOverlayMgr->destroy(mOverlay);
+        mOverlay = NULL;
+    }
 
     if(titleButton != NULL)
     {

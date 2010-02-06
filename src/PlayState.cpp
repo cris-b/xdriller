@@ -32,6 +32,34 @@ using namespace Ogre;
 
 PlayState* PlayState::mPlayState;
 
+PlayState::PlayState()
+{
+
+    backgroundSceneNode = NULL;
+    mOverlay = NULL;
+    mPanel = NULL;
+    mTextAreaDepth = NULL;
+    mTextAreaClock = NULL;
+    mTextAreaLives = NULL;
+    mTextAreaTotal = NULL;
+    mArrow = NULL;
+    mSkull = NULL;
+    mScore = NULL;
+    mClock = NULL;
+    mLivesPanel = NULL;
+    mBottle = NULL;
+    mBottleAir = NULL;
+    #if XDRILLER_DEBUG == 1
+    mTextAreaDebug = NULL;
+    #endif
+    mKeyboard = NULL;
+    mJoystick = NULL;
+    mCam = NULL;
+    mBoard = NULL;
+    mPlayer = NULL;
+    textEffector = NULL;
+
+}
 
 void PlayState::enter( void ) {
 
@@ -820,19 +848,18 @@ PlayState* PlayState::getSingletonPtr( void ) {
 void PlayState::destroyOverlayElements()
 {
 
-    if(mTextAreaDepth != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaDepth);     mTextAreaDepth = NULL;
-    //if(mTextAreaPoints != NULL) mOverlayMgr->destroyOverlayElement(mTextAreaPoints);    mTextAreaPoints = NULL;
-    if(mTextAreaClock != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaClock);     mTextAreaClock = NULL;
-    if(mTextAreaLives != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaLives);     mTextAreaLives = NULL;
-    if(mTextAreaTotal != NULL)  mOverlayMgr->destroyOverlayElement(mTextAreaTotal);     mTextAreaTotal = NULL;
-    if(mArrow != NULL)          mOverlayMgr->destroyOverlayElement(mArrow);             mArrow = NULL;
-    if(mSkull != NULL)          mOverlayMgr->destroyOverlayElement(mSkull);             mSkull = NULL;
-    if(mScore != NULL)          mOverlayMgr->destroyOverlayElement(mScore);             mScore = NULL;
-    if(mClock != NULL)          mOverlayMgr->destroyOverlayElement(mClock);             mClock = NULL;
-    if(mLivesPanel != NULL)     mOverlayMgr->destroyOverlayElement(mLivesPanel);        mLivesPanel = NULL;
-    if(mBottle != NULL)         mOverlayMgr->destroyOverlayElement(mBottle);            mBottle = NULL;
-    if(mBottleAir != NULL)      mOverlayMgr->destroyOverlayElement(mBottleAir);         mBottleAir = NULL;
-    if(mPanel != NULL)          mOverlayMgr->destroyOverlayElement(mPanel);             mPanel = NULL;
+    if(mTextAreaDepth != NULL)  {mOverlayMgr->destroyOverlayElement(mTextAreaDepth);     mTextAreaDepth = NULL;}
+    if(mTextAreaClock != NULL)  {mOverlayMgr->destroyOverlayElement(mTextAreaClock);     mTextAreaClock = NULL;}
+    if(mTextAreaLives != NULL)  {mOverlayMgr->destroyOverlayElement(mTextAreaLives);     mTextAreaLives = NULL;}
+    if(mTextAreaTotal != NULL)  {mOverlayMgr->destroyOverlayElement(mTextAreaTotal);     mTextAreaTotal = NULL;}
+    if(mArrow != NULL)          {mOverlayMgr->destroyOverlayElement(mArrow);             mArrow = NULL;}
+    if(mSkull != NULL)          {mOverlayMgr->destroyOverlayElement(mSkull);             mSkull = NULL;}
+    if(mScore != NULL)          {mOverlayMgr->destroyOverlayElement(mScore);             mScore = NULL;}
+    if(mClock != NULL)          {mOverlayMgr->destroyOverlayElement(mClock);             mClock = NULL;}
+    if(mLivesPanel != NULL)     {mOverlayMgr->destroyOverlayElement(mLivesPanel);        mLivesPanel = NULL;}
+    if(mBottle != NULL)         {mOverlayMgr->destroyOverlayElement(mBottle);            mBottle = NULL;}
+    if(mBottleAir != NULL)      {mOverlayMgr->destroyOverlayElement(mBottleAir);         mBottleAir = NULL;}
+    if(mPanel != NULL)          {mOverlayMgr->destroyOverlayElement(mPanel);             mPanel = NULL;}
 
 
 
