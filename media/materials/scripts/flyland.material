@@ -1,0 +1,13 @@
+material flyland
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture flyland.png
+			}
+		}
+	}
+}

@@ -425,7 +425,7 @@ void MenuState::update( unsigned long lTimeElapsed )
 void MenuState::keyPressed( const OIS::KeyEvent &e )
 {
 
-    if( e.key == OIS::KC_1)
+    /*if( e.key == OIS::KC_1)
     {
         //prueba tembleque
         //RumbleManager::getSingleton().playEffect(RumbleManager::WEAK);
@@ -447,11 +447,11 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         //prueba modo highscore
         HighScoreManager::getSingleton().addScore("Adventure","antarctica","pepito",rand() % 100, 1 , rand() % 100);
 
-    }
+    }*/
 
 
     //captura de pantalla
-    if(e.key == OIS::KC_S)
+    /*if(e.key == OIS::KC_S)
     {
 
         //solo funciona en ogre 1.6 +
@@ -472,7 +472,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         #endif
 
 
-    }
+    }*/
 
     if(e.key == OIS::KC_DOWN)
     {
@@ -722,12 +722,12 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 2)
                 {
-                    if(buttons[2]->getOptionCaption() == "Yes")
+                    if(buttons[2]->getOptionCaption() == _("Yes"))
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","No");
                         buttons[2]->setOptionCaption(_("No"));
                     }
-                    else if(buttons[2]->getOptionCaption() == "No")
+                    else if(buttons[2]->getOptionCaption() == _("No"))
                     {
                         ConfigManager::getSingleton().setValue("fullscreen","Yes");
                         buttons[2]->setOptionCaption(_("Yes"));

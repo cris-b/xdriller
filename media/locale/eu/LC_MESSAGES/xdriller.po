@@ -1,0 +1,240 @@
+# Xdriller Basque translation
+# Copyright (C) 2009 Marvin Stöckl
+# This file is distributed under the same license as the xdriller package.
+# Marvin Stöckl <durmieu@users.sourceforge.net>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: xdriller 0.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-07 12:44+0100\n"
+"PO-Revision-Date: 2010-02-02 21:23+0100\n"
+"Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
+"Language-Team: Fixi Studios\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/MenuState.cpp:642 src/MenuState.cpp:649 src/MenuState.cpp:679
+#: src/MenuState.cpp:818 src/MenuState.cpp:830 src/MenuState.cpp:862
+#: src/MenuState.cpp:1017 src/MenuState.cpp:1385 src/MenuState.cpp:1386
+#: src/MenuState.cpp:1484
+msgid "Adventure"
+msgstr "Abentura"
+
+#: src/MenuState.cpp:1274
+msgid "Anti-aliasing"
+msgstr "Anti-aliasa"
+
+#: src/MenuState.cpp:1285
+msgid "Apply"
+msgstr "Aplikatu"
+
+#: src/MenuState.cpp:1539
+msgid "Are you sure you want to quit?"
+msgstr "Atera nahi duzu?"
+
+#: src/MenuState.cpp:1228 src/MenuState.cpp:1317
+msgid "Audio Options"
+msgstr "Soinu Aukerak"
+
+#: src/MenuState.cpp:1247 src/MenuState.cpp:1289 src/MenuState.cpp:1333
+msgid "Back"
+msgstr "Atzera"
+
+#: src/PlayState.cpp:724
+#, fuzzy
+msgid "Board"
+msgstr "Zaila"
+
+#: src/PauseState.cpp:53
+msgid "Continue"
+msgstr "Jarraitu"
+
+#: src/MenuState.cpp:1323 src/MenuState.cpp:1512
+msgid "Controls"
+msgstr "Kontrolak"
+
+#: src/MenuState.cpp:1203
+msgid "Credits"
+msgstr "Kredituak"
+
+#: src/HighScoreTable.cpp:76
+msgid "Depth"
+msgstr "Sakonera"
+
+#: src/MenuState.cpp:1601
+msgid "Difficulty"
+msgstr "Zailtasuna"
+
+#: src/MenuState.cpp:640 src/MenuState.cpp:660 src/MenuState.cpp:661
+#: src/MenuState.cpp:685 src/MenuState.cpp:821 src/MenuState.cpp:840
+#: src/MenuState.cpp:842 src/MenuState.cpp:868 src/MenuState.cpp:1056
+#: src/MenuState.cpp:1442 src/MenuState.cpp:1443 src/MenuState.cpp:1444
+#: src/MenuState.cpp:1607
+msgid "Easy"
+msgstr "Erraza"
+
+#: src/MenuState.cpp:1213
+msgid "Exit"
+msgstr "Irten"
+
+#: src/MenuState.cpp:1240
+msgid "FX Volume"
+msgstr "Efektuen Bolumena"
+
+#: src/MenuState.cpp:1279
+msgid "Fullscreen"
+msgstr "Lehio handia"
+
+#: src/MenuState.cpp:1262 src/MenuState.cpp:1310
+msgid "Graphic Options"
+msgstr "Grafikoen Aukerak"
+
+#: src/MenuState.cpp:659 src/MenuState.cpp:661 src/MenuState.cpp:683
+#: src/MenuState.cpp:840 src/MenuState.cpp:841 src/MenuState.cpp:866
+#: src/MenuState.cpp:1058 src/MenuState.cpp:1450 src/MenuState.cpp:1451
+#: src/MenuState.cpp:1452 src/MenuState.cpp:1609
+msgid "Hard"
+msgstr "Zaila"
+
+#: src/MenuState.cpp:1207
+msgid "High Scores"
+msgstr "Puntuazioa"
+
+#: src/MenuState.cpp:1474
+msgid "HighScores"
+msgstr "Puntuazioa"
+
+#: src/MenuState.cpp:639 src/MenuState.cpp:647 src/MenuState.cpp:657
+#: src/MenuState.cpp:681 src/MenuState.cpp:820 src/MenuState.cpp:823
+#: src/MenuState.cpp:838 src/MenuState.cpp:864 src/MenuState.cpp:1023
+#: src/MenuState.cpp:1387 src/MenuState.cpp:1388
+msgid "Infinite"
+msgstr "Infinito"
+
+#: src/MenuState.cpp:1487
+msgid "Level"
+msgstr "Pantaila"
+
+#: src/MenuState.cpp:659 src/MenuState.cpp:660 src/MenuState.cpp:684
+#: src/MenuState.cpp:841 src/MenuState.cpp:842 src/MenuState.cpp:867
+#: src/MenuState.cpp:1057 src/MenuState.cpp:1446 src/MenuState.cpp:1447
+#: src/MenuState.cpp:1448
+msgid "Medium"
+msgstr "Ertaina"
+
+#: src/MenuState.cpp:1478
+msgid "Mode"
+msgstr "Modua"
+
+#: src/MenuState.cpp:1363
+msgid "Model"
+msgstr "Pertsonaia"
+
+#: src/MenuState.cpp:1233
+msgid "Music Volume"
+msgstr "Musikaren Bolumena"
+
+#: src/HighScoreTable.cpp:50
+msgid "Name"
+msgstr "Izena"
+
+#: src/PlayState.cpp:603 src/PlayState.cpp:650
+msgid "New record!"
+msgstr "Errekor berria!"
+
+#: src/MenuState.cpp:546 src/MenuState.cpp:728 src/MenuState.cpp:730
+msgid "No"
+msgstr "Ez"
+
+#: src/MenuState.cpp:1544
+msgid "No!"
+msgstr "Ez!"
+
+#: src/MenuState.cpp:1608
+msgid "Normal"
+msgstr "Normala"
+
+#: src/MenuState.cpp:1516
+msgid "Not configurable"
+msgstr "Ezin da konfiguratu"
+
+#: src/MenuState.cpp:1593
+msgid "Number of boards"
+msgstr "Taula Zenbakia"
+
+#: src/MenuState.cpp:1198 src/MenuState.cpp:1306
+msgid "Options"
+msgstr "Aukerak"
+
+#: src/PauseState.cpp:48
+msgid "Pause"
+msgstr "Pausarazi"
+
+#: src/MenuState.cpp:1192
+msgid "Play Game"
+msgstr "Jokatu"
+
+#: src/MenuState.cpp:1328
+msgid "Player"
+msgstr "Jokalaria"
+
+#: src/MenuState.cpp:1351
+msgid "Player Options"
+msgstr "Jokalariaren Aukerak"
+
+#: src/MenuState.cpp:1355
+msgid "Player name"
+msgstr "Jokalariaren Izena"
+
+#: src/PauseState.cpp:58
+msgid "Quit"
+msgstr "Irten"
+
+#: src/MenuState.cpp:1267
+msgid "Resolution"
+msgstr "Resoluzioa"
+
+#: src/PlayState.cpp:352
+msgid "Start"
+msgstr "Aurrera"
+
+#: src/HighScoreTable.cpp:63
+msgid "Time"
+msgstr "Denbora"
+
+#: src/MenuState.cpp:637 src/MenuState.cpp:644 src/MenuState.cpp:687
+#: src/MenuState.cpp:825 src/MenuState.cpp:828 src/MenuState.cpp:870
+#: src/MenuState.cpp:1029 src/MenuState.cpp:1389 src/MenuState.cpp:1390
+msgid "Time Attack"
+msgstr "Erlojuz-Kontra"
+
+#: src/MenuState.cpp:551 src/MenuState.cpp:725 src/MenuState.cpp:733
+msgid "Yes"
+msgstr "Bai"
+
+#: src/MenuState.cpp:1550
+msgid "Yes, quit!"
+msgstr "Bai!"
+
+#~ msgid "ATENTION: restart the game for new settings to apply correctly"
+#~ msgstr "ADI: Jokoa berriz hasi"
+
+#~ msgid "C'mon! One more game can't hurt..."
+#~ msgstr "Tira! Jolastu beste behin..."
+
+#~ msgid "Customize your player"
+#~ msgstr "Pertsonalizatu zure jokalaria"
+
+#~ msgid "Points"
+#~ msgstr "Puntuak"
+
+#~ msgid "Select Game Mode & Press ENTER"
+#~ msgstr "Hautatu Jokatzeko Modua eta Sakatu ENTER"
+
+#~ msgid "Select Level & Press ENTER"
+#~ msgstr "Hautatu Jokua eta Sakatu ENTER "
+
+#~ msgid "PAUSE"
+#~ msgstr "PAUSARAZI"
