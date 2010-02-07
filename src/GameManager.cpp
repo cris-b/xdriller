@@ -204,7 +204,7 @@ void GameManager::startGame( GameState *gameState )
             LogManager::getSingleton().logMessage("Error: Specified render system (" + val + ") not found");
         }
 
-        tmpRenderSystem->setConfigOption("Full Screen",ConfigManager::getSingleton().getString("fullscreen"));
+
 
         if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
             tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
@@ -212,6 +212,8 @@ void GameManager::startGame( GameState *gameState )
         {
             tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution") + " @ 32-bit colour");
         }
+
+        tmpRenderSystem->setConfigOption("Full Screen",ConfigManager::getSingleton().getString("fullscreen"));
 
         if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
             tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
