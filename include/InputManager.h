@@ -1,6 +1,7 @@
 #ifndef InputManager_H
 #define InputManager_H
 
+#define OIS_DYNAMIC_LIB
 #include <OIS/OISMouse.h>
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISJoyStick.h>

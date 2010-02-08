@@ -1,5 +1,7 @@
 #include "RumbleManager.h"
 
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -18,17 +20,6 @@
 #define test_bit(bit, array)    ((array[LONG(bit)] >> OFF(bit)) & 1)
 
 using namespace Ogre;
-
-template<> RumbleManager* Ogre::Singleton<RumbleManager>::ms_Singleton = 0;
-RumbleManager* RumbleManager::getSingletonPtr(void)
-{
-    return ms_Singleton;
-}
-RumbleManager& RumbleManager::getSingleton(void)
-{
-    assert( ms_Singleton );  return ( *ms_Singleton );
-}
-
 
 RumbleManager::RumbleManager()
 {
@@ -165,3 +156,16 @@ int RumbleManager::playEffect(int e)
     return 0;
 
 }
+
+#endif // OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+
+template<> RumbleManager* Ogre::Singleton<RumbleManager>::ms_Singleton = 0;
+RumbleManager* RumbleManager::getSingletonPtr(void)
+{
+    return ms_Singleton;
+}
+RumbleManager& RumbleManager::getSingleton(void)
+{
+    assert( ms_Singleton );  return ( *ms_Singleton );
+}
+

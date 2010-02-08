@@ -158,7 +158,7 @@ void GameManager::startGame( GameState *gameState )
     if(ConfigManager::getSingleton().getString("player_name") == "")
     {
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
-        //averiguar el nombre de usuario en windowws???
+        //averiguar el nombre de usuario en windows???
         #else  //Linux, etc...
         ConfigManager::getSingleton().setValue("player_name",getenv("USER"));
         #endif
@@ -167,10 +167,12 @@ void GameManager::startGame( GameState *gameState )
     // For gettext support
     //----------------------------------------------------------------
 
+    #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+
     setlocale( LC_ALL, "" );
     bindtextdomain( "xdriller", std::string(ConfigManager::getSingleton().getString("resource_path") + String("/locale")).c_str());
     textdomain( "xdriller" );
-
+    #endif //OGRE_PLATFORM == OGRE_PLATFORM_LINUX
 
     //----------------------------------------------------------------
 

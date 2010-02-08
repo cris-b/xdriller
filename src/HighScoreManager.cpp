@@ -12,7 +12,7 @@ using namespace Ogre;
 
 //HighScore
 
-HighScore& HighScore::operator = (HighScore &p)
+/*HighScore& HighScore::operator = (HighScore &p)
 {
     this->name   =  p.name;
     this->time   =  p.time;
@@ -21,7 +21,7 @@ HighScore& HighScore::operator = (HighScore &p)
     this->depth  =  p.depth;
 
     return *this;
-}
+}*/
 
 
 //HighScoreManager

@@ -18,7 +18,7 @@ class HighScore
         int lives;
         int depth;
 
-        HighScore& operator = (HighScore &p);
+        //HighScore& operator = (HighScore &p);
 
 };
 

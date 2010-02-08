@@ -80,7 +80,7 @@ void RingSwitcher::update( unsigned long lTimeElapsed )
 
     angle += lTimeElapsed/500.0;
 
-    if(angle > M_PI*2.0) angle -= M_PI*2.0;
+    if(angle > 3.1415926535*2.0) angle -= 3.1415926535*2.0;
 
     float scale = 2 + sin(angle)*0.3;
 
