@@ -190,7 +190,8 @@ void GameManager::startGame( GameState *gameState )
 
         RenderSystem *tmpRenderSystem = 0;
 
-        bool renderSystemFound = false;
+        //se acabo. solo soporte para opengl y a tomar por culo
+        /*bool renderSystemFound = false;
         for (r_it=renderSystems->begin(); r_it!=renderSystems->end(); r_it++) {
             tmpRenderSystem = *r_it;
             std::string rName(tmpRenderSystem->getName());
@@ -200,26 +201,30 @@ void GameManager::startGame( GameState *gameState )
                 renderSystemFound = true;
                 break;
             }
-        }
+        }*/
 
-        if (!renderSystemFound) {
-            LogManager::getSingleton().logMessage("Error: Specified render system (" + val + ") not found");
-        }
+        tmpRenderSystem = mRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
+
+        //-----------
+
+        //if (!renderSystemFound) {
+        //    LogManager::getSingleton().logMessage("Error: Specified render system (" + val + ") not found");
+        //}
 
         tmpRenderSystem->setConfigOption("Full Screen",ConfigManager::getSingleton().getString("fullscreen"));
 
-        if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
-            tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
-        else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
-        {
-            tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution") + " @ 32-bit colour");
-        }
+        //if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
+        tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
+        //else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
+        //{
+        //    tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution") + " @ 32-bit colour");
+        //}
 
 
 
-        if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
-            tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
-        else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
+        //if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
+        tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
+        /*else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
         {
             if(ConfigManager::getSingleton().getString("FSAA") == "0")
                 tmpRenderSystem->setConfigOption("Anti aliasing","None");
@@ -227,9 +232,11 @@ void GameManager::startGame( GameState *gameState )
                 tmpRenderSystem->setConfigOption("Anti aliasing","Level 2");
             if(ConfigManager::getSingleton().getString("FSAA") == "4")
                 tmpRenderSystem->setConfigOption("Anti aliasing","Level 4");
-        }
+        }*/
 
         tmpRenderSystem->setConfigOption("RTT Preferred Mode","FBO");
+
+        mRoot->setRenderSystem(tmpRenderSystem);
 
     }
 
@@ -291,18 +298,22 @@ void GameManager::startGame( GameState *gameState )
 
     LevelLoader::getSingleton(); ///????
 
+    LogManager::getSingleton().logMessage("Loading Highcores...");
+
     new HighScoreManager(configPath + "/highscores.xml");
 
     HighScoreManager::getSingleton().load();
 
-
+    LogManager::getSingleton().logMessage("Creating Fader...");
 
     new Fader;
+
+    LogManager::getSingleton().logMessage("Creating RumbleManager...");
 
     new RumbleManager;
 
 
-
+    LogManager::getSingleton().logMessage("Entering IntroState...");
 
     // Change to first state
     this->changeState( gameState );

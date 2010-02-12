@@ -73,6 +73,7 @@ class LevelLoader : public Ogre::Singleton<LevelLoader>
         Ogre::Image *levelImage;
 
         std::vector<int> levelData;
+        std::vector<Ogre::String> levelNames;
 
 };
 

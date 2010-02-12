@@ -23,22 +23,37 @@ LevelLoader::LevelLoader()
     gameMode = GAME_MODE_ADVENTURE;
     levelDifficulty = EASY;
 
-    numLevels = -1;
+    numLevels = 0;
 
     cf.loadFromResourceSystem("levels.cfg","General");
 
-   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
-   while (seci.hasMoreElements())
-   {
-        numLevels++;
+    String secName;
+
+    secName = seci.peekNextKey();
+    seci.getNext();
+
+    while (seci.hasMoreElements())
+    {
+        secName = seci.peekNextKey();
         seci.getNext();
-   }
 
-   Ogre::LogManager::getSingleton().logMessage("LevelLoader: Loaded levels.cfg. Number of Levels: "
+        levelNames.push_back(secName);
+        numLevels++;
+    }
+
+    LogManager::getSingleton().logMessage("LevelLoader: Loaded levels.cfg. Number of Levels: "
                                                 + StringConverter::toString(numLevels));
 
     setLevelNum(numLevels-1);
+
+    for(int i = 0; i<numLevels; i++)
+    {
+        LogManager::getSingleton().logMessage("LevelLoader: Level " + StringConverter::toString(i) + " = " + levelNames[i]);
+    }
+
+
 
 }
 
@@ -97,7 +112,10 @@ void LevelLoader::setLevelNum(int levelNum)
 Ogre::String LevelLoader::getLevelName(int level_num)
 {
 
-   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+   if(level_num<numLevels) return levelNames[level_num];
+   else return "";
+
+   /*ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
    Ogre::String secName;
 
@@ -113,7 +131,7 @@ Ogre::String LevelLoader::getLevelName(int level_num)
        if(n == level_num) return secName;
    }
 
-   return "";
+   return "";*/
 
 }
 
@@ -129,6 +147,7 @@ Ogre::String LevelLoader::getValue(Ogre::String opt)
 {
 
    ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
 
    Ogre::String secName, optName, optValue;
 
@@ -188,9 +207,20 @@ void LevelLoader::setLevelName(String levelName)
 
 int LevelLoader::getLevelNum(Ogre::String name)
 {
+    int level_num = -1;
 
+    for(int i = 0; i<numLevels; i++)
+    {
+        if(levelNames[i] == name)
+        {
+            level_num = i;
+            break;
+        }
+    }
 
-    ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    return level_num;
+
+    /*ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
     Ogre::String secName;
 
@@ -212,7 +242,7 @@ int LevelLoader::getLevelNum(Ogre::String name)
         }
     }
 
-    return -1;
+    return -1;*/
 
 };
 
@@ -377,6 +407,7 @@ void LevelLoader::setGameMode(int gameMode)
 LevelLoader::~LevelLoader()
 {
     levelData.clear();
+    levelNames.clear();
 }
 
 

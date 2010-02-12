@@ -208,24 +208,29 @@ int HighScoreManager::save()
 
         for(int i = 0; i<num_levels; i++)
         {
-            const char *level_name;
+            String level_name;
 
             if(k == 1)
             {
                 if(i == 0)  level_name = "Easy";
-                if(i == 1)  level_name = "Medium";
-                if(i == 2)  level_name = "Hard";
+                else if(i == 1)  level_name = "Medium";
+                else if(i == 2)  level_name = "Hard";
+                else break;
             }
             else
             {
-                level_name = LevelLoader::getSingleton().getLevelName(i).c_str();
+                level_name = LevelLoader::getSingleton().getLevelName(i);
+                if(level_name == "")
+                    LogManager::getSingleton().logMessage("HighScoreManager: Failed to get levelName for mode " +
+                    StringConverter::toString(k) + ", level " + StringConverter::toString(i));
+
             }
 
 
 
             TiXmlElement *level = new TiXmlElement( "level" );
             mode->LinkEndChild( level );
-            level->SetAttribute("name",level_name);
+			level->SetAttribute("name",level_name.c_str());
 
             for(int j = 0; j<SCORES_PER_PAGE; j++)
             {
