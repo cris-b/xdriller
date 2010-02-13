@@ -90,7 +90,7 @@ HighScoreTable::HighScoreTable()
 
 
     Ogre::TextAreaOverlayElement *mTable = static_cast<TextAreaOverlayElement*>(
-        mOverlayMgr->createOverlayElement("TextArea", "HighScoreTable_table"));
+        mOverlayMgr->createOverlayElement("ColoredTextArea", "HighScoreTable_table"));
     mTable->setMetricsMode(Ogre::GMM_RELATIVE);
     mTable->setHorizontalAlignment(Ogre::GHA_CENTER);
     mTable->setVerticalAlignment(Ogre::GVA_CENTER);
@@ -100,7 +100,7 @@ HighScoreTable::HighScoreTable()
     mTable->setFontName("Monospace");
     mTable->setColour(color_2);
     mTable->setAlignment(TextAreaOverlayElement::Center);
-    mTable->setCaption("");
+    mTable->setCaption(" ");
 
     mPanel->addChild(mName);
     mPanel->addChild(mTime);
@@ -154,6 +154,11 @@ void HighScoreTable::updateTable(Ogre::String mode, Ogre::String level)
         String time = secsToClockString(highScore->time);
         String depth = StringConverter::toString(highScore->depth);
         //String points = StringConverter::toString(highScore->points);
+
+        if(i == 0) tableText += "^1";       //rojo
+        else if(i == 1) tableText += "^3";  //amarillo
+        else if(i == 2) tableText += "^2";  //verde
+        else if(i == 3) tableText += "^0";  //negro
 
         if(name == "")
         {

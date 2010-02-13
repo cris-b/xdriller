@@ -13,6 +13,7 @@
 #include "PlayerModelSelector.h"
 #include "HighScoreTable.h"
 
+
 #include <vector>
 
 
@@ -65,7 +66,8 @@ private:
     Ogre::OverlayContainer     *mLevelScreenshot_shadow;
     Ogre::TextAreaOverlayElement  *mLevelInfo;
 
-    Ogre::OverlayContainer     *mBigImage;
+    Ogre::OverlayContainer     *mBigImage; //para el teclado por el momento
+
 
     static MenuState    *mMenuState;
 
@@ -79,6 +81,9 @@ private:
     RingSwitcher *ringSwitcher;
     PlayerModelSelector *playerModelSelector;
     HighScoreTable *highScoreTable;
+
+
+
 
     unsigned int menuPage;
     int menuCursor;

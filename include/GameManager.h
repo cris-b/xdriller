@@ -17,6 +17,8 @@
 #include "InputManager.h"
 #endif
 
+#include "ColoredTextAreaOverlayElementFactory.h"
+
 
 
 class GameState;
@@ -35,6 +37,7 @@ public:
     static GameManager* getSingletonPtr( void );
 
     Ogre::RenderTexture *screenshotRenderTexture;
+
 private:
     GameManager( void );
     GameManager( const GameManager& ) { }
@@ -57,6 +60,8 @@ private:
     Ogre::Root         *mRoot;
     Ogre::RenderWindow *mRenderWindow;
     InputManager       *mInputMgr;
+
+    ColoredTextAreaOverlayElementFactory* mColoredTextAreaOverlayElementFactory;
 
     Ogre::String        configPath;
 

@@ -75,6 +75,9 @@ GameManager::~GameManager( void ) {
         mCreditsState = 0;
     }
 
+    delete mColoredTextAreaOverlayElementFactory;
+
+
     ConfigManager::getSingleton().save();
 
     HighScoreManager::getSingleton().save();
@@ -311,6 +314,10 @@ void GameManager::startGame( GameState *gameState )
     LogManager::getSingleton().logMessage("Creating RumbleManager...");
 
     new RumbleManager;
+
+    // Register the colored text overlay element
+    mColoredTextAreaOverlayElementFactory = new ColoredTextAreaOverlayElementFactory();
+    OverlayManager::getSingleton().addOverlayElementFactory(mColoredTextAreaOverlayElementFactory);
 
 
     LogManager::getSingleton().logMessage("Entering IntroState...");

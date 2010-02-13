@@ -198,6 +198,7 @@ void MenuState::enter( void )
         CompositorManager::getSingleton().setCompositorEnabled(mViewport, "gaussian_blur", true);
     }
 
+
     mPanel = static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "PlayStateOverlayPanel"));
     mPanel->setMetricsMode(Ogre::GMM_RELATIVE);
