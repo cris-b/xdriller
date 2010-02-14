@@ -13,11 +13,10 @@
 #include "PlayerModelSelector.h"
 #include "HighScoreTable.h"
 
+#include "EditableText.h"
+
 
 #include <vector>
-
-
-
 
 class MenuState : public GameState {
 public:
@@ -82,7 +81,7 @@ private:
     PlayerModelSelector *playerModelSelector;
     HighScoreTable *highScoreTable;
 
-
+    EditableText *mEditableText;
 
 
     unsigned int menuPage;

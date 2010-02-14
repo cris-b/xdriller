@@ -10,21 +10,6 @@
 
 using namespace Ogre;
 
-//HighScore
-
-/*HighScore& HighScore::operator = (HighScore &p)
-{
-    this->name   =  p.name;
-    this->time   =  p.time;
-    //this->points =  p.points;
-    this->lives  =  p.lives;
-    this->depth  =  p.depth;
-
-    return *this;
-}*/
-
-
-//HighScoreManager
 
 
 template<> HighScoreManager* Ogre::Singleton<HighScoreManager>::ms_Singleton = 0;
@@ -460,6 +445,7 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
     }
     return 0;
 }
+
 
 HighScore* HighScoreManager::getScore(Ogre::String mode, Ogre::String level, int num)
 {

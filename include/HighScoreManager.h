@@ -14,12 +14,8 @@ class HighScore
 
         Ogre::String name;
         int time;
-        //int points;
         int lives;
         int depth;
-
-        //HighScore& operator = (HighScore &p);
-
 };
 
 
@@ -40,6 +36,13 @@ class HighScoreManager : public Ogre::Singleton<HighScoreManager>
     static HighScoreManager& getSingleton(void);
     static HighScoreManager* getSingletonPtr(void);
 
+    struct LastScore
+    {
+        HighScore score;
+        Ogre::String mode;
+        Ogre::String level;
+    } lastScore;
+
     private:
 
     void sortPage(Ogre::String mode, Ogre::String level);
@@ -47,6 +50,8 @@ class HighScoreManager : public Ogre::Singleton<HighScoreManager>
     HighScore *adventureScores;
     HighScore *infiniteScores;
     HighScore *timeAttackScores;
+
+
 
     int last_highscore_index;
 

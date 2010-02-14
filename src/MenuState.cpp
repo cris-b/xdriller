@@ -63,6 +63,7 @@ MenuState::MenuState()
     ringSwitcher = NULL;
     playerModelSelector = NULL;
     highScoreTable = NULL;
+    mEditableText = NULL;
 }
 
 void MenuState::enter( void )
@@ -326,6 +327,13 @@ void MenuState::exit( void )
         delete arrows;
         arrows = NULL;
     }
+    if(mEditableText != NULL)
+    {
+        delete mEditableText;
+        mEditableText = NULL;
+    }
+
+
 
     if(mLogoXDriller != NULL) { mOverlayMgr->destroyOverlayElement(mLogoXDriller); mLogoXDriller = NULL;}
     if(mLevelScreenshot != NULL) { mOverlayMgr->destroyOverlayElement(mLevelScreenshot); mLevelScreenshot = NULL;}
@@ -429,51 +437,36 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
     /*if( e.key == OIS::KC_1)
     {
         //prueba tembleque
-        //RumbleManager::getSingleton().playEffect(RumbleManager::WEAK);
+        RumbleManager::getSingleton().playEffect(RumbleManager::SHORT_WEAK);
     }
 
     if( e.key == OIS::KC_2)
     {
         //prueba highscorestate
-        //fadeState(HighScoreState::getSingletonPtr());
+        fadeState(HighScoreState::getSingletonPtr());
     }
     if( e.key == OIS::KC_3)
     {
         //prueba modo highscore
-        HighScoreManager::getSingleton().addScore("Infinite","Easy","pepito",rand() % 100, 1 , rand() % 100);
+        HighScoreManager::getSingleton().addScore("Adventure","test","amigo",rand() % 100, 1 , rand() % 100);
 
+    }*/
+
+    if(mEditableText != NULL)
+    {
+        if(mEditableText->injectKeyPress(e))
+        {
+            switch(menuPage)
+            {
+                case MENU_PAGE_PLAYER_OPTIONS:
+                {
+                    if(menuCursor == 0)
+                        buttons[0]->setOptionCaption(mEditableText->getText());
+                    break;
+                }
+            }
+        }
     }
-    if( e.key == OIS::KC_4)
-    {
-        //prueba modo highscore
-        HighScoreManager::getSingleton().addScore("Adventure","antarctica","pepito",rand() % 100, 1 , rand() % 100);
-
-    }*/
-
-
-    //captura de pantalla
-    /*if(e.key == OIS::KC_S)
-    {
-
-        //solo funciona en ogre 1.6 +
-        #if OGRE_VERSION_MINOR >= 6
-        TexturePtr tp = static_cast<Ogre::TexturePtr> (TextureManager::getSingleton().getByName("SmallFontTexture"));
-        const size_t buffSize = (tp->getWidth() * tp->getHeight() * 4);
-        unsigned char *data = OGRE_ALLOC_T(unsigned char,buffSize,Ogre::MEMCATEGORY_GENERAL);
-        memset(data, 0, buffSize);
-        Ogre::Image i;
-        i.loadDynamicImage(data, tp->getWidth(), tp->getHeight(), 1, Ogre::PF_R8G8B8A8, true);
-
-        Ogre::HardwarePixelBufferSharedPtr buf = tp->getBuffer();
-        const Ogre::PixelBox destBox = i.getPixelBox();
-        buf->blitToMemory(destBox);
-
-        // Save to disk!
-        i.save("screenshoot.png");
-        #endif
-
-
-    }*/
 
     if(e.key == OIS::KC_DOWN)
     {
@@ -1064,10 +1057,6 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 break;
             }
-
-
-
-
         }
 
     }
@@ -1099,10 +1088,15 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
             }
             case MENU_PAGE_AUDIO_OPTIONS:
             case MENU_PAGE_CONTROLS:
-            case MENU_PAGE_PLAYER_OPTIONS:
             case MENU_PAGE_GRAPHIC_OPTIONS:
             {
-
+                changePage(MENU_PAGE_OPTIONS);
+                SoundManager::getSingleton().playSound(SOUND_MENU4);
+                break;
+            }
+            case MENU_PAGE_PLAYER_OPTIONS:
+            {
+                ConfigManager::getSingleton().setValue("player_name",mEditableText->getText());
                 changePage(MENU_PAGE_OPTIONS);
                 SoundManager::getSingleton().playSound(SOUND_MENU4);
                 break;
@@ -1180,6 +1174,12 @@ void MenuState::changePage(unsigned int page)
     {
         delete highScoreTable;
         highScoreTable = NULL;
+    }
+
+    if(mEditableText != NULL)
+    {
+        delete mEditableText;
+        mEditableText = NULL;
     }
 
     mOverlay->remove2D(mLogoXDriller);
@@ -1359,6 +1359,8 @@ void MenuState::changePage(unsigned int page)
             buttons[0]->setState(BSTATE_ACTIVE);
 
             buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("player_name"));
+            mEditableText = new EditableText();
+            mEditableText->setText(buttons[0]->getOptionCaption());
 
 
             buttons.push_back(new MenuButton(_("Model"),ALIGN_LEFT,true,true));
@@ -1368,6 +1370,8 @@ void MenuState::changePage(unsigned int page)
             buttons[1]->setOptionCaption(playerModelSelector->getName());
 
             menuCursor = 0;
+
+
 
             //mInfoTextArea->setCaption(_("Customize your player"));
 

@@ -5,6 +5,9 @@
 #include "GameState.h"
 #endif
 
+#include "HighScoreTable.h"
+#include "EditableText.h"
+
 class HighScoreState : public GameState
 {
     public:
@@ -26,7 +29,7 @@ class HighScoreState : public GameState
 
         static HighScoreState* getSingletonPtr( void );
     private:
-        HighScoreState( void ) { }
+        HighScoreState( void );
         HighScoreState( const HighScoreState& ) { }
         HighScoreState & operator = ( const HighScoreState& );
 
@@ -39,8 +42,15 @@ class HighScoreState : public GameState
         Ogre::OverlayManager    *mOverlayMgr;
         Ogre::Overlay           *mOverlay;
 
-        Ogre::SceneNode     *mCamNode;
+        Ogre::PanelOverlayElement     *mPanel;
+        Ogre::TextAreaOverlayElement  *mTextAreaTitle;
+        Ogre::TextAreaOverlayElement  *mTextAreaName;
 
+
+
+        HighScoreTable *highScoreTable;
+
+        EditableText *mEditableText;
 
         static HighScoreState    *mHighScoreState;
 };
