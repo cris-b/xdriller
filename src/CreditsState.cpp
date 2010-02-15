@@ -109,6 +109,9 @@ void CreditsState::enter( void ) {
     // Show the overlay
     mOverlay->show();
 
+    SoundManager::getSingleton().loadMusic("credits_music.ogg");
+    SoundManager::getSingleton().playMusic(true);
+
 
 
 }
