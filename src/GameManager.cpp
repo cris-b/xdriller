@@ -16,6 +16,7 @@
 #include "LevelLoader.h"
 #include "HighScoreManager.h"
 #include "RumbleManager.h"
+#include "BackgroundSceneManager.h"
 
 #include "Tools.h"
 #include "Globals.h"
@@ -296,6 +297,11 @@ void GameManager::startGame( GameState *gameState )
     //MaterialPtr material = MaterialManager::getSingleton().create("ScreenShot", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     MaterialPtr material = MaterialManager::getSingleton().getByName("ScreenShot");
 
+    LogManager::getSingleton().logMessage("Creating BackgroundSceneManager...");
+
+    new BackgroundSceneManager;
+
+    LogManager::getSingleton().logMessage("Creating LevelLoader...");
 
     new LevelLoader;
 
@@ -314,6 +320,8 @@ void GameManager::startGame( GameState *gameState )
     LogManager::getSingleton().logMessage("Creating RumbleManager...");
 
     new RumbleManager;
+
+
 
     // Register the colored text overlay element
     mColoredTextAreaOverlayElementFactory = new ColoredTextAreaOverlayElementFactory();

@@ -20,8 +20,8 @@ LevelLoader& LevelLoader::getSingleton(void)
 
 LevelLoader::LevelLoader()
 {
-    gameMode = GAME_MODE_ADVENTURE;
-    levelDifficulty = EASY;
+    gameMode = GAME_MODE_INFINITE;
+    levelDifficulty = MEDIUM;
 
     numLevels = 0;
 
@@ -115,24 +115,6 @@ Ogre::String LevelLoader::getLevelName(int level_num)
    if(level_num<numLevels) return levelNames[level_num];
    else return "";
 
-   /*ConfigFile::SectionIterator seci = cf.getSectionIterator();
-
-   Ogre::String secName;
-
-   int n = -2;
-   while (seci.hasMoreElements())
-   {
-
-       secName = seci.peekNextKey();
-       seci.getNext();
-
-       n++;
-
-       if(n == level_num) return secName;
-   }
-
-   return "";*/
-
 }
 
 Ogre::String LevelLoader::getLongName()
@@ -220,29 +202,6 @@ int LevelLoader::getLevelNum(Ogre::String name)
 
     return level_num;
 
-    /*ConfigFile::SectionIterator seci = cf.getSectionIterator();
-
-    Ogre::String secName;
-
-    int i = -2;
-
-    while (seci.hasMoreElements())
-    {
-
-        secName = seci.peekNextKey();
-        seci.getNext();
-
-
-        i++;
-
-
-        if(secName == name)
-        {
-        return i;
-        }
-    }
-
-    return -1;*/
 
 };
 

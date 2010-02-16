@@ -4,18 +4,16 @@
 
 #include "ConfigManager.h"
 #include "Tools.h"
+#include "BackgroundSceneManager.h"
 #include "LevelLoader.h"
 #include "SoundManager.h"
 #include "RumbleManager.h"
 #include "InputManager.h"
 #include "Arrows.h"
 #include "DotScene.h"
+#include "HighScoreManager.h"
 
 #include "Gettext.h"
-
-//para pruebas. BORRAR /////////////
-#include "HighScoreManager.h"
-/////////////////////////////////////
 
 #ifndef PlayState_H
 #include "PlayState.h"
@@ -85,37 +83,28 @@ void MenuState::enter( void )
     //load scene
     //--------------------------------------------
 
-    LevelLoader::getSingleton().setLevelName(ConfigManager::getSingleton().getString("last_bg_scene"));
-
     SceneNode *backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
 
     // Load background scene
     CDotScene dotScene;
-    //dotScene = new CDotScene();
 
-    String sceneFilename = LevelLoader::getSingleton().getValue("background_scene") + ".xml";
+    String last_bg_scene = ConfigManager::getSingleton().getString("last_bg_scene");
+
+    String sceneFilename = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].scene_filename;
 
     dotScene.parseDotScene(sceneFilename,"General",mSceneMgr, backgroundSceneNode, "background_");
 
     //Setup fog and bg color
     //--------------------------------------------------------------------
-    ColourValue c = StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color"));
-    String s = LevelLoader::getSingleton().getValue("background_color");
-    mViewport->setBackgroundColour(StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")));
+    ColourValue background_color = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].background_color;
+    mViewport->setBackgroundColour(background_color);
 
-    if(LevelLoader::getSingleton().getValue("fog") == "on")
+    if(BackgroundSceneManager::getSingleton().scenes[last_bg_scene].fog)
     {
-        Real fog_start = 10;
-        Real fog_end = 40;
+        Real fog_start = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].fog_start;
+        Real fog_end = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].fog_end;
 
-        if(LevelLoader::getSingleton().getValue("fog_start") != "")
-            fog_start = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_start"));
-        if(LevelLoader::getSingleton().getValue("fog_end") != "")
-            fog_end = StringConverter::parseReal(LevelLoader::getSingleton().getValue("fog_end"));
-
-        mSceneMgr->setFog(FOG_LINEAR,
-        StringConverter::parseColourValue(LevelLoader::getSingleton().getValue("background_color")),
-        0.0, fog_start, fog_end);
+        mSceneMgr->setFog(FOG_LINEAR,background_color,0.0, fog_start, fog_end);
     }
     else mSceneMgr->setFog(FOG_NONE);
 
@@ -123,31 +112,23 @@ void MenuState::enter( void )
     //Setup skybox
     //--------------------------------------------------------------------
 
-    if(LevelLoader::getSingleton().getValue("skybox") != "")
+    if(BackgroundSceneManager::getSingleton().scenes[last_bg_scene].skybox != "")
     {
-
-        if(LevelLoader::getSingleton().getValue("skybox_quaternion") != "")
-        {
-            Quaternion q = StringConverter::parseQuaternion(LevelLoader::getSingleton().getValue("skybox_quaternion"));
-            mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true,q);
-        }
-        else
-        {
-            mSceneMgr->setSkyBox(true,LevelLoader::getSingleton().getValue("skybox"),1000,true);
-        }
+        Quaternion q = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].skybox_quaternion;
+        String skybox = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].skybox;
+        mSceneMgr->setSkyBox(true,skybox,1000,true,q);
     }
     //-----------------------------------------------------------------------
     //Setup particle_effect
-    if(LevelLoader::getSingleton().getValue("particle_effect") != "")
+    if(BackgroundSceneManager::getSingleton().scenes[last_bg_scene].particle_effect != "")
     {
-     ParticleSystem* mParticleEffect = mSceneMgr->createParticleSystem("sceneParticleEffect", "snow");
-     SceneNode* mParticleEffectNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("sceneParticleEffectNode");
-     mParticleEffectNode->attachObject(mParticleEffect);
+        String particle_effect = BackgroundSceneManager::getSingleton().scenes[last_bg_scene].particle_effect;
+        ParticleSystem* mParticleEffect = mSceneMgr->createParticleSystem("sceneParticleEffect", particle_effect);
+        SceneNode* mParticleEffectNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("sceneParticleEffectNode");
+        mParticleEffectNode->attachObject(mParticleEffect);
 
-     //set particle node to camera pos
-
-     mParticleEffectNode->setPosition(0,0,10);
-
+        //set particle node to camera pos "???"
+        mParticleEffectNode->setPosition(0,0,10);
     }
     //-----------------------------------------------------------------------
 

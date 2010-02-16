@@ -10,7 +10,7 @@ CC=g++
 LIBS = OGRE OIS sdl
 CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include
 LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer
-SOURCES = Arrows.cpp Board.cpp Brick.cpp Cam.cpp ColoredTextAreaOverlayElement.cpp ConfigManager.cpp \
+SOURCES = Arrows.cpp BackgroundSceneManager.cpp Board.cpp Brick.cpp Cam.cpp ColoredTextAreaOverlayElement.cpp ConfigManager.cpp \
 CreditsState.cpp DotScene.cpp EditableText.cpp EntityMaterialInstance.cpp Fader.cpp GameManager.cpp \
 GameState.cpp HighScoreManager.cpp HighScoreState.cpp HighScoreTable.cpp InputManager.cpp IntroState.cpp \
 LevelLoader.cpp Main.cpp MaterialInstance.cpp MenuButton.cpp MenuState.cpp MovableText.cpp Music.cpp \
