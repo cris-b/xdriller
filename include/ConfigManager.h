@@ -5,10 +5,7 @@
 #include <Ogre.h>
 #include <OgreSingleton.h>
 
-#include <string>
 #include <map>
-
-
 
 typedef std::map<std::string,std::string> ConfMap;
 
@@ -22,11 +19,11 @@ class ConfigManager : public Ogre::Singleton<ConfigManager>
     int load();
     int save();
 
-	void setValue(std::string key, std::string value);
-	bool hasKey(std::string key);
+	void setValue(Ogre::String key, Ogre::String value);
+	bool hasKey(Ogre::String key);
 
-	std::string  getString   (std::string key);
-	int     getInt      (std::string key);
+	Ogre::String  getString   (Ogre::String key);
+	int     getInt      (Ogre::String key);
 
 
     static ConfigManager& getSingleton(void);
@@ -34,8 +31,9 @@ class ConfigManager : public Ogre::Singleton<ConfigManager>
 
 	private:
 
+    Ogre::ConfigFile cf;
     ConfMap config;
-    std::string filename;
+    Ogre::String filename;
 
 
 

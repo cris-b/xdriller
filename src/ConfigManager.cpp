@@ -1,7 +1,7 @@
 #include "ConfigManager.h"
 
-
-#include "tinyxml.h"
+#include <iostream>
+#include <fstream>
 
 using namespace Ogre;
 
@@ -15,18 +15,18 @@ ConfigManager& ConfigManager::getSingleton(void)
     assert( ms_Singleton );  return ( *ms_Singleton );
 }
 
-ConfigManager::ConfigManager(std::string filename)
+ConfigManager::ConfigManager(Ogre::String filename)
 {
     this->filename = filename;
 
 }
 
-void ConfigManager::setValue(std::string key, std::string value)
+void ConfigManager::setValue(Ogre::String key, Ogre::String value)
 {
 	config[ key ] = value;
 }
 
-bool ConfigManager::hasKey(std::string key)
+bool ConfigManager::hasKey(Ogre::String key)
 {
 	if(config.find( key ) == config.end())
 	{
@@ -38,23 +38,23 @@ bool ConfigManager::hasKey(std::string key)
 	}
 }
 
-std::string ConfigManager::getString(std::string key)
+Ogre::String ConfigManager::getString(Ogre::String key)
 {
 	if(config.find( key ) != config.end())
 	{
 
-		std::string s = config[ key ];
+		Ogre::String s = config[ key ];
 		return s;
 	}
 	else return "";
 }
 
-int ConfigManager::getInt(std::string key)
+int ConfigManager::getInt(Ogre::String key)
 {
 	if(config.find( key ) != config.end())
 	{
 
-		std::string s = config[ key ];
+		Ogre::String s = config[ key ];
 		return StringConverter::parseInt(s);
 	}
 	else return 0;
@@ -62,40 +62,19 @@ int ConfigManager::getInt(std::string key)
 
 int ConfigManager::save()
 {
-	TiXmlDocument doc;
-	TiXmlElement* key;
-	//TiXmlComment * value;
-	std::string s;
 
- 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
-	doc.LinkEndChild( decl );
+    std::ofstream file;
+    file.open (filename.c_str());
+    file << "#xdriller config file";
 
-	TiXmlElement * root = new TiXmlElement("xdriller");
-	doc.LinkEndChild( root );
 
-	//comentario el name no es el TiXmlElement* name;
-	//name = new TiXmlComment();
-	//s=" Settings for IsKaI ";
-	//name->SetValue(s.c_str());
-	//root->LinkEndChild( name );
+    ConfMap::iterator iter;
+    for( iter = config.begin(); iter != config.end(); iter++ )
+    {
+        file << iter->first << " = " << iter->second << std::endl;
+    }
 
-	{
-		ConfMap::iterator iter;
-
-		TiXmlElement * msgs = new TiXmlElement( "Config" );
-		root->LinkEndChild( msgs );
-
-			for (iter=config.begin(); iter != config.end(); iter++)
-			{
-				const std::string & mkey=(*iter).first;
-				const std::string & mvalue=(*iter).second;
-				key = new TiXmlElement(mkey.c_str());
-				key->LinkEndChild( new TiXmlText(mvalue.c_str()));
-				msgs->LinkEndChild( key );
-			}
-	}
-
-	doc.SaveFile(filename.c_str());
+    file.close();
 
 	return 0;
 }
@@ -104,31 +83,24 @@ int ConfigManager::load()
 {
     LogManager::getSingleton().logMessage("Loading " + filename);
 
-	TiXmlDocument doc(filename.c_str());
-	if (!doc.LoadFile()) return false;
+    cf.load(filename);
 
-	TiXmlHandle hDoc(&doc);
-	TiXmlElement* pElem;
-	TiXmlHandle hRoot(0);
+    config.clear();
 
-	pElem=hDoc.FirstChildElement().Element();
-	hRoot=TiXmlHandle(pElem);
-
-	{
-		config.clear();
-
-		pElem=hRoot.FirstChild( "Config" ).FirstChild().Element();
-		for( ; pElem; pElem=pElem->NextSiblingElement())
-		{
-			const char *pKey=pElem->Value();
-			const char *pText=pElem->GetText();
-			if (pKey && pText)
-			{
-				config[pKey]=pText;
-				LogManager::getSingleton().logMessage(String(pKey) + " " + String(pText));
-			}
-		}
-	}
+    config["FSAA"] = cf.getSetting("FSAA",StringUtil::BLANK,"2");
+    config["audio_buffers"] = cf.getSetting("audio_buffers",StringUtil::BLANK,"4096");
+    config["audio_channels"] = cf.getSetting("audio_channels",StringUtil::BLANK,"2");
+    config["audio_rate"] = cf.getSetting("audio_rate",StringUtil::BLANK,"44100");
+    config["compositors"] = cf.getSetting("compositors",StringUtil::BLANK,"1");
+    config["fullscreen"] = cf.getSetting("fullscreen",StringUtil::BLANK,"No");
+    config["last_bg_scene"] = cf.getSetting("last_bg_scene",StringUtil::BLANK,"sky");
+    config["music_volume"] = cf.getSetting("music_volume",StringUtil::BLANK,"40");
+    config["player_model"] = cf.getSetting("player_model",StringUtil::BLANK,"tom");
+    config["player_name"] = cf.getSetting("player_name",StringUtil::BLANK,"player");
+    config["render_system"] = cf.getSetting("render_system",StringUtil::BLANK,"OpenGL Rendering Subsystem");
+    config["resolution"] = cf.getSetting("resolution",StringUtil::BLANK,"640 x 480");
+    config["resource_path"] = cf.getSetting("resource_path",StringUtil::BLANK,"media");
+    config["sound_volume"] = cf.getSetting("sound_volume",StringUtil::BLANK,"50");
 
 	return true;
 }
