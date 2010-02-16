@@ -140,7 +140,7 @@ void PlayState::enter( void ) {
     //--------------------------------------------
 
 
-    SceneNode *backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
+    backgroundSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "backgroundSceneNode" , Vector3(0,0,0));
 
     // Load background scene
     CDotScene dotScene;
@@ -703,7 +703,7 @@ void PlayState::nextBoard()
         mCam->setParentPos(mPlayer->getPosition());
         mCam->update(0);
 
-        backgroundSceneNode->translate(0,backgroundSceneNode->getPosition().y + distanceUp,0);
+        backgroundSceneNode->translate(0,distanceUp,0);
 
         // display "Board n"
         if(LevelLoader::getSingleton().getGameMode() == GAME_MODE_INFINITE)
