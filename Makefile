@@ -5,7 +5,6 @@ SET_GREEN="\033[32;01m"
 SET_YELLOW="\033[33m"
 SET_RED="\033[31m"
 
-
 CC=g++
 LIBS = OGRE OIS sdl
 CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include
@@ -24,11 +23,13 @@ OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))
 EXECUTABLE = xdriller
 
 LOCALES = es ca de eu fr
-PO_FILES = $(patsubst %,media/locale/%/LC_MESSAGES/xdriller.po,$(LOCALES))
+PO_FILES = $(patsubst %,locale/%/LC_MESSAGES/xdriller.po,$(LOCALES))
 MO_FILES = $(PO_FILES:.po=.mo)
 
 
 INSTALL_PREFIX=/usr
+DATA_DIR=$(INSTALL_PREFIX)/share/xdriller
+
 
 all: $(OBJS) $(MO_FILES)
 	@echo -e $(SET_GREEN)Linking $(SET_YELLOW)$(EXECUTABLE)$(SET_GREEN) executable...$(RESET_COLOR)
@@ -52,16 +53,17 @@ locales: $(MO_FILES)
 
 
 install:
-	mkdir -p $(INSTALL_PREFIX)/games/bin
-	mkdir -p $(INSTALL_PREFIX)/share/games/xdriller
-	mkdir -p $(INSTALL_PREFIX)/share/pixmaps
-	mkdir -p $(INSTALL_PREFIX)/share/applications
 
-	cp  xdriller $(INSTALL_PREFIX)/games/bin
-	cp -r default_config $(INSTALL_PREFIX)/share/games/xdriller
-	cp -r media $(INSTALL_PREFIX)/share/games/xdriller
-	cp  xdriller.png $(INSTALL_PREFIX)/share/pixmaps
-	cp  xdriller.desktop $(INSTALL_PREFIX)/share/applications
+
+	mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/bin
+	mkdir -p $(DESTDIR)$(DATA_DIR)
+	mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/share/pixmaps
+	mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/share/applications
+
+	cp  xdriller $(DESTDIR)$(INSTALL_PREFIX)/bin
+	cp -r default_config locale sounds media.zip $(DESTDIR)$(DATA_DIR)
+	cp  xdriller.png $(DESTDIR)$(INSTALL_PREFIX)/share/pixmaps
+	cp  xdriller.desktop $(DESTDIR)$(INSTALL_PREFIX)/share/applications
 
 
 
