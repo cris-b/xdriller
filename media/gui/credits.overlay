@@ -16,95 +16,86 @@ CreditsOverlay
             left 0
             top 0
             width 1
-            height 2
+            height 1
             transparent true
 
-            element TextArea(CreditsOverlay/Text)
+            element ColoredTextArea(CreditsOverlay/Text)
             {
-                metrics_mode relative
-                font_name SmallFont
-                char_height 0.045
-                alignment center
-                colour 0 0 0
-                left 0.5
-                top 0
-                width 1
-                height 2
-
-                caption Coding, music, and artwork:</br></br></br></br>Translators:</br></br></br></br></br>Powered by:</br></br></br></br></br></br></br>Artwork made with:</br></br></br></br></br>Music with:</br></br></br></br>Thanks to:</br></br></br></br></br>License:
-
-            }
-            element TextArea(CreditsOverlay/Text2)
-            {
-                metrics_mode relative
-                font_name SmallFont
-                char_height 0.045
-                alignment center
-                colour 0.3 0.3 0.3
-                left 0.5
-                top 0
-                width 1
-                height 2
-
-                caption </br></br>durmieu</br></br></br></br>Spanish: Ana</br>Eurkara: Eneko & Maddi</br></br></br></br></br></br>OIS</br>SDL_Mixer</br></br></br></br>Blender</br>The Gimp</br></br></br></br>Acid Pro</br></br></br></br>Futurist</br>ogre3d.org community
+            metrics_mode relative
+            font_name SmallFont
+            char_height 0.045
+            alignment center
+            left 0.5
+            top 0
+            width 1
+            height 2
 
             }
 
-            element Panel(CreditsOverlay/OgreLogo)
-            {
-                horz_align center
-                left -0.075
-                top 0.48
-                width 0.150
-                height 0.075
-                material ogre_logo
-            }
-            element Panel(CreditsOverlay/GplLogo)
-            {
-                horz_align center
-                left -0.075
-                top 1.41
-                width 0.150
-                height 0.075
-                material gplv3
-            }
-
-            container Panel(CreditsOverlay/LogoPanel)
+            container Panel(CreditsOverlay/MovablePanel)
             {
                 left 0
-                top 1.21
+                top 0.525
                 width 1
                 height 1
                 transparent true
 
-                element Panel(CreditsOverlay/FsLogo)
+                element Panel(CreditsOverlay/OgreLogo)
                 {
                     horz_align center
-                    vert_align center
                     left -0.075
-                    top -0.1
+                    top 0.0
                     width 0.150
-                    height 0.2
-                    material fslogo
+                    height 0.075
+                    material ogre_logo
                 }
-
-                element TextArea(CreditsOverlay/FixiStudiosText)
+                element Panel(CreditsOverlay/GplLogo)
                 {
-                    metrics_mode relative
-                    font_name SmallFont
-                    char_height 0.045
-                    alignment center
-                    vert_align center
-                    colour 0 0 0
-                    left 0.5
-                    top 0.1
-                    width 1
-                    height 3
-
-                    caption Fixi Studios
+                    horz_align center
+                    left -0.075
+                    top 0.93
+                    width 0.150
+                    height 0.075
+                    material gplv3
                 }
 
-        }
+                container Panel(CreditsOverlay/LogoPanel)
+                {
+                    left 0
+                    top 0.73
+                    width 1
+                    height 1
+                    transparent true
+
+                    element Panel(CreditsOverlay/FsLogo)
+                    {
+                        horz_align center
+                        vert_align center
+                        left -0.075
+                        top -0.1
+                        width 0.150
+                        height 0.2
+                        material fslogo
+                    }
+
+                    element TextArea(CreditsOverlay/FixiStudiosText)
+                    {
+                        metrics_mode relative
+                        font_name SmallFont
+                        char_height 0.045
+                        alignment center
+                        vert_align center
+                        colour 0 0 0
+                        left 0.5
+                        top 0.1
+                        width 1
+                        height 3
+
+                        caption Fixi Studios
+                    }
+
+                }
+            }
 
         }
 

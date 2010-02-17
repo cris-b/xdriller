@@ -6,6 +6,8 @@
 #include "MenuState.h"
 #endif
 
+#include "Gettext.h"
+
 using namespace Ogre;
 
 CreditsState* CreditsState::mCreditsState;
@@ -94,11 +96,24 @@ void CreditsState::enter( void ) {
     mOverlay = mOverlayMgr->getByName("CreditsOverlay");
     //mOverlay->scroll(0,0.1);
 
-   OverlayElement* mText = OverlayManager::getSingleton().getOverlayElement("CreditsOverlay/Text");
-   mText->setCaption(findAndReplace(mText->getCaption(),"</br>","\n"));
+    String c_title = "^0";
+    String c_text  = "^6";
 
-    mText = OverlayManager::getSingleton().getOverlayElement("CreditsOverlay/Text2");
-   mText->setCaption(findAndReplace(mText->getCaption(),"</br>","\n"));
+    String s_codemusicart = c_title + _("Code, Music and Artwork")  + "\n\n" + c_text + "durmieu" + "\n\n";
+    String s_translators  = c_title + _("Translators") + "\n\n" + c_text + _("Spanish") + ": Ana\n" + _("Basque") +  ": Eneko & Maddi\n" + _("French") +  ": Vincent Petry" + "\n\n";
+    String s_powered      = c_title + _("Powered by")  + "\n\n\n\n" + c_text + "OIS" + "\n" + "SDL_mixer" + "\n\n";
+    String s_artprogs     = c_title + _("Art made with") + "\n\n" + c_text + "Blender" + "\n" + "The Gimp" + "\n\n";
+    String s_musicprogs   = c_title + _("Music with") + "\n\n" + c_text + "Acid Pro" + "\n\n";
+    String s_thanksto     = c_title + _("Thanks to") + "\n\n" + c_text + "futurist\n" + "ogre3d.org community" + "\n\n";;
+    String s_license      = c_title + _("License");
+
+    String s_fullcredits =  s_codemusicart + s_translators + s_powered + s_artprogs + s_musicprogs + s_thanksto + s_license ;
+
+   OverlayElement* mText = OverlayManager::getSingleton().getOverlayElement("CreditsOverlay/Text");
+   mText->setCaption(s_fullcredits);
+
+    //mText = OverlayManager::getSingleton().getOverlayElement("CreditsOverlay/Text2");
+   //mText->setCaption(findAndReplace(mText->getCaption(),"</br>","\n"));
 
     OverlayElement* mMobilePanel = OverlayManager::getSingleton().getOverlayElement("CreditsOverlay/MobilePanel");
     mMobilePanel->setTop(1);

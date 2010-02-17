@@ -254,6 +254,10 @@ void GameManager::startGame( GameState *gameState )
     mCreditsState  = CreditsState::getSingletonPtr();
     mHighScoreState  = HighScoreState::getSingletonPtr();
 
+    // Register the colored text overlay element
+    mColoredTextAreaOverlayElementFactory = new ColoredTextAreaOverlayElementFactory();
+    OverlayManager::getSingleton().addOverlayElementFactory(mColoredTextAreaOverlayElementFactory);
+
     // Setup and configure game
     this->setupResources();
     if( !this->configureGame() ) {
@@ -323,9 +327,7 @@ void GameManager::startGame( GameState *gameState )
 
 
 
-    // Register the colored text overlay element
-    mColoredTextAreaOverlayElementFactory = new ColoredTextAreaOverlayElementFactory();
-    OverlayManager::getSingleton().addOverlayElementFactory(mColoredTextAreaOverlayElementFactory);
+
 
 
     LogManager::getSingleton().logMessage("Entering IntroState...");

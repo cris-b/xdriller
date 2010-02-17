@@ -68,7 +68,7 @@ ColourValue ColoredTextAreaOverlayElement::GetColor(unsigned char ID, float Valu
 	case 5:
 		return ColourValue(0, Value, Value);	// Cyan
 	case 6:
-		return ColourValue(Value, 0, Value);	// Magenta
+		return ColourValue(Value*0.4, Value*0.4, Value*0.4);	// Light Gray
 	case 7:
 		return ColourValue(Value, Value, Value);	// White
 	case 8:
