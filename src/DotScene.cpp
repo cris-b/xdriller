@@ -114,7 +114,7 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 	m_sPrependNode = sPrependNode;
 	mSceneMgr = yourSceneMgr;
 
-	TiXmlDocument   *XMLDoc;
+	TiXmlDocument   *XMLDoc = NULL;
 	TiXmlElement   *XMLRoot, *XMLNodes;
 
 	try

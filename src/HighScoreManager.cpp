@@ -79,7 +79,7 @@ int HighScoreManager::load()
     for( ; mode; mode=mode->NextSiblingElement())
     {
         const char *mode_name= mode->Attribute("name");
-        HighScore *scores;
+        HighScore *scores = NULL;
 
         if(strcmp(mode_name,"Adventure") == 0) scores = adventureScores;
         if(strcmp(mode_name,"Infinite") == 0) scores = infiniteScores;
@@ -170,7 +170,7 @@ int HighScoreManager::save()
         TiXmlElement *mode = new TiXmlElement( "mode" );
         root->LinkEndChild( mode );
 
-        HighScore *scores;
+        HighScore *scores = NULL;
 
         if(k == 0) scores = adventureScores;
         if(k == 1) scores = infiniteScores;
@@ -245,7 +245,7 @@ void HighScoreManager::sortPage(Ogre::String mode, Ogre::String level)
 {
     //Gnome sort: http://en.wikibooks.org/wiki/Algorithm_Implementation/Sorting/Gnome_sort
 
-    HighScore *scores;
+    HighScore *scores = NULL;
 
     if(mode == "Adventure") scores = adventureScores;
     if(mode == "Infinite") scores = infiniteScores;
@@ -336,7 +336,7 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
 
     //LogManager::getSingleton().logMessage("HighScoreManager::addScore = " + mode + " " + level);
 
-    HighScore *scores;
+    HighScore *scores = NULL;
 
     if(mode == "Adventure") scores = adventureScores;
     if(mode == "Infinite") scores = infiniteScores;
@@ -449,7 +449,7 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
 
 HighScore* HighScoreManager::getScore(Ogre::String mode, Ogre::String level, int num)
 {
-    HighScore *scores;
+    HighScore *scores = NULL;
 
     if(mode == "Adventure") scores = adventureScores;
     if(mode == "Infinite") scores = infiniteScores;

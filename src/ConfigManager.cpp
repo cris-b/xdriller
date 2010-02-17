@@ -65,7 +65,7 @@ int ConfigManager::save()
 
     std::ofstream file;
     file.open (filename.c_str());
-    file << "#xdriller config file";
+    file << "#xdriller config file" << std::endl << std::endl;
 
 
     ConfMap::iterator iter;
