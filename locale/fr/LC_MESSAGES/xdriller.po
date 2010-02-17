@@ -1,15 +1,15 @@
-# Xdriller Basque translation
+# Xdriller Spanish translation
 # Copyright (C) 2009 Marvin Stöckl
 # This file is distributed under the same license as the xdriller package.
 # Marvin Stöckl <durmieu@users.sourceforge.net>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xdriller 0.4\n"
+"Project-Id-Version: xdriller 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-17 16:30+0100\n"
-"PO-Revision-Date: 2010-02-02 21:23+0100\n"
-"Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
+"PO-Revision-Date: 2010-02-14 16:20+0800\n"
+"Last-Translator: Vincent Petry <pvince81@users.sourceforge.net>\n"
 "Language-Team: Fixi Studios\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,52 +20,52 @@ msgstr ""
 #: src/MenuState.cpp:992 src/MenuState.cpp:1371 src/MenuState.cpp:1372
 #: src/MenuState.cpp:1470
 msgid "Adventure"
-msgstr "Abentura"
+msgstr "Aventure"
 
 #: src/MenuState.cpp:1256
 msgid "Anti-aliasing"
-msgstr "Anti-aliasa"
+msgstr "Anti-crénelage"
 
 #: src/MenuState.cpp:1267
 msgid "Apply"
-msgstr "Aplikatu"
+msgstr "Appliquer"
 
 #: src/MenuState.cpp:1525
 msgid "Are you sure you want to quit?"
-msgstr "Atera nahi duzu?"
+msgstr "Etes-vous sûr de vouloir quitter ?"
 
 #: src/MenuState.cpp:1210 src/MenuState.cpp:1299
 msgid "Audio Options"
-msgstr "Soinu Aukerak"
+msgstr "Configuration audio"
 
 #: src/MenuState.cpp:1229 src/MenuState.cpp:1271 src/MenuState.cpp:1315
 msgid "Back"
-msgstr "Atzera"
+msgstr "Retour"
 
 #: src/PlayState.cpp:711
 #, fuzzy
 msgid "Board"
-msgstr "Zaila"
+msgstr "Difficile"
 
 #: src/PauseState.cpp:53
 msgid "Continue"
-msgstr "Jarraitu"
+msgstr "Continuer"
 
 #: src/MenuState.cpp:1305 src/MenuState.cpp:1498
 msgid "Controls"
-msgstr "Kontrolak"
+msgstr "Contrôles"
 
 #: src/MenuState.cpp:1185
 msgid "Credits"
-msgstr "Kredituak"
+msgstr "Crédits"
 
 #: src/HighScoreTable.cpp:76
 msgid "Depth"
-msgstr "Sakonera"
+msgstr "Profondeur"
 
 #: src/MenuState.cpp:1587
 msgid "Difficulty"
-msgstr "Zailtasuna"
+msgstr "Difficulté"
 
 #: src/MenuState.cpp:615 src/MenuState.cpp:635 src/MenuState.cpp:636
 #: src/MenuState.cpp:660 src/MenuState.cpp:796 src/MenuState.cpp:815
@@ -73,7 +73,7 @@ msgstr "Zailtasuna"
 #: src/MenuState.cpp:1428 src/MenuState.cpp:1429 src/MenuState.cpp:1430
 #: src/MenuState.cpp:1593
 msgid "Easy"
-msgstr "Erraza"
+msgstr "Facile"
 
 #: src/HighScoreState.cpp:64
 msgid "Enter your name"
@@ -81,143 +81,143 @@ msgstr ""
 
 #: src/MenuState.cpp:1195
 msgid "Exit"
-msgstr "Irten"
+msgstr "Quitter"
 
 #: src/MenuState.cpp:1222
 msgid "FX Volume"
-msgstr "Efektuen Bolumena"
+msgstr "Volume sons"
 
 #: src/MenuState.cpp:1261
 msgid "Fullscreen"
-msgstr "Lehio handia"
+msgstr "Plein écran"
 
 #: src/MenuState.cpp:1244 src/MenuState.cpp:1292
 msgid "Graphic Options"
-msgstr "Grafikoen Aukerak"
+msgstr "Options graphiques"
 
 #: src/MenuState.cpp:634 src/MenuState.cpp:636 src/MenuState.cpp:658
 #: src/MenuState.cpp:815 src/MenuState.cpp:816 src/MenuState.cpp:841
 #: src/MenuState.cpp:1033 src/MenuState.cpp:1436 src/MenuState.cpp:1437
 #: src/MenuState.cpp:1438 src/MenuState.cpp:1595
 msgid "Hard"
-msgstr "Zaila"
+msgstr "Difficile"
 
 #: src/MenuState.cpp:1189
 msgid "High Scores"
-msgstr "Puntuazioa"
+msgstr "Tableau des scores"
 
 #: src/MenuState.cpp:1460
 msgid "HighScores"
-msgstr "Puntuazioa"
+msgstr "Tableau des scores"
 
 #: src/MenuState.cpp:614 src/MenuState.cpp:622 src/MenuState.cpp:632
 #: src/MenuState.cpp:656 src/MenuState.cpp:795 src/MenuState.cpp:798
 #: src/MenuState.cpp:813 src/MenuState.cpp:839 src/MenuState.cpp:998
 #: src/MenuState.cpp:1373 src/MenuState.cpp:1374
 msgid "Infinite"
-msgstr "Infinito"
+msgstr "Infini"
 
 #: src/MenuState.cpp:1473
 msgid "Level"
-msgstr "Pantaila"
+msgstr "Niveau"
 
 #: src/MenuState.cpp:634 src/MenuState.cpp:635 src/MenuState.cpp:659
 #: src/MenuState.cpp:816 src/MenuState.cpp:817 src/MenuState.cpp:842
 #: src/MenuState.cpp:1032 src/MenuState.cpp:1432 src/MenuState.cpp:1433
 #: src/MenuState.cpp:1434
 msgid "Medium"
-msgstr "Ertaina"
+msgstr "Moyen"
 
 #: src/MenuState.cpp:1464
 msgid "Mode"
-msgstr "Modua"
+msgstr "Mode"
 
 #: src/MenuState.cpp:1347
 msgid "Model"
-msgstr "Pertsonaia"
+msgstr "Modèle"
 
 #: src/MenuState.cpp:1215
 msgid "Music Volume"
-msgstr "Musikaren Bolumena"
+msgstr "Volume musique"
 
 #: src/HighScoreTable.cpp:50
 msgid "Name"
-msgstr "Izena"
+msgstr "Nom"
 
 #: src/PlayState.cpp:590 src/PlayState.cpp:637
 msgid "New record!"
-msgstr "Errekor berria!"
+msgstr "Nouveau record !"
 
 #: src/MenuState.cpp:521 src/MenuState.cpp:703 src/MenuState.cpp:705
 msgid "No"
-msgstr "Ez"
+msgstr "Non"
 
 #: src/MenuState.cpp:1530
 msgid "No!"
-msgstr "Ez!"
+msgstr "Non !"
 
 #: src/MenuState.cpp:1594
 msgid "Normal"
-msgstr "Normala"
+msgstr "Normal"
 
 #: src/MenuState.cpp:1502
 msgid "Not configurable"
-msgstr "Ezin da konfiguratu"
+msgstr "Non-configurable"
 
 #: src/MenuState.cpp:1579
 msgid "Number of boards"
-msgstr "Taula Zenbakia"
+msgstr "Nombre de tours"
 
 #: src/MenuState.cpp:1180 src/MenuState.cpp:1288
 msgid "Options"
-msgstr "Aukerak"
+msgstr "Options"
 
 #: src/PauseState.cpp:48
 msgid "Pause"
-msgstr "Pausarazi"
+msgstr "Pause"
 
 #: src/MenuState.cpp:1174
 msgid "Play Game"
-msgstr "Jokatu"
+msgstr "Commencer la partie"
 
 #: src/MenuState.cpp:1310
 msgid "Player"
-msgstr "Jokalaria"
+msgstr "Joueur"
 
 #: src/MenuState.cpp:1333
 msgid "Player Options"
-msgstr "Jokalariaren Aukerak"
+msgstr "Options joueur"
 
 #: src/MenuState.cpp:1337
 msgid "Player name"
-msgstr "Jokalariaren Izena"
+msgstr "Nom du joueur"
 
 #: src/PauseState.cpp:58
 msgid "Quit"
-msgstr "Irten"
+msgstr "Quitter"
 
 #: src/MenuState.cpp:1249
 msgid "Resolution"
-msgstr "Resoluzioa"
+msgstr "Résolution"
 
 #: src/PlayState.cpp:339
 msgid "Start"
-msgstr "Aurrera"
+msgstr "Commencer"
 
 #: src/HighScoreTable.cpp:63
 msgid "Time"
-msgstr "Denbora"
+msgstr "Temps"
 
 #: src/MenuState.cpp:612 src/MenuState.cpp:619 src/MenuState.cpp:662
 #: src/MenuState.cpp:800 src/MenuState.cpp:803 src/MenuState.cpp:845
 #: src/MenuState.cpp:1004 src/MenuState.cpp:1375 src/MenuState.cpp:1376
 msgid "Time Attack"
-msgstr "Erlojuz-Kontra"
+msgstr "Contre la montre"
 
 #: src/MenuState.cpp:526 src/MenuState.cpp:700 src/MenuState.cpp:708
 msgid "Yes"
-msgstr "Bai"
+msgstr "Oui"
 
 #: src/MenuState.cpp:1536
 msgid "Yes, quit!"
-msgstr "Bai!"
+msgstr "Oui, quitter !"
