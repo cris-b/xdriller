@@ -7,17 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xdriller 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-17 16:30+0100\n"
-"PO-Revision-Date: 2010-02-14 16:20+0800\n"
-"Last-Translator: Vincent Petry <pvince81@users.sourceforge.net>\n"
+"POT-Creation-Date: 2010-02-17 19:16+0100\n"
+"PO-Revision-Date: 2010-02-17 19:33+0100\n"
+"Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
 "Language-Team: Fixi Studios\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/MenuState.cpp:617 src/MenuState.cpp:624 src/MenuState.cpp:654
-#: src/MenuState.cpp:793 src/MenuState.cpp:805 src/MenuState.cpp:837
-#: src/MenuState.cpp:992 src/MenuState.cpp:1371 src/MenuState.cpp:1372
+#: src/MenuState.cpp:617
+#: src/MenuState.cpp:624
+#: src/MenuState.cpp:654
+#: src/MenuState.cpp:793
+#: src/MenuState.cpp:805
+#: src/MenuState.cpp:837
+#: src/MenuState.cpp:992
+#: src/MenuState.cpp:1371
+#: src/MenuState.cpp:1372
 #: src/MenuState.cpp:1470
 msgid "Adventure"
 msgstr "Aventure"
@@ -34,24 +40,39 @@ msgstr "Appliquer"
 msgid "Are you sure you want to quit?"
 msgstr "Etes-vous sûr de vouloir quitter ?"
 
-#: src/MenuState.cpp:1210 src/MenuState.cpp:1299
+#: src/CreditsState.cpp:105
+msgid "Art made with"
+msgstr ""
+
+#: src/MenuState.cpp:1210
+#: src/MenuState.cpp:1299
 msgid "Audio Options"
 msgstr "Configuration audio"
 
-#: src/MenuState.cpp:1229 src/MenuState.cpp:1271 src/MenuState.cpp:1315
+#: src/MenuState.cpp:1229
+#: src/MenuState.cpp:1271
+#: src/MenuState.cpp:1315
 msgid "Back"
 msgstr "Retour"
 
+#: src/CreditsState.cpp:103
+msgid "Basque"
+msgstr "Basque"
+
 #: src/PlayState.cpp:711
-#, fuzzy
 msgid "Board"
-msgstr "Difficile"
+msgstr "Tour"
+
+#: src/CreditsState.cpp:102
+msgid "Code, Music and Artwork"
+msgstr ""
 
 #: src/PauseState.cpp:53
 msgid "Continue"
 msgstr "Continuer"
 
-#: src/MenuState.cpp:1305 src/MenuState.cpp:1498
+#: src/MenuState.cpp:1305
+#: src/MenuState.cpp:1498
 msgid "Controls"
 msgstr "Contrôles"
 
@@ -67,10 +88,18 @@ msgstr "Profondeur"
 msgid "Difficulty"
 msgstr "Difficulté"
 
-#: src/MenuState.cpp:615 src/MenuState.cpp:635 src/MenuState.cpp:636
-#: src/MenuState.cpp:660 src/MenuState.cpp:796 src/MenuState.cpp:815
-#: src/MenuState.cpp:817 src/MenuState.cpp:843 src/MenuState.cpp:1031
-#: src/MenuState.cpp:1428 src/MenuState.cpp:1429 src/MenuState.cpp:1430
+#: src/MenuState.cpp:615
+#: src/MenuState.cpp:635
+#: src/MenuState.cpp:636
+#: src/MenuState.cpp:660
+#: src/MenuState.cpp:796
+#: src/MenuState.cpp:815
+#: src/MenuState.cpp:817
+#: src/MenuState.cpp:843
+#: src/MenuState.cpp:1031
+#: src/MenuState.cpp:1428
+#: src/MenuState.cpp:1429
+#: src/MenuState.cpp:1430
 #: src/MenuState.cpp:1593
 msgid "Easy"
 msgstr "Facile"
@@ -87,18 +116,30 @@ msgstr "Quitter"
 msgid "FX Volume"
 msgstr "Volume sons"
 
+#: src/CreditsState.cpp:103
+msgid "French"
+msgstr "Français"
+
 #: src/MenuState.cpp:1261
 msgid "Fullscreen"
 msgstr "Plein écran"
 
-#: src/MenuState.cpp:1244 src/MenuState.cpp:1292
+#: src/MenuState.cpp:1244
+#: src/MenuState.cpp:1292
 msgid "Graphic Options"
 msgstr "Options graphiques"
 
-#: src/MenuState.cpp:634 src/MenuState.cpp:636 src/MenuState.cpp:658
-#: src/MenuState.cpp:815 src/MenuState.cpp:816 src/MenuState.cpp:841
-#: src/MenuState.cpp:1033 src/MenuState.cpp:1436 src/MenuState.cpp:1437
-#: src/MenuState.cpp:1438 src/MenuState.cpp:1595
+#: src/MenuState.cpp:634
+#: src/MenuState.cpp:636
+#: src/MenuState.cpp:658
+#: src/MenuState.cpp:815
+#: src/MenuState.cpp:816
+#: src/MenuState.cpp:841
+#: src/MenuState.cpp:1033
+#: src/MenuState.cpp:1436
+#: src/MenuState.cpp:1437
+#: src/MenuState.cpp:1438
+#: src/MenuState.cpp:1595
 msgid "Hard"
 msgstr "Difficile"
 
@@ -110,10 +151,17 @@ msgstr "Tableau des scores"
 msgid "HighScores"
 msgstr "Tableau des scores"
 
-#: src/MenuState.cpp:614 src/MenuState.cpp:622 src/MenuState.cpp:632
-#: src/MenuState.cpp:656 src/MenuState.cpp:795 src/MenuState.cpp:798
-#: src/MenuState.cpp:813 src/MenuState.cpp:839 src/MenuState.cpp:998
-#: src/MenuState.cpp:1373 src/MenuState.cpp:1374
+#: src/MenuState.cpp:614
+#: src/MenuState.cpp:622
+#: src/MenuState.cpp:632
+#: src/MenuState.cpp:656
+#: src/MenuState.cpp:795
+#: src/MenuState.cpp:798
+#: src/MenuState.cpp:813
+#: src/MenuState.cpp:839
+#: src/MenuState.cpp:998
+#: src/MenuState.cpp:1373
+#: src/MenuState.cpp:1374
 msgid "Infinite"
 msgstr "Infini"
 
@@ -121,9 +169,19 @@ msgstr "Infini"
 msgid "Level"
 msgstr "Niveau"
 
-#: src/MenuState.cpp:634 src/MenuState.cpp:635 src/MenuState.cpp:659
-#: src/MenuState.cpp:816 src/MenuState.cpp:817 src/MenuState.cpp:842
-#: src/MenuState.cpp:1032 src/MenuState.cpp:1432 src/MenuState.cpp:1433
+#: src/CreditsState.cpp:108
+msgid "License"
+msgstr ""
+
+#: src/MenuState.cpp:634
+#: src/MenuState.cpp:635
+#: src/MenuState.cpp:659
+#: src/MenuState.cpp:816
+#: src/MenuState.cpp:817
+#: src/MenuState.cpp:842
+#: src/MenuState.cpp:1032
+#: src/MenuState.cpp:1432
+#: src/MenuState.cpp:1433
 #: src/MenuState.cpp:1434
 msgid "Medium"
 msgstr "Moyen"
@@ -140,15 +198,22 @@ msgstr "Modèle"
 msgid "Music Volume"
 msgstr "Volume musique"
 
+#: src/CreditsState.cpp:106
+msgid "Music with"
+msgstr ""
+
 #: src/HighScoreTable.cpp:50
 msgid "Name"
 msgstr "Nom"
 
-#: src/PlayState.cpp:590 src/PlayState.cpp:637
+#: src/PlayState.cpp:590
+#: src/PlayState.cpp:637
 msgid "New record!"
 msgstr "Nouveau record !"
 
-#: src/MenuState.cpp:521 src/MenuState.cpp:703 src/MenuState.cpp:705
+#: src/MenuState.cpp:521
+#: src/MenuState.cpp:703
+#: src/MenuState.cpp:705
 msgid "No"
 msgstr "Non"
 
@@ -168,7 +233,8 @@ msgstr "Non-configurable"
 msgid "Number of boards"
 msgstr "Nombre de tours"
 
-#: src/MenuState.cpp:1180 src/MenuState.cpp:1288
+#: src/MenuState.cpp:1180
+#: src/MenuState.cpp:1288
 msgid "Options"
 msgstr "Options"
 
@@ -192,6 +258,10 @@ msgstr "Options joueur"
 msgid "Player name"
 msgstr "Nom du joueur"
 
+#: src/CreditsState.cpp:104
+msgid "Powered by"
+msgstr ""
+
 #: src/PauseState.cpp:58
 msgid "Quit"
 msgstr "Quitter"
@@ -200,24 +270,45 @@ msgstr "Quitter"
 msgid "Resolution"
 msgstr "Résolution"
 
+#: src/CreditsState.cpp:103
+msgid "Spanish"
+msgstr "Espagnol"
+
 #: src/PlayState.cpp:339
 msgid "Start"
 msgstr "Commencer"
+
+#: src/CreditsState.cpp:107
+msgid "Thanks to"
+msgstr ""
 
 #: src/HighScoreTable.cpp:63
 msgid "Time"
 msgstr "Temps"
 
-#: src/MenuState.cpp:612 src/MenuState.cpp:619 src/MenuState.cpp:662
-#: src/MenuState.cpp:800 src/MenuState.cpp:803 src/MenuState.cpp:845
-#: src/MenuState.cpp:1004 src/MenuState.cpp:1375 src/MenuState.cpp:1376
+#: src/MenuState.cpp:612
+#: src/MenuState.cpp:619
+#: src/MenuState.cpp:662
+#: src/MenuState.cpp:800
+#: src/MenuState.cpp:803
+#: src/MenuState.cpp:845
+#: src/MenuState.cpp:1004
+#: src/MenuState.cpp:1375
+#: src/MenuState.cpp:1376
 msgid "Time Attack"
 msgstr "Contre la montre"
 
-#: src/MenuState.cpp:526 src/MenuState.cpp:700 src/MenuState.cpp:708
+#: src/CreditsState.cpp:103
+msgid "Translators"
+msgstr ""
+
+#: src/MenuState.cpp:526
+#: src/MenuState.cpp:700
+#: src/MenuState.cpp:708
 msgid "Yes"
 msgstr "Oui"
 
 #: src/MenuState.cpp:1536
 msgid "Yes, quit!"
 msgstr "Oui, quitter !"
+
