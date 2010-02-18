@@ -11,7 +11,6 @@
 using namespace Ogre;
 
 
-
 template<> HighScoreManager* Ogre::Singleton<HighScoreManager>::ms_Singleton = 0;
 HighScoreManager* HighScoreManager::getSingletonPtr(void)
 {
@@ -53,7 +52,9 @@ int HighScoreManager::load()
 	bool loadOkay = doc.LoadFile();
 	if (!loadOkay)
 	{
-	    LogManager::getSingletonPtr()->logMessage("ERROR: Failed to load highscores.xml");
+	    LogManager::getSingletonPtr()->logMessage("HighScoreManager: WARNING: Failed to load highscores.xml.");
+        LogManager::getSingletonPtr()->logMessage("HighScoreManager: Creating new highscores.xml file...");
+        save();
         return 1;
 	}
 
@@ -66,7 +67,9 @@ int HighScoreManager::load()
 
     if (!pElem)
     {
-        LogManager::getSingletonPtr()->logMessage("ERROR: Failed to load highscores: File Corrupted.");
+        LogManager::getSingletonPtr()->logMessage("HighScoreManager: WARNING: Failed to load highscores: File Corrupted.");
+        LogManager::getSingletonPtr()->logMessage("HighScoreManager: Creating new highscores.xml file...");
+        save();
         return 1;
     }
 

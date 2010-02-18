@@ -9,7 +9,7 @@
 class HighScore
 {
     public:
-        HighScore() {time=0;lives=0;depth=0;}
+        HighScore() {time=0;lives=0;depth=0;name="";}
         ~HighScore() {};
 
         Ogre::String name;
