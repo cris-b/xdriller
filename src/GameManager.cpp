@@ -99,14 +99,14 @@ void GameManager::startGame( GameState *gameState )
 
     #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
     configPath = ".";
-    String defaultMediaPath = ".";
+    String defaultDataPath = ".";
     #else  //Linux, etc...
     configPath = String(getenv("HOME")) + "/.config/xdriller";
-    String defaultMediaPath = "/usr/share/xdriller";
+    String defaultDataPath = "/usr/share/xdriller";
 
     if(!fileExists(String(getenv("HOME")) + "/.config"))
     {
-        makeDirectory(String(getenv("HOME")) + "/.config"));
+        makeDirectory(String(getenv("HOME")) + "/.config");
     }
 
     if(!fileExists(configPath))
@@ -125,7 +125,7 @@ void GameManager::startGame( GameState *gameState )
 
     new LogManager;
     LogManager::getSingleton().createLog(configPath + "/xdriller.log");
-    LogManager::getSingleton().logMessage("Xdriller v" + String(XDRILLER_VERSION_STRING));
+    LogManager::getSingleton().logMessage("Xdriller v" + StringConverter::toString(XDRILLER_VERSION_STRING));
 
 
     if(!fileExists(configPath))
@@ -138,19 +138,19 @@ void GameManager::startGame( GameState *gameState )
     {
         //std::cout << "Copying default config file: plugins.cfg" << endl;
         LogManager::getSingleton().logMessage("Copying default config file: plugins.cfg");
-        copyFile(defaultMediaPath + "/default_config/plugins.cfg",configPath + "/plugins.cfg");
+        copyFile(defaultDataPath + "/default_config/plugins.cfg",configPath + "/plugins.cfg");
     }
     if(!fileExists(configPath + "/resources.cfg"))
     {
         //std::cout << "Copying default config file: resources.cfg" << endl;
         LogManager::getSingleton().logMessage("Copying default config file: resources.cfg");
-        copyFile(defaultMediaPath + "/default_config/resources.cfg",configPath + "/resources.cfg");
+        copyFile(defaultDataPath + "/default_config/resources.cfg",configPath + "/resources.cfg");
     }
     if(!fileExists(configPath + "/config.cfg"))
     {
         //std::cout << "Copying default config file: config.cfg" << endl;
         LogManager::getSingleton().logMessage("Copying default config file: config.cfg");
-        copyFile(defaultMediaPath + "/default_config/config.cfg",configPath + "/config.cfg");
+        copyFile(defaultDataPath + "/default_config/config.cfg",configPath + "/config.cfg");
     }
 
 
