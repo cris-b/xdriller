@@ -4,7 +4,7 @@
 #include "Tools.h"
 #include "Globals.h"
 
-#define INFINITE_DEPTH 10;
+#define INFINITE_DEPTH 90;
 
 using namespace Ogre;
 
