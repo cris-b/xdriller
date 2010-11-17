@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "Tools.h"
 #include "Globals.h"
+#include <OgreStringConverter.h>
 
 #define INFINITE_DEPTH 90;
 

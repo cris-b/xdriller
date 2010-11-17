@@ -7,6 +7,8 @@
 #include "PlayState.h"
 #endif
 
+#include <OgreRectangle2D.h>
+
 using namespace Ogre;
 
 PauseState* PauseState::mPauseState;

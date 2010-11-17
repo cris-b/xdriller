@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include <OgreTextAreaOverlayElement.h>
 #include <OgreFontManager.h>
+#include <OgreStringConverter.h>
 
 #include "ConfigManager.h"
 #include "Tools.h"
@@ -959,7 +960,7 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                     strm >> word;
 
-                    _h = StringConverter::parseUnsignedInt(word);
+	                    _h = StringConverter::parseUnsignedInt(word);
 
                     mRoot->getAutoCreatedWindow()->setFullscreen(_fs,_w,_h);
 

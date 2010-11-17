@@ -191,11 +191,12 @@ void GameManager::startGame( GameState *gameState )
         Ogre::NameValuePairList opts;
         opts.clear();
         std::string val;
-        Ogre::RenderSystemList *renderSystems = NULL;
+        //Ogre::RenderSystemList *renderSystems = NULL;
         Ogre::RenderSystemList::iterator r_it;
 
         val = ConfigManager::getSingleton().getString("render_system");
-        renderSystems = mRoot->getAvailableRenderers();
+
+        //renderSystems = mRoot->getAvailableRenderers();
 
         RenderSystem *tmpRenderSystem = 0;
 
