@@ -29,6 +29,8 @@
 #endif
 /////////////////////////////////////
 
+#include <cstring>
+
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1
 #define MENU_PAGE_CREDITS               2
@@ -497,11 +499,33 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 if(menuCursor == 0)
                 {
-                    if(buttons[0]->getOptionCaption() == "1024 x 768") ConfigManager::getSingleton().setValue("resolution","800 x 600");
-                    else if(buttons[0]->getOptionCaption() == "800 x 600") ConfigManager::getSingleton().setValue("resolution","640 x 480");
-                    else if(buttons[0]->getOptionCaption() == "640 x 480") ConfigManager::getSingleton().setValue("resolution","1024 x 768");
-                    else ConfigManager::getSingleton().setValue("resolution","1024 x 768");
+                    //lista de resoluciones
+                    const char* const res[] = {"640 x 480", "800 x 600", "1024 x 768"};
+                    //tamaño de la lista
+                    const int len = sizeof(res) / sizeof(res[0]);
 
+                    int selected_res = 0;
+
+                    //busca resolucion actual
+                    for(int i = 0; i<len; i++)
+                    {
+                        if(buttons[0]->getOptionCaption() == res[i])
+                        {
+                            selected_res = i;
+                            break;
+                        }
+                    }
+
+                    selected_res --;
+                    if(selected_res < 0) selected_res = len-1;
+
+
+                    //if(buttons[0]->getOptionCaption() == "1024 x 768") ConfigManager::getSingleton().setValue("resolution","800 x 600");
+                    //else if(buttons[0]->getOptionCaption() == "800 x 600") ConfigManager::getSingleton().setValue("resolution","640 x 480");
+                    //else if(buttons[0]->getOptionCaption() == "640 x 480") ConfigManager::getSingleton().setValue("resolution","1024 x 768");
+                    //else ConfigManager::getSingleton().setValue("resolution","1024 x 768");
+
+                    ConfigManager::getSingleton().setValue("resolution",res[selected_res]);
                     buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
                     SoundManager::getSingleton().playSound(SOUND_MENU3);
                 }
@@ -679,10 +703,31 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
 
                 if(menuCursor == 0)
                 {
-                    if(buttons[0]->getOptionCaption() == "1024 x 768") ConfigManager::getSingleton().setValue("resolution","640 x 480");
-                    if(buttons[0]->getOptionCaption() == "800 x 600") ConfigManager::getSingleton().setValue("resolution","1024 x 768");
-                    if(buttons[0]->getOptionCaption() == "640 x 480") ConfigManager::getSingleton().setValue("resolution","800 x 600");
+                    //lista de resoluciones
+                    const char* const res[] = {"640 x 480", "800 x 600", "1024 x 768"};
+                    //tamaño de la lista
+                    const int len = sizeof(res) / sizeof(res[0]);
 
+                    int selected_res = 0;
+
+                    //busca resolucion actual
+                    for(int i = 0; i<len; i++)
+                    {
+                        if(buttons[0]->getOptionCaption() == res[i])
+                        {
+                            selected_res = i;
+                            break;
+                        }
+                    }
+
+                    selected_res ++;
+                    if(selected_res > len-1) selected_res = 0;
+
+                    /*if(buttons[0]->getOptionCaption() == "1024 x 768") ConfigManager::getSingleton().setValue("resolution","640 x 480");
+                    if(buttons[0]->getOptionCaption() == "800 x 600") ConfigManager::getSingleton().setValue("resolution","1024 x 768");
+                    if(buttons[0]->getOptionCaption() == "640 x 480") ConfigManager::getSingleton().setValue("resolution","800 x 600");*/
+
+                    ConfigManager::getSingleton().setValue("resolution",res[selected_res]);
                     buttons[0]->setOptionCaption(ConfigManager::getSingleton().getString("resolution"));
 
                     SoundManager::getSingleton().playSound(SOUND_MENU3);

@@ -234,6 +234,7 @@ void GameManager::startGame( GameState *gameState )
 
         //if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
         tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
+
         /*else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
         {
             if(ConfigManager::getSingleton().getString("FSAA") == "0")
