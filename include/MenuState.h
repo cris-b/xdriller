@@ -10,6 +10,7 @@
 #include "Arrows.h"
 
 #include "RingSwitcher.h"
+#include "Planet.h"
 #include "PlayerModelSelector.h"
 #include "HighScoreTable.h"
 
@@ -78,6 +79,7 @@ private:
 
     Arrows *arrows;
     RingSwitcher *ringSwitcher;
+    Planet *planet;
     PlayerModelSelector *playerModelSelector;
     HighScoreTable *highScoreTable;
 

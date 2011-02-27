@@ -64,6 +64,7 @@ MenuState::MenuState()
     playerModelSelector = NULL;
     highScoreTable = NULL;
     mEditableText = NULL;
+    planet = NULL;
 }
 
 void MenuState::enter( void )
@@ -357,7 +358,11 @@ void MenuState::exit( void )
         delete playerModelSelector;
         playerModelSelector = NULL;
     }
-
+    if(planet != NULL)
+    {
+        delete planet;
+        planet = NULL;
+    }
     mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 
     mSceneMgr->clearScene();
@@ -389,7 +394,10 @@ void MenuState::update( unsigned long lTimeElapsed )
     {
         playerModelSelector->update(lTimeElapsed);
     }
-
+    if(planet != NULL)
+    {
+        planet->update(lTimeElapsed);
+    }
 
 
 
@@ -1208,6 +1216,13 @@ void MenuState::changePage(unsigned int page)
         mEditableText = NULL;
     }
 
+    if(planet != NULL)
+    {
+        delete planet;
+        planet = NULL;
+    }
+
+
     mOverlay->remove2D(mLogoXDriller);
 
     switch(menuPage)
@@ -1452,15 +1467,15 @@ void MenuState::changePage(unsigned int page)
 
 
             _updateLevelSelect();
-            mLevelScreenshot->show();
-            mLevelScreenshot_shadow->show();
-            mLevelInfo->show();
-
-
+            mLevelScreenshot->hide();
+            mLevelScreenshot_shadow->hide();
+            mLevelInfo->hide();
 
             menuCursor = 0;
 
             //mInfoTextArea->setCaption(_("Select Level & Press ENTER"));
+
+            planet = new Planet();
 
             break;
         }
@@ -1642,6 +1657,11 @@ void MenuState::_updateLevelSelect()
             caption += "\n\n";
 
             mLevelInfo->setCaption(caption);
+
+
+            String quat = LevelLoader::getSingleton().getValue("planet_quat");
+
+            if(planet != NULL) planet->setOrientation(StringConverter::parseQuaternion(quat));
 
 
 
