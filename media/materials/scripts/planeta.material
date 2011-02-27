@@ -1,0 +1,22 @@
+material planeta
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 0.800000 0.800000 0.800000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			fog_override true
+			texture_unit
+			{
+				texture planeta.png
+				tex_address_mode wrap
+				filtering trilinear
+				colour_op modulate
+			}
+		}
+
+	}
+}
