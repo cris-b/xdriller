@@ -29,7 +29,6 @@
 #endif
 /////////////////////////////////////
 
-#include <cstring>
 
 #define MENU_PAGE_MAIN                  0
 #define MENU_PAGE_OPTIONS               1

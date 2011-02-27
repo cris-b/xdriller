@@ -73,6 +73,7 @@ private:
     Ogre::PanelOverlayElement     *mLivesPanel;
     Ogre::PanelOverlayElement     *mBottle;
     Ogre::PanelOverlayElement     *mBottleAir;
+    Ogre::PanelOverlayElement     *mBottleAlarm;
 
     #if XDRILLER_DEBUG == 1
     Ogre::TextAreaOverlayElement  *mTextAreaDebug;

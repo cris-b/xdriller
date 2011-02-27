@@ -56,6 +56,24 @@ material bottle_air
         }
     }
 }
+material bottle_alarm
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture botella_alarma.png
+                tex_address_mode clamp
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
 
 material arrow
 {

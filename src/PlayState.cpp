@@ -274,7 +274,12 @@ void PlayState::enter( void ) {
     mLivesPanel->setUV(0,0,mPlayer->getLives(),1);
     mLivesPanel->setMaterialName("heart");
 
-
+    mBottleAlarm =  static_cast<PanelOverlayElement*>(
+        mOverlayMgr->createOverlayElement("Panel", "BottlePanelAlarm"));
+    mBottleAlarm->setMetricsMode(Ogre::GMM_RELATIVE);
+    mBottleAlarm->setPosition(0.9,0.72);
+    mBottleAlarm->setDimensions(0.1,0.25);
+    mBottleAlarm->setMaterialName("bottle_alarm");
 
     mBottleAir =  static_cast<PanelOverlayElement*>(
         mOverlayMgr->createOverlayElement("Panel", "BottlePanelAir"));
@@ -289,11 +294,7 @@ void PlayState::enter( void ) {
     mBottle->setMetricsMode(Ogre::GMM_RELATIVE);
     mBottle->setPosition(0.9,0.72);
     mBottle->setDimensions(0.1,0.25);
-    //mBottle->setUV(0,0,mPlayer->getLives(),1);
     mBottle->setMaterialName("bottle");
-
-
-
 
     mOverlay = mOverlayMgr->create("PlayStateOverlay");
 
@@ -303,8 +304,10 @@ void PlayState::enter( void ) {
     mOverlay->add2D(mClock);
     mOverlay->add2D(mPanel);
     mOverlay->add2D(mLivesPanel);
+    mOverlay->add2D(mBottleAlarm);
     mOverlay->add2D(mBottleAir);
     mOverlay->add2D(mBottle);
+
 
     ///////////////////////////////////////////////////////
     #if XDRILLER_DEBUG == 1
@@ -523,6 +526,26 @@ void PlayState::update( unsigned long lTimeElapsed )
         mBottleAir->setPosition(0.9,0.72+0.25*(1-mPlayer->getAir()*0.8));
         mBottleAir->setDimensions(0.1,0.25*(mPlayer->getAir()*0.8));
         mBottleAir->setUV(0,1-mPlayer->getAir()*0.8,1,1);
+
+        //BOTTLE ALARM
+        if(mPlayer->getAir() < 0.5)
+        {
+            if(!mBottleAlarm->isVisible()) mBottleAlarm->show();
+
+            static float n;
+
+            n+=lTimeElapsed*0.01;
+
+            if(n >= 6.28318531) n -= 6.28318531;
+
+            static_cast<MaterialPtr>(MaterialManager::getSingletonPtr()->getByName("bottle_alarm"))
+                ->getTechnique(0)->getPass(0)->getTextureUnitState(0)
+                ->setAlphaOperation(Ogre::LBX_MODULATE, Ogre::LBS_MANUAL, Ogre::LBS_TEXTURE, sin(n)*(1-mPlayer->getAir()*2));
+        }
+        else
+        {
+            if(mBottleAlarm->isVisible()) mBottleAlarm->hide();
+        }
 
         if(mPlayer->getLastDepth() != mPlayer->getDepth())
         {
@@ -844,6 +867,7 @@ void PlayState::destroyOverlayElements()
     if(mScore != NULL)          {mOverlayMgr->destroyOverlayElement(mScore);             mScore = NULL;}
     if(mClock != NULL)          {mOverlayMgr->destroyOverlayElement(mClock);             mClock = NULL;}
     if(mLivesPanel != NULL)     {mOverlayMgr->destroyOverlayElement(mLivesPanel);        mLivesPanel = NULL;}
+    if(mBottleAlarm != NULL)    {mOverlayMgr->destroyOverlayElement(mBottleAlarm);       mBottleAlarm = NULL;}
     if(mBottle != NULL)         {mOverlayMgr->destroyOverlayElement(mBottle);            mBottle = NULL;}
     if(mBottleAir != NULL)      {mOverlayMgr->destroyOverlayElement(mBottleAir);         mBottleAir = NULL;}
     if(mPanel != NULL)          {mOverlayMgr->destroyOverlayElement(mPanel);             mPanel = NULL;}
