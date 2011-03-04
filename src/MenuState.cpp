@@ -1435,7 +1435,7 @@ void MenuState::changePage(unsigned int page)
             ringSwitcher->addObject(_("Time Attack"),"reloj.mesh");
             ringSwitcher->setBlocked(_("Time Attack"),false);
 
-            ringSwitcher->next();
+            //ringSwitcher->next();
 
 
             ringSwitcher->setPosition(0,0,0);
@@ -1659,9 +1659,16 @@ void MenuState::_updateLevelSelect()
             mLevelInfo->setCaption(caption);
 
 
-            String quat = LevelLoader::getSingleton().getValue("planet_quat");
+            String s_coord = LevelLoader::getSingleton().getValue("planet_coord");
+            Vector2 coord = StringConverter::parseVector2(s_coord);
 
-            if(planet != NULL) planet->setOrientation(StringConverter::parseQuaternion(quat));
+
+            //convierte eulers a quaterniones
+            Matrix3 mx;
+            mx.FromEulerAnglesXYZ(Degree(coord.x), Degree(coord.y), Degree(0));
+            Quaternion quat(mx);
+
+            if(planet != NULL) planet->setOrientation(quat);
 
 
 
