@@ -3,9 +3,6 @@
 #include "SoundManager.h"
 #include "ConfigManager.h"
 
-
-
-
 #define FALL_SPEED  -0.004
 #define FALL_ACC    -0.0001
 #define H_SPEED      0.004

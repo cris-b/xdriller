@@ -479,7 +479,7 @@ void PlayState::update( unsigned long lTimeElapsed )
                     textGlobe->setText(_("^0There is a block in front of you.\nIf you press ^1SPACE ^0while facing a block you\ncan break it. Stand in front of the block\nand press ^1SPACE^0."));
                     break;
                 case 9:
-                    textGlobe->setText(_("^0Groups of block of the same color break together.\nIf a block falls on you loose a life.\nBe careful with falling blocks."));
+                    textGlobe->setText(_("^0Groups of block of the same color break together.\nIf a block falls on your player, you loose a life.\nBe careful with falling blocks."));
                     break;
                 case 10:
                     textGlobe->setText(_("^0Breaking blocks above or under you is easy.\nJust press ^1UP ^0or ^1DOWN ^0to look up or down\nand ^1SPACE ^0to break them.\n"));
