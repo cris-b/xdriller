@@ -45,8 +45,16 @@ Player::Player(Board *mBoard)
     tutorial_page_number = 0;
 
     Vector3 startPos(0,2,0);
-    speed = Vector3(0,0,0);
+    speed.x = 0;
+    speed.y = 0;
+    speed.z = 0;
     orientationAngle = 0;
+
+    _moveLeft = false;
+    _moveRight = false;
+
+    _moveSpeed = 0;
+
 
     String mesh_name = ConfigManager::getSingleton().getString("player_model") + ".mesh";
 
