@@ -31,7 +31,7 @@ public:
 	void setValueBottom(float Value);
 	void setValueTop(float Value);
 	void setCaption(const Ogre::DisplayString& text);
-	static Ogre::DisplayString StripColors(const Ogre::String& text);
+	static Ogre::DisplayString StripColors(const Ogre::UTFString& text);
 	static Ogre::ColourValue GetColor(unsigned char ID, float Value = 1.0f);
 
 	void updateColours(void);

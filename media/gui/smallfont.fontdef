@@ -6,7 +6,7 @@ SmallFont
 	size 96
 	resolution 21
 
-	code_points 33-126 191-255
+	code_points 33-126 160-161 191-255
 
 }
 
@@ -18,6 +18,6 @@ Monospace
 	size 96
 	resolution 21
 
-	code_points 33-126 191-255
+	code_points 33-126 160-161 191-255
 
 }

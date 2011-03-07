@@ -8,17 +8,23 @@ msgstr ""
 "Project-Id-Version: xdriller 0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 21:34+0100\n"
-"PO-Revision-Date: 2011-03-07 21:58+0100\n"
-"Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
+"PO-Revision-Date: 2011-03-07 23:08+0100\n"
+"Last-Translator: Durmieu <durmieu@users.sourceforge.net>\n"
 "Language-Team: Fixi Studios\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/MenuState.cpp:649 src/MenuState.cpp:656 src/MenuState.cpp:686
-#: src/MenuState.cpp:846 src/MenuState.cpp:858 src/MenuState.cpp:890
-#: src/MenuState.cpp:1051 src/MenuState.cpp:1440 src/MenuState.cpp:1441
+#: src/MenuState.cpp:649
+#: src/MenuState.cpp:656
+#: src/MenuState.cpp:686
+#: src/MenuState.cpp:846
+#: src/MenuState.cpp:858
+#: src/MenuState.cpp:890
+#: src/MenuState.cpp:1051
+#: src/MenuState.cpp:1440
+#: src/MenuState.cpp:1441
 #: src/MenuState.cpp:1539
 msgid "Adventure"
 msgstr "Aventura"
@@ -39,11 +45,14 @@ msgstr "¿Quieres dejar de jugar?"
 msgid "Art made with"
 msgstr "Graficos hechos con"
 
-#: src/MenuState.cpp:1279 src/MenuState.cpp:1368
+#: src/MenuState.cpp:1279
+#: src/MenuState.cpp:1368
 msgid "Audio Options"
 msgstr "Ajustes de Sonido"
 
-#: src/MenuState.cpp:1298 src/MenuState.cpp:1340 src/MenuState.cpp:1384
+#: src/MenuState.cpp:1298
+#: src/MenuState.cpp:1340
+#: src/MenuState.cpp:1384
 msgid "Back"
 msgstr "Volver"
 
@@ -63,7 +72,8 @@ msgstr "Codigo, Musica y Graficos"
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/MenuState.cpp:1374 src/MenuState.cpp:1567
+#: src/MenuState.cpp:1374
+#: src/MenuState.cpp:1567
 msgid "Controls"
 msgstr "Controles"
 
@@ -79,10 +89,18 @@ msgstr "Profundidad"
 msgid "Difficulty"
 msgstr "Dificultad"
 
-#: src/MenuState.cpp:647 src/MenuState.cpp:667 src/MenuState.cpp:668
-#: src/MenuState.cpp:692 src/MenuState.cpp:849 src/MenuState.cpp:868
-#: src/MenuState.cpp:870 src/MenuState.cpp:896 src/MenuState.cpp:1090
-#: src/MenuState.cpp:1497 src/MenuState.cpp:1498 src/MenuState.cpp:1499
+#: src/MenuState.cpp:647
+#: src/MenuState.cpp:667
+#: src/MenuState.cpp:668
+#: src/MenuState.cpp:692
+#: src/MenuState.cpp:849
+#: src/MenuState.cpp:868
+#: src/MenuState.cpp:870
+#: src/MenuState.cpp:896
+#: src/MenuState.cpp:1090
+#: src/MenuState.cpp:1497
+#: src/MenuState.cpp:1498
+#: src/MenuState.cpp:1499
 #: src/MenuState.cpp:1662
 msgid "Easy"
 msgstr "Facil"
@@ -107,14 +125,22 @@ msgstr "Francés"
 msgid "Fullscreen"
 msgstr "Pantalla Completa"
 
-#: src/MenuState.cpp:1313 src/MenuState.cpp:1361
+#: src/MenuState.cpp:1313
+#: src/MenuState.cpp:1361
 msgid "Graphic Options"
 msgstr "Ajustes Gráficos"
 
-#: src/MenuState.cpp:666 src/MenuState.cpp:668 src/MenuState.cpp:690
-#: src/MenuState.cpp:868 src/MenuState.cpp:869 src/MenuState.cpp:894
-#: src/MenuState.cpp:1092 src/MenuState.cpp:1505 src/MenuState.cpp:1506
-#: src/MenuState.cpp:1507 src/MenuState.cpp:1664
+#: src/MenuState.cpp:666
+#: src/MenuState.cpp:668
+#: src/MenuState.cpp:690
+#: src/MenuState.cpp:868
+#: src/MenuState.cpp:869
+#: src/MenuState.cpp:894
+#: src/MenuState.cpp:1092
+#: src/MenuState.cpp:1505
+#: src/MenuState.cpp:1506
+#: src/MenuState.cpp:1507
+#: src/MenuState.cpp:1664
 msgid "Hard"
 msgstr "Solo para valientes"
 
@@ -126,10 +152,17 @@ msgstr "Puntuaciones"
 msgid "HighScores"
 msgstr "Puntuaciones"
 
-#: src/MenuState.cpp:646 src/MenuState.cpp:654 src/MenuState.cpp:664
-#: src/MenuState.cpp:688 src/MenuState.cpp:848 src/MenuState.cpp:851
-#: src/MenuState.cpp:866 src/MenuState.cpp:892 src/MenuState.cpp:1057
-#: src/MenuState.cpp:1442 src/MenuState.cpp:1443
+#: src/MenuState.cpp:646
+#: src/MenuState.cpp:654
+#: src/MenuState.cpp:664
+#: src/MenuState.cpp:688
+#: src/MenuState.cpp:848
+#: src/MenuState.cpp:851
+#: src/MenuState.cpp:866
+#: src/MenuState.cpp:892
+#: src/MenuState.cpp:1057
+#: src/MenuState.cpp:1442
+#: src/MenuState.cpp:1443
 msgid "Infinite"
 msgstr "Infinito"
 
@@ -141,9 +174,15 @@ msgstr "Nivel"
 msgid "License"
 msgstr "Licencia"
 
-#: src/MenuState.cpp:666 src/MenuState.cpp:667 src/MenuState.cpp:691
-#: src/MenuState.cpp:869 src/MenuState.cpp:870 src/MenuState.cpp:895
-#: src/MenuState.cpp:1091 src/MenuState.cpp:1501 src/MenuState.cpp:1502
+#: src/MenuState.cpp:666
+#: src/MenuState.cpp:667
+#: src/MenuState.cpp:691
+#: src/MenuState.cpp:869
+#: src/MenuState.cpp:870
+#: src/MenuState.cpp:895
+#: src/MenuState.cpp:1091
+#: src/MenuState.cpp:1501
+#: src/MenuState.cpp:1502
 #: src/MenuState.cpp:1503
 msgid "Medium"
 msgstr "Medio"
@@ -168,11 +207,14 @@ msgstr "Musica con"
 msgid "Name"
 msgstr "Nombre"
 
-#: src/PlayState.cpp:704 src/PlayState.cpp:751
+#: src/PlayState.cpp:704
+#: src/PlayState.cpp:751
 msgid "New record!"
 msgstr "¡Nuevo Record!"
 
-#: src/MenuState.cpp:553 src/MenuState.cpp:756 src/MenuState.cpp:758
+#: src/MenuState.cpp:553
+#: src/MenuState.cpp:756
+#: src/MenuState.cpp:758
 msgid "No"
 msgstr "No"
 
@@ -192,7 +234,8 @@ msgstr "No configurable"
 msgid "Number of boards"
 msgstr "Número de tablas"
 
-#: src/MenuState.cpp:1249 src/MenuState.cpp:1357
+#: src/MenuState.cpp:1249
+#: src/MenuState.cpp:1357
 msgid "Options"
 msgstr "Ajustes"
 
@@ -244,9 +287,15 @@ msgstr "Gracias a"
 msgid "Time"
 msgstr "Tiempo"
 
-#: src/MenuState.cpp:644 src/MenuState.cpp:651 src/MenuState.cpp:694
-#: src/MenuState.cpp:853 src/MenuState.cpp:856 src/MenuState.cpp:898
-#: src/MenuState.cpp:1063 src/MenuState.cpp:1444 src/MenuState.cpp:1445
+#: src/MenuState.cpp:644
+#: src/MenuState.cpp:651
+#: src/MenuState.cpp:694
+#: src/MenuState.cpp:853
+#: src/MenuState.cpp:856
+#: src/MenuState.cpp:898
+#: src/MenuState.cpp:1063
+#: src/MenuState.cpp:1444
+#: src/MenuState.cpp:1445
 msgid "Time Attack"
 msgstr "Contrareloj"
 
@@ -258,7 +307,9 @@ msgstr "Traductores"
 msgid "Tutorial"
 msgstr "Tutorial"
 
-#: src/MenuState.cpp:558 src/MenuState.cpp:753 src/MenuState.cpp:761
+#: src/MenuState.cpp:558
+#: src/MenuState.cpp:753
+#: src/MenuState.cpp:761
 msgid "Yes"
 msgstr "Si"
 
@@ -275,8 +326,8 @@ msgid ""
 msgstr ""
 "^0Y esto es todo lo que necesitas saber.\n"
 "Rompe el ^5MegaBlock^0 para continuar a un nivel de \n"
-"prueba. Intenta completarlo y recuerda tener cuidado con\n"
-"los bloques que caen. Buena Suerte!"
+"prueba. Intenta completarlo y recuerda tener cuidado\n"
+"con los bloques que caen. Buena Suerte!"
 
 #: src/PlayState.cpp:485
 msgid ""
@@ -366,9 +417,8 @@ msgid ""
 "Remember hold ^1LEFT ^0for a second while facing the wall."
 msgstr ""
 "^0Hay un pequeño muro bloqueandote el paso.\n"
-"Puedes saltar muros presionando y aguantando ^1IZQUIERDA^0.\n"
-"Recuerda: ^1IZQUIERDA ^0durante un segundo frente\n"
-"a la pared."
+"Puedes saltar muros presionando y aguantando\n"
+"^1IZQUIERDA^0 durante un segundo frente a la pared."
 
 #: src/PlayState.cpp:494
 msgid ""
@@ -379,7 +429,7 @@ msgid ""
 msgstr ""
 "^0Debajo de te hay una ^5caja^0. Puedes romper cajas\n"
 "pegándoles cuatro veces seguidas. Pero romper cajas\n"
-"consume un montón de ^40Oxigeno^0.\n"
+"consume un montón de ^4Oxigeno^0.\n"
 "Aprieta ^1ABAJO ^0y luego ^1ESPACIO ^0cuatro veces."
 
 #: src/PlayState.cpp:461
@@ -400,7 +450,7 @@ msgstr ""
 
 #: src/PlayState.cpp:491
 msgid "^0Well done!"
-msgstr "¡Bien hecho, campeón!"
+msgstr "^0¡Bien hecho!"
 
 #: src/PlayState.cpp:476
 msgid ""
@@ -419,3 +469,4 @@ msgstr ""
 "mover a tu mascota.\n"
 "Intenta seguir hacia la izquierda hasta que\n"
 "te caigas."
+

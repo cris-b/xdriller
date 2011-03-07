@@ -79,7 +79,7 @@ ColourValue ColoredTextAreaOverlayElement::GetColor(unsigned char ID, float Valu
 	return ColourValue::Black;
 }
 
-DisplayString ColoredTextAreaOverlayElement::StripColors(const Ogre::String& otext)
+DisplayString ColoredTextAreaOverlayElement::StripColors(const Ogre::UTFString& otext)
 {
 	try
 	{
