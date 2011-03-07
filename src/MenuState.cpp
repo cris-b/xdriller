@@ -917,22 +917,28 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
 
                 }
-                if(menuCursor == 1)
+                if(menuCursor == 1) //tutorial
                 {
-                    changePage(MENU_PAGE_OPTIONS);
+                    LevelLoader::getSingletonPtr()->setGameMode(GAME_MODE_TUTORIAL);
+                    fadeState( PlayState::getSingletonPtr() );
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
                 if(menuCursor == 2)
                 {
-                    fadeState( CreditsState::getSingletonPtr() );
+                    changePage(MENU_PAGE_OPTIONS);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
                 if(menuCursor == 3)
                 {
-                    changePage(MENU_PAGE_HIGHSCORES);
+                    fadeState( CreditsState::getSingletonPtr() );
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
                 if(menuCursor == 4)
+                {
+                    //changePage(MENU_PAGE_HIGHSCORES);
+                    //SoundManager::getSingleton().playSound(SOUND_MENU2);
+                }
+                if(menuCursor == 5)
                 {
                     changePage(MENU_PAGE_QUIT);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
@@ -1233,28 +1239,31 @@ void MenuState::changePage(unsigned int page)
 
             buttons.push_back(new MenuButton(_("Play Game")));
 
-            buttons[0]->setPosition(0,-0.15);
+            buttons[0]->setPosition(0,-0.20);
             buttons[0]->setState(BSTATE_ACTIVE);
 
+            buttons.push_back(new MenuButton(_("Tutorial")));
+
+            buttons[1]->setPosition(0,-0.10);
 
             buttons.push_back(new MenuButton(_("Options")));
 
-            buttons[1]->setPosition(0,-0.05);
+            buttons[2]->setPosition(0,-0.00);
 
 
             buttons.push_back(new MenuButton(_("Credits")));
 
-            buttons[2]->setPosition(0,0.05);
+            buttons[3]->setPosition(0,0.10);
 
             buttons.push_back(new MenuButton(_("High Scores")));
 
-            buttons[3]->setPosition(0,0.15);
-            buttons[3]->setBlocked(false);
+            buttons[4]->setPosition(0,0.20);
+            buttons[4]->setBlocked(true);
 
 
             buttons.push_back(new MenuButton(_("Exit")));
 
-            buttons[4]->setPosition(0,0.25);
+            buttons[5]->setPosition(0,0.30);
 
 
             menuCursor = 0;

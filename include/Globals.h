@@ -19,6 +19,7 @@
 #define GAME_MODE_ADVENTURE     0
 #define GAME_MODE_INFINITE      1
 #define GAME_MODE_TIME_ATTACK   2
+#define GAME_MODE_TUTORIAL      3
 
 
 #endif

@@ -42,6 +42,7 @@ Player::Player(Board *mBoard)
     endFloor = false;
     points = 0;
     _jumpCharger = 0;
+    tutorial_page_number = 0;
 
     Vector3 startPos(0,2,0);
     speed = Vector3(0,0,0);
@@ -125,6 +126,11 @@ void Player::update(unsigned long lTimeElapsed)
     {
         colBrick->kill();
         livesUp(1);
+    }
+    else if(colBrick != NULL && colBrick->getType() == BRICK_TUTORIAL)
+    {
+        tutorial_page_number++;
+        colBrick->kill();
     }
     else if(colBrick != NULL && _falling == false)
     {
@@ -239,6 +245,16 @@ void Player::update(unsigned long lTimeElapsed)
 
             }
         }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_TUTORIAL)
+        {
+            tutorial_page_number++;
+            colBrick->kill();
+            if(_falling == false)
+            {
+                _falling = true;
+
+            }
+        }
         else if(colBrick != NULL)
         {
 
@@ -306,6 +322,16 @@ void Player::update(unsigned long lTimeElapsed)
 
             }
         }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_TUTORIAL)
+        {
+            tutorial_page_number++;
+            colBrick->kill();
+            if(_falling == false)
+            {
+                _falling = true;
+
+            }
+        }
         /*else if(colBrick != NULL)
         {
 
@@ -334,6 +360,11 @@ void Player::update(unsigned long lTimeElapsed)
         {
             colBrick->kill();
             livesUp(1);
+        }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_TUTORIAL)
+        {
+            tutorial_page_number++;
+            colBrick->kill();
         }
         else if(colBrick != NULL)
         {
@@ -378,6 +409,11 @@ void Player::update(unsigned long lTimeElapsed)
         {
             colBrick->kill();
             livesUp(1);
+        }
+        else if(colBrick != NULL && colBrick->getType() == BRICK_TUTORIAL)
+        {
+            tutorial_page_number++;
+            colBrick->kill();
         }
         else if(colBrick != NULL)
         {
@@ -434,7 +470,7 @@ void Player::update(unsigned long lTimeElapsed)
             }
 
             //salta si no hay nada encima o item
-            if(colBrick == NULL || colBrick->getType() == BRICK_HEART || colBrick->getType() == BRICK_AIR )
+            if(colBrick == NULL || colBrick->getType() == BRICK_HEART || colBrick->getType() == BRICK_AIR || colBrick->getType() == BRICK_TUTORIAL)
             {
                 speed.y = JUMP_SPEED;
                 SoundManager::getSingleton().playSound(SOUND_JUMP);

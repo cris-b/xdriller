@@ -31,6 +31,25 @@ material fade_material
 	}
 }
 
+material text_globe
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
 
+            texture_unit
+            {
+                texture text_globe.png
+                tex_address_mode clamp
+
+
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
 
 

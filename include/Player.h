@@ -47,6 +47,7 @@ class Player
     void resurrect();
     int getPoints() { return points; }
     bool getFinished() {return finished;}
+    unsigned int getTutorialPageNumber() {return tutorial_page_number;}
 
     void livesUp(int n);
 
@@ -91,6 +92,8 @@ class Player
 
     bool endFloor;
     Ogre::Real endFloorPosY;
+
+    unsigned int tutorial_page_number;
 
 	Ogre::Entity *mEnt;
 	Ogre::SceneNode *mNode;

@@ -76,6 +76,11 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     {
         mEnt = mSceneMgr->createEntity(name, "corazon.mesh");
     }
+    else if(type == BRICK_TUTORIAL)
+    {
+        mEnt = mSceneMgr->createEntity(name, "cube.mesh");
+        mEnt->setVisible(false);
+    }
     else if(type == BRICK_FIXED)
     {
         mEnt = mSceneMgr->createEntity(name, "fijo.mesh");
@@ -109,6 +114,7 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     else if(type == BRICK_ROCK) mEnt->setMaterialName("roca");
     else if(type == BRICK_YELLOW) mEnt->setMaterialName("amarillo");
     else if(type == BRICK_HEART) mEnt->setMaterialName("corazon");
+    else if(type == BRICK_TUTORIAL) mEnt->setMaterialName("gris");
     else if(type == BRICK_AIR) mEnt->setMaterialName("O2");
     else if(type == BRICK_FIXED) mEnt->setMaterialName("fijo");
     else kill();
@@ -127,6 +133,11 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
 void Brick::setFalling(int newState)
 {
     if(type == BRICK_FIXED) return;
+    if(type == BRICK_TUTORIAL)
+    {
+        fallstate = FSTATE_STILL;
+        return;
+    }
 
 
     if(fallstate == FSTATE_STILL && newState == FSTATE_PREFALL)
@@ -168,6 +179,8 @@ void Brick::update(unsigned long lTimeElapsed)
     if(lTimeElapsed == 0) return;
 
     if(type == BRICK_NONE) return;
+    if(type == BRICK_TUTORIAL) return;
+
 
     static Vector3 pos;
 
@@ -310,6 +323,12 @@ void Brick::kill()
     alive = false;
 
     dyeTime = DYE_TIME;
+
+    if(type == BRICK_TUTORIAL)
+    {
+        mNode->detachObject(mEnt);
+        mEnt->setVisible(false);
+    }
 
 }
 

@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "Globals.h"
 #include "TextEffector.h"
-
+#include "TextGlobe.h"
 
 #ifndef GameState_H
 #include "GameState.h"
@@ -86,6 +86,7 @@ private:
     int depth;
     //int pointsAccumulation;
     //int points;
+    unsigned int tutorial_page_number;
 
     long int gameTime;
 
@@ -102,6 +103,8 @@ private:
     Player *mPlayer;
 
     TextEffector *textEffector;
+
+    TextGlobe *textGlobe;
 
     static PlayState *mPlayState;
 

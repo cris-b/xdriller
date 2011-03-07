@@ -17,6 +17,27 @@ material heart
     }
 }
 
+material red_x
+{
+    technique
+    {
+        pass
+        {
+            depth_check off
+            lighting off
+
+            texture_unit
+            {
+                texture x_roja.png
+                tex_address_mode border
+		tex_border_colour 1.0 1.0 1.0 0.0
+		wave_xform scale_x sine 0.9 1.0 0.0 0.1
+		wave_xform scale_y sine 0.9 1.0 0.0 0.1
+            }
+            scene_blend alpha_blend
+        }
+    }
+}
 
 
 material bottle

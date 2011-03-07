@@ -16,7 +16,8 @@ LevelLoader* LevelLoader::getSingletonPtr(void)
 }
 LevelLoader& LevelLoader::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( ms_Singleton );
+    return ( *ms_Singleton );
 }
 
 LevelLoader::LevelLoader()
@@ -45,7 +46,7 @@ LevelLoader::LevelLoader()
     }
 
     LogManager::getSingleton().logMessage("LevelLoader: Loaded levels.cfg. Number of Levels: "
-                                                + StringConverter::toString(numLevels));
+                                          + StringConverter::toString(numLevels));
 
     setLevelNum(numLevels-1);
 
@@ -81,40 +82,40 @@ void LevelLoader::setLevelNum(int levelNum)
     this->levelNum = levelNum;
     setBoardNum(0);
 
-   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
-   Ogre::String secName, optName, optValue;
+    Ogre::String secName, optName, optValue;
 
-   int n = -1;
-   while (seci.hasMoreElements())
-   {
+    int n = -1;
+    while (seci.hasMoreElements())
+    {
 
-       secName = seci.peekNextKey();
-       ConfigFile::SettingsMultiMap *settings = seci.getNext();
-       ConfigFile::SettingsMultiMap::iterator i;
+        secName = seci.peekNextKey();
+        ConfigFile::SettingsMultiMap *settings = seci.getNext();
+        ConfigFile::SettingsMultiMap::iterator i;
 
-       n++;
-       for (i = settings->begin(); i != settings->end(); ++i)
-       {
-           optName = i->first;
-           optValue = i->second;
+        n++;
+        for (i = settings->begin(); i != settings->end(); ++i)
+        {
+            optName = i->first;
+            optValue = i->second;
 
-           if(levelNum == n-1)
-           {
+            if(levelNum == n-1)
+            {
                 if(optName == "num_boards") numBoards = StringConverter::parseInt(optValue);
                 levelName = secName;
 
                 //Ogre::LogManager::getSingleton().logMessage("SET LEVELNAME TO: " + secName + " " + StringConverter::toString(levelNum));
-           }
-       }
-   }
+            }
+        }
+    }
 }
 
 Ogre::String LevelLoader::getLevelName(int level_num)
 {
 
-   if(level_num<numLevels) return levelNames[level_num];
-   else return "";
+    if(level_num<numLevels) return levelNames[level_num];
+    else return "";
 
 }
 
@@ -129,63 +130,78 @@ Ogre::String LevelLoader::getLongName()
 Ogre::String LevelLoader::getValue(Ogre::String opt)
 {
 
-   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    if(getGameMode() == GAME_MODE_TUTORIAL)
+    {
+        if(opt == "background_scene")
+        {
+            return "tutorial";
+        }
+    }
+
+    ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
 
-   Ogre::String secName, optName, optValue;
+    Ogre::String secName, optName, optValue;
 
-   while (seci.hasMoreElements())
-   {
+    while (seci.hasMoreElements())
+    {
 
-       secName = seci.peekNextKey();
-       ConfigFile::SettingsMultiMap *settings = seci.getNext();
-       ConfigFile::SettingsMultiMap::iterator i;
+        secName = seci.peekNextKey();
+        ConfigFile::SettingsMultiMap *settings = seci.getNext();
+        ConfigFile::SettingsMultiMap::iterator i;
 
-       for (i = settings->begin(); i != settings->end(); ++i)
-       {
-           optName = i->first;
-           optValue = i->second;
+        for (i = settings->begin(); i != settings->end(); ++i)
+        {
+            optName = i->first;
+            optValue = i->second;
 
-           if(secName == levelName)
-           {
+            if(secName == levelName)
+            {
                 if(optName == opt) return optValue;
-           }
-       }
-   }
+            }
+        }
+    }
 
-   return "";
+    return "";
 
 }
 
 void LevelLoader::setLevelName(String levelName)
 {
+
     this->levelName = levelName;
     setBoardNum(0);
 
-   ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    if(levelName == "tutorial")
+    {
+        numBoards = 2;
+    }
+    else
+    {
+        ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
-   Ogre::String secName, optName, optValue;
+        Ogre::String secName, optName, optValue;
 
-   while (seci.hasMoreElements())
-   {
+        while (seci.hasMoreElements())
+        {
 
-       secName = seci.peekNextKey();
-       ConfigFile::SettingsMultiMap *settings = seci.getNext();
-       ConfigFile::SettingsMultiMap::iterator i;
+            secName = seci.peekNextKey();
+            ConfigFile::SettingsMultiMap *settings = seci.getNext();
+            ConfigFile::SettingsMultiMap::iterator i;
 
-       for (i = settings->begin(); i != settings->end(); ++i)
-       {
-           optName = i->first;
-           optValue = i->second;
+            for (i = settings->begin(); i != settings->end(); ++i)
+            {
+                optName = i->first;
+                optValue = i->second;
 
-           if(secName == levelName)
-           {
-                if(optName == "num_boards") numBoards = StringConverter::parseInt(optValue);
+                if(secName == levelName)
+                {
+                    if(optName == "num_boards") numBoards = StringConverter::parseInt(optValue);
 
-           }
-       }
-   }
-
+                }
+            }
+        }
+    }
 }
 
 int LevelLoader::getLevelNum(Ogre::String name)
@@ -208,7 +224,7 @@ int LevelLoader::getLevelNum(Ogre::String name)
 
 int LevelLoader::loadBoard()
 {
-    if(gameMode == GAME_MODE_ADVENTURE || gameMode == GAME_MODE_TIME_ATTACK)
+    if(gameMode == GAME_MODE_ADVENTURE || gameMode == GAME_MODE_TIME_ATTACK || gameMode == GAME_MODE_TUTORIAL)
     {
         levelData.clear();
 
@@ -237,16 +253,17 @@ int LevelLoader::loadBoard()
                 else if(brickColour == ColourValue(1,1,1)) levelData.push_back(BRICK_AIR);
                 else if(brickColour == ColourValue(0.5,0,0)) levelData.push_back(BRICK_HEART);
                 else if(brickColour == ColourValue(0.5,0.5,0.5)) levelData.push_back(BRICK_FIXED);
+                else if(brickColour == ColourValue(0,1,1)) levelData.push_back(BRICK_TUTORIAL);
                 else
                 {
                     Ogre::LogManager::getSingleton().logMessage("LevelLoader: Wrong color at x=" +
-                                                    StringConverter::toString(i) + " y=" +
-                                                    StringConverter::toString(j) + " on level image " +
-                                                    levelName + " : r = " +
-                                                    StringConverter::toString(brickColour.r) + ", g = " +
-                                                    StringConverter::toString(brickColour.g) + ", b = " +
-                                                    StringConverter::toString(brickColour.b) + ", a = " +
-                                                    StringConverter::toString(brickColour.a) + ".");
+                            StringConverter::toString(i) + " y=" +
+                            StringConverter::toString(j) + " on level image " +
+                            levelName + " : r = " +
+                            StringConverter::toString(brickColour.r) + ", g = " +
+                            StringConverter::toString(brickColour.g) + ", b = " +
+                            StringConverter::toString(brickColour.b) + ", a = " +
+                            StringConverter::toString(brickColour.a) + ".");
 
                     levelData.push_back(BRICK_NONE);
 
@@ -335,9 +352,9 @@ int LevelLoader::loadBoard()
                 else //no deberia llegar aqui
                 {
                     Ogre::LogManager::getSingleton().logMessage("LevelLoader: Error 'randomizing' infinite level at block x=" +
-                                                    StringConverter::toString(i) + " y=" +
-                                                    StringConverter::toString(j) + ". Value = " +
-                                                    StringConverter::toString(var));
+                            StringConverter::toString(i) + " y=" +
+                            StringConverter::toString(j) + ". Value = " +
+                            StringConverter::toString(var));
 
                     levelData.push_back(BRICK_RED);
                 }
@@ -358,6 +375,10 @@ void LevelLoader::setGameMode(int gameMode)
 {
     this->gameMode = gameMode;
 
+    if(gameMode == GAME_MODE_TUTORIAL)
+    {
+        setLevelName("tutorial");
+    }
     if(gameMode == GAME_MODE_INFINITE)
     {
         numBoards = 32766; //very big number
