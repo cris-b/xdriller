@@ -1,14 +1,14 @@
 # Xdriller Spanish translation
 # Copyright (C) 2009 Marvin Stöckl
 # This file is distributed under the same license as the xdriller package.
-# Marvin Stöckl <durmieu@users.sourceforge.net>, 2009.
+# Marvin Stöckl <durmieu@users.sourceforge.net>, 2009, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: xdriller 0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 21:34+0100\n"
-"PO-Revision-Date: 2010-02-17 19:22+0100\n"
+"PO-Revision-Date: 2011-03-07 21:58+0100\n"
 "Last-Translator: Marvin Stöckl <durmieu@users.sourceforge.net>\n"
 "Language-Team: Fixi Studios\n"
 "Language: \n"
@@ -218,7 +218,7 @@ msgstr "Nombre"
 
 #: src/CreditsState.cpp:104
 msgid "Powered by"
-msgstr ""
+msgstr "Powered by"
 
 #: src/PauseState.cpp:60
 msgid "Quit"
@@ -256,7 +256,7 @@ msgstr "Traductores"
 
 #: src/MenuState.cpp:1245
 msgid "Tutorial"
-msgstr ""
+msgstr "Tutorial"
 
 #: src/MenuState.cpp:558 src/MenuState.cpp:753 src/MenuState.cpp:761
 msgid "Yes"
@@ -273,6 +273,10 @@ msgid ""
 "Try to complete it and remember to avoid\n"
 "the falling blocks. Good look!"
 msgstr ""
+"^0Y esto es todo lo que necesitas saber.\n"
+"Rompe el ^5MegaBlock^0 para continuar a un nivel de \n"
+"prueba. Intenta completarlo y recuerda tener cuidado con\n"
+"los bloques que caen. Buena Suerte!"
 
 #: src/PlayState.cpp:485
 msgid ""
@@ -280,6 +284,9 @@ msgid ""
 "Just press ^1UP ^0or ^1DOWN ^0to look up or down\n"
 "and ^1SPACE ^0to break them.\n"
 msgstr ""
+"^0Romper los bloques arriba y abajo es facil.\n"
+"Aprieta ^1ARRIBA ^0o ^1ABAJO ^0para mirar arriba o\n"
+"abajo y ^1ESPACIO ^0para romperlos.\n"
 
 #: src/PlayState.cpp:473
 msgid ""
@@ -287,6 +294,10 @@ msgid ""
 "You must collect this capsules to fill up the bottle.\n"
 "Take them!"
 msgstr ""
+"^0¿Ves la capsula enfrente de ti?¡Es ^4Oxigeno^0!\n"
+"Tienes que recolectar las capsulas para rellenar la\n"
+"botella.\n"
+"¡A por ellas!"
 
 #: src/PlayState.cpp:482
 msgid ""
@@ -294,6 +305,9 @@ msgid ""
 "If a block falls on your player, you loose a life.\n"
 "Be careful with falling blocks."
 msgstr ""
+"^0Grupos de bloques con el mismo color explotan juntos.\n"
+"Si un bloque cae sobre ti moriras aplastado.\n"
+"¡Cuidado no te caiga ninguno!"
 
 #: src/PlayState.cpp:488
 msgid ""
@@ -301,6 +315,9 @@ msgid ""
 "in the top-right corner of the screen.\n"
 "Take the ^1heart ^0to gain a live."
 msgstr ""
+"^0Los corazones son vidas. Puedes ver cuantas\n"
+"vidas te quedan el la esquina superior izquierda.\n"
+"Coje el ^1corazón ^0para ganar una vida."
 
 #: src/PlayState.cpp:470
 msgid ""
@@ -308,12 +325,17 @@ msgid ""
 "with ^4Oxygen^0. As you drill down the levels you consume it.\n"
 "If the bottle get's empty you will die."
 msgstr ""
+"^0En la parte inferior izquierda hay una botella llena\n"
+"de ^4Oxigeno^0. El oxigeno se va consumiendo poco a poco.\n"
+"Si la botella se vacía, mueres asfixiado."
 
 #: src/PlayState.cpp:497
 msgid ""
 "^0Levels are divided by ^5MegaBlocks^0.\n"
 "You can break them like normal blocks."
 msgstr ""
+"^0Los niveles estan separados por ^5MegaBloques^0.\n"
+"Se pueden romper como los bloques normales."
 
 #: src/PlayState.cpp:467
 msgid ""
@@ -321,6 +343,9 @@ msgid ""
 "Next you will learn about ^4Oxygen^0.\n"
 "Let's continue..."
 msgstr ""
+"^0Eso no ha sido dificil, a que no?\n"
+"Ahora veremos que es el ^4Oxigeno^0.\n"
+"Continuemos..."
 
 #: src/PlayState.cpp:479
 msgid ""
@@ -329,6 +354,10 @@ msgid ""
 "can break it. Stand in front of the block\n"
 "and press ^1SPACE^0."
 msgstr ""
+"^0Hay un bloque en frente de ti.\n"
+"Si aprietas ^1ESPACIO ^0mirando hacia el bloque\n"
+"puedes romperlo. Ponte delate del bloque\n"
+"y aprieta ^1ESPACIO^0."
 
 #: src/PlayState.cpp:464
 msgid ""
@@ -336,6 +365,10 @@ msgid ""
 "You can jump up walking to it and holding ^1LEFT^0.\n"
 "Remember hold ^1LEFT ^0for a second while facing the wall."
 msgstr ""
+"^0Hay un pequeño muro bloqueandote el paso.\n"
+"Puedes saltar muros presionando y aguantando ^1IZQUIERDA^0.\n"
+"Recuerda: ^1IZQUIERDA ^0durante un segundo frente\n"
+"a la pared."
 
 #: src/PlayState.cpp:494
 msgid ""
@@ -344,31 +377,45 @@ msgid ""
 "a lot of ^40xygen^0.\n"
 "Press ^1DOWN ^0and ^1SPACE ^0four times."
 msgstr ""
+"^0Debajo de te hay una ^5caja^0. Puedes romper cajas\n"
+"pegándoles cuatro veces seguidas. Pero romper cajas\n"
+"consume un montón de ^40Oxigeno^0.\n"
+"Aprieta ^1ABAJO ^0y luego ^1ESPACIO ^0cuatro veces."
 
 #: src/PlayState.cpp:461
 msgid ""
 "^0Very good! Now continue to the right.\n"
 "You will learn how to jump over obstacles."
 msgstr ""
+"^0¡Muy Bien! Ahora continua hacia la derecha.\n"
+"Vamos a aprender a saltar obstaculos."
 
 #: src/PlayState.cpp:81
 msgid ""
 "^0Welcome to the ^5XDRILLER ^0tutorial.\n"
 "Press ^1RETURN ^0or ^1SPACE ^0to continue."
 msgstr ""
+"^0Bienvenido al tutorial de ^5XDRILLER ^0.\n"
+"Dale a ^1INTRO ^0o ^1ESPACIO ^0para continuar."
 
 #: src/PlayState.cpp:491
 msgid "^0Well done!"
-msgstr ""
+msgstr "¡Bien hecho, campeón!"
 
 #: src/PlayState.cpp:476
 msgid ""
 "^0Well done! Now we will learn how to drill.\n"
 "(the fun part)"
 msgstr ""
+"^0¡Bien hecho! Vamos a aprender a taladrar.\n"
+"(lo divertido)"
 
 #: src/PlayState.cpp:458
 msgid ""
 "^0You can press ^1LEFT ^0or ^1RIGHT ^0to move your player.\n"
 "Try moving left until you fall down the edge."
 msgstr ""
+"^0Puedes apretar ^1IZQUIERDA ^0o ^1DERECHA ^0 para\n"
+"mover a tu mascota.\n"
+"Intenta seguir hacia la izquierda hasta que\n"
+"te caigas."

@@ -15,7 +15,7 @@ GameState.cpp HighScoreManager.cpp HighScoreState.cpp HighScoreTable.cpp InputMa
 LevelLoader.cpp Main.cpp MaterialInstance.cpp MenuButton.cpp MenuState.cpp MovableText.cpp Music.cpp \
 PauseState.cpp Player.cpp PlayerModelSelector.cpp PlayState.cpp RingSwitcher.cpp RingSwitcherObject.cpp \
 RumbleManager.cpp Sound.cpp SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp \
-TextEffectorBigMessage.cpp TextEffector.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp Tools.cpp
+TextEffectorBigMessage.cpp TextEffector.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp Tools.cpp TextGlobe.cpp Planet.cpp
 
 SOURCES_DIR = src
 OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))
