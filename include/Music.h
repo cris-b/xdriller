@@ -2,7 +2,13 @@
 #define Music_H
 
 #include "SDL/SDL.h"
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+#include "SDL_mixer/SDL_mixer.h"
+#else
 #include "SDL/SDL_mixer.h"
+#endif
+
 
 #include <Ogre.h>
 
