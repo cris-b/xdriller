@@ -333,7 +333,7 @@ void PlayState::enter( void )
     mTextAreaDebug->setDimensions(0.2, 0.2);
     mTextAreaDebug->setCaption(" ");
     mTextAreaDebug->setCharHeight(0.03);
-    mTextAreaDebug->setFontName("SmallFont");
+    mTextAreaDebug->setFontName("Monospace");
     mTextAreaDebug->setColour(ColourValue(0,0,0,0.8));
 
     mPanel->addChild(mTextAreaDebug);

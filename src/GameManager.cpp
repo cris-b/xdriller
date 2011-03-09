@@ -221,17 +221,11 @@ void GameManager::startGame( GameState *gameState )
         //    LogManager::getSingleton().logMessage("Error: Specified render system (" + val + ") not found");
         //}
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-        tmpRenderSystem->setConfigOption("Full Screen","No");
-#else
         tmpRenderSystem->setConfigOption("Full Screen",ConfigManager::getSingleton().getString("fullscreen"));
-#endif
+
         //if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-        tmpRenderSystem->setConfigOption("Video Mode","800 x 600");
-#else
         tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution"));
-#endif        //else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
+        //else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
         //{
         //    tmpRenderSystem->setConfigOption("Video Mode",ConfigManager::getSingleton().getString("resolution") + " @ 32-bit colour");
         //}
@@ -239,11 +233,8 @@ void GameManager::startGame( GameState *gameState )
 
 
         //if(ConfigManager::getSingleton().getString("render_system") == "OpenGL Rendering Subsystem")
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-        tmpRenderSystem->setConfigOption("FSAA","0");
-#else
-		tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
-#endif
+        tmpRenderSystem->setConfigOption("FSAA",ConfigManager::getSingleton().getString("FSAA"));
+
         /*else if(ConfigManager::getSingleton().getString("render_system") == "Direct3D9 Rendering Subsystem")
         {
             if(ConfigManager::getSingleton().getString("FSAA") == "0")
@@ -255,10 +246,7 @@ void GameManager::startGame( GameState *gameState )
         }*/
 
         tmpRenderSystem->setConfigOption("RTT Preferred Mode","FBO");
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-		tmpRenderSystem->setConfigOption("Colour Depth","32"); 
-#endif
+		
 
         mRoot->setRenderSystem(tmpRenderSystem);
 

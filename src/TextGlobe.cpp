@@ -42,6 +42,7 @@ TextGlobe::TextGlobe()
     mText->setCharHeight(CHAR_HEIGHT);
     mText->setFontName("SmallFont");
     mText->setColour(ColourValue(0,0,0));
+	mText->setSpaceWidth(0.017);
     /*if(align == ALIGN_CENTER) mText->setAlignment(TextAreaOverlayElement::Center);
     else if(align == ALIGN_LEFT) mText->setAlignment(TextAreaOverlayElement::Left);
     else if(align == ALIGN_RIGHT) mText->setAlignment(TextAreaOverlayElement::Right);*/
