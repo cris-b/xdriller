@@ -166,6 +166,12 @@ void IntroState::update( unsigned long lTimeElapsed )
 }
 
 void IntroState::keyPressed( const OIS::KeyEvent &e ) {
+    if( e.key == OIS::KC_RETURN )
+    {
+        //this->requestShutdown();
+        //this->changeState( GAMESTATE_MENU );
+        fadeState(MenuState::getSingletonPtr());
+    }
 }
 
 void IntroState::keyReleased( const OIS::KeyEvent &e ) {
@@ -186,7 +192,7 @@ void IntroState::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id )
 }
 
 void IntroState::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {
-    this->fadeState( MenuState::getSingletonPtr() );
+    //this->fadeState( MenuState::getSingletonPtr() );
 }
 
 IntroState* IntroState::getSingletonPtr( void ) {

@@ -911,12 +911,14 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
         {
             case MENU_PAGE_MAIN:
             {
+#if XDRILLER_CAPADO == 0
                 if(menuCursor == 0)
                 {
                     changePage(MENU_PAGE_GAME_MODE);
                     SoundManager::getSingleton().playSound(SOUND_MENU2);
-
+					
                 }
+#endif
                 if(menuCursor == 1) //tutorial
                 {
                     LevelLoader::getSingletonPtr()->setGameMode(GAME_MODE_TUTORIAL);
@@ -1241,10 +1243,17 @@ void MenuState::changePage(unsigned int page)
 
             buttons[0]->setPosition(0,-0.20);
             buttons[0]->setState(BSTATE_ACTIVE);
+#if XDRILLER_CAPADO == 1
+			buttons[0]->setState(BSTATE_INACTIVE);
+            buttons[0]->setBlocked(true);
+#endif
 
             buttons.push_back(new MenuButton(_("Tutorial")));
 
             buttons[1]->setPosition(0,-0.10);
+#if XDRILLER_CAPADO == 1
+            buttons[1]->setState(BSTATE_ACTIVE);
+#endif
 
             buttons.push_back(new MenuButton(_("Options")));
 
@@ -1265,9 +1274,11 @@ void MenuState::changePage(unsigned int page)
 
             buttons[5]->setPosition(0,0.30);
 
-
-            menuCursor = 0;
-
+#if XDRILLER_CAPADO == 1
+            menuCursor = 1;
+#else
+			menuCursor = 0;
+#endif
             //mInfoTextArea->setCaption(_("Fixi Studios makes cool games for you"));
 
             break;
