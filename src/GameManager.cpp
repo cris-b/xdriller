@@ -24,6 +24,13 @@
 
 #include <locale.h>
 
+#include <OgrePlatform.h>
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+
+#include "CoreFoundation/CoreFoundation.h" //para los paths en el app bunddle
+
+#endif 
 
 
 using namespace Ogre;
@@ -95,13 +102,34 @@ GameManager::~GameManager( void ) {
 
 void GameManager::startGame( GameState *gameState )
 {
+	
 
-
-    #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 //Puto windows
     configPath = ".";
     String defaultDataPath = ".";
-    #else  //Linux, etc...
-    configPath = String(getenv("HOME")) + "/.config/xdriller";
+#elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE // Puto mac
+		
+    char path[1024];
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    assert( mainBundle );
+	
+    CFURLRef mainBundleURL = CFBundleCopyBundleURL( mainBundle);
+    assert( mainBundleURL);
+	
+    CFStringRef cfStringRef = CFURLCopyFileSystemPath( mainBundleURL, kCFURLPOSIXPathStyle);
+    assert( cfStringRef);
+	
+    CFStringGetCString( cfStringRef, path, 1024, kCFStringEncodingASCII);
+	
+    CFRelease( mainBundleURL);
+    CFRelease( cfStringRef);
+	
+	configPath = String(path) + "/Contents/Resources/";
+	String defaultDataPath = String(path) + "/Contents/Resources/";
+
+#else // Linux, etc..
+
+	configPath = String(getenv("HOME")) + "/.config/xdriller";
     String defaultDataPath = "/usr/share/xdriller";
 
     if(!fileExists(String(getenv("HOME")) + "/.config"))
@@ -113,20 +141,19 @@ void GameManager::startGame( GameState *gameState )
     {
         makeDirectory(configPath);
     }
-
-    #endif
-
+	
     if(fileExists("resources.cfg"))
     {
         configPath = ".";
     }
+	
+#endif
 
-
-
-    new LogManager;
+	new LogManager;
     LogManager::getSingleton().createLog(configPath + "/xdriller.log");
     LogManager::getSingleton().logMessage("Xdriller v" + StringConverter::toString(XDRILLER_VERSION_STRING));
 
+#if OGRE_PLATFORM != OGRE_PLATFORM_APPLE // Puto mac
 
     if(!fileExists(configPath))
     {
@@ -152,7 +179,7 @@ void GameManager::startGame( GameState *gameState )
         LogManager::getSingleton().logMessage("Copying default config file: config.cfg");
         copyFile(defaultDataPath + "/default_config/config.cfg",configPath + "/config.cfg");
     }
-
+#endif
 
 
 
@@ -429,10 +456,13 @@ void GameManager::setupResources( void ) {
         while( itSetting != mapSettings->end() ) {
             sType = itSetting->first;
             sArch = itSetting->second;
-
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
             ResourceGroupManager::getSingleton().addResourceLocation(
-                sArch, sType, sSection );
-
+                configPath + sArch, sType, sSection );
+#else
+            ResourceGroupManager::getSingleton().addResourceLocation(
+				sArch, sType, sSection );			
+#endif
             ++itSetting;
         }
     }
