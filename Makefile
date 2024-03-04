@@ -6,9 +6,9 @@ SET_YELLOW="\033[33m"
 SET_RED="\033[31m"
 
 CC=g++
-LIBS = OGRE OIS sdl
+LIBS = OGRE OGRE-Overlay OIS sdl
 CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include
-LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer -ltinyxml
+LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer -ltinyxml -lboost_system
 SOURCES = Arrows.cpp BackgroundSceneManager.cpp Board.cpp Brick.cpp Cam.cpp ColoredTextAreaOverlayElement.cpp ConfigManager.cpp \
 CreditsState.cpp DotScene.cpp EditableText.cpp EntityMaterialInstance.cpp Fader.cpp GameManager.cpp \
 GameState.cpp HighScoreManager.cpp HighScoreState.cpp HighScoreTable.cpp InputManager.cpp IntroState.cpp \

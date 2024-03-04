@@ -3,6 +3,8 @@
 
 
 #include <Ogre.h>
+#include <OgreOverlay.h>
+#include <OgreOverlayManager.h>
 #include <OgrePanelOverlayElement.h>
 
 

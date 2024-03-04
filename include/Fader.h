@@ -3,6 +3,8 @@
 
 #include <Ogre.h>
 #include <OgreSingleton.h>
+#include <OgreOverlay.h>
+#include <OgreOverlayManager.h>
 #include <OgrePanelOverlayElement.h>
 
 #include "GameState.h"

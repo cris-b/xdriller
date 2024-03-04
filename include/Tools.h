@@ -3,6 +3,7 @@
 #define Tools_H
 
 #include <Ogre.h>
+#include <OgreUTFString.h>
 
 
 

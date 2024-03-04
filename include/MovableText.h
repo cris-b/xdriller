@@ -11,6 +11,7 @@
 #define MovableText_H
 
 #include <Ogre.h>
+#include <OgreUTFString.h>
 #include <OgreFontManager.h>
 
 //using namespace Ogre;
