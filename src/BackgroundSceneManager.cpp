@@ -2,14 +2,14 @@
 
 using namespace Ogre;
 
-template<> BackgroundSceneManager* Ogre::Singleton<BackgroundSceneManager>::ms_Singleton = 0;
+template<> BackgroundSceneManager* Ogre::Singleton<BackgroundSceneManager>::msSingleton = 0;
 BackgroundSceneManager* BackgroundSceneManager::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 BackgroundSceneManager& BackgroundSceneManager::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( msSingleton );  return ( *msSingleton );
 }
 
 BackgroundSceneManager::BackgroundSceneManager()

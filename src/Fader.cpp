@@ -2,14 +2,14 @@
 
 using namespace Ogre;
 
-template<> Fader* Ogre::Singleton<Fader>::ms_Singleton = 0;
+template<> Fader* Ogre::Singleton<Fader>::msSingleton = 0;
 Fader* Fader::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 Fader& Fader::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( msSingleton );  return ( *msSingleton );
 }
 
 

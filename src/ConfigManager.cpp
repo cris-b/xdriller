@@ -5,14 +5,14 @@
 
 using namespace Ogre;
 
-template<> ConfigManager* Ogre::Singleton<ConfigManager>::ms_Singleton = 0;
+template<> ConfigManager* Ogre::Singleton<ConfigManager>::msSingleton = 0;
 ConfigManager* ConfigManager::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 ConfigManager& ConfigManager::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( msSingleton );  return ( *msSingleton );
 }
 
 ConfigManager::ConfigManager(Ogre::String filename)

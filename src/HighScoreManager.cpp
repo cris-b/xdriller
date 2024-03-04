@@ -11,14 +11,14 @@
 using namespace Ogre;
 
 
-template<> HighScoreManager* Ogre::Singleton<HighScoreManager>::ms_Singleton = 0;
+template<> HighScoreManager* Ogre::Singleton<HighScoreManager>::msSingleton = 0;
 HighScoreManager* HighScoreManager::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 HighScoreManager& HighScoreManager::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( msSingleton );  return ( *msSingleton );
 }
 
 

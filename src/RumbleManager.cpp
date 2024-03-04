@@ -159,13 +159,13 @@ int RumbleManager::playEffect(int e)
 
 #endif // OGRE_PLATFORM == OGRE_PLATFORM_LINUX
 
-template<> RumbleManager* Ogre::Singleton<RumbleManager>::ms_Singleton = 0;
+template<> RumbleManager* Ogre::Singleton<RumbleManager>::msSingleton = 0;
 RumbleManager* RumbleManager::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 RumbleManager& RumbleManager::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( msSingleton );  return ( *msSingleton );
 }
 

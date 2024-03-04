@@ -9,15 +9,15 @@
 
 using namespace Ogre;
 
-template<> LevelLoader* Ogre::Singleton<LevelLoader>::ms_Singleton = 0;
+template<> LevelLoader* Ogre::Singleton<LevelLoader>::msSingleton = 0;
 LevelLoader* LevelLoader::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 LevelLoader& LevelLoader::getSingleton(void)
 {
-    assert( ms_Singleton );
-    return ( *ms_Singleton );
+    assert( msSingleton );
+    return ( *msSingleton );
 }
 
 LevelLoader::LevelLoader()

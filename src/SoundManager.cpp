@@ -3,14 +3,14 @@
 #include "RumbleManager.h"
 
 
-template<> SoundManager* Ogre::Singleton<SoundManager>::ms_Singleton = 0;
+template<> SoundManager* Ogre::Singleton<SoundManager>::msSingleton = 0;
 SoundManager* SoundManager::getSingletonPtr(void)
 {
-    return ms_Singleton;
+    return msSingleton;
 }
 SoundManager& SoundManager::getSingleton(void)
 {
-    assert( ms_Singleton );  return ( *ms_Singleton );
+    assert( msSingleton );  return ( *msSingleton );
 }
 
 SoundManager::SoundManager()
