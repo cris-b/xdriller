@@ -18,7 +18,9 @@ using namespace Ogre;
 #define POS_TEX_BINDING    0
 #define COLOUR_BINDING     1
 
-MovableText::MovableText(const String &name, const UTFString &caption, const String &fontName, Real charHeight, const ColourValue &color)
+MovableText::MovableText(const String &name, const UTFString &caption, const String &fontName, Real charHeight, const ColourValue &color) :
+    mLocalTranslation(0.0),
+    mGlobalTranslation(0.0)
 {
     mpCam = NULL;
     mpWin = NULL;
@@ -35,9 +37,6 @@ MovableText::MovableText(const String &name, const UTFString &caption, const Str
     mOnTop = true;
     mHorizontalAlignment = H_CENTER;
     mVerticalAlignment = V_CENTER;
-    mGlobalTranslation = 0.0;
-    mLocalTranslation = 0.0;
-
 
     if (name == "")
         throw Exception(Exception::ERR_INVALIDPARAMS, "Trying to create MovableText without name", "MovableText::MovableText");

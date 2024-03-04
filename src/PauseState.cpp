@@ -26,7 +26,7 @@ void PauseState::enter( void ) {
     // Create background rectangle covering the whole screen
     backgroundRect = new Rectangle2D(true);
     backgroundRect->setCorners(-1.0, 1.0, 1.0, -1.0);
-    backgroundRect->setMaterial("ScreenShot");
+    backgroundRect->setMaterial(MaterialManager::getSingleton().getByName("ScreenShot"));
 
     // Render the background before everything else
     backgroundRect->setRenderQueueGroup(RENDER_QUEUE_BACKGROUND);

@@ -8,6 +8,8 @@
 
 #include "Gettext.h"
 
+#include <OgreRectangle2D.h>
+
 using namespace Ogre;
 
 CreditsState* CreditsState::mCreditsState;
@@ -79,7 +81,7 @@ void CreditsState::enter( void ) {
 
     Rectangle2D* fondoNubesRect = new Rectangle2D(true);
     fondoNubesRect->setCorners(-1.0, 1.0, 1.0, -1.0);
-    fondoNubesRect->setMaterial("fondo_nubes");
+    fondoNubesRect->setMaterial(MaterialManager::getSingleton().getByName("fondo_nubes"));
 
     fondoNubesRect->setRenderQueueGroup(RENDER_QUEUE_BACKGROUND);
 

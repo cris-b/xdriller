@@ -91,7 +91,7 @@ GameManager::~GameManager( void ) {
 
     HighScoreManager::getSingleton().save();
 
-    LogManager::getSingleton().logMessage("Everage FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getAverageFPS()));
+    LogManager::getSingleton().logMessage("Everage FPS: " + StringConverter::toString(Root::getSingleton().getAutoCreatedWindow()->getStatistics().avgFPS));
 
     if( mRoot ) {
         delete mRoot;
