@@ -328,7 +328,6 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 
 			while( XMLBillboard )
 			{
-				Billboard *b;
 				// TempValue;
 				TempVec = Vector3( 0, 0, 0 );
 				ColourValue TempColour(1,1,1,1);
@@ -353,7 +352,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 					TempColour.b = StringConverter::parseReal(TempValue);
 				}
 
-				b = bSet->createBillboard( TempVec, TempColour);
+				bSet->createBillboard( TempVec, TempColour);
 
 				XMLBillboard = XMLBillboard->NextSiblingElement( "billboard" );
 			}

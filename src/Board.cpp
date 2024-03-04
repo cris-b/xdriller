@@ -588,10 +588,14 @@ Brick *Board::detectCollision(AxisAlignedBox &b2)
     int j2 = j1+4;
     int i2 = i1+4;
 
-    if(j1 < 0) j1 = 0; if(j1 > height-1) j1 = height -1;
-    if(j2 < 0) j2 = 0; if(j2 > height-1) j2 = height -1;
-    if(i1 < 0) i1 = 0; if(i1 > width-1)  i1 = width -1;
-    if(i2 < 0) i2 = 0; if(i2 > width-1)  i2 = width -1;
+    if(j1 < 0) j1 = 0; 
+    if(j1 > height-1) j1 = height -1;
+    if(j2 < 0) j2 = 0; 
+    if(j2 > height-1) j2 = height -1;
+    if(i1 < 0) i1 = 0; 
+    if(i1 > width-1)  i1 = width -1;
+    if(i2 < 0) i2 = 0; 
+    if(i2 > width-1)  i2 = width -1;
 
 
 

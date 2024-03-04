@@ -23,7 +23,7 @@
 
 class GameState {
 public:
-    ~GameState( void ) { }
+    virtual ~GameState( void ) { }
 
     virtual void enter( void )  = 0;
     virtual void exit( void )   = 0;

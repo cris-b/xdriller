@@ -11,7 +11,7 @@
 class CreditsState : public GameState
 {
     public:
-        ~CreditsState( void );
+        virtual ~CreditsState( void ) {};
 
         void enter( void );
         void exit( void );

@@ -26,7 +26,7 @@ class SubEntityMaterialInstance : public MaterialInstance {
     /** Destructor.
      * @note Destroys the copy material if needed.
      */
-    ~SubEntityMaterialInstance ();
+    virtual ~SubEntityMaterialInstance ();
     /** Changes this SubEntity material and does any needed operations to keep the previous
      * material instance parameters (transparency and such).
      * @param name Name of the new material.

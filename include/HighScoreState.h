@@ -11,7 +11,7 @@
 class HighScoreState : public GameState
 {
     public:
-        ~HighScoreState( void );
+        virtual ~HighScoreState( void ) {};
 
         void enter( void );
         void exit( void );

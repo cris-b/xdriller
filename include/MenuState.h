@@ -21,7 +21,7 @@
 
 class MenuState : public GameState {
 public:
-    ~MenuState( void );
+    virtual ~MenuState( void ) {};
 
     void enter( void );
     void exit( void );

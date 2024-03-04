@@ -88,17 +88,6 @@ int HighScoreManager::load()
         if(strcmp(mode_name,"Infinite") == 0) scores = infiniteScores;
         if(strcmp(mode_name,"Time Attack") == 0) scores = timeAttackScores;
 
-        int num_levels = 0;
-
-        if(strcmp(mode_name,"Infinite") == 0)
-        {
-            num_levels = 3;
-        }
-        else
-        {
-            num_levels = LevelLoader::getSingleton().getNumLevels();
-        }
-
         TiXmlElement* level = TiXmlHandle(mode).FirstChild("level").Element();
 
         for( ; level; level=level->NextSiblingElement())
@@ -365,14 +354,12 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
     {
         bool _isHighScore = false;
 
-        int highest_time = scores[score_index].time;
         int highest_time_index = score_index;
 
         for(int i = 0; i<10; i++)
         {
             if(scores[score_index+i].name == "")
             {
-                highest_time = scores[score_index+i].time;
                 highest_time_index = score_index+i;
 
                 _isHighScore = true;
@@ -383,7 +370,6 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
             {
                 _isHighScore = true;
 
-                highest_time = scores[score_index+i].time;
                 highest_time_index = score_index+i;
 
 
@@ -408,14 +394,12 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
     {
         bool _isHighScore = false;
 
-        int lowest_depth = scores[score_index].depth;
         int lowest_depth_index = score_index;
 
         for(int i = 0; i<10; i++)
         {
             if(scores[score_index+i].name == "")
             {
-                lowest_depth = scores[score_index+i].depth;
                 lowest_depth_index = score_index+i;
 
                 _isHighScore = true;
@@ -426,7 +410,6 @@ int HighScoreManager::addScore(Ogre::String mode, Ogre::String level, Ogre::Stri
             {
                 _isHighScore = true;
 
-                lowest_depth = scores[score_index+i].depth;
                 lowest_depth_index = score_index+i;
 
             }

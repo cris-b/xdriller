@@ -10,7 +10,7 @@
 
 class IntroState : public GameState{
 public:
-    ~IntroState( void );
+    virtual ~IntroState( void ) {};
 
     void enter( void );
     void exit( void );
