@@ -8,14 +8,14 @@ SET_RED="\033[31m"
 CC=g++
 LIBS = OGRE OIS sdl
 CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include
-LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer
+LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lSDL_mixer -ltinyxml
 SOURCES = Arrows.cpp BackgroundSceneManager.cpp Board.cpp Brick.cpp Cam.cpp ColoredTextAreaOverlayElement.cpp ConfigManager.cpp \
 CreditsState.cpp DotScene.cpp EditableText.cpp EntityMaterialInstance.cpp Fader.cpp GameManager.cpp \
 GameState.cpp HighScoreManager.cpp HighScoreState.cpp HighScoreTable.cpp InputManager.cpp IntroState.cpp \
 LevelLoader.cpp Main.cpp MaterialInstance.cpp MenuButton.cpp MenuState.cpp MovableText.cpp Music.cpp \
 PauseState.cpp Player.cpp PlayerModelSelector.cpp PlayState.cpp RingSwitcher.cpp RingSwitcherObject.cpp \
 RumbleManager.cpp Sound.cpp SoundManager.cpp SubEntityMaterialInstance.cpp SuperBrick.cpp \
-TextEffectorBigMessage.cpp TextEffector.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp Tools.cpp TextGlobe.cpp Planet.cpp
+TextEffectorBigMessage.cpp TextEffector.cpp Tools.cpp TextGlobe.cpp Planet.cpp
 
 SOURCES_DIR = src
 OBJS := $(patsubst %.cpp,$(SOURCES_DIR)/%.o,$(SOURCES))

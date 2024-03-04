@@ -261,8 +261,6 @@ set(HDRS
 ./include/TextEffectorBigMessage.h
 ./include/TextGlobe.h
 ./include/Tools.h
-./include/tinystr.h
-./include/tinyxml.h
 
 )
  
@@ -309,10 +307,6 @@ set(SRCS
 ./src/TextEffectorBigMessage.cpp
 ./src/TextGlobe.cpp
 ./src/Tools.cpp
-./src/tinystr.cpp
-./src/tinyxml.cpp
-./src/tinyxmlerror.cpp
-./src/tinyxmlparser.cpp
 
 )
  
