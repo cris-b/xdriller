@@ -17,7 +17,7 @@ class TextGlobe
 
         void update(unsigned long lTimeElapsed);
 
-        void setText(Ogre::UTFString text);
+        void setText(Ogre::String text);
 
         bool isVisible();
         bool isWritten();
@@ -36,7 +36,7 @@ class TextGlobe
         Ogre::PanelOverlayElement     *mRedX;
         Ogre::TextAreaOverlayElement  *mText;
 
-        Ogre::UTFString text;
+        Ogre::String text;
 
         unsigned long string_lenght;
 

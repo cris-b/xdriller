@@ -18,7 +18,7 @@
 class MenuButton
 {
     public:
-        MenuButton(Ogre::UTFString caption, int align = ALIGN_CENTER, bool hasOption = false, bool hasArrows = false);
+        MenuButton(Ogre::String caption, int align = ALIGN_CENTER, bool hasOption = false, bool hasArrows = false);
         ~MenuButton();
 
         void setPosition(Ogre::Vector2 pos);

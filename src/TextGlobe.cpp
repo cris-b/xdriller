@@ -81,7 +81,7 @@ void TextGlobe::update(unsigned long lTimeElapsed)
     if(string_lenght < text.size())
     {
 
-        UTFString tmpText;
+        String tmpText;
         tmpText.clear();
 
         string_lenght = time_since_reset * TEXT_SPEED;
@@ -101,7 +101,7 @@ void TextGlobe::update(unsigned long lTimeElapsed)
     }
 }
 
-void TextGlobe::setText(Ogre::UTFString text)
+void TextGlobe::setText(Ogre::String text)
 {
     time_since_reset = 0;
     string_lenght = 0;

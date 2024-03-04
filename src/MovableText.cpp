@@ -18,7 +18,7 @@ using namespace Ogre;
 #define POS_TEX_BINDING    0
 #define COLOUR_BINDING     1
 
-MovableText::MovableText(const String &name, const UTFString &caption, const String &fontName, Real charHeight, const ColourValue &color) :
+MovableText::MovableText(const String &name, const String &caption, const String &fontName, Real charHeight, const ColourValue &color) :
     mLocalTranslation(0.0),
     mGlobalTranslation(0.0)
 {
@@ -93,7 +93,7 @@ void MovableText::setFontName(const String &fontName)
     }
 }
 
-void MovableText::setCaption(const UTFString &caption)
+void MovableText::setCaption(const String &caption)
 {
     if (caption != mCaption)
     {
@@ -246,7 +246,7 @@ void MovableText::_setupGeometry()
     bool first = true;
 
     // Use iterator
-    UTFString::iterator i, iend;
+    String::iterator i, iend;
     iend = mCaption.end();
     bool newLine = true;
     Real len = 0.0f;
@@ -280,7 +280,7 @@ void MovableText::_setupGeometry()
         if (newLine)
         {
             len = 0.0f;
-            for (UTFString::iterator j = i; j != iend && *j != '\n'; j++)
+            for (String::iterator j = i; j != iend && *j != '\n'; j++)
             {
                 if (*j == ' ')
                     len += spaceWidth;

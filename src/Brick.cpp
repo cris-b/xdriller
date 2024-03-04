@@ -87,7 +87,7 @@ void Brick::create (const String&  name, SceneManager *mSceneMgr, int type, cons
     }
     else mEnt = mSceneMgr->createEntity(name, "cube.mesh");
 
-    #if OGRE_VERSION_MINOR < 6
+    #if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR < 6
         mEnt->setNormaliseNormals(true);
     #endif
 

@@ -8,7 +8,7 @@ using namespace Ogre;
 
 #define CHAR_HEIGHT 0.07
 
-MenuButton::MenuButton(UTFString caption, int align, bool hasOption, bool hasArrows)
+MenuButton::MenuButton(String caption, int align, bool hasOption, bool hasArrows)
 {
     this->_hasOption = hasOption;
     this->_hasArrows = hasArrows;

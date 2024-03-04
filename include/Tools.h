@@ -3,7 +3,6 @@
 #define Tools_H
 
 #include <Ogre.h>
-#include <OgreUTFString.h>
 
 
 
@@ -33,7 +32,7 @@ Ogre::Vector2 worldToScreen(const Ogre::Vector3& worldPoint, Ogre::Camera* cam);
 std::string findAndReplace(std::string str, const std::string& findStr, const std::string& replaceStr);
 
 //Convierte cadena de texto a UTF
-Ogre::UTFString ConvertToUTF(Ogre::String String);
+Ogre::String ConvertToUTF(Ogre::String String);
 
 //Devuelve lo que ocupa una cadena de texto en la patalla (para overlays)
 Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real charHeight);

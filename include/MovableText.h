@@ -11,7 +11,6 @@
 #define MovableText_H
 
 #include <Ogre.h>
-#include <OgreUTFString.h>
 #include <OgreFontManager.h>
 
 //using namespace Ogre;
@@ -28,7 +27,7 @@ protected:
     Ogre::String			mFontName;
     Ogre::String			mType;
     Ogre::String			mName;
-    Ogre::UTFString			mCaption;
+    Ogre::String			mCaption;
     HorizontalAlignment	mHorizontalAlignment;
     VerticalAlignment	mVerticalAlignment;
 
@@ -59,7 +58,7 @@ protected:
     /******************************** public methods ******************************/
 public:
 
-    MovableText(const Ogre::String &name, const Ogre::UTFString &caption, const Ogre::String &fontName = "CoolFont", Ogre::Real charHeight = 1.0, const Ogre::ColourValue &color = Ogre::ColourValue::White);
+    MovableText(const Ogre::String &name, const Ogre::String &caption, const Ogre::String &fontName = "CoolFont", Ogre::Real charHeight = 1.0, const Ogre::ColourValue &color = Ogre::ColourValue::White);
     virtual ~MovableText();
 
     #if OGRE_VERSION_MINOR >= 6
@@ -69,7 +68,7 @@ public:
 
     // Set settings
     void    setFontName(const Ogre::String &fontName);
-    void    setCaption(const Ogre::UTFString &caption);
+    void    setCaption(const Ogre::String &caption);
     void    setColor(const Ogre::ColourValue &color);
     void    setCharacterHeight(Ogre::Real height);
     void    setSpaceWidth(Ogre::Real width);
@@ -80,7 +79,7 @@ public:
 
     // Get settings
     const   Ogre::String          &getFontName() const {return mFontName;}
-    const   Ogre::UTFString          &getCaption() const {return mCaption;}
+    const   Ogre::String          &getCaption() const {return mCaption;}
     const   Ogre::ColourValue     &getColor() const {return mColor;}
 
     Ogre::Real    getCharacterHeight() const {return mCharHeight;}
