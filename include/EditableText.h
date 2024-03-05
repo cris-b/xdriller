@@ -4,7 +4,7 @@
 #include <Ogre.h>
 
 #define OIS_DYNAMIC_LIB
-#include <OIS/OIS.h>
+#include <OIS.h>
 
 
 class EditableText

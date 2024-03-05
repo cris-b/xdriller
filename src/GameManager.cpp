@@ -84,9 +84,6 @@ GameManager::~GameManager( void ) {
         mCreditsState = 0;
     }
 
-    delete mColoredTextAreaOverlayElementFactory;
-
-
     ConfigManager::getSingleton().save();
 
     HighScoreManager::getSingleton().save();
@@ -427,13 +424,9 @@ bool GameManager::configureGame( void ) {
     mRenderWindow = mRoot->initialise( true, "Xdriller v" + String(XDRILLER_VERSION_STRING) );
 
     // Create needed scenemanagers
-    Ogre::SceneManager* sm = mRoot->createSceneManager( ST_GENERIC, "ST_GENERIC" );
+    Ogre::SceneManager* sm = mRoot->createSceneManager( Ogre::SMT_DEFAULT, "ST_GENERIC" );
     Ogre::OverlaySystem* os = OGRE_NEW Ogre::OverlaySystem();
     sm->addRenderQueueListener(os);
-
-    // Register the colored text overlay element
-    mColoredTextAreaOverlayElementFactory = new ColoredTextAreaOverlayElementFactory();
-    OverlayManager::getSingleton().addOverlayElementFactory(mColoredTextAreaOverlayElementFactory);
 
     // Initialise resources
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();

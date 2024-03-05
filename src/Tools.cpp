@@ -154,12 +154,12 @@ Ogre::String ConvertToUTF(Ogre::String String)
 {
    Ogre::String UTFString;
    int i;
-   Ogre::String::code_point cp;
+   uint16 cp;
    for (i=0; i<(int)String.size(); ++i)
    {
       cp = String[i];
       cp &= 0xFF;
-      String.append(1, cp);
+      UTFString.append(1, cp);
    }
    return UTFString;
 }

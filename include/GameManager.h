@@ -8,7 +8,7 @@
 #include <OgreWindowEventUtilities.h>
 
 #define OIS_DYNAMIC_LIB
-#include <OIS/OIS.h>
+#include <OIS.h>
 //#include <OISMouse.h>
 //#include <OISKeyboard.h>
 
@@ -16,8 +16,6 @@
 #ifndef InputManager_H
 #include "InputManager.h"
 #endif
-
-#include "ColoredTextAreaOverlayElementFactory.h"
 
 
 
@@ -60,8 +58,6 @@ private:
     Ogre::Root         *mRoot;
     Ogre::RenderWindow *mRenderWindow;
     InputManager       *mInputMgr;
-
-    ColoredTextAreaOverlayElementFactory* mColoredTextAreaOverlayElementFactory;
 
     Ogre::String        configPath;
 

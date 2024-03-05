@@ -1,6 +1,8 @@
 #include "InputManager.h"
 #include "Globals.h"
 
+#include <sstream>
+
 InputManager *InputManager::mInputManager;
 
 InputManager::InputManager( void ) :
@@ -92,9 +94,9 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
             mMouse->setEventCallback( this );
 
             // Get window size
-            unsigned int width, height, depth;
+            unsigned int width, height;
             int left, top;
-            renderWindow->getMetrics( width, height, depth, left, top );
+            renderWindow->getMetrics( width, height, left, top );
 
             // Set mouse region
             this->setWindowExtents( width, height );

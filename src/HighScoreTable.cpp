@@ -90,7 +90,7 @@ HighScoreTable::HighScoreTable()
 
 
     Ogre::TextAreaOverlayElement *mTable = static_cast<TextAreaOverlayElement*>(
-        mOverlayMgr->createOverlayElement("ColoredTextArea", "HighScoreTable_table"));
+        mOverlayMgr->createOverlayElement("TextArea", "HighScoreTable_table"));
     mTable->setMetricsMode(Ogre::GMM_RELATIVE);
     mTable->setHorizontalAlignment(Ogre::GHA_CENTER);
     mTable->setVerticalAlignment(Ogre::GVA_CENTER);

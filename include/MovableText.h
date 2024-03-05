@@ -61,7 +61,7 @@ public:
     MovableText(const Ogre::String &name, const Ogre::String &caption, const Ogre::String &fontName = "CoolFont", Ogre::Real charHeight = 1.0, const Ogre::ColourValue &color = Ogre::ColourValue::White);
     virtual ~MovableText();
 
-    #if OGRE_VERSION_MINOR >= 6
+    #if OGRE_VERSION_MAJOR > 1 || OGRE_VERSION_MINOR >= 6
     // Add to build on Shoggoth: (1.6.*)
     virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables = false);
     #endif

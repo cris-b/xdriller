@@ -4,6 +4,8 @@
 #include <Ogre.h>
 #include <OgrePanelOverlayElement.h>
 #include <OgreTextAreaOverlayElement.h>
+#include <OgreOverlay.h>
+#include <OgreOverlayManager.h>
 
 /*#define ALIGN_LEFT          0
 #define ALIGN_CENTER        1

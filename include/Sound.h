@@ -1,13 +1,8 @@
 #ifndef Sound_H
 #define Sound_H
 
-#include "SDL/SDL.h"
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-#include "SDL_mixer/SDL_mixer.h"
-#else
-#include "SDL/SDL_mixer.h"
-#endif
+#include "SDL.h"
+#include "SDL_mixer.h"
 
 #include <Ogre.h>
 

@@ -2,10 +2,10 @@
 #define InputManager_H
 
 #define OIS_DYNAMIC_LIB
-#include <OIS/OISMouse.h>
-#include <OIS/OISKeyboard.h>
-#include <OIS/OISJoyStick.h>
-#include <OIS/OISInputManager.h>
+#include <OISMouse.h>
+#include <OISKeyboard.h>
+#include <OISJoyStick.h>
+#include <OISInputManager.h>
 
 #include <OgreRenderWindow.h>
 

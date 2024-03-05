@@ -35,7 +35,7 @@ TextGlobe::TextGlobe()
     mRedX->setMaterialName("red_x");
 
     mText = static_cast<TextAreaOverlayElement*>(
-                mOverlayMgr->createOverlayElement("ColoredTextArea", "textGlobe_text"));
+                mOverlayMgr->createOverlayElement("TextArea", "textGlobe_text"));
     mText->setMetricsMode(Ogre::GMM_RELATIVE);
     mText->setPosition(0.01, 0.01);
     mText->setDimensions(0.59, 0.19);
