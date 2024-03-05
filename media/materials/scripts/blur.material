@@ -30,7 +30,6 @@ material blur_h
 		pass
 		{
 			cull_hardware none
-			cull_software none
 			depth_check off
 			depth_write off
 
@@ -59,7 +58,6 @@ material blur_v
 		pass
 		{
 			cull_hardware none
-			cull_software none
 			depth_check off
 
 			vertex_program_ref blur_vp
@@ -80,25 +78,3 @@ material blur_v
 	}
 }
 
-material shadow_blur
-{
-    technique
-    {
-        pass
-        {
-            /*vertex_program_ref blur_vp
-            {
-            }
-            fragment_program_ref blur_v_fp
-            {
-            }*/
-
-            texture_unit
-            {
-                texture Ogre/ShadowTexture0
-                tex_address_mode clamp
-                content_type shadow
-            }
-        }
-    }
-}

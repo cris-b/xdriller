@@ -326,7 +326,6 @@ void GameManager::startGame( GameState *gameState )
         512, 512, 0, PF_R8G8B8, TU_RENDERTARGET);
     screenshotRenderTexture = screenshotTexturePtr->getBuffer()->getRenderTarget();
 
-
     //MaterialPtr material = MaterialManager::getSingleton().create("ScreenShot", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     MaterialPtr material = MaterialManager::getSingleton().getByName("ScreenShot");
 

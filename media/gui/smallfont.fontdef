@@ -1,4 +1,4 @@
-SmallFont
+font SmallFont
 {
 	type	truetype
 	source  komika.ttf
@@ -10,7 +10,7 @@ SmallFont
 
 }
 
-Monospace
+font Monospace
 {
 	type	truetype
 	source  LiberationMono-Bold.ttf

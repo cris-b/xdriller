@@ -40,20 +40,4 @@ material ScreenShot
 		}
 	}*/
 
-	//segunda tecnica en caso que falle
-	technique
-	{
-		pass
-		{
-			texture_unit
-			{
-				texture ScreenShot_texture
-			}
-			//texture_unit
-			//{
-			//	texture lomo.png
-			//	colour_op alpha_blend
-			//}
-		}
-	}
 }

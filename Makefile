@@ -5,9 +5,9 @@ SET_GREEN="\033[32;01m"
 SET_YELLOW="\033[33m"
 SET_RED="\033[31m"
 
-CC=g++
-LIBS = OGRE OGRE-Overlay OGRE-Bites OIS sdl SDL_mixer tinyxml
-CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include
+CC=g++ 
+LIBS = OGRE OGRE-Overlay OGRE-Bites OIS sdl2 SDL2_mixer tinyxml
+CFLAGS=-c -Wall $(shell pkg-config --cflags $(LIBS)) -I include -g
 LDFLAGS= $(shell pkg-config --libs $(LIBS)) -lboost_system
 SOURCES = Arrows.cpp BackgroundSceneManager.cpp Board.cpp Brick.cpp Cam.cpp ConfigManager.cpp \
 CreditsState.cpp DotScene.cpp EditableText.cpp EntityMaterialInstance.cpp Fader.cpp GameManager.cpp \

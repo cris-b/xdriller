@@ -1,8 +1,8 @@
-CreditsOverlay
+overlay CreditsOverlay
 {
     zorder 100
 
-    container Panel(CreditsOverlay/Panel)
+    overlay_element CreditsOverlay/Panel Panel
     {
 
         left 0
@@ -11,7 +11,7 @@ CreditsOverlay
         height 1
         transparent true
 
-        container Panel(CreditsOverlay/MobilePanel)
+        overlay_element CreditsOverlay/MobilePanel Panel
         {
             left 0
             top 0
@@ -19,7 +19,7 @@ CreditsOverlay
             height 1
             transparent true
 
-            element ColoredTextArea(CreditsOverlay/Text)
+            overlay_element CreditsOverlay/Text TextArea
             {
             metrics_mode relative
             font_name SmallFont
@@ -32,7 +32,7 @@ CreditsOverlay
 
             }
 
-            container Panel(CreditsOverlay/MovablePanel)
+            overlay_element CreditsOverlay/MovablePanel Panel
             {
                 left 0
                 top 0.525
@@ -40,7 +40,7 @@ CreditsOverlay
                 height 1
                 transparent true
 
-                element Panel(CreditsOverlay/OgreLogo)
+                overlay_element CreditsOverlay/OgreLogo Panel
                 {
                     horz_align center
                     left -0.075
@@ -49,7 +49,7 @@ CreditsOverlay
                     height 0.075
                     material ogre_logo
                 }
-                element Panel(CreditsOverlay/GplLogo)
+                overlay_element CreditsOverlay/GplLogo Panel
                 {
                     horz_align center
                     left -0.075
@@ -59,7 +59,7 @@ CreditsOverlay
                     material gplv3
                 }
 
-                container Panel(CreditsOverlay/LogoPanel)
+                overlay_element CreditsOverlay/LogoPanel Panel
                 {
                     left 0
                     top 0.73
@@ -67,7 +67,7 @@ CreditsOverlay
                     height 1
                     transparent true
 
-                    element Panel(CreditsOverlay/FsLogo)
+                    overlay_element CreditsOverlay/FsLogo Panel
                     {
                         horz_align center
                         vert_align center
@@ -78,7 +78,7 @@ CreditsOverlay
                         material fslogo
                     }
 
-                    element TextArea(CreditsOverlay/FixiStudiosText)
+                    overlay_element CreditsOverlay/FixiStudiosText TextArea
                     {
                         metrics_mode relative
                         font_name SmallFont

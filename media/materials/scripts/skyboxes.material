@@ -9,7 +9,7 @@ material rainbowsky
 			fog_override true none
 			texture_unit
 			{
-				cubic_texture rainbowsky.png separateUV
+                                texture rainbowsky.png cubic
 				tex_address_mode clamp
 			}
 		}
