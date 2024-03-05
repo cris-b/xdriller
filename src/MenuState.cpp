@@ -937,8 +937,8 @@ void MenuState::keyPressed( const OIS::KeyEvent &e )
                 }
                 if(menuCursor == 4)
                 {
-                    //changePage(MENU_PAGE_HIGHSCORES);
-                    //SoundManager::getSingleton().playSound(SOUND_MENU2);
+                    changePage(MENU_PAGE_HIGHSCORES);
+                    SoundManager::getSingleton().playSound(SOUND_MENU2);
                 }
                 if(menuCursor == 5)
                 {
@@ -1267,7 +1267,7 @@ void MenuState::changePage(unsigned int page)
             buttons.push_back(new MenuButton(_("High Scores")));
 
             buttons[4]->setPosition(0,0.20);
-            buttons[4]->setBlocked(true);
+            //buttons[4]->setBlocked(true);
 
 
             buttons.push_back(new MenuButton(_("Exit")));

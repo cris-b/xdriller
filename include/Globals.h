@@ -8,7 +8,7 @@
 #define XDRILLER_VERSION_STRING "0.8.1"
 
 #define XDRILLER_DEBUG  0
-#define XDRILLER_CAPADO 1
+#define XDRILLER_CAPADO 0
 
 #define NUM_GAME_MODES 3
 
