@@ -1,0 +1,19 @@
+# Resource locations to be added to the default path
+[General]
+FileSystem=@OGRE_DATA@/Media/Main
+FileSystem=@DATA_DIR@/media/particles
+FileSystem=@DATA_DIR@/media/textures
+FileSystem=@DATA_DIR@/media/scenes
+FileSystem=@DATA_DIR@/media/gui
+FileSystem=@DATA_DIR@/media/materials
+FileSystem=@DATA_DIR@/media/materials/shaders
+FileSystem=@DATA_DIR@/media/materials/compositors
+FileSystem=@DATA_DIR@/media/materials/scripts
+FileSystem=@DATA_DIR@/media/meshes
+FileSystem=@DATA_DIR@/media/meshes/scenes
+FileSystem=@DATA_DIR@/media/meshes/players
+FileSystem=@DATA_DIR@/media/meshes/misc
+FileSystem=@DATA_DIR@/media/meshes/bricks
+FileSystem=@DATA_DIR@/media/sounds
+FileSystem=@DATA_DIR@/media/levels
+

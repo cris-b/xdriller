@@ -1,12 +1,12 @@
 # Defines plugins to load
 
 # Define plugin folder
-PluginFolder=/usr/lib/OGRE
+PluginFolder=@OGRE_LIB@
 
 # Define plugins
 Plugin=RenderSystem_GL
 Plugin=Plugin_ParticleFX
 Plugin=Plugin_OctreeSceneManager
-
+Plugin=Codec_FreeImag
 
 

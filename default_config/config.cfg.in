@@ -11,5 +11,5 @@ player_model = tom
 player_name =
 render_system = OpenGL Rendering Subsystem
 resolution = 640 x 480
-resource_path = /usr/share/xdriller
+resource_path = @DATA_DIR@/media
 sound_volume = 50
