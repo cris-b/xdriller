@@ -11,5 +11,5 @@ player_model = tom
 player_name =
 render_system = OpenGL Rendering Subsystem
 resolution = 640 x 480
-resource_path = @DATA_DIR@/media
+resource_path = @CMAKE_INSTALL_FULL_DATADIR@/xdriller/media
 sound_volume = 50

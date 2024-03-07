@@ -1,19 +1,19 @@
 # Resource locations to be added to the default path
 [General]
-FileSystem=@OGRE_DATA@/Media/Main
-FileSystem=@DATA_DIR@/media/particles
-FileSystem=@DATA_DIR@/media/textures
-FileSystem=@DATA_DIR@/media/scenes
-FileSystem=@DATA_DIR@/media/gui
-FileSystem=@DATA_DIR@/media/materials
-FileSystem=@DATA_DIR@/media/materials/shaders
-FileSystem=@DATA_DIR@/media/materials/compositors
-FileSystem=@DATA_DIR@/media/materials/scripts
-FileSystem=@DATA_DIR@/media/meshes
-FileSystem=@DATA_DIR@/media/meshes/scenes
-FileSystem=@DATA_DIR@/media/meshes/players
-FileSystem=@DATA_DIR@/media/meshes/misc
-FileSystem=@DATA_DIR@/media/meshes/bricks
-FileSystem=@DATA_DIR@/media/sounds
-FileSystem=@DATA_DIR@/media/levels
+FileSystem=@OGRE_MEDIA_DIR@/Main
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/particles
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/textures
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/scenes
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/gui
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/materials
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/materials/shaders
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/materials/compositors
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/materials/scripts
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/meshes
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/meshes/scenes
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/meshes/players
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/meshes/misc
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/meshes/bricks
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/sounds
+FileSystem=@CMAKE_INSTALL_FULL_DATADIR@/xdriller/media/levels
 

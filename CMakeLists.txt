@@ -15,7 +15,7 @@
 #-----------------------------------------------------------------------------
 #*/
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.5)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE)
 cmake_policy(SET CMP0003 NEW)
 
@@ -55,8 +55,6 @@ set(OGRE_PROJECT_NAME
   "xdriller"
 )
 
-set(CMAKE_INSTALL_PREFIX "/Users/durmieu/Desktop/program/xdriller/build/bin")
-
 project(${OGRE_PROJECT_NAME})
 
 # Include necessary submodules
@@ -71,9 +69,11 @@ set(OGRE_SAMPLES_INCLUDEPATH
 )
 include(CMakeDependentOption)
 include(CheckCXXCompilerFlag)
-include(MacroLogFeature)
-include(OgreConfigTargets)
-include(PreprocessorUtils)
+
+if(UNIX)
+  include(GNUInstallDirs)
+endif()
+
 set(OGRE_TEMPLATES_DIR "${OGRE_SOURCE_DIR}/CMake/Templates")
  
 
@@ -165,25 +165,23 @@ if (APPLE)
   endif ()
 endif (APPLE)
 
+include(FindGettext)
+
+find_package(PkgConfig REQUIRED)
  
 find_package(OGRE REQUIRED)
  
-if(NOT "${OGRE_VERSION_NAME}" STREQUAL "Cthugha")
-  message(SEND_ERROR "You need Ogre 1.7 Cthugha to build this.")
-endif()
- 
-find_package(OIS REQUIRED)
- 
-if(NOT OIS_FOUND)
-	message(SEND_ERROR "Failed to find OIS.")
-endif()
+Find_Package ( SDL2 REQUIRED )
+pkg_check_modules(SDL2MIXER REQUIRED SDL2_mixer)
+pkg_check_modules(OIS REQUIRED OIS)
+pkg_check_modules(TINYXML REQUIRED tinyxml)
 
-Find_Package ( SDL REQUIRED )
-Find_Package ( SDL_mixer REQUIRED )
+if(APPLE)
 Find_Package ( IOKit REQUIRED )
 find_library(IOKIT_LIBRARY IOKit)
 find_library(OIS_LIBRARY OIS)
 find_library(CF_LIBRARY CoreFoundation)
+endif()
  
 # Find Boost
 if (NOT OGRE_BUILD_PLATFORM_IPHONE)
@@ -222,8 +220,6 @@ set(HDRS
 ./include/Board.h
 ./include/Brick.h
 ./include/Cam.h
-./include/ColoredTextAreaOverlayElement.h
-./include/ColoredTextAreaOverlayElementFactory.h
 ./include/ConfigManager.h
 ./include/CreditsState.h
 ./include/DotScene.h
@@ -270,7 +266,6 @@ set(SRCS
 ./src/Board.cpp
 ./src/Brick.cpp
 ./src/Cam.cpp
-./src/ColoredTextAreaOverlayElement.cpp
 ./src/ConfigManager.cpp
 ./src/CreditsState.cpp
 ./src/DotScene.cpp
@@ -312,17 +307,30 @@ set(SRCS
  
 include_directories( ${OIS_INCLUDE_DIRS}
 	${OGRE_INCLUDE_DIRS}
+        ${SDL2_INCLUDE_DIRS}
+        ${SDL2MIXER_INCLUDE_DIRS}
 	${OGRE_SAMPLES_INCLUDEPATH}
+        "./include"
 )
  
 add_executable(${OGRE_PROJECT_NAME} WIN32 ${HDRS} ${SRCS})
  
 set_target_properties(${OGRE_PROJECT_NAME} PROPERTIES DEBUG_POSTFIX _d)
  
-target_link_libraries(${OGRE_PROJECT_NAME} ${OGRE_LIBRARIES} ${CF_LIBRARY} ${IOKIT_LIBRARIES} ${OIS_LIBRARIES} ${SDL_LIBRARY} ${SDLMIXER_LIBRARY} )
- 
+target_link_libraries(${OGRE_PROJECT_NAME} ${OGRE_LIBRARIES} ${CF_LIBRARY} ${IOKIT_LIBRARIES} ${OIS_LIBRARIES} ${SDL2_LIBRARIES} ${SDL2MIXER_LIBRARIES} ${TINYXML_LIBRARIES} )
+
+install(TARGETS ${OGRE_PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(DIRECTORY media DESTINATION ${CMAKE_INSTALL_DATADIR}/${OGRE_PROJECT_NAME})
+install(FILES ${OGRE_PROJECT_NAME}.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/)
+install(FILES ${OGRE_PROJECT_NAME}.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/64x64/apps/)
+add_subdirectory(locale)
+add_subdirectory(default_config)
+
+if(WIN32) 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/bin)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/media)
+endif()
  
 # post-build copy for win32
 if(WIN32 AND NOT MINGW)
@@ -334,6 +342,12 @@ endif(WIN32 AND NOT MINGW)
 if(MINGW)
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/dist/bin)
 endif(MINGW)
+
+if(UNIX)
+        install(TARGETS ${OGRE_PROJECT_NAME}
+                RUNTIME DESTINATION bin
+                CONFIGURATIONS All)
+endif()
  
 if(WIN32)
  
