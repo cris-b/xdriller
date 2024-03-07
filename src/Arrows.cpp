@@ -103,7 +103,7 @@ void Arrows::update(unsigned long lTimeElapsed)
             al -= lTimeElapsed/1000.0;
             if(al<min_alpha) al = min_alpha;
             Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("arrow_left");
-            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.get());
 
             mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, al);
         }
@@ -114,7 +114,7 @@ void Arrows::update(unsigned long lTimeElapsed)
             ar -= lTimeElapsed/1000.0;
             if(ar<min_alpha) ar = min_alpha;
             Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("arrow_right");
-            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.get());
 
             mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, ar);
         }

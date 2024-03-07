@@ -29,18 +29,12 @@ LevelLoader::LevelLoader()
 
     cf.loadFromResourceSystem("levels.cfg","General");
 
-    ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    const auto &settings = cf.getSettingsBySection();
 
     String secName;
 
-    secName = seci.peekNextKey();
-    seci.getNext();
-
-    while (seci.hasMoreElements())
-    {
-        secName = seci.peekNextKey();
-        seci.getNext();
-
+    for (const auto &sec : settings) {
+        secName = sec.first;
         levelNames.push_back(secName);
         numLevels++;
     }
@@ -82,23 +76,20 @@ void LevelLoader::setLevelNum(int levelNum)
     this->levelNum = levelNum;
     setBoardNum(0);
 
-    ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    const auto &settings = cf.getSettingsBySection();
 
     Ogre::String secName, optName, optValue;
 
     int n = -1;
-    while (seci.hasMoreElements())
+    for (const auto &sec : settings)
     {
 
-        secName = seci.peekNextKey();
-        ConfigFile::SettingsMultiMap *settings = seci.getNext();
-        ConfigFile::SettingsMultiMap::iterator i;
-
+        secName = sec.first;
         n++;
-        for (i = settings->begin(); i != settings->end(); ++i)
+        for (const auto &set : sec.second)
         {
-            optName = i->first;
-            optValue = i->second;
+            optName = set.first;
+            optValue = set.second;
 
             if(levelNum == n-1)
             {
@@ -138,22 +129,18 @@ Ogre::String LevelLoader::getValue(Ogre::String opt)
         }
     }
 
-    ConfigFile::SectionIterator seci = cf.getSectionIterator();
-
+    const auto &settings = cf.getSettingsBySection();
 
     Ogre::String secName, optName, optValue;
 
-    while (seci.hasMoreElements())
+    for (const auto &sec : settings)
     {
 
-        secName = seci.peekNextKey();
-        ConfigFile::SettingsMultiMap *settings = seci.getNext();
-        ConfigFile::SettingsMultiMap::iterator i;
-
-        for (i = settings->begin(); i != settings->end(); ++i)
+        secName = sec.first;
+        for (const auto &set : sec.second) 
         {
-            optName = i->first;
-            optValue = i->second;
+            optName = set.first;
+            optValue = set.second;
 
             if(secName == levelName)
             {
@@ -178,21 +165,18 @@ void LevelLoader::setLevelName(String levelName)
     }
     else
     {
-        ConfigFile::SectionIterator seci = cf.getSectionIterator();
+        const auto &settings = cf.getSettingsBySection();
 
         Ogre::String secName, optName, optValue;
 
-        while (seci.hasMoreElements())
+        for (const auto &sec : settings)
         {
 
-            secName = seci.peekNextKey();
-            ConfigFile::SettingsMultiMap *settings = seci.getNext();
-            ConfigFile::SettingsMultiMap::iterator i;
-
-            for (i = settings->begin(); i != settings->end(); ++i)
+            secName = sec.first;
+            for (const auto &set : sec.second)
             {
-                optName = i->first;
-                optValue = i->second;
+                optName = set.first;
+                optValue = set.second;
 
                 if(secName == levelName)
                 {

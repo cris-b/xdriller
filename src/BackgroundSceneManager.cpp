@@ -18,18 +18,14 @@ BackgroundSceneManager::BackgroundSceneManager()
 
     cf.loadFromResourceSystem("scenes.cfg","General");
 
-    ConfigFile::SectionIterator seci = cf.getSectionIterator();
+    const auto &settings = cf.getSettingsBySection();
 
     Ogre::String secName, optName, optValue;
 
-    seci.getNext();
-
-    while (seci.hasMoreElements())
+    for(const auto& sec : settings)
     {
 
-        secName = seci.peekNextKey();
-        ConfigFile::SettingsMultiMap *settings = seci.getNext();
-        ConfigFile::SettingsMultiMap::iterator i;
+        secName = sec.first;
 
         scenes[secName].name = secName;
 
@@ -47,10 +43,10 @@ BackgroundSceneManager::BackgroundSceneManager()
         if(optName == "skybox_quaternion") scenes[secName].skybox_quaternion = Quaternion::IDENTITY;
         if(optName == "particle_effect") scenes[secName].particle_effect = "";
 
-        for (i = settings->begin(); i != settings->end(); ++i)
+        for(const auto& set: sec.second)
         {
-            optName = i->first;
-            optValue = i->second;
+            optName = set.first;
+            optValue = set.second;
 
             if(optName == "long_name") scenes[secName].long_name = optValue;
             if(optName == "scene_filename") scenes[secName].scene_filename = optValue;

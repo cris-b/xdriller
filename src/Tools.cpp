@@ -78,8 +78,8 @@ void DumpNodes(std::stringstream &ss, Ogre::Node *n, int level)
 	}
 	ss << "SceneNode: " << n->getName() << std::endl;
 
-	Ogre::SceneNode::ObjectIterator object_it = ((Ogre::SceneNode *)n)->getAttachedObjectIterator();
-	Ogre::Node::ChildNodeIterator node_it = n->getChildIterator();
+	Ogre::SceneNode::ConstObjectIterator object_it(((Ogre::SceneNode *)n)->getAttachedObjects());
+	Ogre::Node::ConstChildNodeIterator node_it(n->getChildren());
 
 	Ogre::MovableObject *m;
 	while(object_it.hasMoreElements())
@@ -168,7 +168,7 @@ Ogre::Real getStringWidth(Ogre::String s, Ogre::String fontName, Ogre::Real char
 {
     Ogre::Real textWidth = 0;
 
-    Ogre::Font *font = (Font *)FontManager::getSingleton().getByName(fontName).getPointer();
+    Ogre::Font *font = (Font *)FontManager::getSingleton().getByName(fontName).get();
 
     font->load();
 

@@ -67,7 +67,7 @@ void Fader::setColor(float r, float g, float b)
     this->b=b;
 
     Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
-    Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+    Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.get());
 
     mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(LBX_SOURCE1,LBS_MANUAL,LBS_TEXTURE, ColourValue(r,g,b,1.0));
     mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, alpha);
@@ -120,7 +120,7 @@ void Fader::update(unsigned long lTimeElapsed)
 
 
     Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("fade_material");
-    Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+    Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.get());
 
     mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(LBX_MODULATE, LBS_MANUAL, LBS_TEXTURE, alpha);
 

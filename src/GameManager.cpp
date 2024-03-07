@@ -439,17 +439,15 @@ void GameManager::setupResources( void ) {
     cf.load( configPath + "/resources.cfg" );
 
     // Go through all settings in the file
-    ConfigFile::SectionIterator itSection = cf.getSectionIterator();
+    const auto &settings = cf.getSettingsBySection();
 
     String sSection, sType, sArch;
-    while( itSection.hasMoreElements() ) {
-        sSection = itSection.peekNextKey();
+    for (const auto &sec : settings) {
+        sSection = sec.first;
 
-        ConfigFile::SettingsMultiMap *mapSettings = itSection.getNext();
-        ConfigFile::SettingsMultiMap::iterator itSetting = mapSettings->begin();
-        while( itSetting != mapSettings->end() ) {
-            sType = itSetting->first;
-            sArch = itSetting->second;
+        for (const auto &set : sec.second) {
+            sType = set.first;
+            sArch = set.second;
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
             ResourceGroupManager::getSingleton().addResourceLocation(
                 configPath + sArch, sType, sSection );
@@ -457,7 +455,6 @@ void GameManager::setupResources( void ) {
             ResourceGroupManager::getSingleton().addResourceLocation(
 				sArch, sType, sSection );			
 #endif
-            ++itSetting;
         }
     }
 }

@@ -1640,7 +1640,7 @@ void MenuState::_updateLevelSelect()
 
 
             Ogre::ResourcePtr resptr = Ogre::MaterialManager::getSingleton().getByName("level_screenshot");
-            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.getPointer());
+            Ogre::Material * mat = dynamic_cast<Ogre::Material*>(resptr.get());
 
             mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureName(
                 LevelLoader::getSingleton().getLevelName() + ".png");
