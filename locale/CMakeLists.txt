@@ -1,0 +1,5 @@
+add_subdirectory(ca)
+add_subdirectory(de)
+add_subdirectory(es)
+add_subdirectory(eu)
+add_subdirectory(fr)
