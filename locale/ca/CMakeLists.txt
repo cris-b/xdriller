@@ -1,2 +1,2 @@
-file(GLOB _po_files *.po)
+file(GLOB _po_files LC_MESSAGES/*.po)
 GETTEXT_PROCESS_PO_FILES(ca ALL INSTALL_DESTINATION ${CMAKE_INSTALL_LOCALEDIR} PO_FILES ${_po_files})
