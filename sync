@@ -1,2 +1,0 @@
-for i in `find default_config locale media include src -type f `; do cp -uv ../$i $i; done
-cp -uv ../README ../COPYING ../Makefile ../xdriller.desktop ../xdriller.png ../xdriller-9999.ebuild .

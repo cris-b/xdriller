@@ -3,11 +3,13 @@ GPLv3 license (see COPYING file).
 
 INSTRUCTIONS:
 
+mkdir build
+cmake ..
 make
 
 ./xdriller
 
-to install: (NOT RECOMENDED YET)
+to install:
 
 sudo make install
 
