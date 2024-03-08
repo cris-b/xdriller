@@ -1,6 +1,9 @@
 Xdriller is a Mr.Driller clone. This program is released under the 
 GPLv3 license (see COPYING file).
 
+This is a continuation of the original Fixi Studios codebase with
+updates removing old libraries.
+
 BUILD REQUIRES:
 
 - CMAKE
