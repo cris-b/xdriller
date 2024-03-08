@@ -57,7 +57,7 @@ TextGlobe::TextGlobe()
     mRedX->hide();
     mOverlay->hide();
 
-    string_lenght = 0;
+    string_length = 0;
     time_since_reset = 0;
 }
 
@@ -78,37 +78,46 @@ void TextGlobe::update(unsigned long lTimeElapsed)
 {
     time_since_reset += lTimeElapsed;
 
-    if(string_lenght < text.size())
+    if(string_length < text.size())
     {
 
         String tmpText;
         tmpText.clear();
 
-        string_lenght = time_since_reset * TEXT_SPEED;
+        string_length = time_since_reset * TEXT_SPEED;
 
-        for(unsigned int i = 0; i<string_lenght; i++)
+        for(unsigned int i = 0; i<string_length; i++)
         {
             if(text[i] == '^')
             {
-                tmpText.push_back(text[i]);
-                i++;
+                i++; 
+                //setTextColour(text[i]);
             }
-            tmpText.push_back(text[i]);
+            else {
+                tmpText.push_back(text[i]);
+            }
         }
         mText->setCaption(tmpText);
 
-        if(string_lenght >= text.size()) mRedX->show();
+        if(string_length >= text.size()) mRedX->show();
     }
 }
 
 void TextGlobe::setText(Ogre::String text)
 {
     time_since_reset = 0;
-    string_lenght = 0;
+    string_length = 0;
     this->text = text;
     mText->setCaption("");
     mOverlay->show();
     mRedX->hide();
+}
+
+void TextGlobe::setTextColour(char colour) {
+    if(colour == '0') mText->setColour(ColourValue::Black);
+    if(colour == '1') mText->setColour(ColourValue::Green);
+    if(colour == '4') mText->setColour(ColourValue::Blue);
+    if(colour == '5') mText->setColour(ColourValue::Red);
 }
 
 void TextGlobe::show()
@@ -128,14 +137,27 @@ bool TextGlobe::isVisible()
 
 bool TextGlobe::isWritten()
 {
-    if(string_lenght < text.size()) return false;
+    if(string_length < text.size()) return false;
     else return true;
 }
 
 void TextGlobe::more()
 {
-    string_lenght = text.size();
-    mText->setCaption(text);
+    string_length = text.size();
+
+    String tmpText;
+        for(unsigned int i = 0; i<string_length; i++)
+        {
+            if(text[i] == '^')
+            {
+                i++;
+            }
+            else {
+                tmpText.push_back(text[i]);
+            }
+        }
+
+    mText->setCaption(tmpText);
     mRedX->show();
 }
 

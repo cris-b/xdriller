@@ -79,7 +79,7 @@ void MenuState::enter( void )
     mSceneMgr     = mRoot->getSceneManager( "ST_GENERIC" );
     mCamera       = mSceneMgr->createCamera( "MenuCamera" );
 
-    mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "CameraNode" , Vector3(0,2,0));
+    mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "MenuCameraNode" );
     mCameraNode->attachObject(mCamera);
 
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );

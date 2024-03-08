@@ -152,7 +152,7 @@ void PlayState::enter( void )
     //TODO:
     //light2->setAttenuation(200,1.0,0.022,0.0019);
 
-    mCam->getSceneNode()->attachObject(light2);
+    //mCam->getSceneNode()->attachObject(light2);
 
     ConfigManager::getSingleton().setValue("last_bg_scene",LevelLoader::getSingleton().getValue("background_scene"));
 
@@ -473,16 +473,16 @@ void PlayState::update( unsigned long lTimeElapsed )
                     textGlobe->setText(_("^0Very good! Now continue to the right.\nYou will learn how to jump over obstacles."));
                     break;
                 case 3:
-                    textGlobe->setText(_("^0There is a small wall blocking your way.\nYou can jump up walking to it and holding ^1LEFT^0.\nRemember hold ^1LEFT ^0for a second while facing the wall."));
+                    textGlobe->setText(_("^0There is a small wall blocking your way.\nYou can jump up walking to it and holding ^1LEFT^0.\nRemember, hold ^1LEFT ^0for a second while facing\nthe wall."));
                     break;
                 case 4:
                     textGlobe->setText(_("^0That wasn't difficult, was it?\nNext you will learn about ^4Oxygen^0.\nLet's continue..."));
                     break;
                 case 5:
-                    textGlobe->setText(_("^0In the lower right side of your screen there is a bottle\nwith ^4Oxygen^0. As you drill down the levels you consume it.\nIf the bottle get's empty you will die."));
+                    textGlobe->setText(_("^0In the lower right side of your screen there is a\nbottle with ^4Oxygen^0. As you drill down the levels you\nconsume it.\nIf the bottle empties you will die."));
                     break;
                 case 6:
-                    textGlobe->setText(_("^0Do you see the capsule in front of you? It's ^4Oxygen^0!\nYou must collect this capsules to fill up the bottle.\nTake them!"));
+                    textGlobe->setText(_("^0Do you see the capsule in front of you?\nIt's ^4Oxygen^0!\nYou must collect these capsules to fill the bottle.\nTake them!"));
                     break;
                 case 7:
                     textGlobe->setText(_("^0Well done! Now we will learn how to drill.\n(the fun part)"));
@@ -491,25 +491,25 @@ void PlayState::update( unsigned long lTimeElapsed )
                     textGlobe->setText(_("^0There is a block in front of you.\nIf you press ^1SPACE ^0while facing a block you\ncan break it. Stand in front of the block\nand press ^1SPACE^0."));
                     break;
                 case 9:
-                    textGlobe->setText(_("^0Groups of block of the same color break together.\nIf a block falls on your player, you loose a life.\nBe careful with falling blocks."));
+                    textGlobe->setText(_("^0Groups of block of the same colour break together.\nIf a block falls on you, you lose a life.\nBe careful with falling blocks."));
                     break;
                 case 10:
                     textGlobe->setText(_("^0Breaking blocks above or under you is easy.\nJust press ^1UP ^0or ^1DOWN ^0to look up or down\nand ^1SPACE ^0to break them.\n"));
                     break;
                 case 11:
-                    textGlobe->setText(_("^0Hearts are lives. You can see how many lives you've got\nin the top-right corner of the screen.\nTake the ^1heart ^0to gain a live."));
+                    textGlobe->setText(_("^0Hearts are lives. You can see how many lives\nyou've got in the top-right corner of the screen.\nTake the ^1heart ^0to gain a life."));
                     break;
                 case 12:
                     textGlobe->setText(_("^0Well done!"));
                     break;
                 case 13:
-                    textGlobe->setText(_("^0Under you there is a ^5crate^0. You can break crates by\nkicking them four times. But breaking them consumes\na lot of ^40xygen^0.\nPress ^1DOWN ^0and ^1SPACE ^0four times."));
+                    textGlobe->setText(_("^0Under you there is a ^5crate^0. You can break crates\nby kicking them four times. But breaking them\nconsumes a lot of ^40xygen^0.\nPress ^1DOWN ^0and ^1SPACE ^0four times."));
                     break;
                 case 14:
                     textGlobe->setText(_("^0Levels are divided by ^5MegaBlocks^0.\nYou can break them like normal blocks."));
                     break;
                 case 15:
-                    textGlobe->setText(_("^0And that is everything you need to know.\nBreak the ^5MegaBlock^0 to continue to a test level.\nTry to complete it and remember to avoid\nthe falling blocks. Good look!"));
+                    textGlobe->setText(_("^0And that is everything you need to know.\nBreak the ^5MegaBlock^0 to continue to a test level.\nTry to complete it and remember to avoid\nthe falling blocks. Good luck!"));
                     break;
                 default:
                     textGlobe->setText("^0Blablabla");

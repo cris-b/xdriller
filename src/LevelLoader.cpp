@@ -35,8 +35,10 @@ LevelLoader::LevelLoader()
 
     for (const auto &sec : settings) {
         secName = sec.first;
-        levelNames.push_back(secName);
-        numLevels++;
+        if(secName != Ogre::BLANKSTRING) {
+          levelNames.push_back(secName);
+          numLevels++;
+        }
     }
 
     LogManager::getSingleton().logMessage("LevelLoader: Loaded levels.cfg. Number of Levels: "

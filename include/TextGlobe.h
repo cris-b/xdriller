@@ -40,9 +40,11 @@ class TextGlobe
 
         Ogre::String text;
 
-        unsigned long string_lenght;
+        unsigned long string_length;
 
         Ogre::Real time_since_reset;
+
+        void setTextColour(char);
 
 };
 
