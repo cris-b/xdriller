@@ -29,7 +29,7 @@ overlay CreditsOverlay
             top 0
             width 1
             height 2
-
+            colour 0 0 0
             }
 
             overlay_element CreditsOverlay/MovablePanel Panel

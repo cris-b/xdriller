@@ -101,8 +101,8 @@ void CreditsState::enter( void ) {
     mOverlay = mOverlayMgr->getByName("CreditsOverlay");
     //mOverlay->scroll(0,0.1);
 
-    String c_title = "^0";
-    String c_text  = "^6";
+    String c_title = ""; // "^6"
+    String c_text  = ""; // "^0"
 
     String s_codemusicart = c_title + _("Code, Music and Artwork")  + "\n\n" + c_text + "durmieu" + "\n\n";
     String s_translators  = c_title + _("Translators") + "\n\n" + c_text + _("Spanish") + ": Ana\n" + _("Basque") +  ": Eneko & Maddi\n" + _("French") +  ": Vincent Petry" + "\n\n";
