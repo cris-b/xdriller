@@ -155,10 +155,10 @@ void HighScoreTable::updateTable(Ogre::String mode, Ogre::String level)
         String depth = StringConverter::toString(highScore->depth);
         //String points = StringConverter::toString(highScore->points);
 
-        if(i == 0) tableText += "^1";       //rojo
-        else if(i == 1) tableText += "^3";  //amarillo
-        else if(i == 2) tableText += "^2";  //verde
-        else if(i == 3) tableText += "^0";  //negro
+        //if(i == 0) tableText += "^1";       //rojo
+        //else if(i == 1) tableText += "^3";  //amarillo
+        //else if(i == 2) tableText += "^2";  //verde
+        //else if(i == 3) tableText += "^0";  //negro
 
         if(name == "")
         {
