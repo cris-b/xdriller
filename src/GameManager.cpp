@@ -339,7 +339,7 @@ void GameManager::startGame( GameState *gameState )
 
     LevelLoader::getSingleton(); ///????
 
-    LogManager::getSingleton().logMessage("Loading Highcores...");
+    LogManager::getSingleton().logMessage("Loading High Scores...");
 
     new HighScoreManager(configPath + "/highscores.xml");
 

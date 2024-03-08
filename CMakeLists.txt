@@ -174,7 +174,7 @@ find_package(OGRE REQUIRED)
 Find_Package ( SDL2 REQUIRED )
 pkg_check_modules(SDL2MIXER REQUIRED SDL2_mixer)
 pkg_check_modules(OIS REQUIRED OIS)
-pkg_check_modules(TINYXML REQUIRED tinyxml)
+pkg_check_modules(TINYXML REQUIRED tinyxml2)
 
 if(APPLE)
 Find_Package ( IOKit REQUIRED )

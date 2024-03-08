@@ -1547,7 +1547,7 @@ void MenuState::changePage(unsigned int page)
         case MENU_PAGE_HIGHSCORES:
         {
 
-            titleButton = new MenuButton(_("HighScores"));
+            titleButton = new MenuButton(_("High Scores"));
             titleButton->setPosition(0,-0.45);
             titleButton->setColor(ColourValue(1,0,0));
 

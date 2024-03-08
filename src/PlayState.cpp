@@ -4,7 +4,6 @@
 #include "SoundManager.h"
 #include "LevelLoader.h"
 #include "BackgroundSceneManager.h"
-#include "DotScene.h"
 #include "ConfigManager.h"
 #include "InputManager.h"
 #include "Globals.h"

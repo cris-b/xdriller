@@ -10,12 +10,14 @@
 #include <Ogre.h>
 //<--
 
+#include <tinyxml2.h>
+
 using namespace std;
 using namespace Ogre;
 
-static Light* LoadLight( TiXmlElement *XMLLight, SceneManager *mSceneMgr )
+static Light* LoadLight( tinyxml2::XMLElement *XMLLight, SceneManager *mSceneMgr )
 {
-	TiXmlElement *XMLDiffuse, *XMLSpecular, *XMLAttentuation, *XMLPosition;
+	tinyxml2::XMLElement *XMLDiffuse, *XMLSpecular, *XMLAttentuation, *XMLPosition;
 
 	// Create a light (point | directional | spot | radPoint)
         String lightName = XMLLight->Attribute("name");
@@ -118,8 +120,8 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 	m_sPrependNode = sPrependNode;
 	mSceneMgr = yourSceneMgr;
 
-	TiXmlDocument   *XMLDoc = NULL;
-	TiXmlElement   *XMLRoot, *XMLNodes;
+	tinyxml2::XMLDocument   *XMLDoc = NULL;
+	tinyxml2::XMLElement   *XMLRoot, *XMLNodes;
 
 	try
 	{
@@ -128,7 +130,7 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 
 		String data = pStream->getAsString();
 		// Open the .scene File
-		XMLDoc = new TiXmlDocument();
+		XMLDoc = new tinyxml2::XMLDocument();
 		XMLDoc->Parse( data.c_str() );
 
 		//siguientes lineas comentadas pa evitar error si dentro de zip
@@ -139,7 +141,7 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 		if( XMLDoc->Error() )
 		{
 			//We'll just log, and continue on gracefully
-			LogManager::getSingleton().logMessage("[dotSceneLoader] The TiXmlDocument reported an error");
+			LogManager::getSingleton().logMessage("[dotSceneLoader] The tinyxml2::XMLDocument reported an error");
 			delete XMLDoc;
 			return;
 		}
@@ -147,7 +149,7 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 	catch(...)
 	{
 		//We'll just log, and continue on gracefully
-		LogManager::getSingleton().logMessage("[dotSceneLoader] Error creating TiXmlDocument");
+		LogManager::getSingleton().logMessage("[dotSceneLoader] Error creating tinyxml2::XMLDocument");
 		delete XMLDoc;
 		return;
 	}
@@ -178,9 +180,9 @@ void CDotScene::parseDotScene( const String &SceneName, const String& groupName,
 	delete XMLDoc;
 }
 
-void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
+void CDotScene::processNode(tinyxml2::XMLElement *XMLNode, SceneNode *pAttach)
 {
-	TiXmlElement *XMLPosition, *XMLRotation, *XMLScale,  *XMLEntity,  *XMLSubEntity, *XMLBillboardSet,  *XMLLight, *XMLUserData;
+	tinyxml2::XMLElement *XMLPosition, *XMLRotation, *XMLScale,  *XMLEntity,  *XMLSubEntity, *XMLBillboardSet,  *XMLLight, *XMLUserData;
 
 	while( XMLNode )
 	{
@@ -326,7 +328,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 			bSet->setVisible( true );
 			NewNode->attachObject( bSet );
 
-			TiXmlElement *XMLBillboard;
+			tinyxml2::XMLElement *XMLBillboard;
 
 			XMLBillboard = XMLBillboardSet->FirstChildElement( "billboard" );
 
@@ -346,7 +348,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 					TempVec.z = StringConverter::parseReal(TempValue);
 				}
 
-				TiXmlElement* XMLColour = XMLBillboard->FirstChildElement( "colourDiffuse" );
+				tinyxml2::XMLElement* XMLColour = XMLBillboard->FirstChildElement( "colourDiffuse" );
 				if( XMLColour ){
 					TempValue = XMLColour->Attribute("r");
 					TempColour.r = StringConverter::parseReal(TempValue);
@@ -365,7 +367,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 		XMLUserData = XMLNode->FirstChildElement( "userData" );
 		if ( XMLUserData )
 		{
-			TiXmlElement *XMLProperty;
+			tinyxml2::XMLElement *XMLProperty;
 			XMLProperty = XMLUserData->FirstChildElement("property");
 			while ( XMLProperty )
 			{
@@ -384,7 +386,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 		*			NewNode --> Node where attach the object...
 		*			mSceneMgr --> SceneManager
 		*/
-		TiXmlElement* XMLCamera = XMLNode->FirstChildElement( "camera" );
+		tinyxml2::XMLElement* XMLCamera = XMLNode->FirstChildElement( "camera" );
 		if ( XMLCamera )
 		{
 			String CameraName = XMLCamera->Attribute( "name" );
@@ -392,7 +394,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 			NewNode->attachObject(cam);
 		}
 
-		TiXmlElement* XMLParticle = XMLNode->FirstChildElement( "particleSystem" );
+		tinyxml2::XMLElement* XMLParticle = XMLNode->FirstChildElement( "particleSystem" );
 		if ( XMLParticle )
 		{
 			String ParticleName = XMLParticle->Attribute( "name" );
@@ -401,7 +403,7 @@ void CDotScene::processNode(TiXmlElement *XMLNode, SceneNode *pAttach)
 			NewNode->attachObject(ParticleS);
                 }
 //<--
-		TiXmlElement * ChildXMLNode;
+		tinyxml2::XMLElement * ChildXMLNode;
 		ChildXMLNode = XMLNode->FirstChildElement( "node" );
 		if(ChildXMLNode)
 			processNode(ChildXMLNode, NewNode);	// recurse to do all my children

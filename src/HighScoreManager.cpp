@@ -2,7 +2,7 @@
 #include "LevelLoader.h"
 #include "Globals.h"
 
-#include "tinyxml.h"
+#include "tinyxml2.h"
 
 
 #include <algorithm> //para std::sort()
@@ -48,9 +48,9 @@ int HighScoreManager::load()
 {
 
 
-	TiXmlDocument doc(filename.c_str());
-	bool loadOkay = doc.LoadFile();
-	if (!loadOkay)
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError loadOkay = doc.LoadFile(filename.c_str());
+	if (loadOkay != 0)
 	{
 	    LogManager::getSingletonPtr()->logMessage("HighScoreManager: WARNING: Failed to load highscores.xml.");
         LogManager::getSingletonPtr()->logMessage("HighScoreManager: Creating new highscores.xml file...");
@@ -58,12 +58,12 @@ int HighScoreManager::load()
         return 1;
 	}
 
-	TiXmlHandle hDoc(&doc);
-	TiXmlElement* pElem;
-	TiXmlHandle hRoot(0);
+	tinyxml2::XMLHandle hDoc(&doc);
+	tinyxml2::XMLElement* pElem;
+	tinyxml2::XMLHandle hRoot(0);
 
 
-    pElem=hDoc.FirstChildElement().Element();
+    pElem=hDoc.FirstChildElement().ToElement();
 
     if (!pElem)
     {
@@ -74,10 +74,10 @@ int HighScoreManager::load()
     }
 
 
-    hRoot=TiXmlHandle(pElem);
+    hRoot=tinyxml2::XMLHandle(pElem);
 
-    TiXmlElement* mode;
-    mode=hRoot.FirstChild( "mode" ).Element();
+    tinyxml2::XMLElement* mode;
+    mode=hRoot.FirstChildElement( "mode" ).ToElement();
 
     for( ; mode; mode=mode->NextSiblingElement())
     {
@@ -88,7 +88,7 @@ int HighScoreManager::load()
         if(strcmp(mode_name,"Infinite") == 0) scores = infiniteScores;
         if(strcmp(mode_name,"Time Attack") == 0) scores = timeAttackScores;
 
-        TiXmlElement* level = TiXmlHandle(mode).FirstChild("level").Element();
+        tinyxml2::XMLElement* level = tinyxml2::XMLHandle(mode).FirstChildElement("level").ToElement();
 
         for( ; level; level=level->NextSiblingElement())
         {
@@ -109,7 +109,7 @@ int HighScoreManager::load()
 
             int score_num = 0;
 
-            TiXmlElement* score = TiXmlHandle(level).FirstChild("score").Element();
+            tinyxml2::XMLElement* score = tinyxml2::XMLHandle(level).FirstChildElement("score").ToElement();
 
             for( ; score; score=score->NextSiblingElement())
             {
@@ -145,21 +145,20 @@ int HighScoreManager::save()
 {
 
 
-	TiXmlDocument doc;
+	tinyxml2::XMLDocument doc;
 
- 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
+ 	tinyxml2::XMLDeclaration* decl = doc.NewDeclaration() ;
 	doc.LinkEndChild( decl );
 
-	TiXmlElement *root = new TiXmlElement( "highscores" );
+	tinyxml2::XMLElement *root = doc.NewElement( "highscores" );
 	doc.LinkEndChild( root );
 
-	TiXmlComment *comment = new TiXmlComment();
-	comment->SetValue(" DO NOT EDIT. AUTOMATICALLY GENERATED " );
+	tinyxml2::XMLComment *comment = doc.NewComment(" DO NOT EDIT. AUTOMATICALLY GENERATED " );
 	root->LinkEndChild( comment );
 
     for(int k = 0; k<NUM_GAME_MODES; k++)
     {
-        TiXmlElement *mode = new TiXmlElement( "mode" );
+        tinyxml2::XMLElement *mode = doc.NewElement("mode");
         root->LinkEndChild( mode );
 
         HighScore *scores = NULL;
@@ -205,7 +204,7 @@ int HighScoreManager::save()
 
 
 
-            TiXmlElement *level = new TiXmlElement( "level" );
+            tinyxml2::XMLElement *level = mode->InsertNewChildElement("level");
             mode->LinkEndChild( level );
 			level->SetAttribute("name",level_name.c_str());
 
@@ -213,7 +212,7 @@ int HighScoreManager::save()
             {
                 int score_index = i*SCORES_PER_PAGE+j;
 
-                TiXmlElement *scoreElm = new TiXmlElement( "score" );
+                tinyxml2::XMLElement *scoreElm = level->InsertNewChildElement( "score" );
 
                 level->LinkEndChild( scoreElm );
 

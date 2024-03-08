@@ -10,7 +10,11 @@
 
 #include <Ogre.h>
 #include <vector>
-#include "tinyxml.h"
+
+namespace tinyxml2
+{
+   class XMLElement;
+}
 
 class nodeProperty
 {
@@ -41,7 +45,7 @@ public:
 	std::vector<nodeProperty> nodeProperties;
 
 protected:
-	void processNode(TiXmlElement *XMLNode, Ogre::SceneNode *pAttach);
+	void processNode(tinyxml2::XMLElement *XMLNode, Ogre::SceneNode *pAttach);
 	Ogre::SceneManager *mSceneMgr;
 	Ogre::String m_sPrependNode;
 };
