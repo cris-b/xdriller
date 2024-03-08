@@ -1,6 +1,16 @@
 Xdriller is a Mr.Driller clone. This program is released under the 
 GPLv3 license (see COPYING file).
 
+BUILD REQUIRES:
+
+- CMAKE
+- gettext
+- Ogre 14
+- OIS
+- tinyxml2
+- sdl2
+- sdl2_mixer
+
 INSTRUCTIONS:
 
 mkdir build
