@@ -58,9 +58,13 @@ PlayerModelSelector::PlayerModelSelector()
 
     Light *light = mSceneMgr->createLight("PlayerModelSelectorLight");
     light->setType(Light::LT_SPOTLIGHT);
-    light->setPosition(Vector3(0, 10, 0));
-    light->setDirection(Vector3(0,-1,0));
     light->setDiffuseColour(0,0,0);
+
+    SceneNode *lightNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "PlayerModelSelectorNode" );
+    lightNode->attachObject(light);
+
+    lightNode->setPosition(Vector3(0, 10, 0));
+    lightNode->setDirection(Vector3(0,-1,0));
 
 
     mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);

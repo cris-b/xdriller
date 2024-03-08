@@ -52,6 +52,8 @@ private:
 
     Ogre::Root           *mRoot;
     Ogre::Camera         *mCamera;
+    Ogre::SceneNode      *mCameraNode;
+
     Ogre::SceneManager   *mSceneMgr;
     Ogre::Viewport       *mViewport;
 

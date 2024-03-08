@@ -42,10 +42,12 @@ void HighScoreState::enter( void ) {
 
     Light *light = mSceneMgr->createLight("HighScoreLight");
     light->setType(Light::LT_DIRECTIONAL);
-    light->setDirection(Vector3(0.5, -1.0, -1));
     light->setDiffuseColour(0.6, 0.6, 0.6);
     light->setSpecularColour(0.8, 0.8, 0.8);
 
+    SceneNode *lightNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "LightNode" );
+    lightNode->attachObject(light);
+    lightNode->setDirection(Vector3(0.5, -1.0, -1));
 
 
 

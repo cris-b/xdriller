@@ -78,6 +78,10 @@ void MenuState::enter( void )
     mOverlayMgr   = OverlayManager::getSingletonPtr();
     mSceneMgr     = mRoot->getSceneManager( "ST_GENERIC" );
     mCamera       = mSceneMgr->createCamera( "MenuCamera" );
+
+    mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "CameraNode" , Vector3(0,2,0));
+    mCameraNode->attachObject(mCamera);
+
     mViewport     = mRoot->getAutoCreatedWindow()->addViewport( mCamera );
 
     mCamera->setNearClipDistance(0.1);
@@ -139,14 +143,16 @@ void MenuState::enter( void )
 
     mSceneMgr->setAmbientLight(ColourValue(0.7,0.7,0.7));
 
-    mCamera->setPosition(0,0,10);
+    mCameraNode->setPosition(0,0,10);
     mCamera->setNearClipDistance(1);
     mCamera->setFarClipDistance(10000);
 
     Light *light = mSceneMgr->createLight("MenuLight1");
     light->setType(Light::LT_DIRECTIONAL);
-    light->setDirection(Vector3(0.5, -0.8, -0.5));
 
+    SceneNode *lightNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "MenuLight1Node" );
+    lightNode->attachObject(light);
+    lightNode->setDirection(Vector3(0.5, -0.8, -0.5));
 
     light->setDiffuseColour(0.9,0.9,0.9);
     light->setSpecularColour(0.5, 0.5, 0.5);
@@ -156,7 +162,11 @@ void MenuState::enter( void )
 
     Light *light2 = mSceneMgr->createLight("MenuLight2");
     light2->setType(Light::LT_POINT);
-    light2->setPosition(Vector3(0, 0, 5));
+
+    SceneNode *light2Node = mSceneMgr->getRootSceneNode()->createChildSceneNode( "MenuLight2Node" );
+    light2Node->attachObject(light2);
+
+    light2Node->setPosition(Vector3(0, 0, 5));
 
 
     light2->setDiffuseColour(0.1, 0.1, 0.1);

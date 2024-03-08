@@ -5,7 +5,7 @@ using namespace Ogre;
 MaterialInstance::MaterialInstance () {
   mCurrentTransparency = 0.0f;
 
-  mCopyMat.setNull ();
+  mCopyMat.reset();
 
   mSBT = SBT_TRANSPARENT_ALPHA;
 }
@@ -17,13 +17,10 @@ MaterialInstance::~MaterialInstance () {
 void MaterialInstance::setSceneBlending (SceneBlendType sbt) {
   mSBT = sbt;
 
-  if (!mCopyMat.isNull ()) {
-    Material::TechniqueIterator techniqueIt = mCopyMat->getTechniqueIterator ();
-    while (techniqueIt.hasMoreElements ()) {
-      Technique *t = techniqueIt.getNext ();
-      Technique::PassIterator passIt = t->getPassIterator ();
-      while (passIt.hasMoreElements ()) {
-        passIt.getNext ()->setSceneBlending (mSBT);
+  if (mCopyMat) {
+    for(const auto& tech : mCopyMat->getTechniques()) {
+      for(const auto& pass : tech->getPasses()) {
+        pass->setSceneBlending (mSBT);
       }
     }
   }
@@ -35,18 +32,15 @@ void MaterialInstance::setTransparency (Real transparency) {
     if (mCurrentTransparency > 1.0f)
       mCurrentTransparency = 1.0f;
 
-    if (mCopyMat.isNull ()) {
+    if (!mCopyMat) {
       createCopyMaterial ();
     }
 
     unsigned short i = 0, j;
     ColourValue sc, dc; // Source colur, destination colour
-    Material::TechniqueIterator techniqueIt = mCopyMat->getTechniqueIterator ();
-    while (techniqueIt.hasMoreElements ()) {
-      Technique *t = techniqueIt.getNext ();
-      Technique::PassIterator passIt = t->getPassIterator ();
+    for(const auto& tech : mCopyMat->getTechniques()) {
       j = 0;
-      while (passIt.hasMoreElements ()) {
+      for(const auto& pass : tech->getPasses()) {
         sc = mOriginalMat->getTechnique (i)->getPass (j)->getDiffuse ();
 
         switch (mSBT) {
@@ -55,17 +49,16 @@ void MaterialInstance::setTransparency (Real transparency) {
             dc.r -= sc.r * mCurrentTransparency;
             dc.g -= sc.g * mCurrentTransparency;
             dc.b -= sc.b * mCurrentTransparency;
-            passIt.peekNext ()->setAmbient (ColourValue::Black);
+            pass->setAmbient (ColourValue::Black);
             break;
           case SBT_TRANSPARENT_ALPHA:
           default:
             dc = sc;
             dc.a = sc.a * (1.0f - mCurrentTransparency);
-            passIt.peekNext ()->setAmbient (mOriginalMat->getTechnique (i)->getPass (j)->getAmbient ());
+            pass->setAmbient (mOriginalMat->getTechnique (i)->getPass (j)->getAmbient ());
             break;
         }
-        passIt.peekNext ()->setDiffuse (dc);
-        passIt.moveNext ();
+        pass->setDiffuse (dc);
 
         ++j;
       }
@@ -91,22 +84,18 @@ void MaterialInstance::createCopyMaterial () {
 
   mCopyMat = mOriginalMat->clone (name);
 
-  Material::TechniqueIterator techniqueIt = mCopyMat->getTechniqueIterator ();
-  while (techniqueIt.hasMoreElements ()) {
-    Technique *t = techniqueIt.getNext ();
-    Technique::PassIterator passIt = t->getPassIterator ();
-    while (passIt.hasMoreElements ()) {
-      passIt.peekNext ()->setDepthWriteEnabled (false);
-      passIt.peekNext ()->setSceneBlending (mSBT);
-      passIt.moveNext ();
+  for(const auto& tech : mCopyMat->getTechniques()) {
+    for(const auto& pass: tech->getPasses()) {
+      pass->setDepthWriteEnabled (false);
+      pass->setSceneBlending (mSBT);
     }
   }
 }
 
 void MaterialInstance::clearCopyMaterial () {
-  if (!mCopyMat.isNull ())
+  if (mCopyMat)
     MaterialManager::getSingleton ().remove (mCopyMat->getName ());
 
-  mCopyMat.setNull ();
+  mCopyMat.reset();
 }
 

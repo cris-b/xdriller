@@ -303,7 +303,7 @@ void GameManager::startGame( GameState *gameState )
     mInputMgr = InputManager::getSingletonPtr();//mInputMgr = new InputManager();//
 	//mRenderWindow = mRoot->getAutoCreatedWindow();
     mInputMgr->initialise( mRenderWindow );
-	WindowEventUtilities::addWindowEventListener( mRenderWindow, this );//yys
+	OgreBites::WindowEventUtilities::addWindowEventListener( mRenderWindow, this );//yys
 
     LogManager::getSingleton().logMessage("Initializing keyboard listener...");
     mInputMgr->addKeyListener( this, "GameManager" );
@@ -387,7 +387,7 @@ void GameManager::startGame( GameState *gameState )
 
         Fader::getSingletonPtr()->update(lTimeSinceLastFrame);
 
-		WindowEventUtilities::messagePump();//yys
+		OgreBites::WindowEventUtilities::messagePump();//yys
 		// Render next frame
         mRoot->renderOneFrame();
 

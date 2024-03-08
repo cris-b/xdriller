@@ -87,20 +87,20 @@ int ConfigManager::load()
 
     config.clear();
 
-    config["FSAA"] = cf.getSetting("FSAA",StringUtil::BLANK,"2");
-    config["audio_buffers"] = cf.getSetting("audio_buffers",StringUtil::BLANK,"4096");
-    config["audio_channels"] = cf.getSetting("audio_channels",StringUtil::BLANK,"2");
-    config["audio_rate"] = cf.getSetting("audio_rate",StringUtil::BLANK,"44100");
-    config["compositors"] = cf.getSetting("compositors",StringUtil::BLANK,"1");
-    config["fullscreen"] = cf.getSetting("fullscreen",StringUtil::BLANK,"No");
-    config["last_bg_scene"] = cf.getSetting("last_bg_scene",StringUtil::BLANK,"sky");
-    config["music_volume"] = cf.getSetting("music_volume",StringUtil::BLANK,"40");
-    config["player_model"] = cf.getSetting("player_model",StringUtil::BLANK,"tom");
-    config["player_name"] = cf.getSetting("player_name",StringUtil::BLANK,"player");
-    config["render_system"] = cf.getSetting("render_system",StringUtil::BLANK,"OpenGL Rendering Subsystem");
-    config["resolution"] = cf.getSetting("resolution",StringUtil::BLANK,"640 x 480");
-    config["resource_path"] = cf.getSetting("resource_path",StringUtil::BLANK,"media");
-    config["sound_volume"] = cf.getSetting("sound_volume",StringUtil::BLANK,"50");
+    config["FSAA"] = cf.getSetting("FSAA",Ogre::BLANKSTRING,"2");
+    config["audio_buffers"] = cf.getSetting("audio_buffers",Ogre::BLANKSTRING,"4096");
+    config["audio_channels"] = cf.getSetting("audio_channels",Ogre::BLANKSTRING,"2");
+    config["audio_rate"] = cf.getSetting("audio_rate",Ogre::BLANKSTRING,"44100");
+    config["compositors"] = cf.getSetting("compositors",Ogre::BLANKSTRING,"1");
+    config["fullscreen"] = cf.getSetting("fullscreen",Ogre::BLANKSTRING,"No");
+    config["last_bg_scene"] = cf.getSetting("last_bg_scene",Ogre::BLANKSTRING,"sky");
+    config["music_volume"] = cf.getSetting("music_volume",Ogre::BLANKSTRING,"40");
+    config["player_model"] = cf.getSetting("player_model",Ogre::BLANKSTRING,"tom");
+    config["player_name"] = cf.getSetting("player_name",Ogre::BLANKSTRING,"player");
+    config["render_system"] = cf.getSetting("render_system",Ogre::BLANKSTRING,"OpenGL Rendering Subsystem");
+    config["resolution"] = cf.getSetting("resolution",Ogre::BLANKSTRING,"640 x 480");
+    config["resource_path"] = cf.getSetting("resource_path",Ogre::BLANKSTRING,"media");
+    config["sound_volume"] = cf.getSetting("sound_volume",Ogre::BLANKSTRING,"50");
 
 	return true;
 }

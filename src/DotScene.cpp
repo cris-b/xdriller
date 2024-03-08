@@ -18,7 +18,11 @@ static Light* LoadLight( TiXmlElement *XMLLight, SceneManager *mSceneMgr )
 	TiXmlElement *XMLDiffuse, *XMLSpecular, *XMLAttentuation, *XMLPosition;
 
 	// Create a light (point | directional | spot | radPoint)
-	Light* l = mSceneMgr->createLight( XMLLight->Attribute("name") );
+        String lightName = XMLLight->Attribute("name");
+	Light* l = mSceneMgr->createLight( lightName );
+        SceneNode *lightNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( lightName + "Node" );
+        lightNode->attachObject(l);
+
 	if( !XMLLight->Attribute("type") || String(XMLLight->Attribute("type")) == "point" )
 		l->setType( Light::LT_POINT );
 	else if( String(XMLLight->Attribute("type")) == "directional")
@@ -85,11 +89,11 @@ static Light* LoadLight( TiXmlElement *XMLLight, SceneManager *mSceneMgr )
 
 	    if(l->getType() == Light::LT_DIRECTIONAL)
 	    {
-	        l->setDirection( p );
+	        lightNode->setDirection( p );
 	    }
 	    else
 	    {
-            l->setPosition( p );
+            lightNode->setPosition( p );
 	    }
 	}
 

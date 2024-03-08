@@ -21,7 +21,7 @@
 
 class GameState;
 
-class GameManager : public OIS::KeyListener, OIS::MouseListener, OIS::JoyStickListener,  public Ogre::WindowEventListener {
+class GameManager : public OIS::KeyListener, OIS::MouseListener, OIS::JoyStickListener,  public OgreBites::WindowEventListener {
 public:
     ~GameManager( void );
 

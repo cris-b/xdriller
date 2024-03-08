@@ -103,7 +103,7 @@ void Cam::setMode(int num)
 
     mCamera->setFOVy(Degree(45));
 
-	mCamera->setOrientation(Ogre::Quaternion::IDENTITY);
+	mCamNode->setOrientation(Ogre::Quaternion::IDENTITY);
 
 }
 
