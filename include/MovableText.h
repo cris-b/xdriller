@@ -112,7 +112,7 @@ protected:
 
     // from renderable
     void    getRenderOperation(Ogre::RenderOperation &op);
-    const   Ogre::MaterialPtr       &getMaterial(void) const {assert(!mpMaterial.isNull());return mpMaterial;};
+    const   Ogre::MaterialPtr       &getMaterial(void) const {assert(mpMaterial);return mpMaterial;};
     const   Ogre::LightList         &getLights(void) const {return mLList;};
 };
 
